@@ -1,0 +1,67 @@
+import { Request, Response } from "express";
+import CreateCompanyService from "../services/company/CreateCompanyService";
+import ListCompaniesService from "../services/company/ListCompaniesService";
+import RemoveCompanyService from "../services/company/RemoveCompanyService";
+import ShowCompanyService from "../services/company/ShowCompanyService";
+import UpdateCompanyService from "../services/company/UpdateCompanyService";
+
+class CompanyController
+{
+	static async create(request: Request, response: Response): Promise<Response>
+	{
+		const customer = request.userId;
+
+		const { corporate_name, fantasy_name, cnpj, zip_code, state, address, complement, number,
+			district, city, accept_terms } = request.body;
+
+		const createCompanyService = new CreateCompanyService();
+		const newCompany = await createCompanyService.execute({ corporate_name, fantasy_name, cnpj, zip_code, state, address, complement, number,
+			district, city, accept_terms, customer });
+
+		return response.status(201).json({ status: 'success', message: newCompany });
+	}
+
+	static async list(request: Request, response: Response): Promise<Response>
+	{
+		const listCompanyService = new ListCompaniesService();
+		const listCompanies = await listCompanyService.execute();
+
+		return response.status(200).json(listCompanies);
+	}
+
+	static async show(request: Request, response: Response): Promise<Response>
+	{
+		const id = request.userId;
+
+		const showCompanyService = new ShowCompanyService();
+		const company = await showCompanyService.execute({ id });
+
+		return response.status(200).json(company);
+	}
+
+	static async remove(request: Request, response: Response): Promise<Response>
+	{
+		const id = request.userId;
+
+		const removeCompanyService = new RemoveCompanyService();
+		const companyRemoved = await removeCompanyService.execute( Number(id));
+
+		return response.status(200).json({ status: 'success', message: companyRemoved });
+	}
+
+	static async update(request: Request, response: Response): Promise<Response>
+	{
+		const id = request.userId;
+
+		const { corporate_name, fantasy_name, cnpj,
+			zip_code, state, city, district, address, complement, number } = request.body;
+
+		const updateCompanyService = new UpdateCompanyService();
+		const updateCompany = await updateCompanyService.execute({ id, corporate_name, fantasy_name, cnpj,
+			zip_code, state, city, district, address, complement, number });
+
+		return response.status(200).json({ status: 'success', message: updateCompany });
+	}
+}
+
+export default CompanyController;
