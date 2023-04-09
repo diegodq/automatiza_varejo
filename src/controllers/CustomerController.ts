@@ -13,10 +13,10 @@ class CustomerController
 {
 	static async create(request: Request, response: Response): Promise<Response>
 	{
-		const { first_name, surname, position, phone, email, password } = request.body;
+		const { first_name, surname, position, phone, email, password, accept_terms } = request.body;
 
 		const createCustomerService = new CreateCustomerService();
-		const newCustomer = await createCustomerService.execute({ first_name, surname, position, phone, email, password });
+		const newCustomer = await createCustomerService.execute({ first_name, surname, position, phone, email, password, accept_terms });
 
 		return response.status(201).json({ status: 'success', message: newCustomer });
 	}

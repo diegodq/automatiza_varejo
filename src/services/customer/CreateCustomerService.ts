@@ -13,13 +13,14 @@ type TypeRequest =
 	position: string,
 	phone: string,
 	email: string,
-	password: string
+	password: string,
+	accept_terms: string
 }
 
 class CreateCustomerService
 {
 	public async execute({ first_name, surname, position, phone,
-		email, password }: TypeRequest): Promise<string | object>
+		email, password, accept_terms }: TypeRequest): Promise<string | object>
 	{
 		const emailCustomer = await customerRepository.findOneBy({ email });
 
@@ -37,33 +38,33 @@ class CreateCustomerService
 		const hashedPassword = await hash(password, 8);
 
 		const newCustomer = customerRepository.create({ first_name, surname, position, phone, email,
-			old_password: hashedPassword, password: hashedPassword });
+			old_password: hashedPassword, password: hashedPassword, accept_terms });
 
 		await customerRepository.save(newCustomer);
 
-		const generateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
-		const token = await generateCustomerForgotTokenService.generate({ email });
+		// const generateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
+		// const token = await generateCustomerForgotTokenService.generate({ email });
 
-		const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'verify-email.hbs');
+		// const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'verify-email.hbs');
 
-		await Mailer.sendMail({
-			from: {
-				name: 'Equipe Automatiza Varejo',
-				email: 'noreply@automatizavarejo.com.br'
-			},
-			to: {
-				name: first_name,
-				email: email
-			},
-			subject: 'BEM-VINDO À AUTOMATIZA VAREJO!',
-			templateData: {
-				file: forgotPasswordTemplate,
-				variables: {
-					name: first_name,
-					link: `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${newCustomer.id}`,
-				}
-			}
-		});
+		// await Mailer.sendMail({
+		// 	from: {
+		// 		name: 'Equipe Automatiza Varejo',
+		// 		email: 'noreply@automatizavarejo.com.br'
+		// 	},
+		// 	to: {
+		// 		name: first_name,
+		// 		email: email
+		// 	},
+		// 	subject: 'BEM-VINDO À AUTOMATIZA VAREJO!',
+		// 	templateData: {
+		// 		file: forgotPasswordTemplate,
+		// 		variables: {
+		// 			name: first_name,
+		// 			link: `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${newCustomer.id}`,
+		// 		}
+		// 	}
+		// });
 
 		return `Enviamos um e-mail com link de ativação para ${email}. Ative seu cadastro clicando no link enviado.`;
 	}

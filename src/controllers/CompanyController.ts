@@ -12,11 +12,11 @@ class CompanyController
 		const customer = request.userId;
 
 		const { corporate_name, fantasy_name, cnpj, zip_code, state, address, complement, number,
-			district, city, accept_terms } = request.body;
+			district, city } = request.body;
 
 		const createCompanyService = new CreateCompanyService();
 		const newCompany = await createCompanyService.execute({ corporate_name, fantasy_name, cnpj, zip_code, state, address, complement, number,
-			district, city, accept_terms, customer });
+			district, city, customer });
 
 		return response.status(201).json({ status: 'success', message: newCompany });
 	}

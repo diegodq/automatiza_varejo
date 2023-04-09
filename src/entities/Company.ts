@@ -41,9 +41,6 @@ class Company
 	@Column({ type: "varchar", length: 200 })
 	city: string;
 
-	@Column({ type: 'char' })
-	accept_terms: boolean;
-
 	@CreateDateColumn()
 	created_at: Date;
 
@@ -51,7 +48,7 @@ class Company
 	updated_at: Date;
 
 	constructor(id: number, corporate_name: string, fantasy_name: string, cnpj: string, zip_code: string, state: string,
-		city: string, complement: string, district: string, address: string, number: string, accept_terms: boolean,
+		city: string, complement: string, district: string, address: string, number: string,
 		created_at: Date, updated_at: Date, customer: Customer)
 	{
 		this.id = id;
@@ -65,7 +62,6 @@ class Company
 		this.complement = complement;
 		this.district = district;
 		this.city = city;
-		this.accept_terms = accept_terms;
 		this.customer = customer;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
@@ -124,11 +120,6 @@ class Company
 	get getCity(): string
 	{
 		return this.city;
-	}
-
-	get getAcceptTerms(): boolean
-	{
-		return this.accept_terms;
 	}
 
 	get getCreatedAt(): Date

@@ -14,7 +14,6 @@ interface RequestCompany
 	number: string,
 	district:string,
 	city: string,
-	accept_terms: boolean,
 	customer: Customer
 }
 
@@ -22,7 +21,7 @@ class CreateCompanyService
 {
 	public async execute( {corporate_name, fantasy_name, cnpj, zip_code,
 		state, address, number, complement,
-		district, city, accept_terms, customer}: RequestCompany )
+		district, city, customer}: RequestCompany )
 	{
 		const companyCNPJ = await companyRepository.findOneBy({ cnpj });
 		if(companyCNPJ) {
@@ -30,7 +29,7 @@ class CreateCompanyService
 		}
 
 		const newCompany = companyRepository.create({ corporate_name, fantasy_name, cnpj, zip_code, state, complement,address, number,
-			district, city, accept_terms, customer });
+			district, city, customer });
 
 		await companyRepository.save(newCompany);
 
