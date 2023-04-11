@@ -37,12 +37,12 @@ class SendForgotEmailService
 				file: forgotPasswordTemplate,
 				variables: {
 					name: user.first_name,
-					link: `https://app.automatizavarejo.com.br/new-password?token=${token}`,
+					link: `https://app.automatizavarejo.com.br/new-password?token=${token}&id=${user.getId}`
 				}
 			}
 		});
 
-		return `Enviamos um e-mail para ${user.email} com link de reset de senha. Altere sua senha clicando no link enviado.`;
+		return `Email enviado.`;
 	}
 }
 

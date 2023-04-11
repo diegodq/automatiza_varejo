@@ -55,7 +55,7 @@ class Customer
 	@Column({ type: 'varchar' })
 	password: string;
 
-	@Column({ type: 'varchar', nullable: true,length: 40 })
+	@Column({ type: 'varchar', nullable: true, length: 40 })
 	system_user: string;
 
 	@Column({ type: 'varchar', nullable: true, length: 40 })

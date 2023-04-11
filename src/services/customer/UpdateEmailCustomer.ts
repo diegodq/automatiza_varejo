@@ -29,7 +29,7 @@ class UpdateEmailCustomer
 		}
 
 		if (customer.email == email) {
-			throw new BadRequestError(' Usuário já está cadastrado.');
+			throw new BadRequestError('Usuário já está cadastrado.');
 		}
 
 		customer.email = email;

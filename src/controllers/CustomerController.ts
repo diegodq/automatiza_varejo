@@ -8,6 +8,7 @@ import ShowCustomerService from '../services/customer/ShowCustomerService';
 import UpdateCustomerService from '../services/customer/UpdateCustomerService';
 import ShowDetailCustomerService from '../services/customer/ShowDetailCustomerService';
 import RemoveAvatarCustomerService from '../services/customer/RemoveAvatarCustomerService';
+import ResetPasswordService from 'src/services/session/ResetPasswordService';
 
 class CustomerController
 {
@@ -106,6 +107,16 @@ class CustomerController
 		const avatarRemoved = await removeAvatarCustomerService.execute({ id, avatar });
 
 		return response.status(200).json({ status: 'success', message: avatarRemoved });
+	}
+
+	static async reset(request: Request, response: Response)
+	{
+		const{ token, new_password } = request.body;
+
+		const resetPasswordService = new ResetPasswordService();
+		const passwordReset = await resetPasswordService.execute({ token, new_password });
+
+		return response.status(200).json({ status: 'success', message: passwordReset });
 	}
 }
 

@@ -21,7 +21,8 @@ class ResetPasswordService
 			throw new BadRequestError('Token não encontrado.');
 		}
 
-		const userExists = await customerRepository.findOneBy({ id: validUserToken.id });
+		const userExists = await customerRepository.findOneBy(validUserToken.customer);
+		console.log(userExists?.id);
 		if(!userExists) {
 			throw new BadRequestError('Cliente não cadastrado.');
 		}
