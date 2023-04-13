@@ -1,7 +1,7 @@
 import { verify } from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
 import paramsConfig from "../params/paramsConfig";
-import { UnauthorizedError } from "../utils/ApiErrors";
+import { UnauthorizedError } from "src/utils/ApiErrors";
 
 function isAuthenticated(request: Request, response: Response, next: NextFunction)
 {
@@ -13,13 +13,12 @@ function isAuthenticated(request: Request, response: Response, next: NextFunctio
 	const [, token] = authHeader.split(' ');
 	try {
 		const decodedToken = verify(token, paramsConfig.jwt.secret);
-
 		const { sub } = decodedToken;
 		request.userId = sub;
 
 		return next();
-	} catch(_) {
-		throw new UnauthorizedError('Acesso não autorizado.');
+	} catch( _) {
+		return response.status(400).json({ valid: false, message: 'Acesso ano autorizado.' });
 	}
 }
 

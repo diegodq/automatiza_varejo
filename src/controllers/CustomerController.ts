@@ -9,6 +9,7 @@ import UpdateCustomerService from '../services/customer/UpdateCustomerService';
 import ShowDetailCustomerService from '../services/customer/ShowDetailCustomerService';
 import RemoveAvatarCustomerService from '../services/customer/RemoveAvatarCustomerService';
 import ResetPasswordService from 'src/services/session/ResetPasswordService';
+import RemoveAccountService from 'src/services/customer/RemoveAccountService';
 
 class CustomerController
 {
@@ -117,6 +118,17 @@ class CustomerController
 		const passwordReset = await resetPasswordService.execute({ token, new_password });
 
 		return response.status(200).json({ status: 'success', message: passwordReset });
+	}
+
+	static async deleteAccount(request: Request, response: Response)
+	{
+		const id = request.userId;
+		const { email, password } = request.body;
+
+		const removeAccountService = new RemoveAccountService();
+		const accountRemoved = await removeAccountService.execute({ id, email, password });
+
+		return response.status(200).json({ status: 'success', message: accountRemoved });
 	}
 }
 

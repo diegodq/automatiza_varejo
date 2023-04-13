@@ -17,7 +17,7 @@ class ActiveAccountClientService
 			throw new BadRequestError('Token não encontrado.');
 		}
 
-		const userExists = await customerRepository.findOneBy({ id: Number(validUserToken.id) });
+		const userExists = await customerRepository.findOneBy(validUserToken.customer);
 		if(!userExists) {
 			throw new BadRequestError('Cliente não cadastrado.');
 		}

@@ -33,6 +33,7 @@ router.post('/contact-us', ContactUsController.sendNewMessage);
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);
 router.delete('/avatar', isAuthenticated, CustomerController.removeAvatarCustomer);
+router.delete('/account',isAuthenticated, CustomerController.deleteAccount);
 
 router.put('/company', isAuthenticated, CompanyController.update);
 router.put('/customer', isAuthenticated, CustomerController.update);

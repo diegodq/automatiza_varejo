@@ -72,6 +72,11 @@ class Company
 		return this.id;
 	}
 
+	get getCustomer()
+	{
+		return this.customer;
+	}
+
 	get getCorporateName(): string
 	{
 		return this.corporate_name;
