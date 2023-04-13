@@ -22,6 +22,7 @@ router.get('/customer', isAuthenticated, CustomerController.show);
 router.get('/companies', isAuthenticated, CompanyController.list);
 router.get('/company', isAuthenticated, CompanyController.show);
 router.get('/avatar', isAuthenticated, AvatarController.returnAvatar);
+router.get('/has-company', isAuthenticated, CustomerController.checkHasCompany);
 
 router.post('/customer', CustomerController.create);
 router.post('/session', SessionController.create);
@@ -33,7 +34,6 @@ router.post('/contact-us', ContactUsController.sendNewMessage);
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);
 router.delete('/avatar', isAuthenticated, CustomerController.removeAvatarCustomer);
-router.delete('/account',isAuthenticated, CustomerController.deleteAccount);
 
 router.put('/company', isAuthenticated, CompanyController.update);
 router.put('/customer', isAuthenticated, CustomerController.update);

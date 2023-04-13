@@ -9,7 +9,7 @@ import UpdateCustomerService from '../services/customer/UpdateCustomerService';
 import ShowDetailCustomerService from '../services/customer/ShowDetailCustomerService';
 import RemoveAvatarCustomerService from '../services/customer/RemoveAvatarCustomerService';
 import ResetPasswordService from 'src/services/session/ResetPasswordService';
-import RemoveAccountService from 'src/services/customer/RemoveAccountService';
+import CheckHasCompanyService from 'src/services/customer/CheckHasCompanyService';
 
 class CustomerController
 {
@@ -56,9 +56,10 @@ class CustomerController
 	static async remove(request: Request, response: Response)
 	{
 		const id = request.userId;
+		const { email, password } = request.body;
 
 		const removeCustomerService = new RemoveCustomerService();
-		const customerRemoved = await removeCustomerService.execute({ id });
+		const customerRemoved = await removeCustomerService.execute({ id, email, password });
 
 		return response.status(200).json({ status: 'success', message: customerRemoved });
 	}
@@ -120,15 +121,14 @@ class CustomerController
 		return response.status(200).json({ status: 'success', message: passwordReset });
 	}
 
-	static async deleteAccount(request: Request, response: Response)
+	static async checkHasCompany(request: Request, response: Response)
 	{
 		const id = request.userId;
-		const { email, password } = request.body;
 
-		const removeAccountService = new RemoveAccountService();
-		const accountRemoved = await removeAccountService.execute({ id, email, password });
+		const checkHasCompanyService = new CheckHasCompanyService();
+		const hasCompany = await checkHasCompanyService.execute({ id });
 
-		return response.status(200).json({ status: 'success', message: accountRemoved });
+		return response.status(200).json({ status: 'success', message: hasCompany });
 	}
 }
 
