@@ -23,7 +23,13 @@ class ShowDetailCustomerService
 			}
 		});
 
-		return details;
+		const allDataCustomer = Object.assign({}, ...details.map(item => {
+			const company = item.company[0];
+			const { company: deletedProperty, ...newItem } = item;
+			return Object.assign({}, newItem, company);
+	}));
+
+		return allDataCustomer;
 	}
 }
 

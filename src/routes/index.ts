@@ -30,7 +30,7 @@ router.post('/active-customer', ActiveClientController.ative);
 router.post('/forgot-password', SendEmailResetPasswordController.send);
 router.post('/company', isAuthenticated, CompanyController.create);
 router.post('/contact-us', ContactUsController.sendNewMessage);
-router.post('/info', CustomerController.acceptInfo);
+
 
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);
@@ -43,5 +43,6 @@ router.patch('/avatar', isAuthenticated, uploadAvatar.single('file'), AvatarCont
 router.patch('/customer/email', isAuthenticated, CustomerController.updateEmailCustomer);
 router.patch('/customer/password', isAuthenticated, CustomerController.updatePasswordCustomer);
 router.patch('/customer/reset-password', CustomerController.reset);
+router.patch('/info', isAuthenticated, CustomerController.acceptInfo);
 
 export default router;

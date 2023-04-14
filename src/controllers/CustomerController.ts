@@ -138,7 +138,7 @@ class CustomerController
 		const { accept_newsletter, info_payment } = request.body;
 
 		const paymentNewsletterService = new PaymentNewsletterService();
-		const info = paymentNewsletterService.execute({ accept_newsletter, info_payment });
+		const info = await paymentNewsletterService.execute({ id, accept_newsletter, info_payment });
 
 		return response.status(200).json({ status: 'success', message: info });
 	}
