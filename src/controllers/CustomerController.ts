@@ -10,6 +10,7 @@ import ShowDetailCustomerService from '../services/customer/ShowDetailCustomerSe
 import RemoveAvatarCustomerService from '../services/customer/RemoveAvatarCustomerService';
 import ResetPasswordService from 'src/services/session/ResetPasswordService';
 import CheckHasCompanyService from 'src/services/customer/CheckHasCompanyService';
+import PaymentNewsletterService from 'src/services/customer/PaymentNewsletterService';
 
 class CustomerController
 {
@@ -129,6 +130,17 @@ class CustomerController
 		const hasCompany = await checkHasCompanyService.execute({ id });
 
 		return response.status(200).json({ status: 'success', message: hasCompany });
+	}
+
+	static async acceptInfo(request: Request, response: Response)
+	{
+		const id = request.userId;
+		const { accept_newsletter, info_payment } = request.body;
+
+		const paymentNewsletterService = new PaymentNewsletterService();
+		const info = paymentNewsletterService.execute({ accept_newsletter, info_payment });
+
+		return response.status(200).json({ status: 'success', message: info });
 	}
 }
 

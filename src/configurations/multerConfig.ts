@@ -4,7 +4,6 @@ import crypto from 'crypto';
 
 const uploadFolder = path.resolve(__dirname, '..', 'avatars');
 
-
 export default {
 	directory: uploadFolder,
 	storage: multer.diskStorage({

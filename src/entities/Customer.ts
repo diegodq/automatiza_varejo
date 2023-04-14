@@ -46,6 +46,9 @@ class Customer
 	@Column({ type: 'tinyint', nullable: true, default: 0 })
 	accept_newsletter: number;
 
+	@Column({ type: 'tinyint', nullable: true, default: 0 })
+	info_payment: number;
+
 	@Column({ type: 'char' })
 	accept_terms: string;
 
@@ -72,7 +75,7 @@ class Customer
 
 	constructor(id: number, company: Company[], product: Product[], customerTokens: CustomerTokens[], first_name: string,
 		avatar: string, surname_name: string, position: string,
-		phone: string, email: string, activated: number, activated_on: Date, accept_newsletter: number, accept_terms: string,system_user: string, agent_user: string, pass_change_on: Date,old_password: string,
+		phone: string, email: string, activated: number, activated_on: Date, accept_newsletter: number, info_payment: number, accept_terms: string,system_user: string, agent_user: string, pass_change_on: Date,old_password: string,
 		password: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
@@ -87,6 +90,7 @@ class Customer
 		this.activated = activated;
 		this.activated_on = activated_on;
 		this.accept_newsletter = accept_newsletter;
+		this.info_payment = info_payment;
 		this.accept_terms = accept_terms;
 		this.email = email;
 		this.old_password = old_password;
@@ -156,6 +160,11 @@ class Customer
 	get getAcceptNewsletter(): number
 	{
 		return this.accept_newsletter;
+	}
+
+	get getInfoPayment(): number
+	{
+		return this.info_payment;
 	}
 
 	get getAcceptTerms(): string

@@ -30,6 +30,7 @@ router.post('/active-customer', ActiveClientController.ative);
 router.post('/forgot-password', SendEmailResetPasswordController.send);
 router.post('/company', isAuthenticated, CompanyController.create);
 router.post('/contact-us', ContactUsController.sendNewMessage);
+router.post('/info', CustomerController.acceptInfo);
 
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);

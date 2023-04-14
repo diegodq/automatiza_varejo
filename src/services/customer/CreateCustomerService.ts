@@ -42,7 +42,7 @@ class CreateCustomerService
 
 		await customerRepository.save(newCustomer);
 
-		/*const generateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
+		const generateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
 		const token = await generateCustomerForgotTokenService.generate({ email });
 
 		const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'verify-email.hbs');
@@ -64,7 +64,7 @@ class CreateCustomerService
 					link: `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${newCustomer.id}`,
 				}
 			}
-		});*/
+		});
 
 		return `Enviamos um e-mail com link de ativação para ${email}. Ative seu cadastro clicando no link enviado.`;
 	}
