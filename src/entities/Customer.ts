@@ -67,6 +67,15 @@ class Customer
 	@Column({ type: 'datetime', nullable: true })
 	pass_change_on: Date;
 
+	@Column({ type: 'varchar', nullable: true, length: 90 })
+	city: string;
+
+	@Column({ type: 'varchar', nullable: true, length: 90 })
+	region_name: string;
+
+	@Column({ type: 'varchar', nullable: true, length: 90 })
+	country: string;
+
 	@CreateDateColumn()
 	created_at: Date;
 
@@ -76,7 +85,7 @@ class Customer
 	constructor(id: number, company: Company[], product: Product[], customerTokens: CustomerTokens[], first_name: string,
 		avatar: string, surname_name: string, position: string,
 		phone: string, email: string, activated: number, activated_on: Date, accept_newsletter: number, info_payment: number, accept_terms: string,system_user: string, agent_user: string, pass_change_on: Date,old_password: string,
-		password: string, created_at: Date, updated_at: Date)
+		password: string, city: string, region_name: string, country: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.company = company;
@@ -97,7 +106,10 @@ class Customer
 		this.password = password;
 		this.system_user = system_user;
 		this.agent_user = agent_user;
-		this.pass_change_on = pass_change_on
+		this.pass_change_on = pass_change_on;
+		this.city = city;
+		this.region_name = region_name;
+		this.country = country;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
@@ -185,6 +197,21 @@ class Customer
 	get getPassChangeOn(): Date
 	{
 		return this.pass_change_on;
+	}
+
+	get getCity(): string
+	{
+		return this.city;
+	}
+
+	get getRegionName(): string
+	{
+		return this.region_name;
+	}
+
+	get getCountry(): string
+	{
+		return this.country;
 	}
 
 	get getEmail(): string

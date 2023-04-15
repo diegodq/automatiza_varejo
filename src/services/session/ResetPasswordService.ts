@@ -50,7 +50,8 @@ class ResetPasswordService
 			templateData: {
 				file: forgotPasswordTemplate,
 				variables: {
-					name: userExists.first_name
+					name: userExists.first_name,
+					operatingSystem: userExists.system_user,
 				}
 			}
 		});

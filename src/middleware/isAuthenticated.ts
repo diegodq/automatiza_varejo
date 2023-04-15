@@ -18,7 +18,7 @@ function isAuthenticated(request: Request, response: Response, next: NextFunctio
 
 		return next();
 	} catch( _) {
-		return response.status(400).json({ valid: false, message: 'Acesso ano autorizado.' });
+		return response.status(400).json({ valid: false, message: 'Acesso não autorizado.' });
 	}
 }
 
