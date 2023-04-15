@@ -9,7 +9,7 @@ import isAuthenticated from "../middleware/isAuthenticated";
 import WelcomeController from "../controllers/WelcomeController";
 import multerConfig from "../configurations/multerConfig";
 import AvatarController from "../controllers/AvatarController";
-import ActiveClientController from "src/controllers/ActiveClientController";
+import ActiveClientController from "../controllers/ActiveClientController";
 
 const uploadAvatar = multer(multerConfig);
 
