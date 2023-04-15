@@ -1,5 +1,5 @@
-import customerRepository from "src/repositories/customerRepository";
-import { BadRequestError } from "src/utils/ApiErrors";
+import customerRepository from "../../repositories/customerRepository";
+import { BadRequestError } from "../../utils/ApiErrors";
 
 type RequestInfo =
 {

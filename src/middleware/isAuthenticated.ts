@@ -1,7 +1,7 @@
 import { verify } from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
 import paramsConfig from "../params/paramsConfig";
-import { UnauthorizedError } from "src/utils/ApiErrors";
+import { UnauthorizedError } from "../utils/ApiErrors";
 
 function isAuthenticated(request: Request, response: Response, next: NextFunction)
 {

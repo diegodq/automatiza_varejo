@@ -1,7 +1,7 @@
-import appDataSource from "src/data-source";
-import Company from "src/entities/Company";
-import customerRepository from "src/repositories/customerRepository";
-import { BadRequestError } from "src/utils/ApiErrors";
+import appDataSource from "../../data-source";
+import Company from "../../entities/Company";
+import customerRepository from "../../repositories/customerRepository";
+import { BadRequestError } from "../../utils/ApiErrors";
 
 type RequestCompany =
 {

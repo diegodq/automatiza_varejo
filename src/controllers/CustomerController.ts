@@ -8,9 +8,9 @@ import ShowCustomerService from '../services/customer/ShowCustomerService';
 import UpdateCustomerService from '../services/customer/UpdateCustomerService';
 import ShowDetailCustomerService from '../services/customer/ShowDetailCustomerService';
 import RemoveAvatarCustomerService from '../services/customer/RemoveAvatarCustomerService';
-import ResetPasswordService from 'src/services/session/ResetPasswordService';
-import CheckHasCompanyService from 'src/services/customer/CheckHasCompanyService';
-import PaymentNewsletterService from 'src/services/customer/PaymentNewsletterService';
+import ResetPasswordService from '../services/session/ResetPasswordService';
+import CheckHasCompanyService from '../services/customer/CheckHasCompanyService';
+import PaymentNewsletterService from '../services/customer/PaymentNewsletterService';
 
 class CustomerController
 {
