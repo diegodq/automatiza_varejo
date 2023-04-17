@@ -37,6 +37,9 @@ class Customer
 	@Column({ type: 'varchar', nullable: true, unique: true })
 	email: string;
 
+	@Column({ type: 'datetime', nullable: true })
+	email_change_on: Date;
+
 	@Column({type: 'tinyint', nullable: true, default: 0 })
 	activated: number;
 
@@ -51,6 +54,9 @@ class Customer
 
 	@Column({ type: 'char' })
 	accept_terms: string;
+
+	@Column({ type: 'datetime', nullable: true })
+	accept_terms_on: Date;
 
 	@Column({ type: 'varchar', nullable: true })
 	old_password: string;
@@ -83,8 +89,9 @@ class Customer
 	updated_at: Date;
 
 	constructor(id: number, company: Company[], product: Product[], customerTokens: CustomerTokens[], first_name: string,
-		avatar: string, surname_name: string, position: string,
-		phone: string, email: string, activated: number, activated_on: Date, accept_newsletter: number, info_payment: number, accept_terms: string,system_user: string, agent_user: string, pass_change_on: Date,old_password: string,
+		avatar: string, surname_name: string, position: string, phone: string, email: string,
+		email_change_on: Date, activated: number, activated_on: Date, accept_newsletter: number,
+		info_payment: number, accept_terms: string, accept_terms_on: Date, system_user: string, agent_user: string, pass_change_on: Date,old_password: string,
 		password: string, city: string, region_name: string, country: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
@@ -101,7 +108,9 @@ class Customer
 		this.accept_newsletter = accept_newsletter;
 		this.info_payment = info_payment;
 		this.accept_terms = accept_terms;
+		this.accept_terms_on = accept_terms_on;
 		this.email = email;
+		this.email_change_on = email_change_on;
 		this.old_password = old_password;
 		this.password = password;
 		this.system_user = system_user;
@@ -184,6 +193,21 @@ class Customer
 		return this.accept_terms;
 	}
 
+	get getAcceptTermsOn(): Date
+	{
+		return this.accept_terms_on;
+	}
+
+	get getEmail(): string
+	{
+		return this.email;
+	}
+
+	get getEmailChangeOn(): Date
+	{
+		return this.email_change_on;
+	}
+
 	get getSystemUser(): string
 	{
 		return this.system_user;
@@ -212,11 +236,6 @@ class Customer
 	get getCountry(): string
 	{
 		return this.country;
-	}
-
-	get getEmail(): string
-	{
-		return this.email;
 	}
 }
 

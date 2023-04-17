@@ -79,24 +79,23 @@ class CustomerController
 	{
 		const id = request.userId;
 
-		const password = request.body.password
-		const email = request.body.new_email;
+		const { password, email, agent_user, system_user, city, region_name, country } = request.body;
 
 		const updateEmailCustomer = new UpdateEmailCustomer();
-		const updateEmail = await updateEmailCustomer.execute({ id, password, email });
+		const updateEmail = await updateEmailCustomer.execute({ id, password, email, agent_user, system_user, city, region_name, country });
 
 		return response.status(200).json({ status: 'success', message: updateEmail });
 	}
 
 	static async updatePasswordCustomer(request: Request, response: Response): Promise<Response>
 	{
-		const { old_password, new_password, city, region_name, country } = request.body;
+		const{ old_password, new_password, agent_user, system_user, city, region_name, country } = request.body;
 
 		const id = request.userId;
 		const password = new_password;
 
 		const updatePasswordCustomer = new UpdatePasswordCustomer();
-		const updatePassword = await updatePasswordCustomer.execute({ id, old_password, password, city, region_name, country });
+		const updatePassword = await updatePasswordCustomer.execute({ id, old_password, password, agent_user, system_user, city, region_name, country });
 
 		return response.status(200).json({ status: 'success', updatePassword });
 	}

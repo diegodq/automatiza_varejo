@@ -5,12 +5,15 @@ import { BadRequestError } from "../../utils/ApiErrors";
 import path from "path";
 import Mailer from "../../configurations/mailer/Mailer";
 import moment from "moment";
+moment.locale('pt-br');
 
 type UpdateRequest =
 {
 	id: string;
 	old_password: string;
 	password: string;
+	agent_user: string;
+	system_user: string;
 	city: string;
 	region_name: string;
 	country: string;
@@ -18,7 +21,7 @@ type UpdateRequest =
 
 class UpdatePasswordCustomer
 {
-	public async execute({ id, old_password, password, city, region_name, country }: UpdateRequest): Promise<string>
+	public async execute({ id, old_password, password, agent_user, system_user, city, region_name, country }: UpdateRequest): Promise<string>
 	{
 		const customer = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
@@ -35,6 +38,8 @@ class UpdatePasswordCustomer
 		customer.old_password = newPassword;
 		customer.password = newPassword;
 		customer.city = city;
+		customer.agent_user = agent_user;
+		customer.system_user = system_user;
 		customer.region_name = region_name;
 		customer.country = country;
 		customer.pass_change_on = new Date();
@@ -52,15 +57,17 @@ class UpdatePasswordCustomer
 				name: customer.first_name,
 				email: customer.email
 			},
-			subject: 'Recuperação de senha',
+			subject: 'Atualização de Senha',
 			templateData: {
 				file: forgotPasswordTemplate,
 				variables: {
 					name: customer.first_name,
 					city: customer.city,
+					agentUser: customer.agent_user,
+					systemUser: customer.system_user,
 					regionName: customer.region_name,
 					country: customer.country,
-					dateTime: moment(customer.pass_change_on).format('MMMM Do YYYY, h:mm:ss a')
+					dateTime: moment(customer.pass_change_on).format('MMMM DD-MM-YYYY HH:mm:ss')
 				}
 			}
 		});

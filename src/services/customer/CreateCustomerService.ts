@@ -40,6 +40,7 @@ class CreateCustomerService
 		const newCustomer = customerRepository.create({ first_name, surname, position, phone, email,
 			old_password: hashedPassword, password: hashedPassword, accept_terms });
 
+		newCustomer.accept_terms_on = new Date();
 		await customerRepository.save(newCustomer);
 
 		const generateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
