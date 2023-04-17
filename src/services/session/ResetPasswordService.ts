@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import path from 'path';
 import { isAfter, addHours } from 'date-fns';
 import { hash } from "bcryptjs";

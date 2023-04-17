@@ -90,15 +90,15 @@ class CustomerController
 
 	static async updatePasswordCustomer(request: Request, response: Response): Promise<Response>
 	{
-		const { old_password, new_password } = request.body;
+		const { old_password, new_password, city, region_name, country } = request.body;
 
 		const id = request.userId;
 		const password = new_password;
 
 		const updatePasswordCustomer = new UpdatePasswordCustomer();
-		const updatePassword = await updatePasswordCustomer.execute({ id, old_password, password });
+		const updatePassword = await updatePasswordCustomer.execute({ id, old_password, password, city, region_name, country });
 
-		return response.status(200).json({ status: 'success', message: updatePassword });
+		return response.status(200).json({ status: 'success', updatePassword });
 	}
 
 	static async removeAvatarCustomer(request: Request, response: Response): Promise<Response>

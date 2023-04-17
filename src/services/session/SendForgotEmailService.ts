@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import path from 'path';
 import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
