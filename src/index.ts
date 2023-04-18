@@ -4,7 +4,7 @@ import express from 'express';
 import appDataSource from './data-source';
 import errorMiddleware from './middleware/errorsMiddleware';
 import routes from './routes';
-import cors from 'cors';
+// import cors from 'cors';
 import multerConfig from './configurations/multerConfig';
 import https from 'https';
 import fs from 'fs';
@@ -17,10 +17,10 @@ const options = {
 const app = express();
 
 appDataSource.initialize().then(() => {
-	app.use(cors({
-		origin: ['https://app.automatizavarejo.com.br', 'https://automatizavarejo.com.br', 'https://pesquisa.automatizavarejo.com.br'],
-		methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
-	}));
+	// app.use(cors({
+	// 	origin: ['https://app.automatizavarejo.com.br', 'https://automatizavarejo.com.br', 'https://pesquisa.automatizavarejo.com.br'],
+	// 	methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+	// }));
 
 	app.use('/files', express.static(multerConfig.directory));
 
