@@ -12,6 +12,8 @@ class ActiveAccountClientService
 {
 	public async execute({ token, id }: ActiveAccountRequest): Promise<object | string>
 	{
+		const activate = 1;
+
 		const validUserToken = await customerTokenRepository.findOneBy({ token });
 		if(!validUserToken) {
 			throw new BadRequestError('Token não encontrado.');
@@ -22,7 +24,7 @@ class ActiveAccountClientService
 			throw new BadRequestError('Cliente não cadastrado.');
 		}
 
-		userExists.activated = 1;
+		userExists.activated = activate;
 		userExists.activated_on = new Date();
 		const clientActivated = await customerRepository.save(userExists);
 
