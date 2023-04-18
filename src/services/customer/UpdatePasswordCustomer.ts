@@ -1,10 +1,10 @@
 import 'dotenv/config';
+import path from "path";
+import moment from "moment";
 import { hash, compare } from "bcryptjs";
 import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
-import path from "path";
 import Mailer from "../../configurations/mailer/Mailer";
-import moment from "moment";
 moment.locale('pt-br');
 
 type UpdateRequest =

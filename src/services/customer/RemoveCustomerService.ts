@@ -1,7 +1,7 @@
-import customerRepository from "../../repositories/customerRepository";
-import { BadRequestError } from "../../utils/ApiErrors";
 import { compare } from "bcryptjs";
 import path from "path";
+import customerRepository from "../../repositories/customerRepository";
+import { BadRequestError } from "../../utils/ApiErrors";
 import Mailer from "../../configurations/mailer/Mailer";
 
 type RequestCustomer =
