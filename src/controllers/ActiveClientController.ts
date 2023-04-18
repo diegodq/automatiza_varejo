@@ -5,10 +5,10 @@ class ActiveClientController
 {
 	static async ative(request: Request, response: Response): Promise<Response>
 	{
-		const { token, id } = request.body;
+		const { token, active, id } = request.body;
 
 		const activeAccountClientService = new ActiveAccountClientService();
-		const accountActivated = await activeAccountClientService.execute({ token, id });
+		const accountActivated = await activeAccountClientService.execute({ token, active, id });
 
 		return response.status(200).json(accountActivated);
 	}
