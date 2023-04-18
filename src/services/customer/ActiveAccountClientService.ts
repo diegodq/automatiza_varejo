@@ -24,9 +24,12 @@ class ActiveAccountClientService
 
 		userExists.activated = 1;
 		userExists.activated_on = new Date();
-		await customerRepository.save(userExists);
+		const clientActivated = await customerRepository.save(userExists);
 
-		return { message: 'Conta ativada', userId: id };
+		if(!clientActivated.activated)
+			throw new BadRequestError('Conta não ativada.');
+		else
+			return { message: 'Conta não ativada.', userId: id }
 	}
 }
 
