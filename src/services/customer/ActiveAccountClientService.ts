@@ -28,7 +28,7 @@ class ActiveAccountClientService
 
 		try {
 			await customerRepository.save(userExists);
-			return { message: 'Conta não ativada.', userId: id };
+			return { message: 'Conta ativada.', userId: id };
 		} catch(error) {
 			throw new BadRequestError('Error' + error);
 		}
