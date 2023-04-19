@@ -41,11 +41,10 @@ class CompanyController
 
 	static async remove(request: Request, response: Response): Promise<Response>
 	{
-		// colocar esse código como um serviço
 		const id = request.body.id;
 
 		const removeCompanyService = new RemoveCompanyService();
-		const companyRemoved = await removeCompanyService.execute( Number(id));
+		const companyRemoved = await removeCompanyService.execute(Number(id));
 
 		return response.status(200).json({ status: 'success', message: companyRemoved });
 	}
