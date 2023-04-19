@@ -5,13 +5,12 @@ import { BadRequestError } from "../../utils/ApiErrors";
 type ActiveAccountRequest =
 {
 	token: string;
-	active: string;
 	id: string;
 }
 
 class ActiveAccountClientService
 {
-	public async execute({ token, active, id }: ActiveAccountRequest): Promise<object | string>
+	public async execute({ token, id }: ActiveAccountRequest): Promise<object | string>
 	{
 		const validUserToken = await customerTokenRepository.findOneBy({ token });
 		if(!validUserToken) {
@@ -23,15 +22,12 @@ class ActiveAccountClientService
 			throw new BadRequestError('Cliente não cadastrado.');
 		}
 
-		userExists.activated = Number(active);
+		userExists.activated = 1;
 		userExists.activated_on = new Date();
 
-		try {
-			await customerRepository.save(userExists);
-			return { message: 'Conta ativada.', userId: id };
-		} catch(error) {
-			throw new BadRequestError('Error' + error);
-		}
+		await customerRepository.save(userExists);
+
+		return { status: 'success', message: 'Conta ativada.', userId: id };
 	}
 }
 

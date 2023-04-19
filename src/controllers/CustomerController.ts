@@ -11,6 +11,7 @@ import RemoveAvatarCustomerService from '../services/customer/RemoveAvatarCustom
 import ResetPasswordService from '../services/session/ResetPasswordService';
 import CheckHasCompanyService from '../services/customer/CheckHasCompanyService';
 import PaymentNewsletterService from '../services/customer/PaymentNewsletterService';
+import ActiveAccountClientService from '../services/customer/ActiveAccountClientService';
 
 class CustomerController
 {
@@ -140,6 +141,16 @@ class CustomerController
 		const info = await paymentNewsletterService.execute({ id, accept_newsletter, info_payment });
 
 		return response.status(200).json({ status: 'success', message: info });
+	}
+
+	static async ative(request: Request, response: Response): Promise<Response>
+	{
+		const { token, id } = request.body;
+
+		const activeAccountClientService = new ActiveAccountClientService();
+		const accountActivated = await activeAccountClientService.execute({ token, id });
+
+		return response.status(200).json(accountActivated);
 	}
 }
 

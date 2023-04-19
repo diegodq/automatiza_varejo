@@ -9,7 +9,6 @@ import isAuthenticated from "../middleware/isAuthenticated";
 import WelcomeController from "../controllers/WelcomeController";
 import multerConfig from "../configurations/multerConfig";
 import AvatarController from "../controllers/AvatarController";
-import ActiveClientController from "../controllers/ActiveClientController";
 
 const uploadAvatar = multer(multerConfig);
 
@@ -26,11 +25,9 @@ router.get('/has-company', isAuthenticated, CustomerController.checkHasCompany);
 
 router.post('/customer', CustomerController.create);
 router.post('/session', SessionController.create);
-router.post('/active-customer', ActiveClientController.ative);
 router.post('/forgot-password', SendEmailResetPasswordController.send);
 router.post('/company', isAuthenticated, CompanyController.create);
 router.post('/contact-us', ContactUsController.sendNewMessage);
-
 
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);
@@ -44,5 +41,6 @@ router.patch('/customer/email', isAuthenticated, CustomerController.updateEmailC
 router.patch('/customer/password', isAuthenticated, CustomerController.updatePasswordCustomer);
 router.patch('/customer/reset-password', CustomerController.reset);
 router.patch('/info', isAuthenticated, CustomerController.acceptInfo);
+router.patch('/active-customer', CustomerController.ative);
 
 export default router;
