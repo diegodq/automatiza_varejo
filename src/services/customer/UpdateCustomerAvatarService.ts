@@ -15,7 +15,6 @@ class UpdateCustomerAvatarService
 {
 	public async execute({ id, avatarFileName, fileSize }: AvatarRequest): Promise<string>
 	{
-		console.log(avatarFileName);
 		const customer = await customerRepository.findOneBy({ id: Number(id) });
 		if (!customer) {
 			throw new BadRequestError('Usuário não encontrado');
