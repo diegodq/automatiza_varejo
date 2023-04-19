@@ -19,9 +19,9 @@ type RequestCompany =
 
 class UpdateCompanyService
 {
-	public async execute({id, corporate_name, fantasy_name, cnpj,
+	public async execute({ id, corporate_name, fantasy_name, cnpj,
 		zip_code, state, city, district, address,
-		complement ,number}: RequestCompany): Promise<string>
+		complement ,number }: RequestCompany): Promise<string>
 	{
 		const company = await companyRepository.findOneBy({ id: Number(id) });
 		if(!company) {

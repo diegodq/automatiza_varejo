@@ -41,7 +41,8 @@ class CompanyController
 
 	static async remove(request: Request, response: Response): Promise<Response>
 	{
-		const id = request.userId;
+		// colocar esse código como um serviço
+		const id = request.body.id;
 
 		const removeCompanyService = new RemoveCompanyService();
 		const companyRemoved = await removeCompanyService.execute( Number(id));
@@ -51,9 +52,7 @@ class CompanyController
 
 	static async update(request: Request, response: Response): Promise<Response>
 	{
-		const id = request.userId;
-
-		const { corporate_name, fantasy_name, cnpj,
+		const { id, corporate_name, fantasy_name, cnpj,
 			zip_code, state, city, district, address, complement, number } = request.body;
 
 		const updateCompanyService = new UpdateCompanyService();
