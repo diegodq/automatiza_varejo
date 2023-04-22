@@ -4,13 +4,14 @@ import moment from "moment";
 import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Mailer from "../../configurations/mailer/Mailer";
+import GenerateCustomerForgotTokenService from "../session/GenerateCustomerForgotTokenService";
 moment.locale('pt-br');
 
 type UpdateRequest =
 {
 	id: string;
 	password: string;
-	email: string;
+	new_email: string;
 	agent_user: string;
 	system_user: string;
 	city: string;
@@ -20,8 +21,9 @@ type UpdateRequest =
 
 class UpdateEmailCustomer
 {
-	public async execute({ id, password, email, agent_user, system_user, city, region_name, country }: UpdateRequest): Promise<string>
+	public async execute({ id, password, new_email, agent_user, system_user, city, region_name, country }: UpdateRequest): Promise<string>
 	{
+		console.log(id, password, new_email, agent_user, system_user, city, region_name, country);
 		const customer = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
 			throw new BadRequestError('Usuário não existe');
@@ -32,16 +34,11 @@ class UpdateEmailCustomer
 			throw new BadRequestError('Senha incorreta.');
 		}
 
-		const emailExists = await customerRepository.findOneBy({ email  });
-		if(emailExists) {
-			throw new BadRequestError('Um usuário com este email já está cadastrado.');
-		}
-
-		if (customer.email == email) {
+		if (customer.email == new_email) {
 			throw new BadRequestError('Usuário já está cadastrado.');
 		}
 
-		customer.email = email;
+		customer.temp_email = new_email;
 		customer.email_change_on = new Date();
 		customer.agent_user = agent_user;
 		customer.system_user = system_user;
@@ -50,6 +47,10 @@ class UpdateEmailCustomer
 		customer.country = country;
 
 		await customerRepository.save(customer);
+
+		const generateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
+		const email = customer.email;
+		const token = await generateCustomerForgotTokenService.generate({ email });
 
 		const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'email-change.hbs');
 
@@ -72,7 +73,8 @@ class UpdateEmailCustomer
 					systemUser: customer.system_user,
 					regionName: customer.region_name,
 					country: customer.country,
-					dateTime: moment(customer.pass_change_on).format('MMMM DD-MM-YYYY HH:mm:ss')
+					dateTime: moment(customer.pass_change_on).format('MMMM DD-MM-YYYY HH:mm:ss'),
+					link: `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${customer.id}`,
 				}
 			}
 		});

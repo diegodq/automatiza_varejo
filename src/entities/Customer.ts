@@ -37,6 +37,9 @@ class Customer
 	@Column({ type: 'varchar', nullable: true, unique: true })
 	email: string;
 
+	@Column({ type: 'varchar', nullable: true, unique: true })
+	temp_email: string;
+
 	@Column({ type: 'datetime', nullable: true })
 	email_change_on: Date;
 
@@ -89,7 +92,7 @@ class Customer
 	updated_at: Date;
 
 	constructor(id: number, company: Company[], product: Product[], customerTokens: CustomerTokens[], first_name: string,
-		avatar: string, surname_name: string, position: string, phone: string, email: string,
+		avatar: string, surname_name: string, position: string, phone: string, email: string, temp_email: string,
 		email_change_on: Date, activated: number, activated_on: Date, accept_newsletter: number,
 		info_payment: number, accept_terms: string, accept_terms_on: Date, system_user: string, agent_user: string, pass_change_on: Date,old_password: string,
 		password: string, city: string, region_name: string, country: string, created_at: Date, updated_at: Date)
@@ -110,6 +113,7 @@ class Customer
 		this.accept_terms = accept_terms;
 		this.accept_terms_on = accept_terms_on;
 		this.email = email;
+		this.temp_email = temp_email;
 		this.email_change_on = email_change_on;
 		this.old_password = old_password;
 		this.password = password;
@@ -201,6 +205,11 @@ class Customer
 	get getEmail(): string
 	{
 		return this.email;
+	}
+
+	get getTempEmail(): string
+	{
+		return this.temp_email;
 	}
 
 	get getEmailChangeOn(): Date

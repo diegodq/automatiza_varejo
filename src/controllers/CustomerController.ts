@@ -80,10 +80,10 @@ class CustomerController
 	{
 		const id = request.userId;
 
-		const { password, email, agent_user, system_user, city, region_name, country } = request.body;
+		const { password, new_email, agent_user, system_user, city, region_name, country } = request.body;
 
 		const updateEmailCustomer = new UpdateEmailCustomer();
-		const updateEmail = await updateEmailCustomer.execute({ id, password, email, agent_user, system_user, city, region_name, country });
+		const updateEmail = await updateEmailCustomer.execute({ id, password, new_email, agent_user, system_user, city, region_name, country });
 
 		return response.status(200).json({ status: 'success', message: updateEmail });
 	}

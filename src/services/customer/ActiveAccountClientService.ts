@@ -22,15 +22,22 @@ class ActiveAccountClientService
 			throw new BadRequestError('Cliente não cadastrado.');
 		}
 
-		userExists.activated = 1;
-		userExists.activated_on = new Date();
+		if(!userExists.getTempEmail) {
+			userExists.activated = 1;
+			userExists.activated_on = new Date();
 
-		const active = await customerRepository.save(userExists);
-		if(active.activated == 0) {
-			throw new BadRequestError('Conta não ativada.');
+			await customerRepository.save(userExists);
+
+			return { status: 'success', message: 'Conta ativada.' };
 		}
 
-		return { status: 'success', message: 'Conta ativada.', userId: id };
+		userExists.email = userExists.getTempEmail;
+		userExists.temp_email = '';
+		userExists.email_change_on = new Date();
+
+		await customerRepository.save(userExists);
+
+		return { status: 'success', message: 'email ativado.' };
 	}
 }
 
