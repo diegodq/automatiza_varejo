@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import UpdateEmailCustomer from '../services/customer/UpdateEmailCustomer';
-import UpdatePasswordCustomer from '../services/customer/UpdatePasswordCustomer';
+import UpdateEmailCustomer from '../services/customer/UpdateEmailCustomerService';
+import UpdatePasswordCustomer from '../services/customer/UpdatePasswordCustomerService';
 import CreateCustomerService from '../services/customer/CreateCustomerService';
 import ListCustomerService from '../services/customer/ListCustomerService';
 import RemoveCustomerService from '../services/customer/RemoveCustomerService';

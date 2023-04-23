@@ -23,7 +23,6 @@ class UpdateEmailCustomer
 {
 	public async execute({ id, password, new_email, agent_user, system_user, city, region_name, country }: UpdateRequest): Promise<string>
 	{
-		console.log(id, password, new_email, agent_user, system_user, city, region_name, country);
 		const customer = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
 			throw new BadRequestError('Usuário não existe');
