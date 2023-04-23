@@ -4,7 +4,6 @@ import ContactUsController from "../controllers/ContactUsController";
 import CustomerController from "../controllers/CustomerController";
 import CompanyController from "../controllers/CompanyController";
 import SessionController from "../controllers/SessionController";
-import SendEmailResetPasswordController from "../controllers/SendEmailResetPasswordController";
 import isAuthenticated from "../middleware/isAuthenticated";
 import WelcomeController from "../controllers/WelcomeController";
 import multerConfig from "../configurations/multerConfig";
@@ -25,7 +24,7 @@ router.get('/has-company', isAuthenticated, CustomerController.checkHasCompany);
 
 router.post('/customer', CustomerController.create);
 router.post('/session', SessionController.create);
-router.post('/forgot-password', SendEmailResetPasswordController.send);
+router.post('/forgot-password', CustomerController.send);
 router.post('/company', isAuthenticated, CompanyController.create);
 router.post('/contact-us', ContactUsController.sendNewMessage);
 

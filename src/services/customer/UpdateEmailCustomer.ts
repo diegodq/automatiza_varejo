@@ -61,7 +61,7 @@ class UpdateEmailCustomer
 			},
 			to: {
 				name: customer.first_name,
-				email: customer.email
+				email: customer.temp_email
 			},
 			subject: 'Troca de E-mail',
 			templateData: {
@@ -73,7 +73,7 @@ class UpdateEmailCustomer
 					systemUser: customer.system_user,
 					regionName: customer.region_name,
 					country: customer.country,
-					dateTime: moment(customer.pass_change_on).format('MMMM DD-MM-YYYY HH:mm:ss'),
+					dateTime: moment(customer.email_change_on).format('MMMM DD-MM-YYYY HH:mm:ss'),
 					link: `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${customer.id}`,
 				}
 			}

@@ -12,6 +12,7 @@ import ResetPasswordService from '../services/session/ResetPasswordService';
 import CheckHasCompanyService from '../services/customer/CheckHasCompanyService';
 import PaymentNewsletterService from '../services/customer/PaymentNewsletterService';
 import ActiveAccountClientService from '../services/customer/ActiveAccountClientService';
+import SendForgotEmailService from 'src/services/session/SendForgotEmailService';
 
 class CustomerController
 {
@@ -151,6 +152,15 @@ class CustomerController
 		const accountActivated = await activeAccountClientService.execute({ token, id });
 
 		return response.status(200).json(accountActivated);
+	}
+
+	static async send(request: Request, response: Response): Promise<Response>
+	{
+		const { email } =  request.body;
+		const sendForgotEmailService = new SendForgotEmailService();
+		const emailSent = await sendForgotEmailService.execute({ email });
+
+		return response.status(200).json({ status: 'success', message: emailSent });
 	}
 }
 
