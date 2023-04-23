@@ -12,7 +12,7 @@ import ResetPasswordService from '../services/session/ResetPasswordService';
 import CheckHasCompanyService from '../services/customer/CheckHasCompanyService';
 import PaymentNewsletterService from '../services/customer/PaymentNewsletterService';
 import ActiveAccountClientService from '../services/customer/ActiveAccountClientService';
-import SendForgotEmailService from 'src/services/session/SendForgotEmailService';
+import SendForgotEmailService from '../services/session/SendForgotEmailService';
 
 class CustomerController
 {
