@@ -80,10 +80,10 @@ class Customer
 	city: string;
 
 	@Column({ type: 'varchar', nullable: true, length: 90 })
-	region_name: string;
+	country_name: string;
 
 	@Column({ type: 'varchar', nullable: true, length: 90 })
-	country: string;
+	country_capital: string;
 
 	@CreateDateColumn()
 	created_at: Date;
@@ -95,7 +95,7 @@ class Customer
 		avatar: string, surname_name: string, position: string, phone: string, email: string, temp_email: string,
 		email_change_on: Date, activated: number, activated_on: Date, accept_newsletter: number,
 		info_payment: number, accept_terms: string, accept_terms_on: Date, system_user: string, agent_user: string, pass_change_on: Date,old_password: string,
-		password: string, city: string, region_name: string, country: string, created_at: Date, updated_at: Date)
+		password: string, city: string, country_name: string, country_capital: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.company = company;
@@ -121,8 +121,8 @@ class Customer
 		this.agent_user = agent_user;
 		this.pass_change_on = pass_change_on;
 		this.city = city;
-		this.region_name = region_name;
-		this.country = country;
+		this.country_name = country_name;
+		this.country_capital = country_capital;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
@@ -237,14 +237,15 @@ class Customer
 		return this.city;
 	}
 
-	get getRegionName(): string
+	get getCountryName(): string
+
 	{
-		return this.region_name;
+		return this.country_name;
 	}
 
-	get getCountry(): string
+	get getCountryCapital(): string
 	{
-		return this.country;
+		return this.country_capital;
 	}
 }
 

@@ -15,13 +15,13 @@ type UpdateRequest =
 	agent_user: string;
 	system_user: string;
 	city: string;
-	region_name: string;
-	country: string;
+	country_name: string;
+	country_capital: string;
 }
 
 class UpdatePasswordCustomer
 {
-	public async execute({ id, old_password, password, agent_user, system_user, city, region_name, country }: UpdateRequest): Promise<string>
+	public async execute({ id, old_password, password, agent_user, system_user, city, country_name, country_capital }: UpdateRequest): Promise<string>
 	{
 		const customer = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
@@ -40,8 +40,8 @@ class UpdatePasswordCustomer
 		customer.city = city;
 		customer.agent_user = agent_user;
 		customer.system_user = system_user;
-		customer.region_name = region_name;
-		customer.country = country;
+		customer.country_name = country_name;
+		customer.country_capital = country_capital;
 		customer.pass_change_on = new Date();
 
 		await customerRepository.save(customer);
@@ -65,8 +65,8 @@ class UpdatePasswordCustomer
 					city: customer.city,
 					agentUser: customer.agent_user,
 					systemUser: customer.system_user,
-					regionName: customer.region_name,
-					country: customer.country,
+					regionName: customer.country_name,
+					country: customer.country_capital,
 					dateTime: moment(customer.pass_change_on).format('MMMM DD-MM-YYYY HH:mm:ss')
 				}
 			}
