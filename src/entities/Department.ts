@@ -6,7 +6,7 @@ class Department
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column({ type: 'string', length: 50 })
+	@Column({ type: 'varchar', length: 50 })
 	department: string;
 
 	@Column({ type: 'char', default: 0 })

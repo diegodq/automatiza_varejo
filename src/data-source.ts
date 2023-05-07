@@ -7,6 +7,7 @@ import Customer from './entities/Customer';
 import CustomerTokens from './entities/CustomerTokens';
 import Product from './entities/Product';
 import User from './entities/User';
+import Department from './entities/Department';
 
 const port = process.env.DB_PORT as number | undefined;
 
@@ -23,10 +24,11 @@ const appDataSource = new DataSource({
 		Customer,
 		Company,
 		ContactUs,
-		User
+		User,
+		Department
 	],
 	migrations: [
-
+		
 	]
 });
 
