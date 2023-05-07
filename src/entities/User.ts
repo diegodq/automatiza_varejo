@@ -18,7 +18,7 @@ class User
 	@Column({ type: 'varchar' })
 	password: string;
 
-	@Column({ type: 'char', nullable: true, default: '0' })
+	@Column({ type: 'char', nullable: true, default: 0 })
 	status: string;
 
 	@CreateDateColumn()

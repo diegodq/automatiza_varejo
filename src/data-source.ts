@@ -10,8 +10,6 @@ import User from './entities/User';
 
 const port = process.env.DB_PORT as number | undefined;
 
-import { default1682344694705 } from './migrations/1682344694705-default'
-
 const appDataSource = new DataSource({
 	type: "mysql",
 	host: process.env.DB_HOST,
@@ -28,7 +26,7 @@ const appDataSource = new DataSource({
 		User
 	],
 	migrations: [
-		default1682344694705
+
 	]
 });
 
