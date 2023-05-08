@@ -5,11 +5,12 @@ type DepartmentRequest =
 {
 	id: string;
 	department: string;
+	status: string;
 }
 
 class EditDepartmentService
 {
-	public async execute({ id, department }: DepartmentRequest)
+	public async execute({ id, department, status }: DepartmentRequest)
 	{
 		const departmentExists = await departmentRepository.findOneBy({ id: Number(id) });
 		if(!departmentExists) {
@@ -17,6 +18,7 @@ class EditDepartmentService
 		}
 
 		departmentExists.department = department;
+		departmentExists.status = status;
 		await departmentRepository.save(departmentExists);
 
 		return 'Departamento atualizado.';
