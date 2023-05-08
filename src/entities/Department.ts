@@ -10,7 +10,7 @@ class Department
 	department: string;
 
 	@Column({ type: 'char', default: 0 })
-	status: boolean;
+	status: string;
 
 	@Column({ type: 'datetime' })
 	created_at: Date;
@@ -18,7 +18,7 @@ class Department
 	@Column({ type: 'datetime' })
 	updated_at: Date;
 
-	constructor(id: number, department: string, status: boolean, created_at: Date, updated_at: Date)
+	constructor(id: number, department: string, status: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.department = department;
@@ -37,7 +37,7 @@ class Department
 		return this.department;
 	}
 
-	get getStatus(): boolean
+	get getStatus(): string
 	{
 		return this.status;
 	}
