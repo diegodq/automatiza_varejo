@@ -16,7 +16,7 @@ class Customer
 	@OneToMany(() => Product, product => product.customer)
 	product: Product[];
 
-	@OneToMany(() => UserTokens, customer => customer.customer)
+	@OneToMany(() => UserTokens, customerTokens => customerTokens.customer)
 	customerTokens: CustomerTokens[];
 
 	@Column({ type: 'varchar', length: 200 })

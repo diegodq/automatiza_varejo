@@ -11,7 +11,7 @@ import Department from './entities/Department';
 
 const port = process.env.DB_PORT as number | undefined;
 
-import { default1683495591136 } from './migrations/1683495591136-default'
+import { default1683588380818 } from './migrations/1683588380818-default'
 
 const appDataSource = new DataSource({
 	type: "mysql",
@@ -30,7 +30,7 @@ const appDataSource = new DataSource({
 		Department
 	],
 	migrations: [
-		default1683495591136
+		default1683588380818
 	]
 });
 

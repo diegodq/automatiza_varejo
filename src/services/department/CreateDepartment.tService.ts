@@ -1,22 +1,22 @@
-import departmentRepository from "src/repositories/departmentRepository";
-import { BadRequestError } from "src/utils/ApiErrors";
+import departmentRepository from "../../repositories/departmentRepository";
+import { BadRequestError } from "../../utils/ApiErrors";
 
 type DepartmentRequest =
 {
-	department: string;
-	status: string;
+	name: string;
+	status: number;
 }
 
 class CreateDepartmentService
 {
-	public async execute({ department, status }: DepartmentRequest)
+	public async execute({ name, status }: DepartmentRequest)
 	{
-		const departmentExist = await departmentRepository.findOneBy({ department });
+		const departmentExist = await departmentRepository.findOneBy({ name });
 		if(departmentExist) {
 			throw new BadRequestError('Este departamento já está cadastrado.');
 		}
 
-		const newDepartment = departmentRepository.create({ department, status });
+		const newDepartment = departmentRepository.create({ name, status });
 		await departmentRepository.save(newDepartment);
 
 		return 'Novo departamento adicionado.';

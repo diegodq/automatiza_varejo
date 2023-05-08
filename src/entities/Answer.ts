@@ -1,16 +1,16 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import Question from "./Question";
 
-@Entity('department')
-class Department
+@Entity('answer')
+class Answer
 {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column({ type: 'varchar', length: 50 })
-	name: string;
+	question: Question;
 
-	@Column({ type: 'tinyint', default: 1 })
-	status: number;
+	@Column({ type:'varchar', nullable: true })
+	name: string;
 
 	@CreateDateColumn()
 	created_at: Date;
@@ -18,11 +18,11 @@ class Department
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, name: string, status: number, created_at: Date, updated_at: Date)
+	constructor(id: number, question: Question, name: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
+		this.question = question;
 		this.name = name;
-		this.status = status;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
@@ -32,14 +32,14 @@ class Department
 		return this.id;
 	}
 
+	get getQuestion(): Question
+	{
+		return this.question;
+	}
+
 	get getName(): string
 	{
 		return this.name;
-	}
-
-	get getStatus(): number
-	{
-		return this.status;
 	}
 
 	get getCreatedAt(): Date
@@ -53,4 +53,4 @@ class Department
 	}
 }
 
-export default Department;
+export default Answer;

@@ -1,23 +1,23 @@
-import departmentRepository from "src/repositories/departmentRepository";
-import { BadRequestError } from "src/utils/ApiErrors";
+import departmentRepository from "../../repositories/departmentRepository";
+import { BadRequestError } from "../../utils/ApiErrors";
 
 type DepartmentRequest =
 {
 	id: string;
-	department: string;
-	status: string;
+	name: string;
+	status: number;
 }
 
 class EditDepartmentService
 {
-	public async execute({ id, department, status }: DepartmentRequest)
+	public async execute({ id, name, status }: DepartmentRequest)
 	{
 		const departmentExists = await departmentRepository.findOneBy({ id: Number(id) });
 		if(!departmentExists) {
 			throw new BadRequestError('Departamento não existe.');
 		}
 
-		departmentExists.department = department;
+		departmentExists.name = name;
 		departmentExists.status = status;
 		await departmentRepository.save(departmentExists);
 
