@@ -17,9 +17,9 @@ class EditDepartmentService
 			throw new BadRequestError('Departamento não existe.');
 		}
 
-		if(departmentExists.name === name) {
-			throw new BadRequestError('Digite um nome diferente para este departamento.');
-		}
+		// if(departmentExists.name === name) {
+		// 	throw new BadRequestError('Digite um nome diferente para este departamento.');
+		// }
 
 		departmentExists.name = name;
 		departmentExists.status = status;
