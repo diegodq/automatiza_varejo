@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import CreateDepartmentService from "src/services/department/CreateDepartment.tService";
-import DeleteDepartmentService from "src/services/department/DeleteDepartmentService";
-import EditDepartmentService from "src/services/department/EditDepartmentService";
+import CreateDepartmentService from "../services/department/CreateDepartment.tService";
+import DeleteDepartmentService from "../services/department/DeleteDepartmentService";
+import EditDepartmentService from "../services/department/EditDepartmentService";
+import ListDepartmentService from "../services/department/ListDepartmentsService";
 
 class DepartmentController
 {
@@ -17,8 +18,7 @@ class DepartmentController
 
 	static async update(request: Request, response: Response)
 	{
-		const id = request.userId;
-		const { name, status } = request.body;
+		const { id, name, status } = request.body;
 
 		const editDepartmentService = new EditDepartmentService();
 		const editDepartment = await editDepartmentService.execute({ id, name, status });
@@ -28,12 +28,20 @@ class DepartmentController
 
 	static async delete(request: Request, response: Response)
 	{
-		const id = request.userId;
+		const { id } = request.body;
 
 		const deleteDepartmentService = new DeleteDepartmentService();
 		const departmentRemoved = await deleteDepartmentService.execute({ id });
 
 		return response.status(200).json({ status: 'success', message: departmentRemoved });
+	}
+
+	static async list(request: Request, response: Response)
+	{
+		const listDepartmentService = new ListDepartmentService();
+		const listDepartments = await listDepartmentService.execute();
+
+		return response.status(200).json({ status: 'success', message: listDepartments });
 	}
 }
 

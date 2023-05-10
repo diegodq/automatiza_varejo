@@ -22,17 +22,19 @@ router.get('/companies', isAuthenticated, CompanyController.list);
 router.get('/company', isAuthenticated, CompanyController.show);
 router.get('/avatar', isAuthenticated, AvatarController.returnAvatar);
 router.get('/has-company', isAuthenticated, CustomerController.checkHasCompany);
+router.get('/department', isAuthenticated, DepartmentController.list);
 
 router.post('/customer', CustomerController.create);
 router.post('/session', SessionController.create);
 router.post('/forgot-password', CustomerController.send);
 router.post('/company', isAuthenticated, CompanyController.create);
 router.post('/contact-us', ContactUsController.sendNewMessage);
-router.post('/department', DepartmentController.add);
+router.post('/department', isAuthenticated, DepartmentController.add);
 
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);
 router.delete('/avatar', isAuthenticated, CustomerController.removeAvatarCustomer);
+router.delete('/department', isAuthenticated, DepartmentController.delete);
 
 router.put('/company', isAuthenticated, CompanyController.update);
 router.put('/customer', isAuthenticated, CustomerController.update);

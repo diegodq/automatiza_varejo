@@ -1,12 +1,12 @@
+import { BadRequestError } from "../../utils/ApiErrors";
 import Company from "../../entities/Company";
 import companyRepository from "../../repositories/companyRepository";
-import { BadRequestError } from "../../utils/ApiErrors";
 
 class ListCompaniesService
 {
 	public async execute(): Promise<Company[] | null>
 	{
-		const listCompanies = await companyRepository.find();
+		const listCompanies = await companyRepository.find({ order: { id: 'ASC' } });
 		if (listCompanies.length == 0) {
 			throw new BadRequestError('Não há empresa cadastrada.');
 		}

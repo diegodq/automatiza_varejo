@@ -15,7 +15,7 @@ class DeleteDepartmentService
 			throw new BadRequestError('Este departamento não existe');
 		}
 
-		await departmentRepository.delete(department);
+		await departmentRepository.remove(department);
 		return 'Departamento removido.';
 	}
 }
