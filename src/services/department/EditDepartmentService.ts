@@ -14,7 +14,7 @@ class EditDepartmentService
 	{
 		const departmentExists = await departmentRepository.findOneBy({ id: Number(id) });
 		if(!departmentExists) {
-			throw new BadRequestError('Departamento não existe.');
+			throw new BadRequestError('no-department');
 		}
 
 		// if(departmentExists.name === name) {

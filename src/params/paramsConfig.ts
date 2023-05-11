@@ -1,7 +1,9 @@
 export default {
 	params: {
 		allowChangeCPF: false,
-		allowChangeCNPJ: true
+		allowChangeCNPJ: true,
+		allowRemoveQuestions: true,
+		allowRemoveAnswers: false
 	},
 	jwt: {
 		secret: '2100fb51e744832359d132e5b75afdc0',

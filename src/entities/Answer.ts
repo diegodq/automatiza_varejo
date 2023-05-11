@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Question from "./Question";
 
 @Entity('answer')
@@ -7,10 +7,12 @@ class Answer
 	@PrimaryGeneratedColumn()
 	id: number;
 
+	@ManyToOne(() => Question, question => question.answer, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
+	@JoinColumn({ name: 'question_id', referencedColumnName: 'id' })
 	question: Question;
 
 	@Column({ type:'varchar', nullable: true })
-	name: string;
+	answer: string;
 
 	@CreateDateColumn()
 	created_at: Date;
@@ -18,11 +20,11 @@ class Answer
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, question: Question, name: string, created_at: Date, updated_at: Date)
+	constructor(id: number, question: Question, answer: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.question = question;
-		this.name = name;
+		this.answer = answer;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
@@ -37,9 +39,9 @@ class Answer
 		return this.question;
 	}
 
-	get getName(): string
+	get getAnswer(): string
 	{
-		return this.name;
+		return this.answer;
 	}
 
 	get getCreatedAt(): Date

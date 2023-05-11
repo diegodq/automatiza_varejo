@@ -8,10 +8,12 @@ import CustomerTokens from './entities/CustomerTokens';
 import Product from './entities/Product';
 import User from './entities/User';
 import Department from './entities/Department';
+import Question from './entities/Question';
+import Answer from './entities/Answer';
 
 const port = process.env.DB_PORT as number | undefined;
 
-import { default1683677298535 } from './migrations/1683677298535-default';
+import { default1683834985399 } from './migrations/1683834985399-default'
 
 const appDataSource = new DataSource({
 	type: "mysql",
@@ -27,10 +29,12 @@ const appDataSource = new DataSource({
 		Company,
 		ContactUs,
 		User,
-		Department
+		Department,
+		Question,
+		Answer
 	],
 	migrations: [
-		default1683677298535
+		default1683834985399
 	]
 });
 

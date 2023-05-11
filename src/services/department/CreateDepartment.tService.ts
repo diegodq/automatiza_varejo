@@ -13,13 +13,13 @@ class CreateDepartmentService
 	{
 		const departmentExist = await departmentRepository.findOneBy({ name });
 		if(departmentExist) {
-			throw new BadRequestError('Este departamento já está cadastrado.');
+			throw new BadRequestError('Este tópico já está cadastrado.');
 		}
 
 		const newDepartment = departmentRepository.create({ name, status });
 		await departmentRepository.save(newDepartment);
 
-		return 'Novo departamento adicionado.';
+		return 'Novo tópico adicionado.';
 	}
 }
 

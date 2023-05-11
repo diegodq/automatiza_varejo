@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import CreateDepartmentService from "../services/department/CreateDepartment.tService";
 import DeleteDepartmentService from "../services/department/DeleteDepartmentService";
 import EditDepartmentService from "../services/department/EditDepartmentService";
-import ListDepartmentService from "../services/department/ListDepartmentsService";
+import ListDepartmentsService from "../services/department/ListDepartmentsService";
+import ListDepartmentService from "../services/department/ListDepartmentService";
 
 class DepartmentController
 {
@@ -38,10 +39,20 @@ class DepartmentController
 
 	static async list(request: Request, response: Response)
 	{
-		const listDepartmentService = new ListDepartmentService();
-		const listDepartments = await listDepartmentService.execute();
+		const { id } = request.body;
 
-		return response.status(200).json({ status: 'success', message: listDepartments });
+		const listDepartmentService = new ListDepartmentService();
+		const listDepartment = await listDepartmentService.execute({ id });
+
+		return response.status(200).json({ status: 'success', listDepartment });
+	}
+
+	static async listAll(request: Request, response: Response)
+	{
+		const listDepartmentsService = new ListDepartmentsService();
+		const listDepartments = await listDepartmentsService.execute();
+
+		return response.status(200).json({ status: 'success', listDepartments });
 	}
 }
 

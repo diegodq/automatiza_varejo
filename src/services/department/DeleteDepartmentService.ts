@@ -12,7 +12,7 @@ class DeleteDepartmentService
 	{
 		const department = await departmentRepository.findOneBy({ id: Number(id) });
 		if(!department) {
-			throw new BadRequestError('Este departamento não existe');
+			throw new BadRequestError('no-department');
 		}
 
 		await departmentRepository.remove(department);

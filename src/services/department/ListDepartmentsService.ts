@@ -2,7 +2,7 @@ import departmentRepository from "../../repositories/departmentRepository";
 import Department from "../../entities/Department";
 import { BadRequestError } from "../../utils/ApiErrors";
 
-class ListDepartmentService
+class ListDepartmentsService
 {
 	public async execute(): Promise<Department[] | null>
 	{
@@ -15,4 +15,4 @@ class ListDepartmentService
 	}
 }
 
-export default ListDepartmentService;
+export default ListDepartmentsService;

@@ -1,14 +1,10 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import Question from "./Question";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Entity('department')
-class Department
+@Entity('topic')
+class Topic
 {
 	@PrimaryGeneratedColumn()
 	id: number;
-
-	@OneToMany(() => Question, question => question.department)
-	question: Question;
 
 	@Column({ type: 'varchar', length: 50 })
 	name: string;
@@ -22,10 +18,9 @@ class Department
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, question: Question, name: string, status: number, created_at: Date, updated_at: Date)
+	constructor(id: number, name: string, status: number, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
-		this.question = question;
 		this.name = name;
 		this.status = status;
 		this.created_at = created_at;
@@ -35,11 +30,6 @@ class Department
 	get getId(): number
 	{
 		return this.id;
-	}
-
-	get getQuestion(): Question
-	{
-		return this.question;
 	}
 
 	get getName(): string
@@ -63,4 +53,4 @@ class Department
 	}
 }
 
-export default Department;
+export default Topic;

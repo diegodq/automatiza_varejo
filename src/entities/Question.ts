@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Answer from "./Answer";
+import Department from "./Department";
 
 @Entity('question')
 class Question
@@ -9,6 +10,10 @@ class Question
 
 	@OneToMany(() => Answer, answer => answer.question)
 	answer: Answer;
+
+	@ManyToOne(() => Department, department => department.question)
+	@JoinColumn({ name: 'department_id', referencedColumnName: 'id' })
+	department: Department
 
 	@Column({ type: 'varchar', nullable: true, length: 100 })
 	question_description: string;
@@ -22,10 +27,12 @@ class Question
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, answer: Answer, question_description: string, type_question: string, created_at: Date, updated_at: Date)
+	constructor(id: number, answer: Answer, department: Department, question_description: string, type_question: string,
+		created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.answer = answer;
+		this.department = department;
 		this.question_description = question_description;
 		this.type_question = type_question;
 		this.created_at = created_at;
@@ -40,6 +47,11 @@ class Question
 	get getAnswer(): Answer
 	{
 		return this.answer;
+	}
+
+	get getDepartment(): Department
+	{
+		return this.department;
 	}
 
 	get getQuestionDescription(): string
