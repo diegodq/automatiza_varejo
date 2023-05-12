@@ -3,7 +3,7 @@ import CreateTopicService from "../services/topic/CreateTopicService";
 import EditTopicService from "../services/topic/EditTopicService";
 import DeleteTopicService from "../services/topic/DeleteTopicService";
 import ListTopicService from "../services/topic/ListTopicService";
-import ListTopicsService from "src/services/topic/ListTopicsService";
+import ListTopicsService from "../services/topic/ListTopicsService";
 
 class TopicController
 {
