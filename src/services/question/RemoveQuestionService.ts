@@ -1,7 +1,7 @@
 import questionRepository from "../../repositories/questionRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 
-import paramsConfig from "src/params/paramsConfig";
+import paramsConfig from "../../params/paramsConfig";
 
 type QuestionRequest =
 {

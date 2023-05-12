@@ -1,6 +1,6 @@
 import answerRepository from "../../repositories/answerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
-import paramsConfig from "src/params/paramsConfig";
+import paramsConfig from "../../params/paramsConfig";
 
 type AnswerRequest =
 {
@@ -19,7 +19,7 @@ class RemoveAnswerService
 		if(!paramsConfig.params.allowRemoveAnswers) {
 			throw new BadRequestError('Exlusão de respostas não permitido');
 		}
-		
+
 		await answerRepository.remove(answer);
 		return 'Pergunta removida.';
 	}
