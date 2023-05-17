@@ -28,6 +28,7 @@ router.get('/avatar', isAuthenticated, AvatarController.returnAvatar);
 router.get('/has-company', isAuthenticated, CustomerController.checkHasCompany);
 router.get('/department', isAuthenticated, DepartmentController.list);
 router.get('/departments', isAuthenticated, DepartmentController.listAll);
+router.get('/departments/company/:id', isAuthenticated, DepartmentController.listDepartmentsByCompany);
 router.get('/question', isAuthenticated, QuestionController.list);
 router.get('/questions', isAuthenticated, QuestionController.listAll);
 router.get('/answer', isAuthenticated, AnswerController.list);

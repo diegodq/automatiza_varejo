@@ -10,10 +10,10 @@ class TopicController
 {
 	static async add(request: Request, response: Response)
 	{
-		const { name, status } = request.body;
+		const { name, status, company } = request.body;
 
 		const createTopicService = new CreateTopicService();
-		const newTopic = await createTopicService.execute({ name, status });
+		const newTopic = await createTopicService.execute({ name, status, company });
 
 		return response.status(200).json({ status: 'success', message: newTopic });
 	}

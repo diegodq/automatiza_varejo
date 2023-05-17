@@ -10,10 +10,11 @@ class QuestionController
 {
 	static async add(request: Request, response: Response)
 	{
-		const { title_question, question_description, type_question, status } = request.body;
+		const { title_question, question_description, status, tree_question, type_question, import_type, company } = request.body;
 
 		const createQuestionService = new CreateQuestionService();
-		const questionCreated = await createQuestionService.execute({ title_question, question_description, type_question, status });
+		const questionCreated = await createQuestionService.execute({ title_question, question_description, status,
+			tree_question, type_question, import_type, company });
 
 		return response.status(200).json({ status: 'success', message: questionCreated });
 	}

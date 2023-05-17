@@ -3,14 +3,14 @@ import { BadRequestError } from "../../utils/ApiErrors";
 
 type DepartmentRequest =
 {
-	id: string;
+	id: number;
 }
 
 class DeleteDepartmentService
 {
 	public async execute({ id }: DepartmentRequest)
 	{
-		const department = await departmentRepository.findOneBy({ id: Number(id) });
+		const department = await departmentRepository.findOneBy({ id });
 		if(!department) {
 			throw new BadRequestError('no-department');
 		}
