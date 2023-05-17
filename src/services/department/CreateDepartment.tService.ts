@@ -19,7 +19,7 @@ class CreateDepartmentService
 		const newDepartment = departmentRepository.create({ name, status });
 		await departmentRepository.save(newDepartment);
 
-		return 'Novo tópico adicionado.';
+		return 'Novo departamento adicionado.';
 	}
 }
 

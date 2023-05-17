@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Question from "./Question";
+import Company from "./Company";
 
 @Entity('department')
 class Department
@@ -9,6 +10,10 @@ class Department
 
 	@OneToMany(() => Question, question => question.department)
 	question: Question;
+
+	@ManyToOne(() => Company, company => company.department, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
+	@JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
+	company: Company;
 
 	@Column({ type: 'varchar', length: 50 })
 	name: string;
@@ -22,10 +27,11 @@ class Department
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, question: Question, name: string, status: number, created_at: Date, updated_at: Date)
+	constructor(id: number, question: Question, company: Company, name: string, status: number, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.question = question;
+		this.company = company;
 		this.name = name;
 		this.status = status;
 		this.created_at = created_at;
@@ -40,6 +46,11 @@ class Department
 	get getQuestion(): Question
 	{
 		return this.question;
+	}
+
+	get getCompany(): Company
+	{
+		return this.getCompany;
 	}
 
 	get getName(): string

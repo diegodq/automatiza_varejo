@@ -4,6 +4,7 @@ import DeleteDepartmentService from "../services/department/DeleteDepartmentServ
 import EditDepartmentService from "../services/department/EditDepartmentService";
 import ListDepartmentsService from "../services/department/ListDepartmentsService";
 import ListDepartmentService from "../services/department/ListDepartmentService";
+import ChangeStatusDepartmentService from "../services/department/ChangeStatusDepartmentService";
 
 class DepartmentController
 {
@@ -25,6 +26,16 @@ class DepartmentController
 		const editDepartment = await editDepartmentService.execute({ id, name, status });
 
 		return response.status(200).json({ status: 'success', message: editDepartment });
+	}
+
+	static async changeStatus(request: Request, response: Response)
+	{
+		const { id, new_status } = request.body;
+
+		const changeStatusDepartmentService = new ChangeStatusDepartmentService();
+		const changeStatus = await changeStatusDepartmentService.execute({ id, new_status });
+
+		return response.status(200).json({ status: 'success', message: changeStatus });
 	}
 
 	static async delete(request: Request, response: Response)

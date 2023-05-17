@@ -4,6 +4,7 @@ import EditTopicService from "../services/topic/EditTopicService";
 import DeleteTopicService from "../services/topic/DeleteTopicService";
 import ListTopicService from "../services/topic/ListTopicService";
 import ListTopicsService from "../services/topic/ListTopicsService";
+import ChangeStatusTopicService from "../services/topic/ChangeStatusTopicService";
 
 class TopicController
 {
@@ -25,6 +26,16 @@ class TopicController
 		const editTopic = await editTopicService.execute({ id, name, status });
 
 		return response.status(200).json({ status: 'success', message: editTopic });
+	}
+
+	static async changeStatus(request: Request, response: Response)
+	{
+		const { id, new_status } = request.body;
+
+		const changeStatusTopicService = new ChangeStatusTopicService();
+		const changeStatus = await changeStatusTopicService.execute({ id, new_status });
+
+		return response.status(200).json({ status: 'success', message: changeStatus });
 	}
 
 	static async delete(request: Request, response: Response)

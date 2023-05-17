@@ -1,10 +1,14 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import Company from "./Company";
 
 @Entity('topic')
 class Topic
 {
 	@PrimaryGeneratedColumn()
 	id: number;
+
+	@ManyToOne(() => Company, company => company.topic)
+	company: Company;
 
 	@Column({ type: 'varchar', length: 50 })
 	name: string;
@@ -18,9 +22,10 @@ class Topic
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, name: string, status: number, created_at: Date, updated_at: Date)
+	constructor(id: number, company: Company, name: string, status: number, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
+		this.company = company;
 		this.name = name;
 		this.status = status;
 		this.created_at = created_at;
@@ -30,6 +35,11 @@ class Topic
 	get getId(): number
 	{
 		return this.id;
+	}
+
+	get getCompany(): Company
+	{
+		return this.company;
 	}
 
 	get getName(): string

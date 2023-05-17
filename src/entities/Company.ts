@@ -1,5 +1,8 @@
-import {Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
+import {Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
 import Customer from "./Customer";
+import Question from './Question';
+import Department from './Department';
+import Topic from './Topic';
 
 @Entity("company")
 class Company
@@ -10,6 +13,15 @@ class Company
 	@ManyToOne(() => Customer, customer => customer.company, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
 	customer: Customer;
+
+	@OneToMany(() => Question, question => question.company)
+	question: Question[];
+
+	@OneToMany(() => Department, department => department.company)
+	department: Department[];
+
+	@OneToMany(() => Topic, topic => topic.company)
+	topic: Topic[];
 
 	@Column({ type: "varchar" })
 	corporate_name: string;
@@ -47,11 +59,15 @@ class Company
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, corporate_name: string, fantasy_name: string, cnpj: string, zip_code: string, state: string,
+	constructor(id: number, customer: Customer, question: Question[], department: Department[], topic: Topic[], corporate_name: string, fantasy_name: string, cnpj: string, zip_code: string, state: string,
 		city: string, complement: string, district: string, address: string, number: string,
-		created_at: Date, updated_at: Date, customer: Customer)
+		created_at: Date, updated_at: Date)
 	{
 		this.id = id;
+		this.customer = customer;
+		this.question = question;
+		this.department = department;
+		this.topic = topic;
 		this.corporate_name = corporate_name;
 		this.fantasy_name = fantasy_name;
 		this.cnpj = cnpj;
@@ -62,7 +78,6 @@ class Company
 		this.complement = complement;
 		this.district = district;
 		this.city = city;
-		this.customer = customer;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
@@ -75,6 +90,21 @@ class Company
 	get getCustomer()
 	{
 		return this.customer;
+	}
+
+	get getQuestion(): Question[]
+	{
+		return this.question;
+	}
+
+	get getDepartment(): Department[]
+	{
+		return this.department;
+	}
+
+	get getTopic(): Topic[]
+	{
+		return this.topic;
 	}
 
 	get getCorporateName(): string

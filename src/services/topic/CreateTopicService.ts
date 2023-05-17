@@ -1,5 +1,5 @@
 import topicRepository from "../../repositories/topicRepository";
-import { BadRequestError } from "../../utils/ApiErrors";
+// import { BadRequestError } from "../../utils/ApiErrors";
 
 type TopicRequest =
 {
@@ -11,15 +11,15 @@ class CreateTopicService
 {
 	public async execute({ name, status }: TopicRequest)
 	{
-		const topicExists = await topicRepository.findOneBy({ name });
-		if(topicExists) {
-			throw new BadRequestError('Este tópico já está cadastrado.');
-		}
+		// const topicExists = await topicRepository.findOneBy({ name });
+		// if(topicExists) {
+		// 	throw new BadRequestError('Este tópico já está cadastrado.');
+		// }
 
 		const newTopic = topicRepository.create({ name, status });
 		await topicRepository.save(newTopic);
 
-		return 'Novo departamento adicionado.';
+		return 'Novo tópico adicionado.';
 	}
 }
 

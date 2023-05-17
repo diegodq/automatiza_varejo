@@ -12,6 +12,7 @@ import DepartmentController from "../controllers/DepartmentController";
 import QuestionController from "../controllers/QuestionController";
 import AnswerController from "../controllers/AnswerController";
 import TopicController from "../controllers/TopicController";
+import QRCodeController from "../controllers/QRCodeController";
 
 const uploadAvatar = multer(multerConfig);
 
@@ -31,7 +32,6 @@ router.get('/question', isAuthenticated, QuestionController.list);
 router.get('/questions', isAuthenticated, QuestionController.listAll);
 router.get('/answer', isAuthenticated, AnswerController.list);
 router.get('/answers', isAuthenticated, AnswerController.listAll);
-
 router.get('/topic', isAuthenticated, TopicController.list);
 router.get('/topics', isAuthenticated, TopicController.listAll);
 
@@ -44,6 +44,7 @@ router.post('/department', isAuthenticated, DepartmentController.add);
 router.post('/question', isAuthenticated, QuestionController.add);
 router.post('/answer', isAuthenticated, AnswerController.add);
 router.post('/topic', isAuthenticated, TopicController.add);
+router.post('/qrcode', isAuthenticated, QRCodeController.generate);
 
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);
@@ -66,5 +67,8 @@ router.patch('/customer/password', isAuthenticated, CustomerController.updatePas
 router.patch('/customer/reset-password', CustomerController.reset);
 router.patch('/info', isAuthenticated, CustomerController.acceptInfo);
 router.patch('/active-customer', CustomerController.ative);
+router.patch('/topic', TopicController.changeStatus);
+router.patch('/department', DepartmentController.changeStatus);
+router.patch('/question', QuestionController.changeStatus);
 
 export default router;

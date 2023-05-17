@@ -20,7 +20,7 @@ class AvatarController
 		if(process.env.APP_MODE == 'development')
 			return response.status(200).json({ status: 'success', avatar: process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/files/' + avatar });
 		else
-			return response.status(200).json({ status: 'success', avatar: process.env.AVATAR_URL + '/files/' + avatar });
+			return response.status(200).json({ status: 'success', avatar: process.env.IMG_URL + '/files/' + avatar });
 	}
 
 	static async returnAvatar(request: Request, response: Response): Promise<Response>
@@ -33,7 +33,7 @@ class AvatarController
 		if(process.env.APP_MODE == 'development')
 			return response.status(200).json({ status: 'success', avatar: process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/files/' + avatar });
 		else
-			return response.status(200).json({ status: 'success', avatar: process.env.AVATAR_URL + '/files/' + avatar });
+			return response.status(200).json({ status: 'success', avatar: process.env.IMG_URL + '/files/' + avatar });
 	}
 }
 

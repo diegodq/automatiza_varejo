@@ -4,15 +4,16 @@ import EditQuestionService from "../services/question/EditQuestionService";
 import ListQuestionService from "../services/question/ListQuestionService";
 import ListQuestionsService from "../services/question/ListQuestionsService";
 import RemoveQuestionService from "../services/question/RemoveQuestionService";
+import ChangeStatusQuestionService from "../services/question/ChangeStatusQuestionService";
 
 class QuestionController
 {
 	static async add(request: Request, response: Response)
 	{
-		const { question_description, type_question } = request.body;
+		const { title_question, question_description, type_question, status } = request.body;
 
 		const createQuestionService = new CreateQuestionService();
-		const questionCreated = await createQuestionService.execute({ question_description, type_question });
+		const questionCreated = await createQuestionService.execute({ title_question, question_description, type_question, status });
 
 		return response.status(200).json({ status: 'success', message: questionCreated });
 	}
@@ -25,6 +26,16 @@ class QuestionController
 		const questionEdited = await editQuestionService.execute({ id, question_description, type_question });
 
 		return response.status(200).json({ status: 'success', message: questionEdited });
+	}
+
+	static async changeStatus(request: Request, response: Response)
+	{
+		const { id, new_status } = request.body;
+
+		const changeStatusQuestionService = new ChangeStatusQuestionService();
+		const changeStatus = await changeStatusQuestionService.execute({ id, new_status });
+
+		return response.status(200).json({ status: 'success', message: changeStatus });
 	}
 
 	static async list(request: Request, response: Response)
