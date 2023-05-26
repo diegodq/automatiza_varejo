@@ -43,29 +43,29 @@ class CreateCustomerService
 		newCustomer.accept_terms_on = new Date();
 		await customerRepository.save(newCustomer);
 
-		const generateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
-		const token = await generateCustomerForgotTokenService.generate({ email });
+		// const generateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
+		// const token = await generateCustomerForgotTokenService.generate({ email });
 
-		const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'verify-email.hbs');
+		// const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'verify-email.hbs');
 
-		await Mailer.sendMail({
-			from: {
-				name: 'Equipe Automatiza Varejo',
-				email: 'noreply@automatizavarejo.com.br'
-			},
-			to: {
-				name: first_name,
-				email: email
-			},
-			subject: 'BEM-VINDO À AUTOMATIZA VAREJO!',
-			templateData: {
-				file: forgotPasswordTemplate,
-				variables: {
-					name: first_name,
-					link: `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${newCustomer.id}`,
-				}
-			}
-		});
+		// await Mailer.sendMail({
+		// 	from: {
+		// 		name: 'Equipe Automatiza Varejo',
+		// 		email: 'noreply@automatizavarejo.com.br'
+		// 	},
+		// 	to: {
+		// 		name: first_name,
+		// 		email: email
+		// 	},
+		// 	subject: 'BEM-VINDO À AUTOMATIZA VAREJO!',
+		// 	templateData: {
+		// 		file: forgotPasswordTemplate,
+		// 		variables: {
+		// 			name: first_name,
+		// 			link: `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${newCustomer.id}`,
+		// 		}
+		// 	}
+		// });
 
 		return `Enviamos um e-mail com link de ativação para ${email}. Ative seu cadastro clicando no link enviado.`;
 	}

@@ -21,7 +21,7 @@ class CreateCompanyService
 {
 	public async execute( {corporate_name, fantasy_name, cnpj, zip_code,
 		state, address, number, complement,
-		district, city, customer}: RequestCompany )
+		district, city, customer}: RequestCompany ): Promise<string>
 	{
 		const companyCNPJ = await companyRepository.findOneBy({ cnpj });
 		if(companyCNPJ) {

@@ -1,4 +1,4 @@
-import Company from "src/entities/Company";
+import Company from "../../entities/Company";
 import departmentRepository from "../../repositories/departmentRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 
@@ -11,11 +11,11 @@ type DepartmentRequest =
 
 class CreateDepartmentService
 {
-	public async execute({ name, status, company }: DepartmentRequest)
+	public async execute({ name, status, company }: DepartmentRequest): Promise<string | any>
 	{
-		const departmentExist = await departmentRepository.findOneBy({ name });
-		if(departmentExist) {
-			throw new BadRequestError('Este tópico já está cadastrado.');
+		const departmentExist = await departmentRepository.findOne({ where: { company: { id: Number(company) } } });
+		if(departmentExist?.name == name) {
+			throw new BadRequestError('Departamento já cadastrado.');
 		}
 
 		const newDepartment = departmentRepository.create({ name, status, company });

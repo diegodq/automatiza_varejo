@@ -4,6 +4,9 @@ import ListCompaniesService from "../services/company/ListCompaniesService";
 import RemoveCompanyService from "../services/company/RemoveCompanyService";
 import ShowCompanyService from "../services/company/ShowCompanyService";
 import UpdateCompanyService from "../services/company/UpdateCompanyService";
+import ListDepartmentsByCompanyService from "../services/department/ListDepartmentsByCompanyService";
+import ListTopicsByCompanyService from "../services/company/ListTopicsByCompanyService";
+import ListQuestionsByCompanyService from "../services/question/ListQuestionsByCompanyService";
 
 class CompanyController
 {
@@ -29,9 +32,39 @@ class CompanyController
 		return response.status(200).json(listCompanies);
 	}
 
-	static async show(request: Request, response: Response): Promise<Response>
+	static async listDepartmentsByCompany(request: Request, response: Response)
 	{
 		const id = request.userId;
+
+		const listDepartmentsByCompany = new ListDepartmentsByCompanyService();
+		const departments = await listDepartmentsByCompany.execute({ id });
+
+		return response.status(200).json(departments);
+	}
+
+	static async listTopicsByCompany(request: Request, response: Response)
+	{
+		const id = request.userId;
+
+		const listTopicsByCompanyService = new ListTopicsByCompanyService();
+		const topics = await listTopicsByCompanyService.execute({ id });
+
+		return response.status(200).json(topics);
+	}
+
+	static async listQuestionByCompany(request: Request, response: Response)
+	{
+		const id = request.userId;
+
+		const listQuestionsByCompanyService = new ListQuestionsByCompanyService();
+		const listQuestion = await listQuestionsByCompanyService.execute({ id });
+
+		return response.status(200).json(listQuestion);
+	}
+
+	static async show(request: Request, response: Response): Promise<Response>
+	{
+		const { id } = request.params;
 
 		const showCompanyService = new ShowCompanyService();
 		const company = await showCompanyService.execute({ id });

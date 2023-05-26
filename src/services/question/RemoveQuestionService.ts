@@ -1,6 +1,5 @@
 import questionRepository from "../../repositories/questionRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
-
 import paramsConfig from "../../params/paramsConfig";
 
 type QuestionRequest =
@@ -18,7 +17,7 @@ class RemoveQuestionService
 		}
 
 		if(!paramsConfig.params.allowRemoveQuestions) {
-			throw new BadRequestError('Exlusão de perguntas não permitido.');
+			throw new BadRequestError('Não permitido excluir perguntas.');
 		}
 
 		await questionRepository.remove(question);

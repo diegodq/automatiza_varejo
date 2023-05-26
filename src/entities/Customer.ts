@@ -77,7 +77,7 @@ class Customer
 	pass_change_on: Date;
 
 	@Column({ type: 'varchar', nullable: true, length: 90 })
-	city: string;
+	city_locate: string;
 
 	@Column({ type: 'varchar', nullable: true, length: 90 })
 	country_name: string;
@@ -95,7 +95,7 @@ class Customer
 		avatar: string, surname_name: string, position: string, phone: string, email: string, temp_email: string,
 		email_change_on: Date, activated: number, activated_on: Date, accept_newsletter: number,
 		info_payment: number, accept_terms: string, accept_terms_on: Date, system_user: string, agent_user: string, pass_change_on: Date,old_password: string,
-		password: string, city: string, country_name: string, country_capital: string, created_at: Date, updated_at: Date)
+		password: string, city_locate: string, country_name: string, country_capital: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.company = company;
@@ -120,7 +120,7 @@ class Customer
 		this.system_user = system_user;
 		this.agent_user = agent_user;
 		this.pass_change_on = pass_change_on;
-		this.city = city;
+		this.city_locate = city_locate;
 		this.country_name = country_name;
 		this.country_capital = country_capital;
 		this.created_at = created_at;
@@ -232,9 +232,9 @@ class Customer
 		return this.pass_change_on;
 	}
 
-	get getCity(): string
+	get getCityLocate(): string
 	{
-		return this.city;
+		return this.city_locate;
 	}
 
 	get getCountryName(): string

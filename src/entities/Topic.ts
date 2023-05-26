@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Company from "./Company";
 
 @Entity('topic')
@@ -7,7 +7,8 @@ class Topic
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@ManyToOne(() => Company, company => company.topic)
+	@ManyToOne(() => Company, company => company.topic, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+	@JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
 	company: Company;
 
 	@Column({ type: 'varchar', length: 50 })

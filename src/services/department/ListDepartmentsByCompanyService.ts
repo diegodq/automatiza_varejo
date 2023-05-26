@@ -1,22 +1,29 @@
-import departmentRepository from "../../repositories/departmentRepository";
-import Department from "../../entities/Department";
+import Company from "../../entities/Company";
 import { BadRequestError } from "../../utils/ApiErrors";
+import appDataSource from "../../data-source";
 
-type DepartmentRequest =
+type CompanyRequest =
 {
 	id: string;
 }
 
 class ListDepartmentsByCompanyService
 {
-	public async execute({ id }: DepartmentRequest): Promise<Department[] | null>
+	public async execute({ id }: CompanyRequest): Promise<Company[] | null>
 	{
-		const listDepartment = await departmentRepository.find({ where: { id: Number(id) }, relations: { company: true } });
-		if(!listDepartment) {
+		const queryRunner = appDataSource.createQueryRunner();
+		await queryRunner.connect();
+
+		const listDepartments = await queryRunner.manager.query(`select d.id, d.name, d.status from department as d join company as c on d.company_id = c.id = ${id}`);
+
+		await queryRunner.release();
+
+		if(listDepartments.length == 0) {
 			throw new BadRequestError('no-departments');
 		}
 
-		return listDepartment;
+		return listDepartments;
+
 	}
 }
 

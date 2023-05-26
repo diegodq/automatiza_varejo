@@ -1,6 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Answer from "./Answer";
-import Department from "./Department";
 import Company from "./Company";
 
 @Entity('question')
@@ -11,10 +10,6 @@ class Question
 
 	@OneToMany(() => Answer, answer => answer.question)
 	answer: Answer;
-
-	@ManyToOne(() => Department, department => department.question, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
-	@JoinColumn({ name: 'department_id', referencedColumnName: 'id' })
-	department: Department
 
 	@ManyToOne(() => Company, company => company.question, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
@@ -32,13 +27,16 @@ class Question
 	@Column({ type: 'varchar', length: 10 })
 	tree_question: string;
 
+	@Column({ type: 'varchar', length: 100, nullable: true })
+	anchor_question: string;
+
 	@Column({ type: 'varchar', length: 20 })
 	type_question: string;
 
-	@Column({ type: 'varchar', length: 10, nullable: true })
+	@Column({ type: 'varchar', length: 80, nullable: true })
 	option_one: string;
 
-	@Column({ type: 'varchar', length: 10, nullable: true })
+	@Column({ type: 'varchar', length: 80, nullable: true })
 	option_two: string;
 
 	@Column({ type: 'varchar', length: 15, nullable: true })
@@ -50,18 +48,18 @@ class Question
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, answer: Answer, company: Company, department: Department, title_question: string, question_description: string, type_question: string,
-		status: number, tree_question: string, option_one: string, option_two: string, import_type: string, created_at: Date, updated_at: Date)
+	constructor(id: number, answer: Answer, company: Company, title_question: string, question_description: string, type_question: string,
+		status: number, tree_question: string, anchor_question: string ,option_one: string, option_two: string, import_type: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.answer = answer;
 		this.company = company;
-		this.department = department;
 		this.title_question = title_question;
 		this.question_description = question_description;
 		this.type_question = type_question;
 		this.status = status;
 		this.tree_question = tree_question;
+		this.anchor_question = anchor_question;
 		this.option_one = option_one;
 		this.option_two = option_two;
 		this.import_type = import_type;
@@ -84,11 +82,6 @@ class Question
 		return this.company;
 	}
 
-	get getDepartment(): Department
-	{
-		return this.department;
-	}
-
 	get getTitleQuestion(): string
 	{
 		return this.title_question;
@@ -107,6 +100,26 @@ class Question
 	get getStatus(): number
 	{
 		return this.status;
+	}
+
+	get getAnchorQuestion(): string
+	{
+		return this.anchor_question;
+	}
+
+	get getOptionOne(): string
+	{
+		return this.option_one
+	}
+
+	get getOptionTwo(): string
+	{
+		return this.option_two;
+	}
+
+	get getImportType(): string
+	{
+		return this.import_type;
 	}
 
 	get getCreatedAt(): Date

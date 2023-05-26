@@ -1,3 +1,4 @@
+import paramsConfig from "../../params/paramsConfig";
 import departmentRepository from "../../repositories/departmentRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 
@@ -13,6 +14,10 @@ class DeleteDepartmentService
 		const department = await departmentRepository.findOneBy({ id });
 		if(!department) {
 			throw new BadRequestError('no-department');
+		}
+
+		if(!paramsConfig.params.allowRemoveDepartments) {
+			throw new BadRequestError('Não permitido excluir departamentos');
 		}
 
 		await departmentRepository.remove(department);

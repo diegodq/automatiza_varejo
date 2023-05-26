@@ -5,13 +5,13 @@ import EditDepartmentService from "../services/department/EditDepartmentService"
 import ListDepartmentsService from "../services/department/ListDepartmentsService";
 import ListDepartmentService from "../services/department/ListDepartmentService";
 import ChangeStatusDepartmentService from "../services/department/ChangeStatusDepartmentService";
-import ListDepartmentsByCompanyService from "src/services/department/ListDepartmentsByCompanyService";
 
 class DepartmentController
 {
 	static async add(request: Request, response: Response)
 	{
-		const { name, status, company } = request.body;
+		const company = request.userId;
+		const { name, status } = request.body;
 
 		const createDepartmentService = new CreateDepartmentService();
 		const newDepartment = await createDepartmentService.execute({ name, status, company });
@@ -57,16 +57,6 @@ class DepartmentController
 		const listDepartment = await listDepartmentService.execute({ id });
 
 		return response.status(200).json({ status: 'success', listDepartment });
-	}
-
-	static async listDepartmentsByCompany(request: Request, response: Response)
-	{
-		const { id } = request.params;
-
-		const listDepartmentsByCompanyService = new ListDepartmentsByCompanyService();
-		const listAll = listDepartmentsByCompanyService.execute({ id });
-
-		return response.status(200).json(listAll);
 	}
 
 	static async listAll(request: Request, response: Response)

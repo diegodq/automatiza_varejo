@@ -2,7 +2,8 @@ export default {
 	params: {
 		allowChangeCPF: false,
 		allowChangeCNPJ: true,
-		allowRemoveQuestions: true,
+		allowRemoveDepartments: true,
+		allowRemoveQuestions: false,
 		allowRemoveAnswers: false
 	},
 	jwt: {

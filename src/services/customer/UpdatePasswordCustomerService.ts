@@ -14,14 +14,14 @@ type UpdateRequest =
 	password: string;
 	agent_user: string;
 	system_user: string;
-	city: string;
+	city_locate: string;
 	country_name: string;
 	country_capital: string;
 }
 
 class UpdatePasswordCustomer
 {
-	public async execute({ id, old_password, password, agent_user, system_user, city, country_name, country_capital }: UpdateRequest): Promise<string>
+	public async execute({ id, old_password, password, agent_user, system_user, city_locate, country_name, country_capital }: UpdateRequest): Promise<string>
 	{
 		const customer = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
@@ -37,7 +37,7 @@ class UpdatePasswordCustomer
 
 		customer.old_password = newPassword;
 		customer.password = newPassword;
-		customer.city = city;
+		customer.city_locate = city_locate;
 		customer.agent_user = agent_user;
 		customer.system_user = system_user;
 		customer.country_name = country_name;
@@ -62,7 +62,7 @@ class UpdatePasswordCustomer
 				file: forgotPasswordTemplate,
 				variables: {
 					name: customer.first_name,
-					city: customer.city,
+					city: customer.city_locate,
 					agentUser: customer.agent_user,
 					systemUser: customer.system_user,
 					regionName: customer.country_name,
