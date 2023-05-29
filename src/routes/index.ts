@@ -6,15 +6,18 @@ import CompanyController from "../controllers/CompanyController";
 import SessionController from "../controllers/SessionController";
 import isAuthenticated from "../middleware/isAuthenticated";
 import WelcomeController from "../controllers/WelcomeController";
-import multerConfig from "../configurations/multerConfig";
+import avatarConfig from "../configurations/avatarConfig";
+import configLogoClient from "../configurations/configLogoClient";
 import AvatarController from "../controllers/AvatarController";
 import DepartmentController from "../controllers/DepartmentController";
 import QuestionController from "../controllers/QuestionController";
 import AnswerController from "../controllers/AnswerController";
 import TopicController from "../controllers/TopicController";
 import QRCodeController from "../controllers/QRCodeController";
+import LogoClientController from "../controllers/LogoClientController";
 
-const uploadAvatar = multer(multerConfig);
+const uploadAvatar = multer(avatarConfig);
+const uploadLogoClient = multer(configLogoClient);
 
 const router = Router();
 
@@ -24,10 +27,11 @@ router.get('/details', isAuthenticated, CustomerController.showDetailsCustomer);
 router.get('/customer', isAuthenticated, CustomerController.show);
 router.get('/companies', isAuthenticated, CompanyController.list);
 router.get('/company/:id', isAuthenticated, CompanyController.show);
-router.post('/company/departments', isAuthenticated, CompanyController.listDepartmentsByCompany);
-router.post('/company/topics', isAuthenticated, CompanyController.listTopicsByCompany);
-router.post('/company/question', isAuthenticated, CompanyController.listQuestionByCompany);
+router.get('/company-departments', isAuthenticated, CompanyController.listDepartmentsByCompany);
+router.get('/company-topics', isAuthenticated, CompanyController.listTopicsByCompany);
+router.get('/company-questions', isAuthenticated, CompanyController.listQuestionByCompany);
 router.get('/avatar', isAuthenticated, AvatarController.returnAvatar);
+router.get('/logo-client', isAuthenticated, LogoClientController.returnAvatar);
 router.get('/has-company', isAuthenticated, CustomerController.checkHasCompany);
 router.get('/department', isAuthenticated, DepartmentController.list);
 router.get('/departments', isAuthenticated, DepartmentController.listAll);
@@ -66,6 +70,7 @@ router.put('/answer', isAuthenticated, AnswerController.edit);
 router.put('/topic', isAuthenticated, TopicController.update);
 
 router.patch('/avatar', isAuthenticated, uploadAvatar.single('file'), AvatarController.update);
+router.patch('/logo-client', isAuthenticated, uploadLogoClient.single('file'), LogoClientController.update);
 router.patch('/customer/email', isAuthenticated, CustomerController.updateEmailCustomer);
 router.patch('/customer/password', isAuthenticated, CustomerController.updatePasswordCustomer);
 router.patch('/customer/reset-password', CustomerController.reset);

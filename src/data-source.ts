@@ -14,7 +14,7 @@ import Topic from './entities/Topic';
 
 const port = process.env.DB_PORT as number | undefined;
 
-import { default1684943639906 } from './migrations/1684943639906-default';
+import { default1685369943887 } from './migrations/1685369943887-default'
 
 const appDataSource = new DataSource({
 	type: "mysql",
@@ -36,7 +36,7 @@ const appDataSource = new DataSource({
 		Topic
 	],
 	migrations: [
-		default1684943639906
+		default1685369943887
 	]
 });
 

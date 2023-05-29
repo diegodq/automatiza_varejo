@@ -2,7 +2,7 @@ import path from "path";
 import fs from 'fs';
 import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
-import multerConfig from "../../configurations/multerConfig";
+import multerConfig from "../../configurations/avatarConfig";
 
 interface AvatarRequest
 {

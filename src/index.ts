@@ -5,7 +5,8 @@ import appDataSource from './data-source';
 import errorMiddleware from './middleware/errorsMiddleware';
 import routes from './routes';
 import cors from 'cors';
-import multerConfig from './configurations/multerConfig';
+import avatarConfig from './configurations/avatarConfig';
+import configLogoClient from './configurations/configLogoClient';
 // import https from 'https';
 // import fs from 'fs';
 
@@ -26,7 +27,8 @@ appDataSource.initialize().then(() => {
 		origin: '*'
 	}));
 
-	app.use('/files', express.static(multerConfig.directory));
+	app.use('/avatar', express.static(avatarConfig.directory));
+	app.use('/logo', express.static(configLogoClient.directory));
 
 	app.use(express.json());
 	app.use(express.urlencoded({

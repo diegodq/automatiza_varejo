@@ -29,6 +29,9 @@ class Company
 	@Column({ type: "varchar" })
 	fantasy_name: string;
 
+	@Column({ type: 'varchar', nullable: true })
+	logo_company: string;
+
 	@Column({ type: "varchar", length: 20 })
 	cnpj: string;
 
@@ -59,7 +62,7 @@ class Company
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, customer: Customer, question: Question[], department: Department[], topic: Topic[], corporate_name: string, fantasy_name: string, cnpj: string, zip_code: string, state: string,
+	constructor(id: number, customer: Customer, question: Question[], department: Department[], topic: Topic[], corporate_name: string, fantasy_name: string, logo_company: string ,cnpj: string, zip_code: string, state: string,
 		city: string, complement: string, district: string, address: string, number: string,
 		created_at: Date, updated_at: Date)
 	{
@@ -70,6 +73,7 @@ class Company
 		this.topic = topic;
 		this.corporate_name = corporate_name;
 		this.fantasy_name = fantasy_name;
+		this.logo_company = logo_company;
 		this.cnpj = cnpj;
 		this.zip_code = zip_code;
 		this.state = state;
@@ -112,9 +116,14 @@ class Company
 		return this.corporate_name;
 	}
 
-	get getFantasy(): string
+	get getFantasyName(): string
 	{
 		return this.fantasy_name;
+	}
+
+	get getLogoCompany(): string
+	{
+		return this.logo_company;
 	}
 
 	get getCNPJ(): string

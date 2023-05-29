@@ -18,9 +18,9 @@ class AvatarController
 		});
 
 		if(process.env.APP_MODE == 'development')
-			return response.status(200).json({ status: 'success', avatar: process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/files/' + avatar });
+			return response.status(200).json({ status: 'success', avatar: process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/avatar/' + avatar });
 		else
-			return response.status(200).json({ status: 'success', avatar: process.env.IMG_URL + '/files/' + avatar });
+			return response.status(200).json({ status: 'success', avatar: process.env.IMG_URL + '/avatar/' + avatar });
 	}
 
 	static async returnAvatar(request: Request, response: Response): Promise<Response>
@@ -31,9 +31,9 @@ class AvatarController
 		const avatar = await returnAvatarCustomerService.execute({ id });
 
 		if(process.env.APP_MODE == 'development')
-			return response.status(200).json({ status: 'success', avatar: process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/files/' + avatar });
+			return response.status(200).json({ status: 'success', avatar: process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/avatar/' + avatar });
 		else
-			return response.status(200).json({ status: 'success', avatar: process.env.IMG_URL + '/files/' + avatar });
+			return response.status(200).json({ status: 'success', avatar: process.env.IMG_URL + '/avatar/' + avatar });
 	}
 }
 

@@ -1,15 +1,13 @@
-import Company from "../../entities/Company";
-import { BadRequestError } from "../../utils/ApiErrors";
-import appDataSource from "../../data-source";
+import appDataSource from "src/data-source";
 
 type CompanyRequest =
 {
-	id: string;
+	id: number;
 }
 
 class ListDepartmentsByCompanyService
 {
-	public async execute({ id }: CompanyRequest): Promise<Company[] | null>
+	public async execute({ id }: CompanyRequest): Promise<object>
 	{
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
@@ -18,12 +16,7 @@ class ListDepartmentsByCompanyService
 
 		await queryRunner.release();
 
-		if(listDepartments.length == 0) {
-			throw new BadRequestError('no-departments');
-		}
-
 		return listDepartments;
-
 	}
 }
 

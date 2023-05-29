@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class default1684943639906 implements MigrationInterface {
-    name = 'default1684943639906'
+export class default1685369943887 implements MigrationInterface {
+    name = 'default1685369943887'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`ALTER TABLE \`customer\` CHANGE \`city\` \`city_locate\` varchar(90) NULL`);
+        await queryRunner.query(`ALTER TABLE \`company\` ADD \`logo_company\` varchar(255) NULL`);
         await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`name\` \`name\` varchar(255) NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`email\` \`email\` varchar(255) NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`subject\` \`subject\` varchar(255) NOT NULL`);
@@ -14,7 +14,7 @@ export class default1684943639906 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`subject\` \`subject\` varchar(255) NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`email\` \`email\` varchar(255) NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`name\` \`name\` varchar(255) NOT NULL`);
-        await queryRunner.query(`ALTER TABLE \`customer\` CHANGE \`city_locate\` \`city\` varchar(90) NULL`);
+        await queryRunner.query(`ALTER TABLE \`company\` DROP COLUMN \`logo_company\``);
     }
 
 }
