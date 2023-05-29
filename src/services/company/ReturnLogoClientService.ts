@@ -17,7 +17,7 @@ class ReturnLogoClientService
 		}
 
 		if(!company.logo_company){
-			throw new BadRequestError('Logo não adicionado.');
+			throw new BadRequestError('logo não adicionado.');
 		}
 
 		return company.logo_company;

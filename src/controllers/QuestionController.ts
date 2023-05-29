@@ -88,7 +88,7 @@ class QuestionController
 		const listAnchorQuestionService = new ListAnchorQuestionService();
 		const anchorQuestion = await listAnchorQuestionService.execute({ id });
 
-		return response.status(200).json({ status: 'success', anchorQuestion });
+		return response.status(200).json(anchorQuestion);
 	}
 }
 

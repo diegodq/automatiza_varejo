@@ -15,9 +15,9 @@ class LogoClientController
 		});
 
 		if(process.env.APP_MODE == 'development')
-			return response.status(200).json({ status: 'success', avatar: process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + logo });
+			return response.status(200).json({ status: 'success', logo: process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + logo });
 		else
-			return response.status(200).json({ status: 'success', avatar: process.env.IMG_URL + '/logo/' + logo });
+			return response.status(200).json({ status: 'success', logo: process.env.IMG_URL + '/logo/' + logo });
 	}
 
 	static async returnAvatar(request: Request, response: Response): Promise<Response>
@@ -28,9 +28,9 @@ class LogoClientController
 		const logo = await returnLogoClientService.execute({ id });
 
 		if(process.env.APP_MODE == 'development')
-			return response.status(200).json({ status: 'success', avatar: process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + logo });
+			return response.status(200).json({ status: 'success', logo: process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + logo });
 		else
-			return response.status(200).json({ status: 'success', avatar: process.env.IMG_URL + '/logo/' + logo });
+			return response.status(200).json({ status: 'success', logo: process.env.IMG_URL + '/logo/' + logo });
 	}
 }
 

@@ -1,4 +1,4 @@
-import appDataSource from "src/data-source";
+import appDataSource from "../../data-source";
 
 type CompanyRequest =
 {

@@ -13,6 +13,7 @@ import CheckHasCompanyService from '../services/customer/CheckHasCompanyService'
 import PaymentNewsletterService from '../services/customer/PaymentNewsletterService';
 import ActiveAccountClientService from '../services/customer/ActiveAccountClientService';
 import SendForgotEmailService from '../services/session/SendForgotEmailService';
+import ResendActivateAccountService from '../services/customer/ResendActivateAccountService';
 
 class CustomerController
 {
@@ -161,6 +162,16 @@ class CustomerController
 		const emailSent = await sendForgotEmailService.execute({ email });
 
 		return response.status(200).json({ status: 'success', message: emailSent });
+	}
+
+	static async resendEmail(request: Request, response: Response): Promise<Response>
+	{
+		const { email } = request.body;
+
+		const resendActivateAccountService = new ResendActivateAccountService();
+		const resendEmail = await resendActivateAccountService.execute({ email });
+
+		return response.status(200).json({ status: 'success', resendEmail});
 	}
 }
 

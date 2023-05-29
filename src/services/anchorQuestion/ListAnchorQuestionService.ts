@@ -8,9 +8,9 @@ type QuestionRequest =
 
 class ListAnchorQuestionService
 {
-	public async execute({ id }: QuestionRequest): Promise<string>
+	public async execute({ id }: QuestionRequest): Promise<object>
 	{
-		const question = await questionRepository.findOne({ where: { company: { id } } });
+		const question = await questionRepository.findOne({ where: { company: { id } }, relations: { company: true } });
 
 		if(!question) {
 			throw new BadRequestError('no-question');
@@ -20,7 +20,14 @@ class ListAnchorQuestionService
 			throw new BadRequestError('no-anchor-question');
 		}
 
-		return question.anchor_question;
+		if(!question.company.logo_company) {
+			throw new BadRequestError('no-logo');
+		}
+
+		if(process.env.APP_MODE == 'development')
+			return { anchorQuestion: question.anchor_question, logo: process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + question.company.logo_company };
+		else
+			return { anchorQuestion: question.anchor_question, logo: process.env.IMG_URL + '/logo/' + question.company.logo_company };
 	}
 }
 

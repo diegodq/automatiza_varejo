@@ -80,5 +80,6 @@ router.patch('/topic', TopicController.changeStatus);
 router.patch('/department', DepartmentController.changeStatus);
 router.patch('/question', QuestionController.changeStatus);
 router.patch('/anchor-question', QuestionController.changeAnchorQuestion);
+router.patch('/resend-email', CustomerController.resendEmail);
 
 export default router;
