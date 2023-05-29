@@ -17,7 +17,7 @@ class UpdateLogoClientService
 	{
 		const company = await companyRepository.findOneBy({ id: Number(id) });
 		if (!company) {
-			throw new BadRequestError('Usuário não encontrado');
+			throw new BadRequestError('no-company');
 		}
 
 		if(fileSize >= 1000000) {
