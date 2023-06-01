@@ -1,3 +1,4 @@
+import { BadRequestError } from "../../utils/ApiErrors";
 import appDataSource from "../../data-source";
 
 type CompanyRequest =
@@ -15,6 +16,10 @@ class ListDepartmentsByCompanyService
 		const listDepartments = await queryRunner.manager.query(`select d.id, d.name, d.status from department as d join company as c on d.company_id = c.id = ${id}`);
 
 		await queryRunner.release();
+
+		if(listDepartments == '') {
+			throw new BadRequestError('no-departments');
+		}
 
 		return listDepartments;
 	}

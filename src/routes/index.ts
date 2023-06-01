@@ -19,7 +19,7 @@ import LogoClientController from "../controllers/LogoClientController";
 const uploadAvatar = multer(avatarConfig);
 const uploadLogoClient = multer(configLogoClient);
 
-const router = Router();
+const router = Router(); 
 
 router.get('/welcome', WelcomeController.welcome);
 router.get('/customers', isAuthenticated, CustomerController.list);
@@ -31,7 +31,7 @@ router.get('/company-departments', isAuthenticated, CompanyController.listDepart
 router.get('/company-topics', isAuthenticated, CompanyController.listTopicsByCompany);
 router.get('/company-questions', isAuthenticated, CompanyController.listQuestionByCompany);
 router.get('/avatar', isAuthenticated, AvatarController.returnAvatar);
-router.get('/logo-client', isAuthenticated, LogoClientController.returnAvatar);
+router.get('/logo-company',isAuthenticated, LogoClientController.returnLogo);
 router.get('/has-company', isAuthenticated, CustomerController.checkHasCompany);
 router.get('/department', isAuthenticated, DepartmentController.list);
 router.get('/departments', isAuthenticated, DepartmentController.listAll);
@@ -41,7 +41,7 @@ router.get('/answer', isAuthenticated, AnswerController.list);
 router.get('/answers', isAuthenticated, AnswerController.listAll);
 router.get('/topic', isAuthenticated, TopicController.list);
 router.get('/topics', isAuthenticated, TopicController.listAll);
-router.get('/anchor-question', isAuthenticated, QuestionController.listAnchorQuestion);
+router.get('/anchor-question', QuestionController.listAnchorQuestion);
 
 router.post('/customer', CustomerController.create);
 router.post('/session', SessionController.create);
@@ -70,7 +70,7 @@ router.put('/answer', isAuthenticated, AnswerController.edit);
 router.put('/topic', isAuthenticated, TopicController.update);
 
 router.patch('/avatar', isAuthenticated, uploadAvatar.single('file'), AvatarController.update);
-router.patch('/logo-client', isAuthenticated, uploadLogoClient.single('file'), LogoClientController.update);
+router.patch('/logo-company', isAuthenticated, uploadLogoClient.single('file'), LogoClientController.update);
 router.patch('/customer/email', isAuthenticated, CustomerController.updateEmailCustomer);
 router.patch('/customer/password', isAuthenticated, CustomerController.updatePasswordCustomer);
 router.patch('/customer/reset-password', CustomerController.reset);

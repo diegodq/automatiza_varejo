@@ -23,10 +23,10 @@ class ResendActivateAccountService
 		}
 
 		customer.resent_email_on = new Date();
-		const token = await customerRepository.save(customer);
+		await customerRepository.save(customer);
 
 		const generateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
-		await generateCustomerForgotTokenService.generate({ email });
+		const token = await generateCustomerForgotTokenService.generate({ email });
 
 		const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'verify-email.hbs');
 
@@ -44,7 +44,7 @@ class ResendActivateAccountService
 				file: forgotPasswordTemplate,
 				variables: {
 					name: customer.first_name,
-					link: `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${customer.id}`,
+					link: `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${customer.id}`
 				}
 			}
 		});

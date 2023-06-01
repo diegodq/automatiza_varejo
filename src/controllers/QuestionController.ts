@@ -84,6 +84,7 @@ class QuestionController
 	static async listAnchorQuestion(request: Request, response: Response): Promise<Response>
 	{
 		const id = request.userId;
+		console.log(id);
 
 		const listAnchorQuestionService = new ListAnchorQuestionService();
 		const anchorQuestion = await listAnchorQuestionService.execute({ id });

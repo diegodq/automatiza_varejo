@@ -20,9 +20,10 @@ class LogoClientController
 			return response.status(200).json({ status: 'success', logo: process.env.IMG_URL + '/logo/' + logo });
 	}
 
-	static async returnAvatar(request: Request, response: Response): Promise<Response>
+	static async returnLogo(request: Request, response: Response): Promise<Response>
 	{
 		const id = request.userId;
+		console.log(id);
 
 		const returnLogoClientService = new ReturnLogoClientService();
 		const logo = await returnLogoClientService.execute({ id });
