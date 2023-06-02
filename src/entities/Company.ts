@@ -56,6 +56,9 @@ class Company
 	@Column({ type: "varchar", length: 200 })
 	city: string;
 
+	@Column({ type: "varchar", length: 100, nullable: true })
+	anchor_question: string;
+
 	@CreateDateColumn()
 	created_at: Date;
 
@@ -63,7 +66,7 @@ class Company
 	updated_at: Date;
 
 	constructor(id: number, customer: Customer, question: Question[], department: Department[], topic: Topic[], corporate_name: string, fantasy_name: string, logo_company: string ,cnpj: string, zip_code: string, state: string,
-		city: string, complement: string, district: string, address: string, number: string,
+		city: string, anchor_question: string, complement: string, district: string, address: string, number: string,
 		created_at: Date, updated_at: Date)
 	{
 		this.id = id;
@@ -82,6 +85,7 @@ class Company
 		this.complement = complement;
 		this.district = district;
 		this.city = city;
+		this.anchor_question = anchor_question;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
@@ -164,6 +168,11 @@ class Company
 	get getCity(): string
 	{
 		return this.city;
+	}
+
+	get getAnchorQuestion(): string
+	{
+		return this.anchor_question;
 	}
 
 	get getCreatedAt(): Date

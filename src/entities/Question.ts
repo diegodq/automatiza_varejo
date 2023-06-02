@@ -27,9 +27,6 @@ class Question
 	@Column({ type: 'varchar', length: 10 })
 	tree_question: string;
 
-	@Column({ type: 'varchar', length: 100, nullable: true })
-	anchor_question: string;
-
 	@Column({ type: 'varchar', length: 20 })
 	type_question: string;
 
@@ -49,7 +46,7 @@ class Question
 	updated_at: Date;
 
 	constructor(id: number, answer: Answer, company: Company, title_question: string, question_description: string, type_question: string,
-		status: number, tree_question: string, anchor_question: string ,option_one: string, option_two: string, import_type: string, created_at: Date, updated_at: Date)
+		status: number, tree_question: string, option_one: string, option_two: string, import_type: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.answer = answer;
@@ -59,7 +56,6 @@ class Question
 		this.type_question = type_question;
 		this.status = status;
 		this.tree_question = tree_question;
-		this.anchor_question = anchor_question;
 		this.option_one = option_one;
 		this.option_two = option_two;
 		this.import_type = import_type;
@@ -100,11 +96,6 @@ class Question
 	get getStatus(): number
 	{
 		return this.status;
-	}
-
-	get getAnchorQuestion(): string
-	{
-		return this.anchor_question;
 	}
 
 	get getOptionOne(): string

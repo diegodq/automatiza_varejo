@@ -1,5 +1,5 @@
 import { BadRequestError } from "../../utils/ApiErrors";
-import questionRepository from "../../repositories/questionRepository";
+import companyRepository from "../../repositories/companyRepository";
 
 type QuestionRequest =
 {
@@ -8,26 +8,18 @@ type QuestionRequest =
 
 class ListAnchorQuestionService
 {
-	public async execute({ id }: QuestionRequest): Promise<object>
+	public async execute({ id }: QuestionRequest): Promise<string>
 	{
-		const question = await questionRepository.findOne({ where: { company: { id } }, relations: { company: true } });
-
-		if(!question) {
-			throw new BadRequestError('no-question');
+		const company = await companyRepository.findOneBy({ id });
+		if(!company) {
+			throw new BadRequestError('no-company');
 		}
 
-		if(!question.anchor_question) {
+		if(!company.anchor_question) {
 			throw new BadRequestError('no-anchor-question');
 		}
 
-		if(!question.company.logo_company) {
-			throw new BadRequestError('no-logo');
-		}
-
-		if(process.env.APP_MODE == 'development')
-			return { anchorQuestion: question.anchor_question, logo: process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + question.company.logo_company };
-		else
-			return { anchorQuestion: question.anchor_question, logo: process.env.IMG_URL + '/logo/' + question.company.logo_company };
+		return company.anchor_question;
 	}
 }
 
