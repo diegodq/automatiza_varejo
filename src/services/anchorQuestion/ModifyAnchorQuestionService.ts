@@ -23,7 +23,7 @@ class ModifyAnchorQuestionService
 		anchorQuestionExists.anchor_question = anchor_question;
 		await companyRepository.save(anchorQuestionExists);
 
-		return 'anchor-question-added.';
+		return anchorQuestionExists.anchor_question;
 	}
 }
 
