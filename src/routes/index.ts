@@ -19,7 +19,7 @@ import LogoClientController from "../controllers/LogoClientController";
 const uploadAvatar = multer(avatarConfig);
 const uploadLogoClient = multer(configLogoClient);
 
-const router = Router(); 
+const router = Router();
 
 router.get('/welcome', WelcomeController.welcome);
 router.get('/customers', isAuthenticated, CustomerController.list);
@@ -41,7 +41,7 @@ router.get('/answer', isAuthenticated, AnswerController.list);
 router.get('/answers', isAuthenticated, AnswerController.listAll);
 router.get('/topic', isAuthenticated, TopicController.list);
 router.get('/topics', isAuthenticated, TopicController.listAll);
-router.get('/anchor-question', QuestionController.listAnchorQuestion);
+router.get('/anchor-question', isAuthenticated, QuestionController.listAnchorQuestion);
 
 router.post('/customer', CustomerController.create);
 router.post('/session', SessionController.create);
