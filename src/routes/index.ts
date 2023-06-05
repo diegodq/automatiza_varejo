@@ -76,10 +76,10 @@ router.patch('/customer/password', isAuthenticated, CustomerController.updatePas
 router.patch('/customer/reset-password', CustomerController.reset);
 router.patch('/info', isAuthenticated, CustomerController.acceptInfo);
 router.patch('/active-customer', CustomerController.ative);
-router.patch('/topic', TopicController.changeStatus);
-router.patch('/department', DepartmentController.changeStatus);
-router.patch('/question', QuestionController.changeStatus);
-router.patch('/anchor-question', QuestionController.changeAnchorQuestion);
+router.patch('/topic', isAuthenticated, TopicController.changeStatus);
+router.patch('/department', isAuthenticated, DepartmentController.changeStatus);
+router.patch('/question', isAuthenticated ,QuestionController.changeStatus);
+router.patch('/anchor-question', isAuthenticated, QuestionController.changeAnchorQuestion);
 router.patch('/resend-email', CustomerController.resendEmail);
 
 export default router;
