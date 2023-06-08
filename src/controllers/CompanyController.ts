@@ -35,7 +35,7 @@ class CompanyController
 	static async listDepartmentsByCompany(request: Request, response: Response)
 	{
 		const id = request.userId;
-		
+
 		const listDepartmentsByCompany = new ListDepartmentsByCompanyService();
 		const departments = await listDepartmentsByCompany.execute({ id });
 
@@ -55,6 +55,8 @@ class CompanyController
 	static async listQuestionByCompany(request: Request, response: Response)
 	{
 		const id = request.userId;
+
+		console.log(id);
 
 		const listQuestionsByCompanyService = new ListQuestionsByCompanyService();
 		const listQuestion = await listQuestionsByCompanyService.execute({ id });

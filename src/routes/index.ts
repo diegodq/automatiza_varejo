@@ -76,6 +76,7 @@ router.patch('/customer/password', isAuthenticated, CustomerController.updatePas
 router.patch('/customer/reset-password', CustomerController.reset);
 router.patch('/info', isAuthenticated, CustomerController.acceptInfo);
 router.patch('/active-customer', CustomerController.ative);
+router.patch('/params-question', QuestionController.updateParamsQuestion);
 router.patch('/topic', isAuthenticated, TopicController.changeStatus);
 router.patch('/department', isAuthenticated, DepartmentController.changeStatus);
 router.patch('/question', isAuthenticated ,QuestionController.changeStatus);

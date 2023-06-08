@@ -39,6 +39,15 @@ class Question
 	@Column({ type: 'varchar', length: 15, nullable: true })
 	import_type: string;
 
+	@Column({ type: 'int', nullable: true })
+	position: number;
+
+	@Column({ type: 'tinyint', nullable: true })
+	mandatory_question: number;
+
+	@Column({ type: 'tinyint', nullable: true })
+	finish_research: number;
+
 	@CreateDateColumn()
 	created_at: Date;
 
@@ -46,7 +55,8 @@ class Question
 	updated_at: Date;
 
 	constructor(id: number, answer: Answer, company: Company, title_question: string, question_description: string, type_question: string,
-		status: number, tree_question: string, option_one: string, option_two: string, import_type: string, created_at: Date, updated_at: Date)
+		status: number, tree_question: string, option_one: string, option_two: string, import_type: string,
+		position: number, mandatory_question: number, finish_research: number, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.answer = answer;
@@ -59,6 +69,9 @@ class Question
 		this.option_one = option_one;
 		this.option_two = option_two;
 		this.import_type = import_type;
+		this.position = position;
+		this.mandatory_question = mandatory_question;
+		this.finish_research = finish_research;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
@@ -111,6 +124,21 @@ class Question
 	get getImportType(): string
 	{
 		return this.import_type;
+	}
+
+	get getPosition(): number
+	{
+		return this.position;
+	}
+
+	get getMandatoryQuestion(): number
+	{
+		return this.mandatory_question
+	}
+
+	get getFinishResearch(): number
+	{
+		return this.finish_research;
 	}
 
 	get getCreatedAt(): Date

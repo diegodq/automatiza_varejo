@@ -7,6 +7,7 @@ import RemoveQuestionService from "../services/question/RemoveQuestionService";
 import ChangeStatusQuestionService from "../services/question/ChangeStatusQuestionService";
 import ModifyAnchorQuestionService from "../services/anchorQuestion/ModifyAnchorQuestionService";
 import ListAnchorQuestionService from "../services/anchorQuestion/ListAnchorQuestionService";
+import UpdateParamsQuestionService from "../services/question/UpdateParamsQuestionService";
 
 class QuestionController
 {
@@ -89,6 +90,18 @@ class QuestionController
 		const anchorQuestion = await listAnchorQuestionService.execute({ id });
 
 		return response.status(200).json({  status: 'success', message: anchorQuestion });
+	}
+
+	static async updateParamsQuestion(request: Request, response: Response): Promise<Response>
+	{
+		const id = request.userId;
+
+		const [ position, mandatory_question, finish_research ] = request.body;
+
+		const updateParamsQuestionService = new UpdateParamsQuestionService();
+		const params = await updateParamsQuestionService.execute({ id, position, mandatory_question, finish_research });
+
+		return response.status(200).json({ status: 'success', message: params });
 	}
 }
 

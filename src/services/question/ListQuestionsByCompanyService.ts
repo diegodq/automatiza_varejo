@@ -1,25 +1,24 @@
-import Company from "../../entities/Company";
-import appDataSource from "../../data-source";
 import { BadRequestError } from "../../utils/ApiErrors";
+import companyRepository from "../../repositories/companyRepository";
+import questionRepository from "../../repositories/questionRepository";
 
 type TopicRequest =
 {
-	id: string;
+	id: number;
 }
 
 class ListQuestionsByCompanyService
 {
-	public async execute({ id }: TopicRequest): Promise<Company | null>
+	public async execute({ id }: TopicRequest): Promise<object>
 	{
-		const queryRunner = appDataSource.createQueryRunner();
-		await queryRunner.connect();
+		const companyExists = await companyRepository.findOneBy({ id });
+		if(!companyExists) {
+			throw new BadRequestError('no-company');
+		}
 
-		const listQuestions = await queryRunner.manager.query(`select q.id, q.title_question, q.question_description, q.tree_question, q.type_question, q.status
-		from company c join question q on c.id  = q.company_id = ${id}`);
-
-		await queryRunner.release();
-		if(listQuestions.length === 0) {
-			throw new BadRequestError('no-question');
+		const listQuestions = await questionRepository.find({ where: { company: { id } } });
+		if(listQuestions.length == 0) {
+			throw new BadRequestError('no-questions');
 		}
 
 		return listQuestions;
