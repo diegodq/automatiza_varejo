@@ -1,12 +1,16 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Answer from "./Answer";
 import Company from "./Company";
+import ParamsQuestions from "./ParamsQuestions";
 
 @Entity('question')
 class Question
 {
 	@PrimaryGeneratedColumn()
 	id: number;
+
+	@OneToOne(() => ParamsQuestions, params_questions => params_questions.question)
+	params_questions: ParamsQuestions;
 
 	@OneToMany(() => Answer, answer => answer.question)
 	answer: Answer;
@@ -21,32 +25,11 @@ class Question
 	@Column({ type: 'varchar', nullable: true, length: 100 })
 	question_description: string;
 
-	@Column({ type: 'tinyint', nullable: true })
-	status: number;
-
-	@Column({ type: 'varchar', length: 10 })
-	tree_question: string;
-
 	@Column({ type: 'varchar', length: 20 })
 	type_question: string;
 
-	@Column({ type: 'varchar', length: 80, nullable: true })
-	option_one: string;
-
-	@Column({ type: 'varchar', length: 80, nullable: true })
-	option_two: string;
-
-	@Column({ type: 'varchar', length: 15, nullable: true })
-	import_type: string;
-
-	@Column({ type: 'int', nullable: true })
-	position: number;
-
 	@Column({ type: 'tinyint', nullable: true })
-	mandatory_question: number;
-
-	@Column({ type: 'tinyint', nullable: true })
-	finish_research: number;
+	status: number;
 
 	@CreateDateColumn()
 	created_at: Date;
@@ -54,24 +37,17 @@ class Question
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, answer: Answer, company: Company, title_question: string, question_description: string, type_question: string,
-		status: number, tree_question: string, option_one: string, option_two: string, import_type: string,
-		position: number, mandatory_question: number, finish_research: number, created_at: Date, updated_at: Date)
+	constructor(id: number, params_questions: ParamsQuestions, answer: Answer, company: Company, title_question: string, question_description: string,
+		type_question: string, status: number, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
+		this.params_questions = params_questions;
 		this.answer = answer;
 		this.company = company;
 		this.title_question = title_question;
 		this.question_description = question_description;
 		this.type_question = type_question;
 		this.status = status;
-		this.tree_question = tree_question;
-		this.option_one = option_one;
-		this.option_two = option_two;
-		this.import_type = import_type;
-		this.position = position;
-		this.mandatory_question = mandatory_question;
-		this.finish_research = finish_research;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
@@ -109,36 +85,6 @@ class Question
 	get getStatus(): number
 	{
 		return this.status;
-	}
-
-	get getOptionOne(): string
-	{
-		return this.option_one
-	}
-
-	get getOptionTwo(): string
-	{
-		return this.option_two;
-	}
-
-	get getImportType(): string
-	{
-		return this.import_type;
-	}
-
-	get getPosition(): number
-	{
-		return this.position;
-	}
-
-	get getMandatoryQuestion(): number
-	{
-		return this.mandatory_question
-	}
-
-	get getFinishResearch(): number
-	{
-		return this.finish_research;
 	}
 
 	get getCreatedAt(): Date

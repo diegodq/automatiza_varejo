@@ -13,9 +13,6 @@ class Customer
 	@OneToMany(() => Company, company => company.customer)
 	company: Company[];
 
-	@OneToMany(() => Product, product => product.customer)
-	product: Product[];
-
 	@OneToMany(() => UserTokens, customerTokens => customerTokens.customer)
 	customerTokens: CustomerTokens[];
 
@@ -94,7 +91,7 @@ class Customer
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, company: Company[], product: Product[], customerTokens: CustomerTokens[], first_name: string,
+	constructor(id: number, company: Company[], customerTokens: CustomerTokens[], first_name: string,
 		avatar: string, surname_name: string, position: string, phone: string, email: string, temp_email: string,
 		email_change_on: Date, resent_email_on: Date, activated: number, activated_on: Date, accept_newsletter: number,
 		info_payment: number, accept_terms: string, accept_terms_on: Date, system_user: string, agent_user: string, pass_change_on: Date,old_password: string,
@@ -103,7 +100,6 @@ class Customer
 		this.id = id;
 		this.company = company;
 		this.customerTokens = customerTokens;
-		this.product = product;
 		this.first_name = first_name;
 		this.avatar = avatar;
 		this.surname = surname_name;
@@ -144,11 +140,6 @@ class Customer
 	get getCustomerTokens(): CustomerTokens[]
 	{
 		return this.customerTokens;
-	}
-
-	get getProduct(): Product[]
-	{
-		return this.product;
 	}
 
 	get getFirstName(): string

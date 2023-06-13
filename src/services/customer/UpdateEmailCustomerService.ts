@@ -25,16 +25,16 @@ class UpdateEmailCustomer
 	{
 		const customer = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
-			throw new BadRequestError('Usuário não existe');
+			throw new BadRequestError('no-user');
 		}
 
 		const comparePassword = await compare(password, customer.password);
 		if(!comparePassword) {
-			throw new BadRequestError('Senha incorreta.');
+			throw new BadRequestError('incorrect-password');
 		}
 
 		if (customer.email == new_email) {
-			throw new BadRequestError('Usuário já está cadastrado.');
+			throw new BadRequestError('user-already-registered');
 		}
 
 		customer.temp_email = new_email;

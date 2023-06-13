@@ -15,6 +15,9 @@ import AnswerController from "../controllers/AnswerController";
 import TopicController from "../controllers/TopicController";
 import QRCodeController from "../controllers/QRCodeController";
 import LogoClientController from "../controllers/LogoClientController";
+import QuestionParamsController from "../controllers/QuestionParamsController";
+import ParamsProductController from "../controllers/ParamsProductController";
+import ProductController from "../controllers/ProductController";
 
 const uploadAvatar = multer(avatarConfig);
 const uploadLogoClient = multer(configLogoClient);
@@ -41,7 +44,10 @@ router.get('/answer', isAuthenticated, AnswerController.list);
 router.get('/answers', isAuthenticated, AnswerController.listAll);
 router.get('/topic', isAuthenticated, TopicController.list);
 router.get('/topics', isAuthenticated, TopicController.listAll);
-router.get('/anchor-question', isAuthenticated, QuestionController.listAnchorQuestion);
+router.get('/anchor-question', isAuthenticated, ParamsProductController.listAnchorQuestion);
+router.get('/params/question', isAuthenticated, QuestionParamsController.listParams);
+router.get('/params/product', isAuthenticated, ParamsProductController.listParams);
+router.get('/product/company', isAuthenticated, ProductController.listProducts);
 
 router.post('/customer', CustomerController.create);
 router.post('/session', SessionController.create);
@@ -53,6 +59,9 @@ router.post('/question', isAuthenticated, QuestionController.add);
 router.post('/answer', isAuthenticated, AnswerController.add);
 router.post('/topic', isAuthenticated, TopicController.add);
 router.post('/qrcode', isAuthenticated, QRCodeController.generate);
+router.post('/params/question', isAuthenticated, QuestionParamsController.createParamsQuestion);
+router.post('/params/product', isAuthenticated, ParamsProductController.addParams);
+router.post('/add/product', isAuthenticated, ProductController.addNewProduct);
 
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);
@@ -68,6 +77,7 @@ router.put('/department', isAuthenticated, DepartmentController.update);
 router.put('/question', isAuthenticated, QuestionController.edit);
 router.put('/answer', isAuthenticated, AnswerController.edit);
 router.put('/topic', isAuthenticated, TopicController.update);
+router.put('/params/question', isAuthenticated, QuestionParamsController.updateParamsQuestion);
 
 router.patch('/avatar', isAuthenticated, uploadAvatar.single('file'), AvatarController.update);
 router.patch('/logo-company', isAuthenticated, uploadLogoClient.single('file'), LogoClientController.update);
@@ -76,11 +86,12 @@ router.patch('/customer/password', isAuthenticated, CustomerController.updatePas
 router.patch('/customer/reset-password', CustomerController.reset);
 router.patch('/info', isAuthenticated, CustomerController.acceptInfo);
 router.patch('/active-customer', CustomerController.ative);
-router.patch('/params-question', QuestionController.updateParamsQuestion);
+router.patch('/params/background-color', isAuthenticated, ParamsProductController.updateBackgroundColor);
+router.patch('/params/font-color', isAuthenticated, ParamsProductController.updateFontColor);
 router.patch('/topic', isAuthenticated, TopicController.changeStatus);
 router.patch('/department', isAuthenticated, DepartmentController.changeStatus);
 router.patch('/question', isAuthenticated ,QuestionController.changeStatus);
-router.patch('/anchor-question', isAuthenticated, QuestionController.changeAnchorQuestion);
+router.patch('/anchor-question', isAuthenticated, ParamsProductController.changeAnchorQuestion);
 router.patch('/resend-email', CustomerController.resendEmail);
 
 export default router;

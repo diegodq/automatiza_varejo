@@ -5,20 +5,17 @@ import ListQuestionService from "../services/question/ListQuestionService";
 import ListQuestionsService from "../services/question/ListQuestionsService";
 import RemoveQuestionService from "../services/question/RemoveQuestionService";
 import ChangeStatusQuestionService from "../services/question/ChangeStatusQuestionService";
-import ModifyAnchorQuestionService from "../services/anchorQuestion/ModifyAnchorQuestionService";
-import ListAnchorQuestionService from "../services/anchorQuestion/ListAnchorQuestionService";
-import UpdateParamsQuestionService from "../services/question/UpdateParamsQuestionService";
 
 class QuestionController
 {
 	static async add(request: Request, response: Response): Promise<Response>
 	{
 		const company = request.userId;
-		const { title_question, question_description, status, tree_question, type_question, option_one, option_two, import_type } = request.body;
+		
+		const { title_question, question_description, type_question, status } = request.body;
 
 		const createQuestionService = new CreateQuestionService();
-		const questionCreated = await createQuestionService.execute({ title_question, question_description, status,
-			tree_question, type_question, option_one, option_two, import_type, company });
+		const questionCreated = await createQuestionService.execute({ title_question, question_description, type_question, status, company });
 
 		return response.status(200).json({ status: 'success', message: questionCreated });
 	}
@@ -69,39 +66,6 @@ class QuestionController
 		const questionRemoved = await removeQuestionService.execute({ id });
 
 		return response.status(200).json({ status: 'success', message: questionRemoved });
-	}
-
-	static async changeAnchorQuestion(request: Request, response: Response): Promise<Response>
-	{
-		const { id } = request.body;
-		const { anchor_question } = request.body;
-
-		const modifyAnchorQuestion = new ModifyAnchorQuestionService();
-		const anchorQuestion = await modifyAnchorQuestion.execute({ id, anchor_question });
-
-		return response.status(200).json({  status: 'success', message: anchorQuestion });
-	}
-
-	static async listAnchorQuestion(request: Request, response: Response): Promise<Response>
-	{
-		const id = request.userId;
-
-		const listAnchorQuestionService = new ListAnchorQuestionService();
-		const anchorQuestion = await listAnchorQuestionService.execute({ id });
-
-		return response.status(200).json({  status: 'success', message: anchorQuestion });
-	}
-
-	static async updateParamsQuestion(request: Request, response: Response): Promise<Response>
-	{
-		const id = request.userId;
-
-		const [ position, mandatory_question, finish_research ] = request.body;
-
-		const updateParamsQuestionService = new UpdateParamsQuestionService();
-		const params = await updateParamsQuestionService.execute({ id, position, mandatory_question, finish_research });
-
-		return response.status(200).json({ status: 'success', message: params });
 	}
 }
 

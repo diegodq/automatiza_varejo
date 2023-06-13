@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import Customer from "./Customer";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import Company from "./Company";
+import ParamsProduct from "./ParamsProduct";
 
 @Entity('product')
 class Product
@@ -7,18 +8,18 @@ class Product
 	@PrimaryGeneratedColumn()
 	id: number;
 
+	@ManyToOne(() => Company, company => company.product, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
+	@JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
+	company: Company;
+
+	@OneToOne(() => ParamsProduct, params_product => params_product.product)
+	params_product: ParamsProduct;
+
 	@Column({ type: 'varchar', length: 180 })
 	name: string;
 
 	@Column({ type: 'varchar', length: 180 })
 	description: string;
-
-	@ManyToOne(() => Customer, customer => customer.product, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
-	@JoinColumn({
-		name: 'customer_id',
-		referencedColumnName: 'id'
-	})
-	customer: Customer;
 
 	@CreateDateColumn()
 	created_at: Date;
@@ -26,12 +27,13 @@ class Product
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, name: string, description: string, customer: Customer, created_at: Date, updated_at: Date)
+	constructor(id: number, company: Company, params_product: ParamsProduct, name: string, description: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
+		this.company = company;
+		this.params_product = params_product;
 		this.name = name;
 		this.description = description;
-		this.customer = customer;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
@@ -39,6 +41,16 @@ class Product
 	get getId(): number
 	{
 		return this.id;
+	}
+
+	get getCompany(): Company
+	{
+		return this.company;
+	}
+
+	get getParamsProduct(): ParamsProduct
+	{
+		return this.params_product;
 	}
 
 	get getName(): string
@@ -49,11 +61,6 @@ class Product
 	get getDescription(): string
 	{
 		return this.description;
-	}
-
-	get getCustomer()
-	{
-		return this.customer;
 	}
 
 	get getCreatedAt(): Date

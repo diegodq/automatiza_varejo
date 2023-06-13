@@ -11,10 +11,12 @@ import Department from './entities/Department';
 import Question from './entities/Question';
 import Answer from './entities/Answer';
 import Topic from './entities/Topic';
+import ParamsQuestions from './entities/ParamsQuestions';
+import ParamsProduct from './entities/ParamsProduct';
 
 const port = process.env.DB_PORT as number | undefined;
 
-import { default1686078847158 } from './migrations/1686078847158-default';
+import { default1686587350660 } from './migrations/1686587350660-default';
 
 const appDataSource = new DataSource({
 	type: "mysql",
@@ -33,10 +35,12 @@ const appDataSource = new DataSource({
 		Department,
 		Question,
 		Answer,
-		Topic
+		Topic,
+		ParamsQuestions,
+		ParamsProduct
 	],
 	migrations: [
-		default1686078847158
+		default1686587350660
 	]
 });
 

@@ -30,7 +30,7 @@ class CreateCustomerService
 			const customerHasCompany = await appDataSource.getRepository(Company).createQueryBuilder('company')
 			.where('company.customer = :id', { id: idCustomer }).getOne();
 			if(!customerHasCompany) {
-				return { status: 'warn', message: 'Vimos que você não tem uma empresa cadastrada conosco. Deseja continuar?',
+				return { status: 'warn', message: 'no-company',
 				data: idCustomer };
 			}
 		}

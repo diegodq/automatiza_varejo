@@ -28,8 +28,8 @@ class CreateCompanyService
 			throw new BadRequestError('Empresa já está cadastrada.');
 		}
 
-		const newCompany = companyRepository.create({ corporate_name, fantasy_name, cnpj, zip_code, state, complement,address, number,
-			district, city, customer });
+		const newCompany = companyRepository.create({ corporate_name, fantasy_name, cnpj, zip_code, state,
+			complement, address, number, district, city, customer });
 
 		await companyRepository.save(newCompany);
 

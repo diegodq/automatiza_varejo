@@ -3,6 +3,7 @@ import Customer from "./Customer";
 import Question from './Question';
 import Department from './Department';
 import Topic from './Topic';
+import Product from './Product';
 
 @Entity("company")
 class Company
@@ -13,6 +14,9 @@ class Company
 	@ManyToOne(() => Customer, customer => customer.company, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
 	customer: Customer;
+
+	@OneToMany(() => Product, product => product.company)
+	product: Product[];
 
 	@OneToMany(() => Question, question => question.company)
 	question: Question[];
@@ -56,21 +60,19 @@ class Company
 	@Column({ type: "varchar", length: 200 })
 	city: string;
 
-	@Column({ type: "varchar", length: 100, nullable: true })
-	anchor_question: string;
-
 	@CreateDateColumn()
 	created_at: Date;
 
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, customer: Customer, question: Question[], department: Department[], topic: Topic[], corporate_name: string, fantasy_name: string, logo_company: string ,cnpj: string, zip_code: string, state: string,
-		city: string, anchor_question: string, complement: string, district: string, address: string, number: string,
+	constructor(id: number, customer: Customer, product: Product[], question: Question[], department: Department[], topic: Topic[], corporate_name: string, fantasy_name: string, logo_company: string ,cnpj: string, zip_code: string, state: string,
+		city: string, complement: string, district: string, address: string, number: string,
 		created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.customer = customer;
+		this.product = product;
 		this.question = question;
 		this.department = department;
 		this.topic = topic;
@@ -85,7 +87,6 @@ class Company
 		this.complement = complement;
 		this.district = district;
 		this.city = city;
-		this.anchor_question = anchor_question;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
@@ -98,6 +99,11 @@ class Company
 	get getCustomer()
 	{
 		return this.customer;
+	}
+
+	get getProduct(): Product[]
+	{
+		return this.product;
 	}
 
 	get getQuestion(): Question[]
@@ -168,11 +174,6 @@ class Company
 	get getCity(): string
 	{
 		return this.city;
-	}
-
-	get getAnchorQuestion(): string
-	{
-		return this.anchor_question;
 	}
 
 	get getCreatedAt(): Date
