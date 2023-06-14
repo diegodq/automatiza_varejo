@@ -14,7 +14,7 @@ type QuestionRequest =
 
 class CreateQuestionService
 {
-	public async execute({ title_question, question_description, type_question, status, company }: QuestionRequest): Promise<string>
+	public async execute({ title_question, question_description, type_question, status, company }: QuestionRequest): Promise<object>
 	{
 		const companyExists = await companyRepository.findOneBy({ id: Number(company) });
 		if(!companyExists) {
@@ -29,7 +29,7 @@ class CreateQuestionService
 		const newQuestion = questionRepository.create({ title_question, question_description, type_question, status, company });
 		await questionRepository.save(newQuestion);
 
-		return 'question-added';
+		return { message: 'question-added', questionId: newQuestion.getId };
 	}
 }
 

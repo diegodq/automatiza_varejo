@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import CreateProductService from '../services/product/CreateProductService';
-import ListProductByCompanyService from 'src/services/product/ListProductByCompanyService';
+import ListProductByCompanyService from '../services/product/ListProductByCompanyService';
 
 class ProductController
 {

@@ -11,13 +11,13 @@ class QuestionController
 	static async add(request: Request, response: Response): Promise<Response>
 	{
 		const company = request.userId;
-		
+
 		const { title_question, question_description, type_question, status } = request.body;
 
 		const createQuestionService = new CreateQuestionService();
 		const questionCreated = await createQuestionService.execute({ title_question, question_description, type_question, status, company });
 
-		return response.status(200).json({ status: 'success', message: questionCreated });
+		return response.status(200).json({ status: 'success', questionCreated });
 	}
 
 	static async edit(request: Request, response: Response): Promise<Response>
