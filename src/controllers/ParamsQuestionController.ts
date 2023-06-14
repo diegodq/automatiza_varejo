@@ -1,35 +1,21 @@
 import { Request, Response } from "express";
-//import CreateParamsQuestionService from "../services/paramsQuestions/CreateParamsQuestionService";
-import Question from "../entities/Question";
+import CreateParamsQuestionService from "../services/paramsQuestions/CreateParamsQuestionService";
 import paramsQuestionRepository from "../repositories/paramsQuestionRepository";
 import ListParamsByQuestionService from "../services/paramsQuestions/ListParamsByQuestionService";
 
-type ParamsType =
-{
-	tree_question: number,
-	option_one: string,
-	option_two: string,
-	import_type: string,
-	position: number,
-	mandatory_question: number,
-	finish_research: number,
-	question: Question;
-}
 
 class QuestionParamsController
 {
 	static async createParamsQuestion(request: Request, response: Response): Promise<Response>
 	{
-		const params = paramsQuestionRepository.create(request.body.map((item: ParamsType) => {
+		const params = paramsQuestionRepository.create(request.body.map((item: object) => {
 			return item
 		}));
 
-		const result = await paramsQuestionRepository.save(params);
-		if(!result) {
-			return response.status(400).json({ status: 'success', message: 'error-added-params' });
-		}
+		const createParamsQuestionService = new CreateParamsQuestionService();
+		const paramsStored = await createParamsQuestionService.execute(params);
 
-		return response.status(200).json({ status: 'success', message: 'params-added' });
+		return response.status(200).json({ status: 'success', message: paramsStored });
 	}
 
 	static async updateParamsQuestion(request: Request, response: Response): Promise<Response>

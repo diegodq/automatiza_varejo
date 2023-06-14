@@ -15,7 +15,7 @@ import AnswerController from "../controllers/AnswerController";
 import TopicController from "../controllers/TopicController";
 import QRCodeController from "../controllers/QRCodeController";
 import LogoClientController from "../controllers/LogoClientController";
-import QuestionParamsController from "../controllers/QuestionParamsController";
+import ParamsQuestionController from "../controllers/ParamsQuestionController";
 import ParamsProductController from "../controllers/ParamsProductController";
 import ProductController from "../controllers/ProductController";
 
@@ -45,7 +45,7 @@ router.get('/answers', isAuthenticated, AnswerController.listAll);
 router.get('/topic', isAuthenticated, TopicController.list);
 router.get('/topics', isAuthenticated, TopicController.listAll);
 router.get('/anchor-question', isAuthenticated, ParamsProductController.listAnchorQuestion);
-router.get('/params/question', isAuthenticated, QuestionParamsController.listParams);
+router.get('/params/question', isAuthenticated, ParamsQuestionController.listParams);
 router.get('/params/product', isAuthenticated, ParamsProductController.listParams);
 router.get('/product/company', isAuthenticated, ProductController.listProducts);
 
@@ -59,7 +59,7 @@ router.post('/question', isAuthenticated, QuestionController.add);
 router.post('/answer', isAuthenticated, AnswerController.add);
 router.post('/topic', isAuthenticated, TopicController.add);
 router.post('/qrcode', isAuthenticated, QRCodeController.generate);
-router.post('/params/question', isAuthenticated, QuestionParamsController.createParamsQuestion);
+router.post('/params/question', isAuthenticated, ParamsQuestionController.createParamsQuestion);
 router.post('/params/product', isAuthenticated, ParamsProductController.addParams);
 router.post('/add/product', isAuthenticated, ProductController.addNewProduct);
 
@@ -77,7 +77,7 @@ router.put('/department', isAuthenticated, DepartmentController.update);
 router.put('/question', isAuthenticated, QuestionController.edit);
 router.put('/answer', isAuthenticated, AnswerController.edit);
 router.put('/topic', isAuthenticated, TopicController.update);
-router.put('/params/question', isAuthenticated, QuestionParamsController.updateParamsQuestion);
+router.put('/params/question', isAuthenticated, ParamsQuestionController.updateParamsQuestion);
 
 router.patch('/avatar', isAuthenticated, uploadAvatar.single('file'), AvatarController.update);
 router.patch('/logo-company', isAuthenticated, uploadLogoClient.single('file'), LogoClientController.update);
