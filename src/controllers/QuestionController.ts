@@ -12,10 +12,10 @@ class QuestionController
 	{
 		const company = request.userId;
 
-		const { title_question, question_description, type_question, status } = request.body;
+		const { title_question, tree_question, question_description, type_question, status } = request.body;
 
 		const createQuestionService = new CreateQuestionService();
-		const questionCreated = await createQuestionService.execute({ title_question, question_description, type_question, status, company });
+		const questionCreated = await createQuestionService.execute({ title_question, tree_question, question_description, type_question, status, company });
 
 		return response.status(200).json({ status: 'success', questionCreated });
 	}

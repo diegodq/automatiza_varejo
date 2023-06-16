@@ -18,12 +18,10 @@ class ListParamsByProductService
 			throw new BadRequestError('no-product');
 		}
 
-		const paramsExists = await paramsProductRepository.findOneBy({ id });
-		if(!paramsExists) {
-			throw new BadRequestError('no-params-product');
-		}
-
 		const listParams = await paramsProductRepository.find({ where: { product: { id } } });
+		if(!listParams) {
+			throw new BadRequestError('no-params-products');
+		}
 
 		return listParams;
 	}

@@ -11,9 +11,6 @@ class ParamsQuestions
 	@JoinColumn({ name: 'question_id', referencedColumnName: 'id' })
 	question: Question;
 
-	@Column({ type: 'tinyint', nullable: true })
-	tree_question: number;
-
 	@Column({ type: 'varchar', length: 80, nullable: true })
 	option_one: string;
 
@@ -41,13 +38,12 @@ class ParamsQuestions
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, question: Question, tree_question: number, option_one: string, option_two: string,
+	constructor(id: number, question: Question, option_one: string, option_two: string,
 		import_type: string, position: number, passing_tree: number,
 		mandatory_question: number, finish_research: number, created_at: Date, updated_at: Date )
 	{
 		this.id = id;
 		this.question = question;
-		this.tree_question = tree_question;
 		this.option_one = option_one;
 		this.option_two = option_two;
 		this.import_type = import_type;
@@ -59,14 +55,14 @@ class ParamsQuestions
 		this.updated_at = updated_at;
 	}
 
+	get getId(): number
+	{
+		return this.id;
+	}
+
 	get getQuestion(): Question
 	{
 		return this.question;
-	}
-
-	get getTreeQuestion(): number
-	{
-		return this.tree_question;
 	}
 
 	get getPosition(): number

@@ -4,7 +4,7 @@ import UpdateBackgroundColorService from "../services/paramsProduct/UpdateBackgr
 import ListAnchorQuestionService from "../services/paramsProduct/ListAnchorQuestionService";
 import ModifyAnchorQuestionService from "../services/paramsProduct/ModifyAnchorQuestionService";
 import AddParamsProductService from "../services/paramsProduct/AddParamsProductService";
-import ListParamsByProductService from "src/services/paramsProduct/ListParamsByProductService";
+import ListParamsByProductService from "../services/paramsProduct/ListParamsByProductService";
 
 class ParamsProductController
 {
@@ -60,7 +60,7 @@ class ParamsProductController
 
 	static async listParams(request: Request, response: Response): Promise<Response>
 	{
-		const { product_id } = request.body;
+		const { product_id } = request.params;
 
 		const listParamsByProductService = new ListParamsByProductService();
 		const listParams = await listParamsByProductService.execute({ product_id });

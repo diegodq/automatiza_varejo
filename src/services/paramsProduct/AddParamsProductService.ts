@@ -1,4 +1,4 @@
-import paramsProductRepository from "src/repositories/paramsProductsRepository";
+import paramsProductRepository from "../../repositories/paramsProductsRepository";
 import Product from "../../entities/Product";
 import productRepository from "../../repositories/productRepository";
 import { BadRequestError } from "../../utils/ApiErrors";

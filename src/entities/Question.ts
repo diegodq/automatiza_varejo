@@ -22,6 +22,9 @@ class Question
 	@Column({ type: 'varchar', nullable: true, length: 100 })
 	title_question: string;
 
+	@Column({ type: 'tinyint', nullable: true })
+	tree_question: number;
+
 	@Column({ type: 'varchar', nullable: true, length: 100 })
 	question_description: string;
 
@@ -37,7 +40,8 @@ class Question
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, params_questions: ParamsQuestions, answer: Answer, company: Company, title_question: string, question_description: string,
+	constructor(id: number, params_questions: ParamsQuestions, answer: Answer, company: Company, title_question: string, tree_question: number,
+		question_description: string,
 		type_question: string, status: number, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
@@ -45,6 +49,7 @@ class Question
 		this.answer = answer;
 		this.company = company;
 		this.title_question = title_question;
+		this.tree_question = tree_question;
 		this.question_description = question_description;
 		this.type_question = type_question;
 		this.status = status;
@@ -70,6 +75,11 @@ class Question
 	get getTitleQuestion(): string
 	{
 		return this.title_question;
+	}
+
+	get getTreeQuestion(): number
+	{
+		return this.tree_question;
 	}
 
 	get getQuestionDescription(): string

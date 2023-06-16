@@ -5,13 +5,9 @@ import Question from "../../entities/Question";
 
 type ParamsType =
 {
-	tree_question: number,
 	option_one: string,
 	option_two: string,
 	import_type: string,
-	position: number,
-	mandatory_question: number,
-	finish_research: number,
 	question: Question;
 }
 
