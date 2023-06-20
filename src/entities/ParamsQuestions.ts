@@ -23,9 +23,6 @@ class ParamsQuestions
 	@Column({ type: 'int', nullable: true })
 	position: number;
 
-	@Column({ type: 'int', nullable: true })
-	passing_tree: number;
-
 	@Column({ type: 'tinyint', nullable: true })
 	mandatory_question: number;
 
@@ -39,7 +36,7 @@ class ParamsQuestions
 	updated_at: Date;
 
 	constructor(id: number, question: Question, option_one: string, option_two: string,
-		import_type: string, position: number, passing_tree: number,
+		import_type: string, position: number,
 		mandatory_question: number, finish_research: number, created_at: Date, updated_at: Date )
 	{
 		this.id = id;
@@ -48,7 +45,6 @@ class ParamsQuestions
 		this.option_two = option_two;
 		this.import_type = import_type;
 		this.position = position;
-		this.passing_tree = passing_tree;
 		this.mandatory_question = mandatory_question;
 		this.finish_research = finish_research;
 		this.created_at = created_at;
@@ -68,11 +64,6 @@ class ParamsQuestions
 	get getPosition(): number
 	{
 		return this.position;
-	}
-
-	get getPassingTree(): number
-	{
-		return this.passing_tree
 	}
 
 	get getMandatoryQuestion(): number

@@ -1,16 +1,17 @@
-import Question from "../../entities/Question";
 import paramsQuestionRepository from "../../repositories/paramsQuestionRepository";
+import Question from "../../entities/Question";
 import { BadRequestError } from "../../utils/ApiErrors";
 
 type ParamsRequest =
 {
+	option_one: string;
+	option_two: string;
+	input_type: string;
+	position: number;
 	question: Question;
-	finish_research: number,
-	mandatory_question: number,
-	position: number,
 }
 
-class UpdateBooleanParamsQuestionService
+class UpdateParamsQuestionService
 {
 	public async execute(params: ParamsRequest[]): Promise<string>
 	{
@@ -28,9 +29,9 @@ class UpdateBooleanParamsQuestionService
 		}
 
 		params.forEach(param => {
-			paramsExists.finish_research = param.finish_research,
-			paramsExists.mandatory_question = param.mandatory_question,
-			paramsExists.position = param.position
+			paramsExists.option_one = param.option_one,
+			paramsExists.option_two = param.option_two,
+			paramsExists.position = param.position;
 		});
 
 		await paramsQuestionRepository.save(paramsExists);
@@ -39,4 +40,4 @@ class UpdateBooleanParamsQuestionService
 	}
 }
 
-export default UpdateBooleanParamsQuestionService;
+export default UpdateParamsQuestionService;

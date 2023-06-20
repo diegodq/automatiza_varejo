@@ -20,13 +20,18 @@ class ParamsProduct
 	@Column({ type: "varchar", length: 100, nullable: true })
 	anchor_question: string;
 
-	constructor(id: number, product: Product, background_color: string, font_color: string, anchor_question: string)
+	@Column({ type: 'int', nullable: true })
+	passing_tree: number;
+
+	constructor(id: number, product: Product, background_color: string, font_color: string, anchor_question: string,
+		passing_tree: number)
 	{
 		this.id = id;
 		this.product = product;
 		this.background_color = background_color;
 		this.font_color = font_color;
 		this.anchor_question = anchor_question;
+		this.passing_tree = passing_tree;
 	}
 
 	get getId(): number
@@ -52,6 +57,11 @@ class ParamsProduct
 	get getAnchorQuestion(): string
 	{
 		return this.anchor_question;
+	}
+
+	get getPassingTree(): number
+	{
+		return this.passing_tree
 	}
 }
 

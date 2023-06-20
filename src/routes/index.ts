@@ -77,7 +77,6 @@ router.put('/department', isAuthenticated, DepartmentController.update);
 router.put('/question', isAuthenticated, QuestionController.edit);
 router.put('/answer', isAuthenticated, AnswerController.edit);
 router.put('/topic', isAuthenticated, TopicController.update);
-router.put('/params/question', isAuthenticated, ParamsQuestionController.updateParamsQuestion);
 
 router.patch('/avatar', isAuthenticated, uploadAvatar.single('file'), AvatarController.update);
 router.patch('/logo-company', isAuthenticated, uploadLogoClient.single('file'), LogoClientController.update);
@@ -92,7 +91,9 @@ router.patch('/topic', isAuthenticated, TopicController.changeStatus);
 router.patch('/department', isAuthenticated, DepartmentController.changeStatus);
 router.patch('/question', isAuthenticated ,QuestionController.changeStatus);
 router.patch('/anchor-question', isAuthenticated, ParamsProductController.changeAnchorQuestion);
+router.patch('/params/passing-tree', isAuthenticated, ParamsProductController.changePassingTree);
 router.patch('/resend-email', CustomerController.resendEmail);
 router.patch('/params/boolean/question', isAuthenticated, ParamsQuestionController.updateBooleanParams);
+router.patch('/params/question', isAuthenticated, ParamsQuestionController.updateParamsQuestion);
 
 export default router;

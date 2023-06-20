@@ -5,6 +5,7 @@ import ListAnchorQuestionService from "../services/paramsProduct/ListAnchorQuest
 import ModifyAnchorQuestionService from "../services/paramsProduct/ModifyAnchorQuestionService";
 import AddParamsProductService from "../services/paramsProduct/AddParamsProductService";
 import ListParamsByProductService from "../services/paramsProduct/ListParamsByProductService";
+import ModifyPassingTreeService from "../services/paramsProduct/ModifyPassingTreeService";
 
 class ParamsProductController
 {
@@ -54,6 +55,16 @@ class ParamsProductController
 
 		const modifyAnchorQuestionService = new ModifyAnchorQuestionService();
 		const anchorQuestion = await modifyAnchorQuestionService.execute({ id_params, anchor_question });
+
+		return response.status(200).json({ status: 'success', message: anchorQuestion });
+	}
+
+	static async changePassingTree(request: Request, response: Response): Promise<Response>
+	{
+		const { id_params, passing_tree } = request.body;
+
+		const modifyPassingTreeService = new ModifyPassingTreeService();
+		const anchorQuestion = await modifyPassingTreeService.execute({ id_params, passing_tree });
 
 		return response.status(200).json({ status: 'success', message: anchorQuestion });
 	}
