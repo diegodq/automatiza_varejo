@@ -56,8 +56,6 @@ class CompanyController
 	{
 		const id = request.userId;
 
-		console.log(id);
-
 		const listQuestionsByCompanyService = new ListQuestionsByCompanyService();
 		const listQuestion = await listQuestionsByCompanyService.execute({ id });
 

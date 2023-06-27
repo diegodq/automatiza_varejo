@@ -1,6 +1,7 @@
 import paramsQuestionRepository from "../../repositories/paramsQuestionRepository";
 import Question from "../../entities/Question";
 import { BadRequestError } from "../../utils/ApiErrors";
+import appDataSource from "../../data-source";
 
 type ParamsRequest =
 {
@@ -28,13 +29,16 @@ class UpdateParamsQuestionService
 			throw new BadRequestError('not-allowed-zero');
 		}
 
+		const queryRunner = appDataSource.createQueryRunner();
+		await queryRunner.connect();
+
 		params.forEach(param => {
-			paramsExists.option_one = param.option_one,
-			paramsExists.option_two = param.option_two,
-			paramsExists.position = param.position;
+			queryRunner.query(`update params_questions set finish_research = ${param.option_one},
+			mandatory_question = ${param.option_two}, input_type = ${param.input_type},
+			position = ${param.position} where question_id = ${param.question}`);
 		});
 
-		await paramsQuestionRepository.save(paramsExists);
+		await queryRunner.release();
 
 		return 'params-updated';
 	}

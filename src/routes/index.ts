@@ -48,6 +48,7 @@ router.get('/anchor-question', isAuthenticated, ParamsProductController.listAnch
 router.get('/params/question/:question_id', isAuthenticated, ParamsQuestionController.listParams);
 router.get('/params/product/:product_id', isAuthenticated, ParamsProductController.listParams);
 router.get('/product/company', isAuthenticated, ProductController.listProducts);
+router.get('/params/questions', isAuthenticated, ParamsQuestionController.listParamsOfQuestion);
 
 router.post('/customer', CustomerController.create);
 router.post('/session', SessionController.create);
@@ -91,9 +92,8 @@ router.patch('/topic', isAuthenticated, TopicController.changeStatus);
 router.patch('/department', isAuthenticated, DepartmentController.changeStatus);
 router.patch('/question', isAuthenticated ,QuestionController.changeStatus);
 router.patch('/anchor-question', isAuthenticated, ParamsProductController.changeAnchorQuestion);
-router.patch('/params/passing-tree', isAuthenticated, ParamsProductController.changePassingTree);
+router.patch('/params/passing/tree', isAuthenticated, ParamsProductController.changePassingTree);
 router.patch('/resend-email', CustomerController.resendEmail);
 router.patch('/params/boolean/question', isAuthenticated, ParamsQuestionController.updateBooleanParams);
-router.patch('/params/question', isAuthenticated, ParamsQuestionController.updateParamsQuestion);
 
 export default router;

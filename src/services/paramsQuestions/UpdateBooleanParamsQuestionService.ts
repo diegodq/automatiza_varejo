@@ -1,6 +1,7 @@
 import Question from "../../entities/Question";
 import paramsQuestionRepository from "../../repositories/paramsQuestionRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
+import appDataSource from "../../data-source";
 
 type ParamsRequest =
 {
@@ -12,7 +13,7 @@ type ParamsRequest =
 
 class UpdateBooleanParamsQuestionService
 {
-	public async execute(params: ParamsRequest[]): Promise<string>
+	public async execute(params: ParamsRequest[]): Promise<any>
 	{
 		const param = params.map(param => { return param.question });
 		const id = Number(param[0]);
@@ -27,13 +28,15 @@ class UpdateBooleanParamsQuestionService
 			throw new BadRequestError('not-allowed-zero');
 		}
 
+		const queryRunner = appDataSource.createQueryRunner();
+		await queryRunner.connect();
+
 		params.forEach(param => {
-			paramsExists.finish_research = param.finish_research,
-			paramsExists.mandatory_question = param.mandatory_question,
-			paramsExists.position = param.position
+			queryRunner.query(`update params_questions set finish_research = ${param.finish_research},
+			mandatory_question = ${param.mandatory_question}, position = ${param.position} where question_id = ${param.question}`);
 		});
 
-		await paramsQuestionRepository.save(paramsExists);
+		await queryRunner.release();
 
 		return 'params-updated';
 	}

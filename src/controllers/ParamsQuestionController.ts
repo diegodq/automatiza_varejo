@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import CreateParamsQuestionService from "../services/paramsQuestions/CreateParamsQuestionService";
 import ListParamsByQuestionService from "../services/paramsQuestions/ListParamsByQuestionService";
 import UpdateBooleanParamsQuestionService from "../services/paramsQuestions/UpdateBooleanParamsQuestionService";
-import UpdateParamsQuestionService from "../services/paramsProduct/UpdateParamsQuestionsService";
+import ListParamsOfQuestionsService from "../services/paramsQuestions/ListParamsOfQuestionsService";
 
 class QuestionParamsController
 {
@@ -18,18 +18,6 @@ class QuestionParamsController
 		return response.status(200).json({ status: 'success', message: paramsStored });
 	}
 
-	static async updateParamsQuestion(request: Request, response: Response): Promise<Response>
-	{
-		const params = request.body.map((item: object) => {
-			return item;
-		});
-
-		const updateParamsQuestionService = new UpdateParamsQuestionService();
-		const paramsUpdated = await updateParamsQuestionService.execute(params);
-
-		return response.status(200).json({ status: 'success', message: paramsUpdated });
-	}
-
 	static async listParams(request: Request, response: Response): Promise<Response>
 	{
 		const { question_id } = request.params;
@@ -40,7 +28,7 @@ class QuestionParamsController
 		return response.status(200).json({ status: 'success', listParams });
 	}
 
-	static async updateBooleanParams(request: Request, response: Response): Promise<Response>
+	static async updateBooleanParams(request: Request, response: Response): Promise<any>
 	{
 		const params = request.body.map((item: object) => {
 			return item;
@@ -49,7 +37,17 @@ class QuestionParamsController
 		const updateBooleanParamsQuestionService = new UpdateBooleanParamsQuestionService();
 		const paramsUpdated = await updateBooleanParamsQuestionService.execute(params);
 
-		return response.status(200).json({status: "success", message: paramsUpdated});
+		return response.status(200).json({status: 'success', message: paramsUpdated });
+	}
+
+	static async listParamsOfQuestion(request: Request, response: Response): Promise<Response>
+	{
+		const id = request.userId;
+
+		const listParamsOfQuestion = new ListParamsOfQuestionsService();
+		const list = await listParamsOfQuestion.execute({ id });
+
+		return response.status(200).json({ status: 'success', list });
 	}
 }
 
