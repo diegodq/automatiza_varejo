@@ -23,7 +23,7 @@ class UpdateBooleanParamsQuestionService
 			throw new BadRequestError('no-params-question');
 		}
 
-		const position = params.map(param => { return param.position })
+		const position = params.map(param => { return param.position });
 		if(position.length <= 0) {
 			throw new BadRequestError('not-allowed-zero');
 		}
