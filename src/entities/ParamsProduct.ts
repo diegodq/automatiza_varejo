@@ -17,20 +17,17 @@ class ParamsProduct
 	@Column({ type: 'varchar', length: 20, nullable: true })
 	font_color: string;
 
-	@Column({ type: "varchar", length: 100, nullable: true })
-	anchor_question: string;
-
 	@Column({ type: 'int', nullable: true })
 	passing_tree: number;
 
-	constructor(id: number, product: Product, background_color: string, font_color: string, anchor_question: string,
+	constructor(id: number, product: Product, background_color: string, font_color: string,
 		passing_tree: number)
 	{
 		this.id = id;
 		this.product = product;
 		this.background_color = background_color;
 		this.font_color = font_color;
-		this.anchor_question = anchor_question;
+
 		this.passing_tree = passing_tree;
 	}
 
@@ -52,11 +49,6 @@ class ParamsProduct
 	get getFontColor(): string
 	{
 		return this.font_color;
-	}
-
-	get getAnchorQuestion(): string
-	{
-		return this.anchor_question;
 	}
 
 	get getPassingTree(): number

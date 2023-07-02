@@ -1,26 +1,17 @@
 import appDataSource from "../../data-source";
 import productRepository from "../../repositories/productRepository";
-import Company from "../../entities/Company";
-import companyRepository from "../../repositories/companyRepository";
-import { BadRequestError } from "../../utils/ApiErrors";
 
 interface RequestProduct
 {
 	name: string;
 	description: string;
-	company: Company;
 }
 
 class CreateProductService
 {
-	public async execute({ name, description, company }: RequestProduct): Promise<string>
+	public async execute({ name, description }: RequestProduct): Promise<string>
 	{
-		const companyExists = await companyRepository.findOneBy({ id: Number(company) });
-		if(!companyExists) {
-			throw new BadRequestError('no-company');
-		}
-
-		const newProduct = productRepository.create({ name, description, company });
+		const newProduct = productRepository.create({ name, description });
 		await productRepository.save(newProduct);
 
 		const queryRunner = appDataSource.createQueryRunner();

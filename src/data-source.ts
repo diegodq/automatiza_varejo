@@ -16,7 +16,7 @@ import ParamsProduct from './entities/ParamsProduct';
 
 const port = process.env.DB_PORT as number | undefined;
 
-import { default1687834677330 } from './migrations/1687834677330-default'
+import { default1688311011317 } from './migrations/1688311011317-default';
 
 const appDataSource = new DataSource({
 	type: "mysql",
@@ -40,7 +40,7 @@ const appDataSource = new DataSource({
 		ParamsProduct
 	],
 	migrations: [
-		default1687834677330
+		default1688311011317
 	]
 });
 

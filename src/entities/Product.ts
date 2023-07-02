@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Company from "./Company";
 import ParamsProduct from "./ParamsProduct";
 
@@ -8,9 +8,19 @@ class Product
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@ManyToOne(() => Company, company => company.product, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
-	@JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
-	company: Company;
+	@ManyToMany(() => Company, company => company.product, { nullable: true })
+	@JoinTable({
+		name: 'product_company',
+		joinColumn: {
+			name: 'product_id',
+			referencedColumnName: 'id'
+		},
+		inverseJoinColumn: {
+			name: 'company_id',
+			referencedColumnName: 'id'
+		}
+	})
+	company: Company[];
 
 	@OneToOne(() => ParamsProduct, params_product => params_product.product)
 	params_product: ParamsProduct;
@@ -21,19 +31,23 @@ class Product
 	@Column({ type: 'varchar', length: 180 })
 	description: string;
 
+	@Column({ type: "varchar", length: 100, nullable: true })
+	anchor_question: string;
+
 	@CreateDateColumn()
 	created_at: Date;
 
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, company: Company, params_product: ParamsProduct, name: string, description: string, created_at: Date, updated_at: Date)
+	constructor(id: number, company: Company[], params_product: ParamsProduct, name: string, description: string, anchor_question: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.company = company;
 		this.params_product = params_product;
 		this.name = name;
 		this.description = description;
+		this.anchor_question = anchor_question;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
@@ -43,7 +57,7 @@ class Product
 		return this.id;
 	}
 
-	get getCompany(): Company
+	get getCompany(): Company[]
 	{
 		return this.company;
 	}
@@ -61,6 +75,11 @@ class Product
 	get getDescription(): string
 	{
 		return this.description;
+	}
+
+	get getAnchorQuestion(): string
+	{
+		return this.anchor_question;
 	}
 
 	get getCreatedAt(): Date

@@ -7,6 +7,7 @@ import UpdateCompanyService from "../services/company/UpdateCompanyService";
 import ListDepartmentsByCompanyService from "../services/department/ListDepartmentsByCompanyService";
 import ListTopicsByCompanyService from "../services/company/ListTopicsByCompanyService";
 import ListQuestionsByCompanyService from "../services/question/ListQuestionsByCompanyService";
+import LinkCompanyToProductService from "../services/company/LinkCompanyToProductService";
 
 class CompanyController
 {
@@ -92,6 +93,16 @@ class CompanyController
 			zip_code, state, city, district, address, complement, number });
 
 		return response.status(200).json({ status: 'success', message: updateCompany });
+	}
+
+	static async linkCompanyToProduct(request: Request, response: Response)
+	{
+		const { company_id, product_id } = request.body;
+
+		const linkCompanyToProductService = new LinkCompanyToProductService();
+		const linkDone = await linkCompanyToProductService.execute({ company_id, product_id });
+
+		return response.status(200).json({ status: 'success', message: linkDone });
 	}
 }
 

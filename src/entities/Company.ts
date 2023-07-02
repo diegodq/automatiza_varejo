@@ -1,4 +1,4 @@
-import {Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
+import {Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
 import Customer from "./Customer";
 import Question from './Question';
 import Department from './Department';
@@ -15,7 +15,7 @@ class Company
 	@JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
 	customer: Customer;
 
-	@OneToMany(() => Product, product => product.company)
+	@ManyToMany(() => Product, product => product.company)
 	product: Product[];
 
 	@OneToMany(() => Question, question => question.company)

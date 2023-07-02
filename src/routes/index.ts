@@ -44,7 +44,7 @@ router.get('/answer', isAuthenticated, AnswerController.list);
 router.get('/answers', isAuthenticated, AnswerController.listAll);
 router.get('/topic', isAuthenticated, TopicController.list);
 router.get('/topics', isAuthenticated, TopicController.listAll);
-router.get('/anchor-question', isAuthenticated, ParamsProductController.listAnchorQuestion);
+router.get('/anchor-question', isAuthenticated, ProductController.listAnchorQuestion);
 router.get('/params/question/:question_id', isAuthenticated, ParamsQuestionController.listParams);
 router.get('/params/product/:product_id', isAuthenticated, ParamsProductController.listParams);
 router.get('/product/company', isAuthenticated, ProductController.listProducts);
@@ -63,6 +63,7 @@ router.post('/qrcode', isAuthenticated, QRCodeController.generate);
 router.post('/params/question', isAuthenticated, ParamsQuestionController.createParamsQuestion);
 router.post('/params/product', isAuthenticated, ParamsProductController.addParams);
 router.post('/add/product', isAuthenticated, ProductController.addNewProduct);
+router.post('/link/company/product', isAuthenticated, CompanyController.linkCompanyToProduct);
 
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);
@@ -95,5 +96,9 @@ router.patch('/anchor-question', isAuthenticated, ParamsProductController.change
 router.patch('/params/passing/tree', isAuthenticated, ParamsProductController.changePassingTree);
 router.patch('/resend-email', CustomerController.resendEmail);
 router.patch('/params/boolean/question', isAuthenticated, ParamsQuestionController.updateBooleanParams);
+
+// nps
+
+
 
 export default router;

@@ -2,7 +2,6 @@ import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Up
 import Company from "./Company";
 import CustomerTokens from "./CustomerTokens";
 import UserTokens from "./CustomerTokens";
-import Product from "./Product";
 
 @Entity('customer')
 class Customer

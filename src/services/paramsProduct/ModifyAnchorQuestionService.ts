@@ -1,5 +1,6 @@
 import { BadRequestError } from "../../utils/ApiErrors";
 import paramsProduct from "../../repositories/paramsProductsRepository";
+import productRepository from "src/repositories/productRepository";
 
 type TopicRequest =
 {
@@ -11,7 +12,7 @@ class ModifyAnchorQuestionService
 {
 	public async execute({ id_params, anchor_question }: TopicRequest): Promise<string>
 	{
-		const anchorQuestionExists = await paramsProduct.findOneBy({ id: id_params });
+		const anchorQuestionExists = await productRepository.findOneBy({ id: id_params });
 		if(!anchorQuestionExists) {
 			throw new BadRequestError('no-anchor-question');
 		}

@@ -1,16 +1,16 @@
-import paramsProduct from "../../repositories/paramsProductsRepository";
+import productRepository from "../../repositories/productRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 
 type QuestionRequest =
 {
-	id_params: number;
+	product_id: string;
 }
 
 class ListAnchorQuestionService
 {
-	public async execute({ id_params }: QuestionRequest): Promise<string>
+	public async execute({ product_id }: QuestionRequest): Promise<string>
 	{
-		const anchorQuestionExists = await paramsProduct.findOneBy({ id: id_params });
+		const anchorQuestionExists = await productRepository.findOneBy({ id: Number(product_id) });
 		if(!anchorQuestionExists) {
 			throw new BadRequestError('no-params');
 		}
