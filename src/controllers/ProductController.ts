@@ -1,5 +1,6 @@
 import { Response, Request } from 'express';
 import CreateProductService from '../services/product/CreateProductService';
+import ModifyAnchorQuestionService from "../services/paramsProduct/ModifyAnchorQuestionService";
 import ListProductByCompanyService from '../services/product/ListProductByCompanyService';
 import ListAnchorQuestionService from '../services/paramsProduct/ListAnchorQuestionService';
 
@@ -23,6 +24,16 @@ class ProductController
 		const products = await listProductByCompanyService.execute({ company });
 
 		return response.status(200).json({ status: 'success', products });
+	}
+
+	static async changeAnchorQuestion(request: Request, response: Response): Promise<Response>
+	{
+		const { id_product, anchor_question } = request.body;
+
+		const modifyAnchorQuestionService = new ModifyAnchorQuestionService();
+		const anchorQuestion = await modifyAnchorQuestionService.execute({ id_product, anchor_question });
+
+		return response.status(200).json({ status: 'success', anchorQuestion: anchorQuestion });
 	}
 
 	static async listAnchorQuestion(request: Request, response: Response): Promise<Response>

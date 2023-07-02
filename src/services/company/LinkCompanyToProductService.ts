@@ -16,12 +16,12 @@ class LinkCompanyToProductService
 	{
 		const productExists = await productRepository.findOneBy({ id: product_id });
 		if(!productExists) {
-			throw new BadRequestError('product-dot-no-exists');
+			throw new BadRequestError('product-does-not-exists');
 		}
 
 		const companyExists = await companyRepository.findOneBy({ id: company_id });
 		if(!companyExists) {
-			throw new BadRequestError('company-dot-no-exists');
+			throw new BadRequestError('company-does-not-exists');
 		}
 
 		const queryRunner = appDataSource.createQueryRunner();

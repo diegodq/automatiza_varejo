@@ -1,20 +1,20 @@
 import { BadRequestError } from "../../utils/ApiErrors";
-import paramsProduct from "../../repositories/paramsProductsRepository";
-import productRepository from "src/repositories/productRepository";
+import productRepository from "../../repositories/productRepository";
+
 
 type TopicRequest =
 {
-	id_params: number;
+	id_product: number;
 	anchor_question: string;
 }
 
 class ModifyAnchorQuestionService
 {
-	public async execute({ id_params, anchor_question }: TopicRequest): Promise<string>
+	public async execute({ id_product, anchor_question }: TopicRequest): Promise<string>
 	{
-		const anchorQuestionExists = await productRepository.findOneBy({ id: id_params });
+		const anchorQuestionExists = await productRepository.findOneBy({ id: id_product });
 		if(!anchorQuestionExists) {
-			throw new BadRequestError('no-anchor-question');
+			throw new BadRequestError('no-product');
 		}
 
 		if(anchorQuestionExists.anchor_question == anchor_question) {
@@ -22,7 +22,7 @@ class ModifyAnchorQuestionService
 		}
 
 		anchorQuestionExists.anchor_question = anchor_question;
-		await paramsProduct.save(anchorQuestionExists);
+		await productRepository.save(anchorQuestionExists);
 
 		return anchorQuestionExists.anchor_question;
 	}
