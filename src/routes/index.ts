@@ -18,7 +18,7 @@ import LogoClientController from "../controllers/LogoClientController";
 import ParamsQuestionController from "../controllers/ParamsQuestionController";
 import ParamsProductController from "../controllers/ParamsProductController";
 import ProductController from "../controllers/ProductController";
-import NPSController from "src/controllers/NPSController";
+import NPSController from "../controllers/NPSController";
 
 const uploadAvatar = multer(avatarConfig);
 const uploadLogoClient = multer(configLogoClient);
