@@ -18,6 +18,7 @@ import LogoClientController from "../controllers/LogoClientController";
 import ParamsQuestionController from "../controllers/ParamsQuestionController";
 import ParamsProductController from "../controllers/ParamsProductController";
 import ProductController from "../controllers/ProductController";
+import NPSController from "src/controllers/NPSController";
 
 const uploadAvatar = multer(avatarConfig);
 const uploadLogoClient = multer(configLogoClient);
@@ -99,6 +100,7 @@ router.patch('/params/boolean/question', isAuthenticated, ParamsQuestionControll
 
 // nps
 
-
+router.get('/nps/header/:cnpj', NPSController.listAnchorQuestionAndLogoClient);
+router.get('/nps/company/:cnpj/questions');
 
 export default router;
