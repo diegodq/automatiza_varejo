@@ -99,7 +99,6 @@ router.patch('/resend-email', CustomerController.resendEmail);
 router.patch('/params/boolean/question', isAuthenticated, ParamsQuestionController.updateBooleanParams);
 
 // nps
-
 router.get('/nps/header/:cnpj', NPSController.listAnchorQuestionAndLogoClient);
 router.get('/nps/company/:cnpj/questions');
 
