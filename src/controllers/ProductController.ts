@@ -8,10 +8,12 @@ class ProductController
 {
 	static async addNewProduct(request: Request, response: Response): Promise<Response>
 	{
+		const company = request.userId;
+		
 		const { name, description } = request.body;
 
 		const createProductService = new CreateProductService();
-		const newProduct = await createProductService.execute({ name, description });
+		const newProduct = await createProductService.execute({ name, description, company });
 
 		return response.status(200).json({ status: 'success', message: newProduct });
 	}

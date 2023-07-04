@@ -22,7 +22,11 @@ class ListQuestionAndParamsService
 			where: { cnpj }
 		})
 
-		return questionsByCompany;
+		const questions = questionsByCompany.map(item => {
+			return item.question;
+		});
+
+		return questions;
 	}
 }
 

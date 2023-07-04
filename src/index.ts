@@ -1,5 +1,4 @@
 import 'express-async-errors';
-
 import express from 'express';
 import appDataSource from './data-source';
 import errorMiddleware from './middleware/errorsMiddleware';
@@ -10,10 +9,10 @@ import configLogoClient from './configurations/configLogoClient';
 import https from 'https';
 import fs from 'fs';
 
-const options = {
-	key: fs.readFileSync('/etc/letsencrypt/live/automatizavarejo.com.br/privkey.pem'),
-	cert: fs.readFileSync('/etc/letsencrypt/live/automatizavarejo.com.br/fullchain.pem')
-}
+// const options = {
+// 	key: fs.readFileSync('/etc/letsencrypt/live/automatizavarejo.com.br/privkey.pem'),
+// 	cert: fs.readFileSync('/etc/letsencrypt/live/automatizavarejo.com.br/fullchain.pem')
+// }
 
 const app = express();
 
@@ -43,7 +42,7 @@ appDataSource.initialize().then(() => {
 		console.log('api running on port 3007');
 	});
 
-	https.createServer(options, app).listen();
+	// https.createServer(options, app).listen();
 
 }).catch(() => {
 	console.log('API não conseguiu conectar-se ao Banco de Dados');

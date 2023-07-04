@@ -100,6 +100,7 @@ router.patch('/params/boolean/question', isAuthenticated, ParamsQuestionControll
 
 // nps
 router.get('/nps/header/:cnpj', NPSController.listAnchorQuestionAndLogoClient);
-router.get('/nps/company/:cnpj/questions');
+router.get('/nps/company/:cnpj/questions', NPSController.listQuestionAndParams);
+router.get('/nps/company/:cnpj/product', NPSController.listProductByCompany);
 
 export default router;
