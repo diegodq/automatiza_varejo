@@ -23,7 +23,7 @@ class NPSController
 		const questionsByCompany = await listQuestionAndParamsService.execute({ cnpj });
 
 
-		return response.status(200).json({ message: 'success', questionsByCompany });
+		return response.status(200).json(questionsByCompany);
 	}
 
 	static async listProductByCompany(request: Request, response: Response): Promise<Response>

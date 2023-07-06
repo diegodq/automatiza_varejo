@@ -1,3 +1,4 @@
+import questionRepository from "../../repositories/questionRepository";
 import companyRepository from "../../repositories/companyRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 
@@ -15,18 +16,19 @@ class ListQuestionAndParamsService
 			throw new BadRequestError('no-company');
 		}
 
-		const questionsByCompany = await companyRepository.find({
+		const id = companyExists.getId;
+
+		const questions = await questionRepository.find({
 			relations: {
-				question: true
+				params_questions: true
 			},
-			where: { cnpj }
+
+			where: {
+				company: { id }
+			}
 		})
 
-		const questions = questionsByCompany.map(item => {
-			return item.question;
-		});
-
-		return questions;
+		return { status: "success", "questions": questions };
 	}
 }
 
