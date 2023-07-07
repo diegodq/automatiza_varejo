@@ -1,4 +1,4 @@
-import { BadRequestError } from "src/utils/ApiErrors";
+import { BadRequestError } from "../../utils/ApiErrors";
 import companyRepository from "../../repositories/companyRepository";
 import productRepository from "../../repositories/productRepository";
 
