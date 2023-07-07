@@ -1,4 +1,6 @@
+import { BadRequestError } from "src/utils/ApiErrors";
 import companyRepository from "../../repositories/companyRepository";
+import productRepository from "../../repositories/productRepository";
 
 type NpsRequest =
 {
@@ -9,15 +11,24 @@ class ListProductByCompanyService
 {
 	public async execute({ cnpj }: NpsRequest)
 	{
-		const companyExists = await companyRepository.find({
+		const companyExists = await companyRepository.findOneBy({ cnpj });
+		if(!companyExists) {
+			throw new BadRequestError('no-company');
+		}
+
+		const id = companyExists.getId;
+
+		const paramsProduct = await productRepository.find({
 			relations: {
-				product: true
+				params_product: true
 			},
 
-			where: { cnpj }
+			where: {
+				company: { id }
+			}
 		});
 
-		return companyExists;
+		return { status: 'success', paramsProduct: paramsProduct}
 	}
 }
 

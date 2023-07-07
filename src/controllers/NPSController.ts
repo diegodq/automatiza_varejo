@@ -1,16 +1,16 @@
 import { Request, Response } from "express";
-import ListAnchorQuestionAndLogoClientService from "../services/nps/ListAnchorQuestionAndLogoClientService";
 import ListQuestionAndParamsService from "../services/nps/ListQuestionAndParamsService";
 import ListProductByCompanyService from "../services/nps/ListProductByCompanyService";
+import ListAnchorQuestionAndLogoClientService from "../services/nps/ListAnchorQuestionAndLogoClientService";
 
 class NPSController
 {
-	static async listAnchorQuestionAndLogoClient(request: Request, response: Response): Promise<Response>
+	static async listAnchorQuestionAndLogo(request: Request, response: Response): Promise<Response>
 	{
 		const { cnpj } = request.params;
 
-		const listAnchorQuestionAndLogoClientService = new ListAnchorQuestionAndLogoClientService();
-		const data = await listAnchorQuestionAndLogoClientService.execute({ cnpj });
+		const listAnchorAndLogoClient = new ListAnchorQuestionAndLogoClientService();
+		const data = await listAnchorAndLogoClient.execute({ cnpj });
 
 		return response.status(200).json(data);
 	}
