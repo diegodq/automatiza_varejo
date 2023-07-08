@@ -1,16 +1,21 @@
 import questionRepository from "../../repositories/questionRepository";
 import companyRepository from "../../repositories/companyRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
+import formatCNPJ from "../../utils/formatCNPJ";
 
-type NpsRequest =
-{
-	cnpj: string;
+type NPSRequest = {
+	cnpj_company: string
 }
 
 class ListQuestionAndParamsService
 {
-	public async execute({ cnpj }: NpsRequest): Promise<object>
+	public async execute({ cnpj_company }: NPSRequest): Promise<object>
 	{
+		const cnpj = formatCNPJ(cnpj_company);
+		if(cnpj.length < 14 && cnpj.length > 15) {
+			throw new BadRequestError('invalid-cnpj');
+		}
+
 		const companyExists = await companyRepository.findOneBy({ cnpj });
 		if(!companyExists) {
 			throw new BadRequestError('no-company');

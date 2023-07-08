@@ -7,20 +7,20 @@ class NPSController
 {
 	static async listAnchorQuestionAndLogo(request: Request, response: Response): Promise<Response>
 	{
-		const { cnpj } = request.params;
+		const { cnpj_company } = request.params;
 
 		const listAnchorAndLogoClient = new ListAnchorQuestionAndLogoClientService();
-		const data = await listAnchorAndLogoClient.execute({ cnpj });
+		const data = await listAnchorAndLogoClient.execute({ cnpj_company });
 
 		return response.status(200).json(data);
 	}
 
 	static async listQuestionAndParams(request: Request, response: Response): Promise<Response>
 	{
-		const { cnpj } = request.params;
+		const { cnpj_company } = request.params;
 
 		const listQuestionAndParamsService = new ListQuestionAndParamsService();
-		const questionsByCompany = await listQuestionAndParamsService.execute({ cnpj });
+		const questionsByCompany = await listQuestionAndParamsService.execute({ cnpj_company });
 
 
 		return response.status(200).json(questionsByCompany);
@@ -28,10 +28,10 @@ class NPSController
 
 	static async listProductByCompany(request: Request, response: Response): Promise<Response>
 	{
-		const { cnpj } = request.params;
+		const { cnpj_company } = request.params;
 
 		const listProductByCompany = new ListProductByCompanyService();
-		const product = await listProductByCompany.execute({ cnpj });
+		const product = await listProductByCompany.execute({ cnpj_company });
 
 		return response.status(200).json({ message: 'success', product });
 	}

@@ -3,19 +3,19 @@ import { BadRequestError } from "../../utils/ApiErrors";
 import formatCNPJ from "../../utils/formatCNPJ";
 
 type NPSRequest = {
-	cnpj: string
+	cnpj_company: string
 }
 
 class ListAnchorQuestionAndLogoClientService
 {
-	public async execute({ cnpj }: NPSRequest): Promise<object>
+	public async execute({ cnpj_company }: NPSRequest): Promise<object>
 	{
-		const cnpjCompany = formatCNPJ(cnpj);
-		if(cnpjCompany.length < 14) {
+		const cnpj = formatCNPJ(cnpj_company);
+		if(cnpj.length < 14 && cnpj.length > 15) {
 			throw new BadRequestError('invalid-cnpj');
 		}
 
-		const companyExists = await companyRepository.findOneBy({ cnpj: cnpjCompany });
+		const companyExists = await companyRepository.findOneBy({ cnpj });
 		if(!companyExists) {
 			throw new BadRequestError('no-company');
 		}

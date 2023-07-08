@@ -99,8 +99,8 @@ router.patch('/resend-email', CustomerController.resendEmail);
 router.patch('/params/boolean/question', isAuthenticated, ParamsQuestionController.updateBooleanParams);
 
 // nps
-router.get('/nps/header/:cnpj', NPSController.listAnchorQuestionAndLogo);
-router.get('/nps/company/:cnpj/questions', NPSController.listQuestionAndParams);
-router.get('/nps/product/params/:cnpj', NPSController.listProductByCompany);
+router.get('/nps/header/:cnpj_company', NPSController.listAnchorQuestionAndLogo);
+router.get('/nps/company/:cnpj_company/questions', NPSController.listQuestionAndParams);
+router.get('/nps/product/params/:cnpj_company', NPSController.listProductByCompany);
 
 export default router;
