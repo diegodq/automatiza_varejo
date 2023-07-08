@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import ListQuestionAndParamsService from "../services/nps/ListQuestionAndParamsService";
 import ListProductByCompanyService from "../services/nps/ListProductByCompanyService";
 import ListAnchorQuestionAndLogoClientService from "../services/nps/ListAnchorQuestionAndLogoClientService";
+import ListTopicByCompany from "../services/nps/ListTopicByCompany";
 
 class NPSController
 {
@@ -34,6 +35,16 @@ class NPSController
 		const product = await listProductByCompany.execute({ cnpj_company });
 
 		return response.status(200).json({ message: 'success', product });
+	}
+
+	static async listTopicByCompany(request: Request, response: Response)
+	{
+		const { cnpj_company } = request.params;
+
+		const listTopicByCompany = new ListTopicByCompany();
+		const topics = await listTopicByCompany.execute({ cnpj_company });
+
+		return response.status(200).json(topics);
 	}
 }
 

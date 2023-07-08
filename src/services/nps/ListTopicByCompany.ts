@@ -1,13 +1,12 @@
 import { BadRequestError } from "../../utils/ApiErrors";
-import companyRepository from "../../repositories/companyRepository";
-import productRepository from "../../repositories/productRepository";
 import formatCNPJ from "../../utils/formatCNPJ";
+import companyRepository from "../../repositories/companyRepository";
 
 type NPSRequest = {
 	cnpj_company: string
 }
 
-class ListProductByCompanyService
+class ListTopicByCompany
 {
 	public async execute({ cnpj_company }: NPSRequest): Promise<object>
 	{
@@ -23,18 +22,19 @@ class ListProductByCompanyService
 
 		const id = companyExists.getId;
 
-		const paramsProduct = await productRepository.find({
+		const topicByCompany = await companyRepository.find({
 			relations: {
-				params_product: true
+				topic: true
 			},
-
-			where: {
-				company: { id }
-			}
+			where: { id }
 		});
 
-		return { status: 'success', paramsProduct: paramsProduct}
+		const topics = topicByCompany.map(item => {
+			return item.topic;
+		});
+
+		return { status: 'success', topic: topics }
 	}
 }
 
-export default ListProductByCompanyService;
+export default ListTopicByCompany;
