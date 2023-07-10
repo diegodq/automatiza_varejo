@@ -3,7 +3,7 @@ import ListQuestionAndParamsService from "../services/nps/ListQuestionAndParamsS
 import ListProductByCompanyService from "../services/nps/ListProductByCompanyService";
 import ListAnchorQuestionAndLogoClientService from "../services/nps/ListAnchorQuestionAndLogoClientService";
 import ListTopicByCompany from "../services/nps/ListTopicByCompany";
-import ListDepartmentsByCompany from "src/services/nps/ListDepartmentsByCompany";
+import ListDepartmentsByCompany from "../services/nps/ListDepartmentsByCompany";
 
 class NPSController
 {
