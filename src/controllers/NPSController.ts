@@ -3,6 +3,7 @@ import ListQuestionAndParamsService from "../services/nps/ListQuestionAndParamsS
 import ListProductByCompanyService from "../services/nps/ListProductByCompanyService";
 import ListAnchorQuestionAndLogoClientService from "../services/nps/ListAnchorQuestionAndLogoClientService";
 import ListTopicByCompany from "../services/nps/ListTopicByCompany";
+import ListDepartmentsByCompany from "src/services/nps/ListDepartmentsByCompany";
 
 class NPSController
 {
@@ -45,6 +46,16 @@ class NPSController
 		const topics = await listTopicByCompany.execute({ cnpj_company });
 
 		return response.status(200).json(topics);
+	}
+
+	static async listDepartmentsByCompany(request: Request, response: Response)
+	{
+		const { cnpj_company } = request.params;
+
+		const listDepartmentsByCompany = new ListDepartmentsByCompany();
+		const departments = await listDepartmentsByCompany.execute({ cnpj_company });
+
+		return response.status(200).json(departments);
 	}
 }
 
