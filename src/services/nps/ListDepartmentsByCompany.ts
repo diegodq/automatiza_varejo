@@ -30,10 +30,10 @@ class ListDepartmentsByCompany
 		});
 
 		const departments = topicByCompany.map(item => {
-			return item.topic;
+			return item.department;
 		});
 
-		return { status: 'success', topic: departments }
+		return { status: 'success', departments: departments }
 	}
 }
 
