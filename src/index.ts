@@ -1,6 +1,6 @@
 import 'express-async-errors';
 import express from 'express';
-import appDataSource from './data-source';3
+import appDataSource from './data-source';
 import errorMiddleware from './middleware/errorsMiddleware';
 import routes from './routes';
 import cors from 'cors';
@@ -28,6 +28,7 @@ appDataSource.initialize().then(() => {
 
 	app.use('/avatar', express.static(avatarConfig.directory));
 	app.use('/logo', express.static(configLogoClient.directory));
+	app.use('/qrcode', express.static(__dirname +'/qrcode'));
 
 	app.use(express.json());
 	app.use(express.urlencoded({
