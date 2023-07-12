@@ -8,10 +8,7 @@ class ProductController
 {
 	static async addNewProduct(request: Request, response: Response): Promise<Response>
 	{
-		const company = request.userId;
-		console.log(company);
-
-		const { name, description } = request.body;
+		const { name, description, company } = request.body;
 
 		const createProductService = new CreateProductService();
 		const newProduct = await createProductService.execute({ name, description, company });
