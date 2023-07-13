@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Company from "./Company";
 import ParamsProduct from "./ParamsProduct";
 
@@ -8,9 +8,8 @@ class Product
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@OneToOne(() => Company, company => company.product, { nullable: true })
-	@JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
-	company: Company;
+	@ManyToMany(() => Company, company => company.product)
+	company: Company[];
 
 	@OneToOne(() => ParamsProduct, params_product => params_product.product)
 	params_product: ParamsProduct;
@@ -30,7 +29,7 @@ class Product
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, company: Company, params_product: ParamsProduct, name: string, description: string, anchor_question: string, created_at: Date, updated_at: Date)
+	constructor(id: number, company: Company[], params_product: ParamsProduct, name: string, description: string, anchor_question: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.company = company;
@@ -47,7 +46,7 @@ class Product
 		return this.id;
 	}
 
-	get getCompany(): Company
+	get getCompany(): Company[]
 	{
 		return this.company;
 	}

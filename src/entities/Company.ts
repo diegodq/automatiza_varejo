@@ -1,4 +1,4 @@
-import {Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
+import {Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm';
 import Customer from "./Customer";
 import Question from './Question';
 import Department from './Department';
@@ -11,11 +11,22 @@ class Company
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@ManyToOne(() => Customer, customer => customer.company, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
+	@ManyToOne(() => Customer, customer => customer.company, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
 	@JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
 	customer: Customer;
 
-	@OneToMany(() => Product, product => product.company)
+	@ManyToMany(() => Product, product => product.company)
+	@JoinTable({
+		name: 'company_product',
+		joinColumn: {
+			name: 'product_id',
+			referencedColumnName: 'id'
+		},
+		inverseJoinColumn: {
+			name: 'company_id',
+			referencedColumnName: 'id'
+		}
+	})
 	product: Product[];
 
 	@OneToMany(() => Question, question => question.company)
