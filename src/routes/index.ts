@@ -1,0 +1,128 @@
+import express from 'express';
+import multer from "multer";
+import ContactUsController from "../controllers/ContactUsController";
+import CustomerController from "../controllers/CustomerController";
+import CompanyController from "../controllers/CompanyController";
+import SessionController from "../controllers/SessionController";
+import isAuthenticated from "../middleware/isAuthenticated";
+import WelcomeController from "../controllers/WelcomeController";
+import avatarConfig from "../configurations/avatarConfig";
+import configLogoClient from "../configurations/configLogoClient";
+import AvatarController from "../controllers/AvatarController";
+import DepartmentController from "../controllers/DepartmentController";
+import QuestionController from "../controllers/QuestionController";
+import AnswerController from "../controllers/AnswerController";
+import TopicController from "../controllers/TopicController";
+import QRCodeController from "../controllers/QRCodeController";
+import LogoClientController from "../controllers/LogoClientController";
+import ParamsQuestionController from "../controllers/ParamsQuestionController";
+import ProductController from "../controllers/ProductController";
+import NPSController from "../controllers/NPSController";
+import HashDateController from "../controllers/HashDateController";
+import validateRequestSchema from "../middleware/validateRequestSchema";
+import ReportsController from "../controllers/ReportsController";
+import ParamsProductController from "../controllers/ParamsProductController";
+
+import { validateCreateUser, validateSession, validateForgotPassword, validateCreateCompany,
+	contactUS, createQuestion, createTopic, generateQrCode,
+	addParamsController, addProduct, linkedProducts } from "../utils/validateFieldsSchema";
+import DashboardController from 'src/controllers/DashboardController';
+
+const uploadAvatar = multer(avatarConfig);
+const uploadLogoClient = multer(configLogoClient);
+
+const router = express.Router();
+
+router.get('/welcome', WelcomeController.welcome);
+router.get('/customers', isAuthenticated, CustomerController.list);
+router.get('/details', isAuthenticated, CustomerController.showDetailsCustomer);
+router.get('/customer', isAuthenticated, CustomerController.show);
+router.get('/companies', isAuthenticated, CompanyController.list);
+router.get('/company/:id', isAuthenticated, CompanyController.show);
+router.get('/company-departments', isAuthenticated, CompanyController.listDepartmentsByCompany);
+router.get('/company-topics', isAuthenticated, CompanyController.listTopicsByCompany);
+router.get('/company-questions', isAuthenticated, CompanyController.listQuestionByCompany);
+router.get('/avatar', isAuthenticated, AvatarController.returnAvatar);
+router.get('/logo-company',isAuthenticated, LogoClientController.returnLogo);
+router.get('/has-company', isAuthenticated, CustomerController.checkHasCompany);
+router.get('/department', isAuthenticated, DepartmentController.list);
+router.get('/departments', isAuthenticated, DepartmentController.listAll);
+router.get('/question', isAuthenticated, QuestionController.list);
+router.get('/questions/:from?/:to?', isAuthenticated, QuestionController.listAll);
+router.get('/answer', isAuthenticated, AnswerController.list);
+router.get('/research/:from?/:to?', isAuthenticated, AnswerController.listResearch);
+router.get('/answers/:from?/:to?', isAuthenticated, AnswerController.listAll);
+router.get('/topic', isAuthenticated, TopicController.list);
+router.get('/topics', isAuthenticated, TopicController.listAll);
+router.get('/anchor-question', isAuthenticated, ParamsProductController.listAnchorQuestion);
+router.get('/background-color', isAuthenticated, ParamsProductController.listBackgroundColor);
+router.get('/passing-tree', isAuthenticated, ParamsProductController.listPassingTree);
+router.get('/font-color', isAuthenticated, ParamsProductController.listFontColor);
+router.get('/params/question/:question_id', isAuthenticated, ParamsQuestionController.listParams);
+router.get('/product/company', isAuthenticated, ProductController.listProducts);
+router.get('/params/questions', isAuthenticated, ParamsQuestionController.listParamsOfQuestion);
+//charts
+router.get('/dashboard/topics/:from/:to/:type_tree', isAuthenticated, DashboardController.toAmountTopicInAnswers);
+router.get('/dashboard/department/:from/:to/:type_tree', isAuthenticated, DashboardController.toAmountDepartmentInAnswers);
+router.get('/dashboard/employee/:from/:to/:type_tree', isAuthenticated, DashboardController.toAmountEmployeesInAnswers);
+
+router.post('/customer', CustomerController.create);
+router.post('/session', SessionController.create);
+router.post('/forgot-password', CustomerController.send);
+router.post('/company', isAuthenticated, CompanyController.create);
+router.post('/contact-us', ContactUsController.sendNewMessage);
+router.post('/department', isAuthenticated, DepartmentController.add);
+router.post('/question', isAuthenticated, QuestionController.add);
+router.post('/topic', isAuthenticated, TopicController.add);
+router.post('/qrcode', isAuthenticated, QRCodeController.generate);
+router.post('/params/question', isAuthenticated, ParamsQuestionController.createParamsQuestion);
+router.post('/add/product', isAuthenticated, ProductController.addNewProduct);
+router.post('/link/company/product', isAuthenticated, CompanyController.linkCompanyToProduct);
+router.post('/anchor-question', isAuthenticated, ParamsProductController.addAnchorQuestion);
+
+router.delete('/customer', isAuthenticated, CustomerController.remove);
+router.delete('/company', isAuthenticated, CompanyController.remove);
+router.delete('/avatar', isAuthenticated, CustomerController.removeAvatarCustomer);
+router.delete('/department', isAuthenticated, DepartmentController.delete);
+router.delete('/question', isAuthenticated, QuestionController.remove);
+router.delete('/answer', isAuthenticated, AnswerController.remove);
+router.delete('/topic', isAuthenticated, TopicController.delete);
+
+router.put('/company', isAuthenticated, CompanyController.update);
+router.put('/customer', isAuthenticated, CustomerController.update);
+router.put('/department', isAuthenticated, DepartmentController.update);
+router.put('/question', isAuthenticated, QuestionController.edit);
+router.put('/answer', isAuthenticated, AnswerController.edit);
+router.put('/topic', isAuthenticated, TopicController.update);
+
+router.patch('/avatar', isAuthenticated, uploadAvatar.single('file'), AvatarController.update);
+router.patch('/logo-company', isAuthenticated, uploadLogoClient.single('file'), LogoClientController.update);
+router.patch('/customer/email', isAuthenticated, CustomerController.updateEmailCustomer);
+router.patch('/customer/password', isAuthenticated, CustomerController.updatePasswordCustomer);
+router.patch('/customer/reset-password', CustomerController.reset);
+router.patch('/info', isAuthenticated, CustomerController.acceptInfo);
+router.patch('/active-customer', CustomerController.ative);
+router.patch('/topic', isAuthenticated, TopicController.changeStatus);
+router.patch('/department', isAuthenticated, DepartmentController.changeStatus);
+router.patch('/question', isAuthenticated ,QuestionController.changeStatus);
+router.patch('/params/background-color', isAuthenticated, ParamsProductController.updateBackgroundColor);
+router.patch('/params/font-color', isAuthenticated, ParamsProductController.updateFontColor);
+router.patch('/params/passing/tree', isAuthenticated, ParamsProductController.changePassingTree);
+router.patch('/resend-email', CustomerController.resendEmail);
+router.patch('/params/boolean/question', isAuthenticated, ParamsQuestionController.updateBooleanParams);
+router.patch('/indicate/employee', isAuthenticated, TopicController.updateIndicateEmployee);
+router.patch('/anchor-question', isAuthenticated, ParamsProductController.updateAnchorQuestion);
+
+// nps
+router.get('/nps/header/:cnpj_company', NPSController.listAnchorQuestionAndLogo);
+router.get('/nps/topic/:cnpj_company', NPSController.listTopicByCompany);
+router.get('/nps/departments/:cnpj_company', NPSController.listDepartmentsByCompany);
+router.get('/nps/company/:cnpj_company/questions', NPSController.listQuestionAndParams);
+router.get('/nps/product/params/:cnpj_company', NPSController.listProductByCompany);
+router.get('/new/date', HashDateController.returnDateToHash);
+router.post('/answer', AnswerController.add);
+
+// report
+// router.get('/answer/report', AnswerController.makeReport);
+router.get('/answer/report', ReportsController.makePDF);
+export default router;
