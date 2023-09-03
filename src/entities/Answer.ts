@@ -14,9 +14,6 @@ class Answer
 	@Column({ type:'varchar', nullable: true })
 	answer: string;
 
-	@Column({ type: 'varchar', nullable: true, length: 90 })
-	type_answer: string;
-
 	@Column({ type: 'varchar', nullable: true, length: 200 })
 	research_title: string;
 
@@ -59,14 +56,13 @@ class Answer
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, question: Question, answer: string, type_answer: string, research_title: string, client_name: string,
+	constructor(id: number, question: Question, answer: string, research_title: string, client_name: string,
 		client_phone: string, is_contact: number, id_research: string, research_name: string, nps_answer: number, device_client: string, start_research: Date,
 		name_employee: string, is_report: number, type_report: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.question = question;
 		this.answer = answer;
-		this.type_answer = type_answer;
 		this.research_title = research_title;
 		this.client_name = client_name;
 		this.client_phone = client_phone;
@@ -96,11 +92,6 @@ class Answer
 	get getAnswer(): string
 	{
 		return this.answer;
-	}
-
-	get getTypeAnswer(): string
-	{
-		return this.type_answer;
 	}
 
 	get getResearchTitle(): string

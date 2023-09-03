@@ -2,7 +2,6 @@ import { BadRequestError } from "../../utils/ApiErrors";
 import companyRepository from "../../repositories/companyRepository";
 import paramsProductRepository from "../../repositories/paramsProductRepository";
 import Company from "../../entities/Company";
-import appDataSource from 'src/data-source';
 
 type TopicRequest =
 {

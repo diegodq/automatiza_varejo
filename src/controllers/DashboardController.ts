@@ -1,94 +1,206 @@
 import { Request, Response } from "express";
 import appDataSource from "../data-source";
+import Department from "../entities/Department";
+import VolumeOfResearchInMonths from "../services/dashboard/VolumeOfResearchInMonths";
+import VolumeOfResearchSevenInDays from "../services/dashboard/VolumeOfResearchSevenInDays";
+
+type CompanyRequest = {
+	company: Department
+}
+
+interface InputItem {
+	research_name: string;
+	nps_answer: number | string;
+}
+
+interface TransformedItem {
+	researchID: string;
+	nps_answer: number;
+}
+
+interface TransformedArrays {
+	positiveResearchs: TransformedItem[];
+	negativeResearchs: TransformedItem[];
+}
 
 class DashboardController
 {
 	public static async toAmountTopicInAnswers(request: Request, response: Response)
 	{
-		const company = request.userId;
+		const company: CompanyRequest = request.userId;
 
 		const { from, to, type_tree } = request.params;
 
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const data = await queryRunner.query(`select answer.answer, answer.type_answer from answer
-		join question on question.id = answer.question_id
-		where answer.type_answer = 'TOPIC'
-		and date(answer.created_at)
+		const arrayPalavras = await queryRunner.query(`select topic.* from topic where topic.company_id = ?;`, [ company ]);
+
+		const arrayObjetos = await queryRunner.query(`select answer.* from answer join question
+		on question.id = answer.question_id and date(answer.created_at)
 		between ? and ? and question.tree_question = ? and question.company_id = ?;`, [from, to, type_tree, company]);
 
 		await queryRunner.release();
 
-		const resultTopic = data.map((item: { answer: string; }) => {
-			return item.answer;
-		});
+		const result = arrayPalavras.reduce((acc: any, topic: any) => {
+			const words = topic.name.split(',');
+			const count = arrayObjetos.filter((obj: any) => obj.answer.split(',').includes(words[0])).length
+			acc[topic.name] = count;
+			return acc;
+		}, {})
 
-		const topic = Object.create(null);
-		for(const index of resultTopic)
-		{
-			topic[index] = (topic[index] || 0) + 1;
-		}
-
-		response.status(200).json({ topics: topic });
+		response.status(200).json({ topics: result });
 	}
 
 	public static async toAmountDepartmentInAnswers(request: Request, response: Response)
 	{
-		const company = request.userId;
+		const company: CompanyRequest = request.userId;
 
 		const { from, to, type_tree } = request.params;
 
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const data = await queryRunner.query(`select answer.answer, answer.type_answer from answer
-		join question on question.id = answer.question_id
-		where answer.type_answer = 'DEPARTMENT' and date(answer.created_at)
+		const arrayPalavras = await queryRunner.query(`select department.* from department where department.company_id = ?;`, [ company ]);
+
+		const arrayObjetos = await queryRunner.query(`select answer.* from answer join question
+		on question.id = answer.question_id and date(answer.created_at)
 		between ? and ? and question.tree_question = ? and question.company_id = ?;`, [from, to, type_tree, company]);
 
 		await queryRunner.release();
 
-		const resultDepartment = data.map((item: { answer: string; }) => {
-			return item.answer;
-		});
+		const result = arrayPalavras.reduce((acc: any, department: any) => {
+			const words = department.name.split(',');
+			const count = arrayObjetos.filter((obj: any) => obj.answer.split(',').includes(words[0])).length;
+			acc[department.name] = count;
+			return acc;
+		}, {})
 
-		const department = Object.create(null);
-		for(const index of resultDepartment)
-		{
-			department[index] = (department[index] || 0) + 1;
-		}
-
-		response.status(200).json({ departments: department });
+		response.status(200).json({ departments: result });
 	}
 
 	public static async toAmountEmployeesInAnswers(request: Request, response: Response)
 	{
-		const company = request.userId;
+		const company: CompanyRequest = request.userId;
 
 		const { from, to, type_tree } = request.params;
 
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const data = await queryRunner.query(`select answer.name_employee, answer.type_answer from answer
-		join question on question.id = answer.question_id
-		where answer.type_answer = 'EMPLOYEE' and date(answer.created_at)
-		between ? and ? and question.tree_question = ? and question.company_id = ?`, [from, to, type_tree, company]);
+		const data = await queryRunner.query(`select answer.* from answer join question
+		on question.id = answer.question_id and date(answer.created_at)
+		between ? and ? and question.tree_question = ? and question.company_id = ?;`, [from, to, type_tree, company]);
 
 		await queryRunner.release();
 
-		const resultNameEmployee = data.map((item: { name_employee: string; }) => {
-			return item.name_employee;
-		});
+		const result = data.reduce((acc: any, obj: any) => {
+			const name = obj.name_employee;
+			const researchName = obj.research_name;
 
-		const employee = Object.create(null);
-		for(const index of resultNameEmployee)
-		{
-			employee[index] = (employee[index] || 0) + 1;
+			if (name && !acc.processedNames.includes(researchName)) {
+					acc.processedNames.push(researchName);
+					acc.counts[name] = (acc.counts[name] || 0) + 1;
+			}
+
+			return acc;
+		}, { counts: {}, processedNames: [] }).counts
+
+		response.status(200).json({ employees: result });
+	}
+
+	public static async toAmountResearch(request: Request, response: Response)
+	{
+		const company: CompanyRequest = request.userId;
+
+		const { from, to } = request.params;
+
+		const queryRunner = appDataSource.createQueryRunner();
+		await queryRunner.connect();
+
+		const passingTree = await queryRunner.query(`select params_product.* from params_product
+		where params_product.company_id = ?;`, [ company ]);
+
+		const answers = await queryRunner.query(`select answer.* from answer join question on question.id = answer.question_id
+		where date(answer.created_at) between ? and ? and company_id = ?;`, [ from, to, company ]);
+
+		await queryRunner.release();
+
+		function transformArray(inputArray: InputItem[], threshold: number): TransformedArrays {
+			const researchMap: { [key: string]: boolean } = {};
+			const positiveResearchs: TransformedItem[] = [];
+			const negativeResearchs: TransformedItem[] = [];
+
+			inputArray.forEach((item: InputItem) => {
+				const nps_answer = parseInt(item.nps_answer as string);
+				const transformedItem: TransformedItem = {
+					researchID: item.research_name,
+					nps_answer: nps_answer,
+				};
+
+				if (!researchMap[item.research_name]) {
+					researchMap[item.research_name] = true;
+					if (nps_answer >= threshold) {
+						positiveResearchs.push(transformedItem);
+					} else {
+						negativeResearchs.push(transformedItem);
+					}
+				}
+			});
+
+			return {
+				positiveResearchs,
+				negativeResearchs,
+			};
+		};
+
+		const separatedResearches = transformArray(answers, passingTree[0].passing_tree);
+
+		function transformAndSumNPS(nps_answer: number): number {
+			if (nps_answer === 0) return 2;
+			if (nps_answer === 1) return 4;
+			if (nps_answer === 2) return 6;
+			if (nps_answer === 3) return 8;
+			if (nps_answer === 4) return 10;
+			return 0;
 		}
 
-		response.status(200).json({ employees: employee });
+		const totalSum: number = separatedResearches.positiveResearchs.reduce((accumulator, currentValue) => {
+			return accumulator + transformAndSumNPS(currentValue.nps_answer);
+		}, 0);
+
+		console.log('total positive researches', separatedResearches.positiveResearchs.length);
+		console.log('total negative researches', separatedResearches.negativeResearchs.length);
+		console.log('total sum', totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length));
+
+		const newResult = [
+			separatedResearches.positiveResearchs.length,
+			separatedResearches.negativeResearchs.length,
+			totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length)
+		];
+
+		response.status(200).json({ to: newResult });
+	}
+
+	public static async returnVolumeOfResearchInMonths(request: Request, response: Response): Promise<Response>
+	{
+		const company = request.userId;
+		const { month } = request.params;
+
+		const volumeOfResearchInMonths = new VolumeOfResearchInMonths()
+		const resultVolume = await volumeOfResearchInMonths.execute({ company, month });
+
+		return response.status(200).json(resultVolume);
+	}
+
+	public static async returnResearchSevenDays(request: Request, response: Response): Promise<Response>
+	{
+		const company = request.userId;
+
+		const volumeOfResearchSevenDays = new VolumeOfResearchSevenInDays();
+		const resultResearch = await volumeOfResearchSevenDays.execute({ company });
+
+		return response.status(200).json(resultResearch);
 	}
 }
 

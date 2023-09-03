@@ -1,8 +1,6 @@
 import { Response, Request } from 'express';
 import CreateProductService from '../services/product/CreateProductService';
-import ModifyAnchorQuestionService from "../services/anchorQuestion/AddAnchorQuestionService";
 import ListProductByCompanyService from '../services/product/ListProductByCompanyService';
-import ListAnchorQuestionService from '../services/anchorQuestion/ListAnchorQuestionService';
 
 class ProductController
 {

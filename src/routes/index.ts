@@ -62,9 +62,12 @@ router.get('/params/question/:question_id', isAuthenticated, ParamsQuestionContr
 router.get('/product/company', isAuthenticated, ProductController.listProducts);
 router.get('/params/questions', isAuthenticated, ParamsQuestionController.listParamsOfQuestion);
 //charts
-router.get('/dashboard/topics/:from/:to/:type_tree', isAuthenticated, DashboardController.toAmountTopicInAnswers);
-router.get('/dashboard/department/:from/:to/:type_tree', isAuthenticated, DashboardController.toAmountDepartmentInAnswers);
-router.get('/dashboard/employee/:from/:to/:type_tree', isAuthenticated, DashboardController.toAmountEmployeesInAnswers);
+router.get('/dashboard/topics/:from?/:to?/:type_tree?', isAuthenticated, DashboardController.toAmountTopicInAnswers);
+router.get('/dashboard/department/:from?/:to?/:type_tree?', isAuthenticated, DashboardController.toAmountDepartmentInAnswers);
+router.get('/dashboard/employee/:from?/:to?/:type_tree?', isAuthenticated, DashboardController.toAmountEmployeesInAnswers);
+router.get('/dashboard/research/:from?/:to?', isAuthenticated, DashboardController.toAmountResearch);
+router.get('/dashboard/amount/month/:company/:month', isAuthenticated, DashboardController.returnVolumeOfResearchInMonths);
+router.get('/dashboard/amount/research/:company', isAuthenticated, DashboardController.returnResearchSevenDays);
 
 router.post('/customer', CustomerController.create);
 router.post('/session', SessionController.create);
