@@ -1,16 +1,14 @@
-import { Index } from "typeorm";
 import appDataSource from "../../data-source";
 import Company from "../../entities/Company";
 
 interface ResearchMonth
 {
-	company: Company,
-	month: string;
+	company: Company
 }
 
 type TypeMonth =
 {
-	month: string
+	research_name: string
 }
 
 interface CountByMonth {
@@ -19,20 +17,21 @@ interface CountByMonth {
 
 class VolumeOfResearchInMonths
 {
-	public async execute({ company, month }: ResearchMonth): Promise<Array<number>>
+	public async execute({ company }: ResearchMonth): Promise<Array<number>>
 	{
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const resultQuery = await queryRunner.query(`select date_format(answer.created_at, '%m') as month from answer
-		join question on question.id = answer.question_id where company_id = ? order by month desc;`, [ company ]);
+		const resultQuery = await queryRunner.query(`SELECT answer.research_name FROM answer join question on answer.question_id = question.id
+		where question.company_id = '${company}' and answer.created_at >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
+		AND answer.created_at <= NOW();`);
 
 		await queryRunner.release();
 
 		const countByMonth: CountByMonth = {};
 
-		resultQuery.forEach((month: TypeMonth) => {
-			const resultObject = month.month;
+		resultQuery.forEach((research_name: TypeMonth) => {
+			const resultObject = research_name.research_name;
 			if(countByMonth[resultObject])
 				countByMonth[resultObject]++;
 			else

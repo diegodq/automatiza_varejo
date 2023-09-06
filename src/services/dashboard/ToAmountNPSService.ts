@@ -1,6 +1,5 @@
+import appDataSource from "../../data-source";
 import Company from "../../entities/Company";
-
-import ListResearchService from "../answer/ListResearchService";
 
 interface Objeto {
 	id: number;
@@ -25,22 +24,29 @@ class ToAmountNPSService
 {
 	public async execute({ from, to, company }: ResearchDate)
 	{
-		const listResearchService = new ListResearchService();
-		const researchService = await listResearchService.execute({ company, from, to });
+		const queryRunner = appDataSource.createQueryRunner();
+		await queryRunner.connect();
+
+		const resultQuery = await queryRunner.query(`select answer.nps_answer from answer
+		join question on answer.question_id = question.id
+		where date(answer.created_at) between '${from}' and '${to}'
+		and question.company_id = '${company}' order by answer.id desc;`);
+
+		await queryRunner.release();
 
 		const resultado: Resultado = { promoter: [], passive: [], detractor: [] };
 
-		for (const objeto of researchService) {
-				if (objeto.nps_answer === 4) {
-						resultado.promoter.push(objeto);
-				} else if (objeto.nps_answer === 3) {
-						resultado.passive.push(objeto);
-				} else if (objeto.nps_answer < 3) {
-						resultado.detractor.push(objeto);
-				}
+		for (const objeto of resultQuery) {
+			if (objeto.nps_answer === 4) {
+				resultado.promoter.push(objeto);
+			} else if (objeto.nps_answer === 3) {
+				resultado.passive.push(objeto);
+			} else if (objeto.nps_answer < 3) {
+				resultado.detractor.push(objeto);
+			}
 		}
 
-		console.log(resultado);
+		return { promoter: resultado.promoter.length, passive: resultado.passive.length, detractor: resultado.detractor.length }
 	}
 }
 

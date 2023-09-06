@@ -5,9 +5,9 @@ type CompanyType =
 	company: number;
 }
 
-interface TypeDay
+interface TypeResearchName
 {
-	day: string
+	research_name: string
 }
 
 interface CountDay
@@ -22,23 +22,26 @@ class VolumeOfResearchSevenInDays
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const resultQuery = await queryRunner.query(`select date_format(answer.created_at, '%d') as day from answer
-		join question on question.id = answer.question_id where question.company_id = ? order by day desc;`, [ company ]);
+		const resultQuery = await queryRunner.query(`select answer.research_name from answer
+		join question on question.id = answer.question_id
+		where question.company_id = '${company}' order by answer.created_at desc;`);
 
 		await queryRunner.release();
 
 		const countByDay: CountDay = {};
 
-		resultQuery.forEach((day: TypeDay) => {
-			const resultDay = day.day;
-			if(countByDay[resultDay]) {
-				countByDay[resultDay]++;
+		resultQuery.forEach((research_name: TypeResearchName) => {
+			const resultResearchName = research_name.research_name;
+			if(countByDay[resultResearchName]) {
+				countByDay[resultResearchName]++;
 			} else {
-				countByDay[resultDay] = 1;
+				countByDay[resultResearchName] = 1;
 			}
 		});
 
-		const chaves = Object.values(countByDay).slice(0, 12).reverse();
+		console.log(countByDay);
+
+		const chaves = Object.values(countByDay).slice(0, 14).reverse();
 
 		const array = new Array(14);
 

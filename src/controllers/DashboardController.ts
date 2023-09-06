@@ -186,10 +186,9 @@ class DashboardController
 	public static async returnVolumeOfResearchInMonths(request: Request, response: Response): Promise<Response>
 	{
 		const company = request.userId;
-		const { month } = request.params;
 
 		const volumeOfResearchInMonths = new VolumeOfResearchInMonths()
-		const resultVolume = await volumeOfResearchInMonths.execute({ company, month });
+		const resultVolume = await volumeOfResearchInMonths.execute({ company });
 
 		return response.status(200).json(resultVolume);
 	}
