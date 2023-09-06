@@ -1,10 +1,11 @@
 import Answer from "../../entities/Answer";
 import appDataSource from "../../data-source";
 import { BadRequestError } from "../../utils/ApiErrors";
+import Company from "src/entities/Company";
 
 type CompanyId =
 {
-	company: string;
+	company: Company;
 	from?: string;
 	to?: string;
 }
@@ -82,6 +83,7 @@ class ListResearchService
 		join answer on question.id = answer.question_id order by id asc;`, [ company ]);
 
 		await queryRunner.release();
+
 		if(resultQuery.length == 0) {
 			throw new BadRequestError('no-research');
 		}
@@ -117,7 +119,7 @@ class ListResearchService
     return {
         status: "success",
         research: transformedResearch
-    };
+		};
 	}
 }
 

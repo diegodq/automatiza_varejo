@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import appDataSource from "../data-source";
-import Department from "../entities/Department";
 import VolumeOfResearchInMonths from "../services/dashboard/VolumeOfResearchInMonths";
 import VolumeOfResearchSevenInDays from "../services/dashboard/VolumeOfResearchSevenInDays";
+import Company from "../entities/Company";
+import ToAmountNPSService from "../services/dashboard/ToAmountNPSService";
 
 type CompanyRequest = {
-	company: Department
+	company: Company
 }
 
 interface InputItem {
@@ -167,7 +168,7 @@ class DashboardController
 
 		const totalSum: number = separatedResearches.positiveResearchs.reduce((accumulator, currentValue) => {
 			return accumulator + transformAndSumNPS(currentValue.nps_answer);
-		}, 0);
+		}, 0);
 
 		console.log('total positive researches', separatedResearches.positiveResearchs.length);
 		console.log('total negative researches', separatedResearches.negativeResearchs.length);
@@ -201,6 +202,18 @@ class DashboardController
 		const resultResearch = await volumeOfResearchSevenDays.execute({ company });
 
 		return response.status(200).json(resultResearch);
+	}
+
+	public static async toAmountNPS(request: Request, response: Response)
+	{
+		const company = request.userId;
+
+		const { from, to } = request.params;
+
+		const toAmountNPSService = new ToAmountNPSService();
+		const result = await toAmountNPSService.execute({ from, to, company });
+
+		return response.status(200).json(result);
 	}
 }
 

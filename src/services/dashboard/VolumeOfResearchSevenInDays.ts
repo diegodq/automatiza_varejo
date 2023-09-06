@@ -1,4 +1,3 @@
-import { BadRequestError } from "src/utils/ApiErrors";
 import appDataSource from "../../data-source";
 
 type CompanyType =
@@ -18,13 +17,13 @@ interface CountDay
 
 class VolumeOfResearchSevenInDays
 {
-	public async execute({ company }: CompanyType): Promise<object>
+	public async execute({ company }: CompanyType)
 	{
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const resultQuery = await queryRunner.query(`select date_format(answer.created_at, '%d') as day from answer
-		join question on question.id = answer.question_id where question.company_id = 1 order by day desc;`, [ company ]);
+		join question on question.id = answer.question_id where question.company_id = ? order by day desc;`, [ company ]);
 
 		await queryRunner.release();
 
@@ -39,43 +38,25 @@ class VolumeOfResearchSevenInDays
 			}
 		});
 
-		const result = [];
+		const chaves = Object.values(countByDay).slice(0, 12).reverse();
 
-		if(result.length == 0) {
-			throw new BadRequestError('no-researches');
-		}
+		const array = new Array(14);
 
-		for(const day in countByDay)
+		for(let index = 0; index < chaves.length; index++)
 		{
-			const count = countByDay[day];
-			result.push(count);
+			array[index] = chaves[index];
 		}
 
-		const resultDay = []
-
-		for (let index in result) {
-			const indexNumber = Number(index);
-			if (indexNumber >= result.length - 14) {
-				resultDay.push(result[indexNumber]);
+		for (let i = 0; i < array.length; i++) {
+			if (array[i] === undefined) {
+				array[i] = 0;
 			}
 		}
 
-		const halfOne = resultDay.slice(0, resultDay.length / 2);
-		const halfTwo = resultDay.slice(resultDay.length / 2);
+		const halfOne = array.slice(0, array.length / 2);
+		const halTwo = array.slice(array.length / 2);
 
-		const resultHalfOne = [];
-		for(let index = halfOne.length - 1; index >= 0; index--)
-		{
-			resultHalfOne.push(halfOne[index]);
-		}
-
-		const resultHalfTwo = [];
-		for(let index = halfTwo.length - 1; index >= 0; index--)
-		{
-			resultHalfTwo.push(halfTwo[index]);
-		}
-
-		return {actualDate: resultHalfOne, oldDate: resultHalfTwo };
+		return { 'halfOne': halfOne, 'halTwo': halTwo }
 	}
 }
 

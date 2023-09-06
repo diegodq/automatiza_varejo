@@ -1,4 +1,4 @@
-import { BadRequestError } from "src/utils/ApiErrors";
+import { Index } from "typeorm";
 import appDataSource from "../../data-source";
 import Company from "../../entities/Company";
 
@@ -19,7 +19,7 @@ interface CountByMonth {
 
 class VolumeOfResearchInMonths
 {
-	public async execute({ company, month }: ResearchMonth): Promise<Array<number> | string>
+	public async execute({ company, month }: ResearchMonth): Promise<Array<number>>
 	{
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
@@ -32,34 +32,29 @@ class VolumeOfResearchInMonths
 		const countByMonth: CountByMonth = {};
 
 		resultQuery.forEach((month: TypeMonth) => {
-			const resultMonth = month.month;
-			if(countByMonth[resultMonth])
-				countByMonth[resultMonth]++;
+			const resultObject = month.month;
+			if(countByMonth[resultObject])
+				countByMonth[resultObject]++;
 			else
-				countByMonth[resultMonth] = 1;
+				countByMonth[resultObject] = 1;
 		});
 
-		const result = [];
+		const chaves = Object.values(countByMonth).slice(0, 6).reverse();
 
-		if(result.length == 0) {
-			throw new BadRequestError('no-researches');
+		const array = new Array(6);
+
+		for(let index = 0; index < chaves.length; index++)
+		{
+			array[index] = chaves[index];
 		}
 
-		for(const month in countByMonth) {
-			const count = countByMonth[month];
-			result.push(count);
-		}
-
-		const resultMonth = []
-
-		for (let index in result) {
-			const indexNumber = Number(index);
-			if (indexNumber >= result.length - Number(month)) {
-				resultMonth.push(result[indexNumber]);
+		for (let i = 0; i < array.length; i++) {
+			if (array[i] === undefined) {
+				array[i] = 0;
 			}
 		}
 
-		return resultMonth
+		return array
 	}
 }
 

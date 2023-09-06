@@ -23,8 +23,7 @@ class ListProductByCompanyService {
 		await queryRunner.connect();
 
 		const paramsProduct = await queryRunner.query(`
-		
-		SELECT pp.font_color, pp.background_color
+		SELECT pp.font_color, pp.background_color, pp.passing_tree
 		FROM params_product pp
 		JOIN company c ON pp.company_id = c.id
 		WHERE c.cnpj = ?`, [cnpj])
