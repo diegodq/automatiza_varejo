@@ -1,7 +1,7 @@
 import { BadRequestError } from "../../utils/ApiErrors";
 import companyRepository from "../../repositories/companyRepository";
 import formatCNPJ from "../../utils/formatCNPJ";
-import appDataSource from "src/data-source";
+import appDataSource from "../../data-source";
 
 type NPSRequest = {
 	cnpj_company: string

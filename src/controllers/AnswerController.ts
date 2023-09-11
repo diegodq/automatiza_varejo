@@ -5,7 +5,7 @@ import ListAnswersService from "../services/answer/ListAnswersService";
 import ListAnswerService from "../services/answer/ListAnswerService";
 import RemoveAnswerService from "../services/answer/RemoveAnswerService";
 import ListResearchService from "../services/answer/ListResearchService";
-import answerRepository from "src/repositories/answerRepository";
+import answerRepository from "../repositories/answerRepository";
 import fs from 'fs';
 import path from "path";
 

@@ -1,7 +1,6 @@
-import Answer from "../../entities/Answer";
 import appDataSource from "../../data-source";
 import { BadRequestError } from "../../utils/ApiErrors";
-import Company from "src/entities/Company";
+import Company from "../../entities/Company";
 
 type CompanyId =
 {

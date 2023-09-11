@@ -45,8 +45,10 @@ class DashboardController
 
 		const result = arrayPalavras.reduce((acc: any, topic: any) => {
 			const words = topic.name.split(',');
-			const count = arrayObjetos.filter((obj: any) => obj.answer.split(',').includes(words[0])).length
-			acc[topic.name] = count;
+			const count = arrayObjetos.filter((obj: any) => obj.answer.split(',').includes(words[0])).length;
+			if (count > 0) {
+				acc[topic.name] = count;
+			}
 			return acc;
 		}, {})
 
@@ -73,9 +75,11 @@ class DashboardController
 		const result = arrayPalavras.reduce((acc: any, department: any) => {
 			const words = department.name.split(',');
 			const count = arrayObjetos.filter((obj: any) => obj.answer.split(',').includes(words[0])).length;
-			acc[department.name] = count;
+			if (count > 0) {
+				acc[department.name] = count;
+			}
 			return acc;
-		}, {})
+			}, {});
 
 		response.status(200).json({ departments: result });
 	}

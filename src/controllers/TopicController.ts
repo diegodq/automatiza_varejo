@@ -5,7 +5,7 @@ import DeleteTopicService from "../services/topic/DeleteTopicService";
 import ListTopicService from "../services/topic/ListTopicService";
 import ListTopicsService from "../services/topic/ListTopicsService";
 import ChangeStatusTopicService from "../services/topic/ChangeStatusTopicService";
-import UpdateIndicateEmployee from "src/services/answer/UpdateIndicateEmployee";
+import UpdateIndicateEmployee from "../services/answer/UpdateIndicateEmployee";
 
 class TopicController
 {

@@ -1,19 +1,6 @@
 import appDataSource from "../../data-source";
 import Company from "../../entities/Company";
 
-interface Objeto {
-	id: number;
-	formatted_date: string;
-	research_name: string;
-	nps_answer: number;
-}
-
-interface Resultado {
-	promoter: Objeto[];
-	passive: Objeto[];
-	detractor: Objeto[];
-}
-
 interface ResearchDate {
 	from: string,
 	to: string,
@@ -22,31 +9,37 @@ interface ResearchDate {
 
 class ToAmountNPSService
 {
-	public async execute({ from, to, company }: ResearchDate)
+	public async execute({ from, to, company }: ResearchDate): Promise<Array<number>>
 	{
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const resultQuery = await queryRunner.query(`select answer.nps_answer from answer
+		const resultQuery = await queryRunner.query(`select answer.research_name, answer.nps_answer  from answer
 		join question on answer.question_id = question.id
 		where date(answer.created_at) between '${from}' and '${to}'
 		and question.company_id = '${company}' order by answer.id desc;`);
 
 		await queryRunner.release();
 
-		const resultado: Resultado = { promoter: [], passive: [], detractor: [] };
+		const uniqueResearchNames = [...new Set(resultQuery.map((item: { research_name: any; }) => item.research_name))];
+		const detractor: string[] = [];
+		const passive: string[] = [];
+		const promoter: string[] = [];
 
-		for (const objeto of resultQuery) {
-			if (objeto.nps_answer === 4) {
-				resultado.promoter.push(objeto);
-			} else if (objeto.nps_answer === 3) {
-				resultado.passive.push(objeto);
-			} else if (objeto.nps_answer < 3) {
-				resultado.detractor.push(objeto);
+		uniqueResearchNames.forEach(researchName => {
+			const answers = resultQuery.filter((item: { research_name: unknown; }) => item.research_name === researchName);
+			const npsAnswers = answers.map((item: { nps_answer: any; }) => item.nps_answer);
+
+			if (npsAnswers.includes(4)) {
+				promoter.push(resultQuery);
+			} else if (npsAnswers.includes(3)) {
+				passive.push(resultQuery);
+			} else if (npsAnswers.every((answer: number) => answer < 3)) {
+				detractor.push(resultQuery);
 			}
-		}
+		});
 
-		return { promoter: resultado.promoter.length, passive: resultado.passive.length, detractor: resultado.detractor.length }
+		return [promoter.length, passive.length, detractor.length]
 	}
 }
 

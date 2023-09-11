@@ -1,4 +1,3 @@
-import appDataSource from "../data-source";
 import productRepository from "../repositories/productRepository";
 
 type ProductsTypes = {

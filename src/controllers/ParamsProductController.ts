@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import AddAnchorQuestionService from "../services/anchorQuestion/AddAnchorQuestionService";
 import ListAnchorQuestionService from "../services/anchorQuestion/ListAnchorQuestionService";
-import ListBackgroundColorService from "src/services/paramsProduct/ListBackgroundService";
-import ListFontColorService from "src/services/paramsProduct/ListFontColorService";
-import ListPassingTreeService from "src/services/paramsProduct/ListPassingTreeService";
+import ListBackgroundColorService from "../services/paramsProduct/ListBackgroundService";
+import ListFontColorService from "../services/paramsProduct/ListFontColorService";
+import ListPassingTreeService from "../services/paramsProduct/ListPassingTreeService";
 import UpdateAnchorQuestionService from "../services/anchorQuestion/UpdateAnchorQuestionService";
 import UpdateFontColorService from "../services/paramsProduct/UpdateFontColorService";
 import UpdateBackgroundColorService from "../services/paramsProduct/UpdateBackgroundColorService";
@@ -59,7 +59,7 @@ class ParamsProductController
 	static async updateBackgroundColor(request: Request, response: Response): Promise<Response>
 	{
 		const company = request.userId;
-		
+
 		const { background_color } = request.body;
 
 		const updateBackgroundColorService = new UpdateBackgroundColorService();

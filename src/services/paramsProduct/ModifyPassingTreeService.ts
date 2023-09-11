@@ -1,4 +1,4 @@
-import Company from "src/entities/Company";
+import Company from "../../entities/Company";
 import { BadRequestError } from "../../utils/ApiErrors";
 import paramsProductRepository from "../../repositories/paramsProductRepository";
 

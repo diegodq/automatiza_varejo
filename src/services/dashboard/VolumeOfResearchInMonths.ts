@@ -1,59 +1,54 @@
 import appDataSource from "../../data-source";
-import Company from "../../entities/Company";
 
-interface ResearchMonth
+type CompanyType =
 {
-	company: Company
-}
-
-type TypeMonth =
-{
-	research_name: string
-}
-
-interface CountByMonth {
-	[key: string]: number;
+	company: number;
 }
 
 class VolumeOfResearchInMonths
 {
-	public async execute({ company }: ResearchMonth): Promise<Array<number>>
+	public async execute({ company }: CompanyType)
 	{
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const resultQuery = await queryRunner.query(`SELECT answer.research_name FROM answer join question on answer.question_id = question.id
-		where question.company_id = '${company}' and answer.created_at >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
-		AND answer.created_at <= NOW();`);
+		const resultQuery = await queryRunner.query(`SELECT answer.research_name, date_format(answer.created_at, '%Y-%m-%d') as month
+		FROM answer join question on answer.question_id = question.id
+		and question.company_id = '${company}' order by answer.created_at desc;`);
 
 		await queryRunner.release();
 
-		const countByMonth: CountByMonth = {};
+		const dataAtual = new Date();
 
-		resultQuery.forEach((research_name: TypeMonth) => {
-			const resultObject = research_name.research_name;
-			if(countByMonth[resultObject])
-				countByMonth[resultObject]++;
-			else
-				countByMonth[resultObject] = 1;
+		const resultadosFinais = Array.from({ length: 6 }, (_, index) => {
+			const dataAlvo = new Date(dataAtual);
+			dataAlvo.setMonth(dataAtual.getMonth() - index);
+
+			const mesAlvo = dataAlvo.toISOString().slice(0, 7);
+
+			const researchNamesParaMes = resultQuery
+				.filter((item: { month: string; }) => item.month.startsWith(mesAlvo))
+				.map((item: { research_name: any; }) => item.research_name);
+
+			const researchNamesUnicos = researchNamesParaMes.filter(
+				(value: any, index: any, self: string | any[]) => self.indexOf(value) === index
+			);
+
+			return {
+				indice: index,
+				mes: mesAlvo,
+				quantidade: researchNamesUnicos.length,
+			};
 		});
 
-		const chaves = Object.values(countByMonth).slice(0, 6).reverse();
+		const resultArray: number[] = [];
+		resultadosFinais.map(value => {
+			resultArray.push(value.quantidade);
+		});
 
-		const array = new Array(6);
-
-		for(let index = 0; index < chaves.length; index++)
-		{
-			array[index] = chaves[index];
-		}
-
-		for (let i = 0; i < array.length; i++) {
-			if (array[i] === undefined) {
-				array[i] = 0;
-			}
-		}
-
-		return array
+		console.log(resultadosFinais);
+		console.log(resultArray);
+		return resultArray.reverse();
 	}
 }
 

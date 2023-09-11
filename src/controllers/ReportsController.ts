@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import CreateQuestionAndAnswersReports from 'src/services/reports/CreateQuestionAndAnswersReports';
+import CreateQuestionAndAnswersReports from '../services/reports/CreateQuestionAndAnswersReports';
 class ReportsController
 {
 	static async makePDF(request: Request, response: Response)

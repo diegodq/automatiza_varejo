@@ -26,7 +26,7 @@ import ParamsProductController from "../controllers/ParamsProductController";
 import { validateCreateUser, validateSession, validateForgotPassword, validateCreateCompany,
 	contactUS, createQuestion, createTopic, generateQrCode,
 	addParamsController, addProduct, linkedProducts } from "../utils/validateFieldsSchema";
-import DashboardController from 'src/controllers/DashboardController';
+import DashboardController from '../controllers/DashboardController';
 
 const uploadAvatar = multer(avatarConfig);
 const uploadLogoClient = multer(configLogoClient);

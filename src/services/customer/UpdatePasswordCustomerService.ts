@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import path from "path";
 import moment from "moment";
 import { hash, compare } from "bcryptjs";

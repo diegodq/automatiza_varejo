@@ -1,6 +1,6 @@
 import { BadRequestError } from "../../utils/ApiErrors";
 import appDataSource from "../../data-source";
-import Company from "src/entities/Company";
+import Company from "../../entities/Company";
 
 type QueryString =
 {

@@ -1,4 +1,4 @@
-import appDataSource from "src/data-source";
+import appDataSource from "../../data-source";
 import Customer from "../../entities/Customer";
 import companyRepository from "../../repositories/companyRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
