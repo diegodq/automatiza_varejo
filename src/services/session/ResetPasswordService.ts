@@ -5,6 +5,7 @@ import customerRepository from "../../repositories/customerRepository";
 import customerTokenRepository from "../../repositories/customerTokenRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Mailer from '../../configurations/mailer/Mailer';
+import appDataSource from "../../data-source";
 
 type RequestCustomer =
 {
@@ -21,8 +22,19 @@ class ResetPasswordService
 			throw new BadRequestError('Token não encontrado.');
 		}
 
-		const userExists = await customerRepository.findOneBy(validUserToken.customer);
-		console.log(userExists?.id);
+		const queryRunner = appDataSource.createQueryRunner();
+		await queryRunner.connect();
+		const result = await queryRunner.query(`select customer_id from customer_tokens where token = '${token}';`);
+		await queryRunner.release();
+
+		let id = 0;
+		result.forEach((item: { customer_id: number}) => {
+			id = item.customer_id;
+		})
+
+		console.log('id do token', id);
+
+		const userExists = await customerRepository.findOneBy({ id });
 		if(!userExists) {
 			throw new BadRequestError('Cliente não cadastrado.');
 		}
@@ -32,8 +44,12 @@ class ResetPasswordService
 			throw new BadRequestError('Token expirado.');
 		}
 
-		userExists.password = await hash(new_password, 8);
-		await customerRepository.save(userExists);
+		const newPass = await hash(new_password, 8);
+
+		const queryRunner2 = appDataSource.createQueryRunner();
+		await queryRunner2.connect();
+		await queryRunner2.query(`update customer set password = '${newPass}' where id = '${id}';`);
+		await queryRunner2.release();
 
 		const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'password-change.hbs');
 

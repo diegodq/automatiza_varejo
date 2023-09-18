@@ -19,7 +19,6 @@ import ParamsQuestionController from "../controllers/ParamsQuestionController";
 import ProductController from "../controllers/ProductController";
 import NPSController from "../controllers/NPSController";
 import HashDateController from "../controllers/HashDateController";
-import validateRequestSchema from "../middleware/validateRequestSchema";
 import ReportsController from "../controllers/ReportsController";
 import ParamsProductController from "../controllers/ParamsProductController";
 
