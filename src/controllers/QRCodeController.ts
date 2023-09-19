@@ -8,7 +8,7 @@ class QRCodeController
 	{
 		const { cnpj } = request.body;
 
-		const url = `https://pesquisa.automatizavarejo.com.br/open?cnpj=${cnpj}`;
+		const url = `https://pesquisa.automatizavarejo.com.br/?cnpj=${cnpj}`;
 		const output = path.join(__dirname, '../qrcode/' + `${cnpj}.png`);
 		await qrcode.toFile(output, url, {
 			margin: 1,
