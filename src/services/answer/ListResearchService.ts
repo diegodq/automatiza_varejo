@@ -55,11 +55,14 @@ class ListResearchService
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const resultQuery = await queryRunner.query(`select answer.id, answer.answer, date_format(answer.created_at, '%d/%m/%Y %H:%i:%s') as formatted_date,
-		answer.nps_answer, answer.research_title, answer.research_name, answer.client_name, answer.client_phone, answer.id_research, answer.is_contact,
-		answer.name_employee from company
-		join question on question.company_id = ?
-		join answer on question.id = answer.question_id where DATE(answer.created_at) BETWEEN ? AND ? order by id asc;`, [ company, from, to ]);
+		const resultQuery = await queryRunner.query(`select answer.id, answer.answer,
+		date_format(answer.created_at, '%d/%m/%Y %H:%i:%s') as formatted_date,
+		answer.nps_answer, answer.research_title, answer.research_name, answer.client_name, answer.client_phone,
+		answer.id_research, answer.is_contact,
+		answer.name_employee from question join answer
+		on answer.question_id = question.id
+		where question.company_id = ${company} and DATE(answer.created_at)
+		BETWEEN '${from}' AND '${to}' order by id asc;`);
 
 		await queryRunner.release();
 
@@ -77,9 +80,7 @@ class ListResearchService
 
 		const resultQuery = await queryRunner.query(`select answer.id, answer.answer, date_format(answer.created_at, '%d/%m/%Y %H:%i:%s') as formatted_date,
 		answer.nps_answer, answer.research_title, answer.research_name, answer.client_name, answer.client_phone, answer.id_research, answer.is_contact,
-		answer.name_employee from company
-		join question on question.company_id = ?
-		join answer on question.id = answer.question_id order by id asc;`, [ company ]);
+		answer.name_employee from question join answer on answer.question_id = question.id where question.company_id = ${company} order by id asc;`);
 
 		await queryRunner.release();
 
