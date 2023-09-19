@@ -1,6 +1,8 @@
 import appDataSource from "../../data-source";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Company from "../../entities/Company";
+import { Cache, CacheContainer } from "node-ts-cache";
+import { MemoryStorage } from "node-ts-cache-storage-memory";
 
 type CompanyId =
 {
@@ -48,8 +50,11 @@ interface TransformedData {
 }
 
 
+const useCache = new CacheContainer(new MemoryStorage());
+
 class ListResearchService
 {
+	@Cache(useCache, { ttl: 7200 })
 	public async execute({ company, from, to }: CompanyId): Promise<object>
 	{
 		const queryRunner = appDataSource.createQueryRunner();
