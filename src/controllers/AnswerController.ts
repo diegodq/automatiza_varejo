@@ -49,7 +49,7 @@ class AnswerController
 		return response.status(200).json({ status: 'success', answer });
 	}
 
-	@Cache(userCache, {ttl: 10800})
+	@Cache(userCache, {ttl: 3600})
 	static async listAll(request: Request, response: Response): Promise<Response>
 	{
 		const company_id = request.userId;
