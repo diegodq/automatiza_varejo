@@ -5,12 +5,17 @@ import ListAnswersService from "../services/answer/ListAnswersService";
 import ListAnswerService from "../services/answer/ListAnswerService";
 import RemoveAnswerService from "../services/answer/RemoveAnswerService";
 import ListResearchService from "../services/answer/ListResearchService";
-import answerRepository from "../repositories/answerRepository";
 import fs from 'fs';
 import path from "path";
 
+import { Cache, CacheContainer } from "node-ts-cache";
+import { MemoryStorage } from "node-ts-cache-storage-memory";
+
 import PdfPrinter from "pdfmake";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
+
+const userCache = new CacheContainer(new MemoryStorage());
+console.log(userCache);
 
 class AnswerController
 {
@@ -44,6 +49,7 @@ class AnswerController
 		return response.status(200).json({ status: 'success', answer });
 	}
 
+	@Cache(userCache, {ttl: 10800})
 	static async listAll(request: Request, response: Response): Promise<Response>
 	{
 		const company_id = request.userId;
@@ -71,6 +77,7 @@ class AnswerController
 
 		return response.status(200).json({ status: 'success', message: answerRemoved });
 	}
+
 
 	static async listResearch(request: Request, response: Response): Promise<Response>
 	{

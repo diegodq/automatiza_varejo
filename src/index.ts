@@ -59,7 +59,7 @@ appDataSource.initialize().then(() => {
 		https.createServer(options, app).listen();
 	}
 
-}).catch(() => {
-	console.log('API não conseguiu conectar-se ao Banco de Dados');
+}).catch((error) => {
+	console.log('API não conseguiu conectar-se ao Banco de Dados', error);
 	process.exit(128);
 })

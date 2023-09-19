@@ -49,12 +49,8 @@ interface TransformedData {
 	research: TransformedRecord[];
 }
 
-
-const useCache = new CacheContainer(new MemoryStorage());
-
 class ListResearchService
 {
-	@Cache(useCache, { ttl: 7200 })
 	public async execute({ company, from, to }: CompanyId): Promise<object>
 	{
 		const queryRunner = appDataSource.createQueryRunner();
