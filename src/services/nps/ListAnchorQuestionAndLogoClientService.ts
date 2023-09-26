@@ -33,13 +33,15 @@ class ListAnchorQuestionAndLogoClientService
 		});
 
 		let logoClient = information.map(item => {
-			return item.logo_company
+			return item.logo_company;
 		})
 
+		console.log(logoClient);
+
 		if(process.env.APP_MODE == 'development')
-			return { status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0], logo: logoClient[0] == null || '' ? '' : process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + logoClient[0] };
+			return { status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0], logo: logoClient[0] == '' ? '' : process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + logoClient[0] };
 		else
-			return {status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0], logo: logoClient[0] == null || '' ? '' : process.env.IMG_URL + '/logo/' + logoClient[0] };
+			return {status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0], logo: logoClient[0] == '' ? '' : process.env.IMG_URL + '/logo/' + logoClient[0] };
 	}
 }
 

@@ -8,7 +8,6 @@ class AvatarController
 	static async update(request: Request, response: Response): Promise<Response>
 	{
 		const size = request.file?.size;
-		console.log(size);
 
 		const updateCustomerAvatarService = new UpdateCustomerAvatarService();
 		const avatar = await updateCustomerAvatarService.execute({

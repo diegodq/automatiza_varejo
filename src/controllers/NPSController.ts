@@ -24,7 +24,6 @@ class NPSController
 		const listQuestionAndParamsService = new ListQuestionAndParamsService();
 		const questionsByCompany = await listQuestionAndParamsService.execute({ cnpj_company });
 
-
 		return response.status(200).json(questionsByCompany);
 	}
 
