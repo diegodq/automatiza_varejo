@@ -13,6 +13,7 @@ import { MemoryStorage } from "node-ts-cache-storage-memory";
 
 import PdfPrinter from "pdfmake";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
+import Answer from "../entities/Answer";
 
 const userCache = new CacheContainer(new MemoryStorage());
 console.log(userCache);
@@ -21,7 +22,7 @@ class AnswerController
 {
 	static async add(request: Request, response: Response): Promise<Response>
 	{
-		const answers = request.body;
+		const answers: any = request.body;
 
 		const createAnswerService = new CreateAnswerService();
 		const answerCreated = await createAnswerService.execute( answers );
@@ -44,25 +45,24 @@ class AnswerController
 		const { id } = request.body;
 
 		const listAnswerService = new ListAnswerService();
-		const answer = await listAnswerService.execute({ id });
+		const answer: Answer | null = await listAnswerService.execute({ id });
 
 		return response.status(200).json({ status: 'success', answer });
 	}
 
-	@Cache(userCache, {ttl: 3600})
 	static async listAll(request: Request, response: Response): Promise<Response>
 	{
-		const company_id = request.userId;
+		const company_id: string = request.userId;
 
 		const { from, to } = request.params;
 
 		const listAnswersService = new ListAnswersService();
 		if(typeof from === 'undefined' && typeof to === 'undefined') {
-			const listAnswers = await listAnswersService.optionalExecute({ company_id });
+			const listAnswers: Answer[] | null = await listAnswersService.optionalExecute({ company_id });
 
 			return response.status(200).json({ status: 'success', listAnswers });
 		} else {
-			const listAnswers = await listAnswersService.execute({ company_id, from, to });
+			const listAnswers: Answer[] | null  = await listAnswersService.execute({ company_id, from, to });
 
 			return response.status(200).json({ status: 'success', listAnswers });
 		}
@@ -81,7 +81,7 @@ class AnswerController
 
 	static async listResearch(request: Request, response: Response): Promise<Response>
 	{
-		const company = request.userId;
+		const company: any = request.userId;
 
 		const { from, to } = request.params;
 
@@ -91,7 +91,7 @@ class AnswerController
 
 			return response.status(200).json({ research });
 		} else {
-			const research = await listResearchService.execute({ company, from, to });
+			const research: object = await listResearchService.execute({ company, from, to });
 
 			return response.status(200).json({ research });
 		}

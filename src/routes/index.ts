@@ -1,5 +1,5 @@
 import express from 'express';
-import multer from "multer";
+import multer, { Multer } from "multer";
 import ContactUsController from "../controllers/ContactUsController";
 import CustomerController from "../controllers/CustomerController";
 import CompanyController from "../controllers/CompanyController";
@@ -27,8 +27,8 @@ import { validateCreateUser, validateSession, validateForgotPassword, validateCr
 	addParamsController, addProduct, linkedProducts } from "../utils/validateFieldsSchema";
 import DashboardController from '../controllers/DashboardController';
 
-const uploadAvatar = multer(avatarConfig);
-const uploadLogoClient = multer(configLogoClient);
+const uploadAvatar: Multer = multer(avatarConfig);
+const uploadLogoClient: Multer = multer(configLogoClient);
 
 const router = express.Router();
 

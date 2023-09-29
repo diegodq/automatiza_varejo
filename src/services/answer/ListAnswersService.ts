@@ -20,9 +20,9 @@ class ListAnswerService
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const resultQuery = await queryRunner.query(`select answer.*, question.company_id from question
-		join answer on question.id = answer.question_id where question.company_id = ?
-		and DATE(answer.created_at) BETWEEN ? AND ? order by answer.id asc`, [ company_id, from, to ]);
+		const resultQuery: any = await queryRunner.query(`select answer.*, question.company_id from question
+		join answer on question.id = answer.question_id where question.company_id = ${company_id}
+		and DATE(answer.created_at) BETWEEN '${from}' AND '${to}' order by answer.id asc;`);
 
 		await queryRunner.release();
 		if(resultQuery.length == 0) {
@@ -39,7 +39,7 @@ class ListAnswerService
 
 		const resultQuery = await queryRunner.query(`select answer.*, question.company_id from question
 		join answer on question.id = answer.question_id
-		where question.company_id = ? order by answer.id asc`, [ company_id ]);
+		where question.company_id = ${company_id} order by answer.id asc;`);
 
 		await queryRunner.release();
 		if(resultQuery.length == 0) {

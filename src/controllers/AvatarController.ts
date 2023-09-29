@@ -7,10 +7,8 @@ class AvatarController
 {
 	static async update(request: Request, response: Response): Promise<Response>
 	{
-		const size = request.file?.size;
-
 		const updateCustomerAvatarService = new UpdateCustomerAvatarService();
-		const avatar = await updateCustomerAvatarService.execute({
+		const avatar: string = await updateCustomerAvatarService.execute({
 			id: request.userId,
 			avatarFileName: request.file!.filename,
 			fileSize: request.file!.size
@@ -24,10 +22,10 @@ class AvatarController
 
 	static async returnAvatar(request: Request, response: Response): Promise<Response>
 	{
-		const id = request.userId;
+		const id: string = request.userId;
 
 		const returnAvatarCustomerService = new ReturnAvatarCustomerService();
-		const avatar = await returnAvatarCustomerService.execute({ id });
+		const avatar: string = await returnAvatarCustomerService.execute({ id });
 
 		if(process.env.APP_MODE == 'development')
 			return response.status(200).json({ status: 'success', avatar: process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/avatar/' + avatar });

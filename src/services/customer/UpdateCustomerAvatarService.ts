@@ -1,8 +1,9 @@
 import path from "path";
-import fs from 'fs';
+import fs, { Stats } from 'fs';
 import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import multerConfig from "../../configurations/avatarConfig";
+import Customer from "../../entities/Customer";
 
 interface AvatarRequest
 {
@@ -15,7 +16,7 @@ class UpdateCustomerAvatarService
 {
 	public async execute({ id, avatarFileName, fileSize }: AvatarRequest): Promise<string>
 	{
-		const customer = await customerRepository.findOneBy({ id: Number(id) });
+		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 		if (!customer) {
 			throw new BadRequestError('Usuário não encontrado');
 		}
@@ -25,8 +26,8 @@ class UpdateCustomerAvatarService
 		}
 
 		if(customer.avatar) {
-			const userAvatarFilePath = path.join(multerConfig.directory, customer.avatar);
-			const userAvatarFileExists = await fs.promises.stat(userAvatarFilePath);
+			const userAvatarFilePath: string = path.join(multerConfig.directory, customer.avatar);
+			const userAvatarFileExists: Stats = await fs.promises.stat(userAvatarFilePath);
 			if(userAvatarFileExists) {
 				await fs.promises.unlink(userAvatarFilePath);
 			}
