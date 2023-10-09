@@ -37,9 +37,11 @@ class ListAnswerService
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const resultQuery = await queryRunner.query(`select answer.*, question.company_id from question
-		join answer on question.id = answer.question_id
-		where question.company_id = ${company_id} order by answer.id asc;`);
+		const resultQuery: any = await queryRunner.query(`select answer.id, answer.answer, answer.research_title, answer.client_name, answer.client_phone, answer.is_contact,
+		answer.is_report, answer.type_report, answer.id_research, answer.research_name, answer.nps_answer,
+		answer.device_client, answer.start_research, answer.name_employee, CONVERT_TZ(answer.created_at, '+00:00', '-03:00') as created_at,
+		CONVERT_TZ(answer.updated_at, '+00:00', '-03:00') as updated_at, answer.question_id, question.company_id from question
+		join answer on question.id = answer.question_id where question.company_id = '${company_id}' order by answer.id asc;`);
 
 		await queryRunner.release();
 		if(resultQuery.length == 0) {

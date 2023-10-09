@@ -50,6 +50,9 @@ class Answer
 	@Column({ type: 'varchar', nullable: true, length: 90 })
 	name_employee: string;
 
+	@Column({ type: 'varchar', nullable: true, length: 60 })
+	ip_address: string;
+
 	@CreateDateColumn()
 	created_at: Date;
 
@@ -58,7 +61,7 @@ class Answer
 
 	constructor(id: number, question: Question, answer: string, research_title: string, client_name: string,
 		client_phone: string, is_contact: number, id_research: string, research_name: string, nps_answer: number, device_client: string, start_research: Date,
-		name_employee: string, is_report: number, type_report: string, created_at: Date, updated_at: Date)
+		name_employee: string, is_report: number, type_report: string, ip_address: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.question = question;
@@ -77,6 +80,7 @@ class Answer
 		this.name_employee = name_employee;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
+		this.ip_address = ip_address;
 	}
 
 	get getId(): number
@@ -157,6 +161,11 @@ class Answer
 	get getNameEmployee(): string
 	{
 		return this.name_employee;
+	}
+
+	get getIpAddress(): string
+	{
+		return this.ip_address;
 	}
 
 	get getCreatedAt(): Date

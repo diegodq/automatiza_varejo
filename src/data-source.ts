@@ -1,5 +1,5 @@
+import 'dotenv/config';
 import { DataSource } from "typeorm";
-
 import Company from './entities/Company';
 import ContactUs from './entities/ContactUs';
 import Customer from './entities/Customer';
@@ -15,7 +15,7 @@ import ParamsProduct from './entities/ParamsProduct';
 
 const port = process.env.DB_PORT as number | undefined;
 
-import { default1694304840052 } from './migration/1694304840052-default';
+import { default1696876818437 } from './migration/1696876818437-default';
 
 const appDataSource = new DataSource({
 	type: "mysql",
@@ -39,7 +39,7 @@ const appDataSource = new DataSource({
 		ParamsProduct
 	],
 	migrations: [
-		default1694304840052
+		default1696876818437
 	]
 });
 

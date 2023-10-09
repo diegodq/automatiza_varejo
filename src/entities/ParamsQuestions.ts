@@ -11,10 +11,10 @@ class ParamsQuestions
 	@JoinColumn({ name: 'question_id', referencedColumnName: 'id' })
 	question: Question;
 
-	@Column({ type: 'varchar', length: 80, nullable: true })
+	@Column({ type: 'varchar', length: 20, nullable: true })
 	option_one: string;
 
-	@Column({ type: 'varchar', length: 80, nullable: true })
+	@Column({ type: 'varchar', length: 20, nullable: true })
 	option_two: string;
 
 	@Column({ type: 'varchar', length: 15, nullable: true })
