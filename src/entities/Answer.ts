@@ -1,12 +1,14 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Question from "./Question";
 
 @Entity('answer')
 class Answer
 {
+	@Index('idxAnswer')
 	@PrimaryGeneratedColumn()
 	id: number;
 
+	@Index('idxQuestion')
 	@ManyToOne(() => Question, question => question.answer, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'question_id', referencedColumnName: 'id' })
 	question: Question;
