@@ -118,7 +118,7 @@ router.patch('/indicate/employee', isAuthenticated, TopicController.updateIndica
 router.patch('/anchor-question', isAuthenticated, ParamsProductController.updateAnchorQuestion);
 
 // nps
-router.get('/nps/header/:cnpj_company', NPSController.listAnchorQuestionAndLogo);
+router.get('/nps/header/:cnpj_company/:ip_address', NPSController.listAnchorQuestionAndLogo);
 router.get('/nps/topic/:cnpj_company', NPSController.listTopicByCompany);
 router.get('/nps/departments/:cnpj_company', NPSController.listDepartmentsByCompany);
 router.get('/nps/company/:cnpj_company/questions', NPSController.listQuestionAndParams);

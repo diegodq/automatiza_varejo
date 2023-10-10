@@ -29,6 +29,9 @@ class ParamsQuestions
 	@Column({ type: 'tinyint', nullable: true })
 	finish_research: number;
 
+	@Column({ type: 'tinyint', nullable: true, default: 0 })
+	lock_by_ip: boolean;
+
 	@CreateDateColumn()
 	created_at: Date;
 
@@ -37,8 +40,7 @@ class ParamsQuestions
 
 	constructor(id: number, question: Question, option_one: string, option_two: string,
 		import_type: string, position: number,
-		mandatory_question: number, finish_research: number,
-		background_color: string, font_color: string, passing_tree: number,
+		mandatory_question: number, finish_research: number, lock_by_ip: boolean,
 		created_at: Date, updated_at: Date )
 	{
 		this.id = id;
@@ -49,6 +51,7 @@ class ParamsQuestions
 		this.position = position;
 		this.mandatory_question = mandatory_question;
 		this.finish_research = finish_research;
+		this.lock_by_ip = lock_by_ip;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
@@ -76,6 +79,16 @@ class ParamsQuestions
 	get getFinishResearch(): number
 	{
 		return this.finish_research;
+	}
+
+	get backgroundColor(): string
+	{
+		return this.backgroundColor;
+	}
+
+	get lockByIp(): boolean
+	{
+		return this.lockByIp;
 	}
 
 	get getCreatedAt(): Date
