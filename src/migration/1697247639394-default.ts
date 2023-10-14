@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class default1696903410923 implements MigrationInterface {
-    name = 'default1696903410923'
+export class Defualt1697247639394 implements MigrationInterface {
+    name = 'Defualt1697247639394'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`ALTER TABLE \`params_questions\` ADD \`lock_by_ip\` tinyint NULL DEFAULT '0'`);
+        await queryRunner.query(`ALTER TABLE \`answer\` CHANGE \`ip_address\` \`ip_address\` varchar(60) NULL DEFAULT ''`);
         await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`name\` \`name\` varchar(255) NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`email\` \`email\` varchar(255) NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`subject\` \`subject\` varchar(255) NOT NULL`);
@@ -14,7 +14,7 @@ export class default1696903410923 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`subject\` \`subject\` varchar(255) NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`email\` \`email\` varchar(255) NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`name\` \`name\` varchar(255) NOT NULL`);
-        await queryRunner.query(`ALTER TABLE \`params_questions\` DROP COLUMN \`lock_by_ip\``);
+        await queryRunner.query(`ALTER TABLE \`answer\` CHANGE \`ip_address\` \`ip_address\` varchar(60) NULL`);
     }
 
 }

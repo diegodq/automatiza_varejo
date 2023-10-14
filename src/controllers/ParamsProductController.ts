@@ -14,7 +14,7 @@ class ParamsProductController
 {
 	static async addAnchorQuestion(request: Request, response: Response): Promise<Response>
 	{
-		const company = request.userId;
+		const company: any = request.userId;
 
 		const { anchor_question } = request.body;
 
@@ -26,17 +26,17 @@ class ParamsProductController
 
 	static async listAnchorQuestion(request: Request, response: Response): Promise<Response>
 	{
-		const company = request.userId;
+		const company: any = request.userId;
 
 		const listAnchorQuestion = new ListAnchorQuestionService();
-		const anchorQuestion = await listAnchorQuestion.execute({ company });
+		const anchorQuestion: any = await listAnchorQuestion.execute({ company });
 
 		return response.status(200).json({ status: 'success', message: anchorQuestion });
 	}
 
 	static async updateAnchorQuestion(request: Request, response: Response): Promise<Response>
 	{
-		const company = request.userId;
+		const company: any = request.userId;
 
 		const { anchor_question } = request.body;
 
@@ -48,7 +48,7 @@ class ParamsProductController
 
 	static async listBackgroundColor(request: Request, response: Response): Promise<Response>
 	{
-		const company = request.userId;
+		const company: any = request.userId;
 
 		const listBackgroundColor = new ListBackgroundColorService();
 		const backgroundColor = await listBackgroundColor.execute({ company });
@@ -58,7 +58,7 @@ class ParamsProductController
 
 	static async updateBackgroundColor(request: Request, response: Response): Promise<Response>
 	{
-		const company = request.userId;
+		const company: any = request.userId;
 
 		const { background_color } = request.body;
 
@@ -70,7 +70,7 @@ class ParamsProductController
 
 	static async listFontColor(request: Request, response: Response): Promise<Response>
 	{
-		const company = request.userId;
+		const company: any = request.userId;
 
 		const listfontColor = new ListFontColorService();
 		const fontColor = await listfontColor.execute({ company });
@@ -80,7 +80,7 @@ class ParamsProductController
 
 	static async updateFontColor(request: Request, response: Response ): Promise<Response>
 	{
-		const company = request.userId;
+		const company: any = request.userId;
 		const { font_color } = request.body;
 
 		const updateFontColorService = new UpdateFontColorService();
@@ -91,7 +91,7 @@ class ParamsProductController
 
 	static async listPassingTree(request: Request, response: Response): Promise<Response>
 	{
-		const company = request.userId;
+		const company: any = request.userId;
 
 		const listPassingTree = new ListPassingTreeService();
 		const passingTree = await listPassingTree.execute({ company });
@@ -101,7 +101,7 @@ class ParamsProductController
 
 	static async changePassingTree(request: Request, response: Response): Promise<Response>
 	{
-		const company = request.userId;
+		const company: any = request.userId;
 
 		const { passing_tree } = request.body;
 

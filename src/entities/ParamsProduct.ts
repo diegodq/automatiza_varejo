@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Company from "./Company";
 
 @Entity('params_product')
@@ -23,8 +23,17 @@ class ParamsProduct
 	@Column({ type: 'int', nullable: true })
 	passing_tree: number;
 
+	@Column({ type: 'tinyint', nullable: true, default: 0 })
+	lock_by_ip: boolean;
 
-	constructor(id: number, anchor_question: string, background_color: string, passing_tree: number, font_color: string, company: Company)
+	@CreateDateColumn()
+	created_at: Date;
+
+	@UpdateDateColumn()
+	updated_at: Date;
+
+	constructor(id: number, anchor_question: string, background_color: string, passing_tree: number, font_color: string, company: Company, 
+		lock_by_ip: boolean, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.anchor_question = anchor_question;
@@ -32,6 +41,9 @@ class ParamsProduct
 		this.font_color = font_color;
 		this.passing_tree = passing_tree;
 		this.company = company;
+		this.lock_by_ip = lock_by_ip;
+		this.created_at = created_at;
+		this.updated_at = updated_at;
 	}
 
 	get getAnchorQuestion(): string
@@ -62,6 +74,16 @@ class ParamsProduct
 	get getId(): number
 	{
 		return this.id;
+	}
+
+	get getCreatedAt(): Date
+	{
+		return this.created_at;
+	}
+
+	get getUpdated_at(): Date
+	{
+		return this.updated_at;
 	}
 }
 

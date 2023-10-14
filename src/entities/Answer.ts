@@ -52,7 +52,7 @@ class Answer
 	@Column({ type: 'varchar', nullable: true, length: 90 })
 	name_employee: string;
 
-	@Column({ type: 'varchar', nullable: true, length: 60 })
+	@Column({ type: 'varchar', nullable: true, length: 60, default: '' })
 	ip_address: string;
 
 	@CreateDateColumn()

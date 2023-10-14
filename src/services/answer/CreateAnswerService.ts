@@ -15,6 +15,7 @@ interface AnswerTypes
 	nps_answer: number;
 	research_name: string
 	name_employee: string;
+	ip_address: string;
 	question: Question;
 }
 

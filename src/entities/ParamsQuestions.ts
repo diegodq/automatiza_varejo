@@ -29,9 +29,6 @@ class ParamsQuestions
 	@Column({ type: 'tinyint', nullable: true })
 	finish_research: number;
 
-	@Column({ type: 'tinyint', nullable: true, default: 0 })
-	lock_by_ip: boolean;
-
 	@CreateDateColumn()
 	created_at: Date;
 
@@ -51,7 +48,6 @@ class ParamsQuestions
 		this.position = position;
 		this.mandatory_question = mandatory_question;
 		this.finish_research = finish_research;
-		this.lock_by_ip = lock_by_ip;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
