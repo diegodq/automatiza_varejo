@@ -1,3 +1,4 @@
+import ParamsProduct from '../../entities/ParamsProduct';
 import paramsProductRepository from '../../repositories/paramsProductRepository';
 import { BadRequestError } from '../../utils/ApiErrors';
 
@@ -12,7 +13,7 @@ class ListBackgroundColorService
 	{
 		const id = Number(company);
 
-		const fontColor = await paramsProductRepository.findOne({ where: { company: { id } } });
+		const fontColor: ParamsProduct | null = await paramsProductRepository.findOne({ where: { company: { id } } });
 		if(!fontColor) {
 			throw new BadRequestError('no-font-color');
 		}

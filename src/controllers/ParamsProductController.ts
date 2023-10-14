@@ -1,14 +1,11 @@
 import { Request, Response } from "express";
 import AddAnchorQuestionService from "../services/anchorQuestion/AddAnchorQuestionService";
 import ListAnchorQuestionService from "../services/anchorQuestion/ListAnchorQuestionService";
-import ListBackgroundColorService from "../services/paramsProduct/ListBackgroundService";
-import ListFontColorService from "../services/paramsProduct/ListFontColorService";
-import ListPassingTreeService from "../services/paramsProduct/ListPassingTreeService";
 import UpdateAnchorQuestionService from "../services/anchorQuestion/UpdateAnchorQuestionService";
 import UpdateFontColorService from "../services/paramsProduct/UpdateFontColorService";
 import UpdateBackgroundColorService from "../services/paramsProduct/UpdateBackgroundColorService";
 import ModifyPassingTreeService from "../services/paramsProduct/ModifyPassingTreeService";
-
+import ListParamsProductService from "../services/paramsProduct/ListParamsProductService";
 
 class ParamsProductController
 {
@@ -46,16 +43,6 @@ class ParamsProductController
 		return response.status(200).json({ status: 'success', anchorQuestion: anchorQuestion });
 	}
 
-	static async listBackgroundColor(request: Request, response: Response): Promise<Response>
-	{
-		const company: any = request.userId;
-
-		const listBackgroundColor = new ListBackgroundColorService();
-		const backgroundColor = await listBackgroundColor.execute({ company });
-
-		return response.status(200).json({ status: 'success', message: backgroundColor });
-	}
-
 	static async updateBackgroundColor(request: Request, response: Response): Promise<Response>
 	{
 		const company: any = request.userId;
@@ -66,16 +53,6 @@ class ParamsProductController
 		const backgroundColor = await updateBackgroundColorService.execute({ company, background_color });
 
 		return response.status(200).json({ status: 'success', message: backgroundColor });
-	}
-
-	static async listFontColor(request: Request, response: Response): Promise<Response>
-	{
-		const company: any = request.userId;
-
-		const listfontColor = new ListFontColorService();
-		const fontColor = await listfontColor.execute({ company });
-
-		return response.status(200).json({ status: 'success', message: fontColor });
 	}
 
 	static async updateFontColor(request: Request, response: Response ): Promise<Response>
@@ -89,16 +66,6 @@ class ParamsProductController
 		return response.status(200).json({ status: 'success', message: fontColor });
 	}
 
-	static async listPassingTree(request: Request, response: Response): Promise<Response>
-	{
-		const company: any = request.userId;
-
-		const listPassingTree = new ListPassingTreeService();
-		const passingTree = await listPassingTree.execute({ company });
-
-		return response.status(200).json({ status: 'success', message: passingTree })
-	}
-
 	static async changePassingTree(request: Request, response: Response): Promise<Response>
 	{
 		const company: any = request.userId;
@@ -109,6 +76,16 @@ class ParamsProductController
 		const anchorQuestion = await modifyPassingTreeService.execute({ company, passing_tree });
 
 		return response.status(200).json({ status: 'success', message: anchorQuestion });
+	}
+
+	static async listParamsProduct(request: Request, response: Response) 
+	{
+		const company: number = request.userId;
+
+		const listParamsProductService = new ListParamsProductService();
+		const resultQuery: object = await listParamsProductService.execute({ company });
+
+		return response.status(200).json({ status: 'sucess', message: resultQuery });
 	}
 }
 
