@@ -2,6 +2,8 @@ import { BadRequestError } from "../../utils/ApiErrors";
 import companyRepository from "../../repositories/companyRepository";
 import formatCNPJ from "../../utils/formatCNPJ";
 import appDataSource from "../../data-source";
+import { QueryRunner } from "typeorm";
+import Company from "../../entities/Company";
 
 type NPSRequest = {
 	cnpj_company: string
@@ -14,7 +16,7 @@ class ListProductByCompanyService {
 			throw new BadRequestError('invalid-cnpj');
 		}
 
-		const companyExists = await companyRepository.findOneBy({ cnpj });
+		const companyExists: Company | null = await companyRepository.findOneBy({ cnpj });
 		if (!companyExists) {
 			throw new BadRequestError('no-company');
 		}
@@ -22,15 +24,23 @@ class ListProductByCompanyService {
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const paramsProduct = await queryRunner.query(`
+		const paramsProduct: any = await queryRunner.query(`
 		SELECT pp.font_color, pp.background_color, pp.passing_tree
 		FROM params_product pp
 		JOIN company c ON pp.company_id = c.id
-		WHERE c.cnpj = ?`, [cnpj])
+		WHERE c.cnpj = ?`, [cnpj]);
 
-		await queryRunner.release()
+		const lockIp: any = await queryRunner.query(`select params_product.lock_by_ip from params_product join company 
+		where params_product.company_id = company.id and company.cnpj = '${cnpj}';`);
 
-		return { status: 'success', paramsProduct }
+		await queryRunner.release();
+
+		let ipLock = '';
+		lockIp.forEach((item: any): any => {
+			ipLock = item.lock_by_ip;
+		});
+
+		return { status: 'success', paramsProduct, lockByIp: ipLock }
 	}
 }
 

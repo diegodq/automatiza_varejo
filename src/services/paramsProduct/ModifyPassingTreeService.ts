@@ -1,6 +1,7 @@
 import Company from "../../entities/Company";
 import { BadRequestError } from "../../utils/ApiErrors";
 import paramsProductRepository from "../../repositories/paramsProductRepository";
+import ParamsProduct from "src/entities/ParamsProduct";
 
 type TopicRequest =
 {
@@ -14,7 +15,7 @@ class ModifyPassingTreeService
 	{
 		const id = Number(company);
 
-		const passingTree = await paramsProductRepository.findOne({ where: { company: { id } } });
+		const passingTree: ParamsProduct | null = await paramsProductRepository.findOne({ where: { company: { id } } });
 		if(!passingTree) {
 			throw new BadRequestError('no-passing-tree');
 		}

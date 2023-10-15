@@ -114,9 +114,10 @@ router.patch('/resend-email', CustomerController.resendEmail);
 router.patch('/params/boolean/question', isAuthenticated, ParamsQuestionController.updateBooleanParams);
 router.patch('/indicate/employee', isAuthenticated, TopicController.updateIndicateEmployee);
 router.patch('/anchor-question', isAuthenticated, ParamsProductController.updateAnchorQuestion);
+router.patch('/update/lock-ip', isAuthenticated, ParamsProductController.updateLockByIp);
 
 // nps
-router.get('/nps/header/:cnpj_company/:ip_address', NPSController.listAnchorQuestionAndLogo);
+router.get('/nps/header/:cnpj_company/:ip_address?', NPSController.listAnchorQuestionAndLogo);
 router.get('/nps/topic/:cnpj_company', NPSController.listTopicByCompany);
 router.get('/nps/departments/:cnpj_company', NPSController.listDepartmentsByCompany);
 router.get('/nps/company/:cnpj_company/questions', NPSController.listQuestionAndParams);
@@ -127,4 +128,5 @@ router.post('/answer', AnswerController.add);
 // report
 // router.get('/answer/report', AnswerController.makeReport);
 router.get('/answer/report', ReportsController.makePDF);
+
 export default router;
