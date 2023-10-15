@@ -3,8 +3,6 @@ import appDataSource from "../../data-source";
 import companyRepository from "../../repositories/companyRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import formatCNPJ from "../../utils/formatCNPJ";
-import { QueryRunner } from "typeorm";
-
 
 type NPSRequest = {
 	cnpj_company: string,
@@ -44,23 +42,19 @@ class ListAnchorQuestionAndLogoClientService
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const dataResearch: any = await queryRunner.query(`select answer.created_at, answer.ip_address from answer where answer.ip_address <> '' order by answer.created_at desc limit 30;`);
+		const dataResearch: any = await queryRunner.query(`select answer.created_at, answer.ip_address from answer where answer.ip_address <> '' 
+		and date(answer.created_at) = date(now()) order by answer.created_at desc limit 50;`);
+
+		const lockIp: any = await queryRunner.query(`select params_product.lock_by_ip from params_product join company 
+		where params_product.company_id = company.id and company.cnpj = '${cnpj}';`);
 
 		await queryRunner.release();
 
-		let resultAllow = true;
-		dataResearch.forEach((item: any ): any => {
-			if(item.ip_address === ip_address) resultAllow = false;
-			else resultAllow = true;
-		});
-
-		const queryRunner2: QueryRunner = appDataSource.createQueryRunner();
-		await queryRunner2.connect();
-
-		const lockIp: any = await queryRunner2.query(`select params_product.lock_by_ip from params_product join company 
-		where params_product.company_id = company.id and company.cnpj = '${cnpj}';`);
-
-		await queryRunner2.release();
+		let allowResearch = true;
+		dataResearch.forEach((item: any): any => {
+			if(item.ip_address === ip_address)
+				allowResearch = false;
+		})
 
 		let ipLock = false;
 		lockIp.forEach((item: any ): any => {
@@ -70,10 +64,10 @@ class ListAnchorQuestionAndLogoClientService
 
 		if(process.env.APP_MODE == 'development')
 			return { status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0], 
-			logo: logoClient[0] == '' ? '' : process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + logoClient[0], resultAllow: resultAllow, lockByIp: ipLock };
+			logo: logoClient[0] == '' ? '' : process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + logoClient[0], allowResearch: allowResearch, lockByIp: ipLock };
 		else
 			return {status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0], 
-			logo: logoClient[0] == '' ? '' : process.env.IMG_URL + '/logo/' + logoClient[0], resultAllow: resultAllow, lockByIp: ipLock };
+			logo: logoClient[0] == '' ? '' : process.env.IMG_URL + '/logo/' + logoClient[0], allowResearch: allowResearch, lockByIp: ipLock };
 	}
 }
 
