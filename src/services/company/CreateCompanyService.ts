@@ -1,3 +1,4 @@
+import Company from "src/entities/Company";
 import appDataSource from "../../data-source";
 import Customer from "../../entities/Customer";
 import companyRepository from "../../repositories/companyRepository";
@@ -29,10 +30,10 @@ class CreateCompanyService
 			throw new BadRequestError('Empresa já está cadastrada.');
 		}
 
-		const newCompany = companyRepository.create({ corporate_name, fantasy_name, cnpj, zip_code, state,
+		const newCompany: Company = companyRepository.create({ corporate_name, fantasy_name, cnpj, zip_code, state,
 			complement, address, number, district, city, customer });
 
-		const saveNewCompany = await companyRepository.save(newCompany);
+		const saveNewCompany: Company = await companyRepository.save(newCompany);
 
 		this.addCompanyInParamsProduct(saveNewCompany.getId);
 

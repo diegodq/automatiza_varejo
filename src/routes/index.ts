@@ -26,6 +26,8 @@ import { validateCreateUser, validateSession, validateForgotPassword, validateCr
 	contactUS, createQuestion, createTopic, generateQrCode,
 	addParamsController, addProduct, linkedProducts } from "../utils/validateFieldsSchema";
 import DashboardController from '../controllers/DashboardController';
+import StoreController from 'src/controllers/StoreController';
+import CheckMultiStoreController from 'src/controllers/CheckMultiStoreController';
 
 const uploadAvatar: Multer = multer(avatarConfig);
 const uploadLogoClient: Multer = multer(configLogoClient);
@@ -49,8 +51,8 @@ router.get('/departments', isAuthenticated, DepartmentController.listAll);
 router.get('/question', isAuthenticated, QuestionController.list);
 router.get('/questions/:from?/:to?', isAuthenticated, QuestionController.listAll);
 router.get('/answer', isAuthenticated, AnswerController.list);
-router.get('/research/:from?/:to?', isAuthenticated, AnswerController.listResearch);
-router.get('/answers/:from?/:to?', isAuthenticated, AnswerController.listAll);
+router.get('/research/:from?/:to?/:store?', isAuthenticated, AnswerController.listResearch);
+router.get('/answers/:from?/:to?/store', isAuthenticated, AnswerController.listAll);
 router.get('/topic', isAuthenticated, TopicController.list);
 router.get('/topics', isAuthenticated, TopicController.listAll);
 router.get('/anchor-question', isAuthenticated, ParamsProductController.listAnchorQuestion);
@@ -58,6 +60,8 @@ router.get('/params/product', isAuthenticated, ParamsProductController.listParam
 router.get('/params/question/:question_id', isAuthenticated, ParamsQuestionController.listParams);
 router.get('/product/company', isAuthenticated, ProductController.listProducts);
 router.get('/params/questions', isAuthenticated, ParamsQuestionController.listParamsOfQuestion);
+router.get('/list/store', isAuthenticated, StoreController.listStore);
+router.get('/multi-store', isAuthenticated, CheckMultiStoreController.checkIfExistsMultiStore);
 
 //charts
 router.get('/dashboard/topics/:from/:to/:type_tree', isAuthenticated, DashboardController.toAmountTopicInAnswers);
@@ -81,6 +85,7 @@ router.post('/params/question', isAuthenticated, ParamsQuestionController.create
 router.post('/add/product', isAuthenticated, ProductController.addNewProduct);
 router.post('/link/company/product', isAuthenticated, CompanyController.linkCompanyToProduct);
 router.post('/anchor-question', isAuthenticated, ParamsProductController.addAnchorQuestion);
+router.post('/create/store', isAuthenticated, StoreController.create);
 
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);
@@ -96,6 +101,7 @@ router.put('/department', isAuthenticated, DepartmentController.update);
 router.put('/question', isAuthenticated, QuestionController.edit);
 router.put('/answer', isAuthenticated, AnswerController.edit);
 router.put('/topic', isAuthenticated, TopicController.update);
+router.put('/edit/store', isAuthenticated, StoreController.editStore);
 
 router.patch('/avatar', isAuthenticated, uploadAvatar.single('file'), AvatarController.update);
 router.patch('/logo-company', isAuthenticated, uploadLogoClient.single('file'), LogoClientController.update);
@@ -115,9 +121,10 @@ router.patch('/params/boolean/question', isAuthenticated, ParamsQuestionControll
 router.patch('/indicate/employee', isAuthenticated, TopicController.updateIndicateEmployee);
 router.patch('/anchor-question', isAuthenticated, ParamsProductController.updateAnchorQuestion);
 router.patch('/update/lock-ip', isAuthenticated, ParamsProductController.updateLockByIp);
+router.patch('/disable/store', isAuthenticated, StoreController.disableStore);
 
 // nps
-router.get('/nps/header/:cnpj_company/:ip_address?', NPSController.listAnchorQuestionAndLogo);
+router.get('/nps/header/:cnpj_company/:ip_address?/store?', NPSController.listAnchorQuestionAndLogo);
 router.get('/nps/topic/:cnpj_company', NPSController.listTopicByCompany);
 router.get('/nps/departments/:cnpj_company', NPSController.listDepartmentsByCompany);
 router.get('/nps/company/:cnpj_company/questions', NPSController.listQuestionAndParams);

@@ -1,3 +1,4 @@
+import Product from "../../entities/Product";
 import appDataSource from "../../data-source";
 import productRepository from "../../repositories/productRepository";
 
@@ -11,7 +12,7 @@ class CreateProductService
 {
 	public async execute({ name, description }: RequestProduct): Promise<string>
 	{
-		const newProduct = productRepository.create({ name, description });
+		const newProduct: Product = productRepository.create({ name, description });
 		await productRepository.save(newProduct);
 
 		const queryRunner = appDataSource.createQueryRunner();

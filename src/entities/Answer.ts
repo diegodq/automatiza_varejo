@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Question from "./Question";
+import Store from "./Store";
 
 @Entity('answer')
 class Answer
@@ -12,6 +13,10 @@ class Answer
 	@ManyToOne(() => Question, question => question.answer, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'question_id', referencedColumnName: 'id' })
 	question: Question;
+
+	@ManyToOne(() => Store, store => store.answer)
+	@JoinColumn({ name: 'store_id', referencedColumnName: 'id' })
+	store: Store;
 
 	@Column({ type:'varchar', nullable: true })
 	answer: string;
@@ -61,12 +66,13 @@ class Answer
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, question: Question, answer: string, research_title: string, client_name: string,
+	constructor(id: number, question: Question, store: Store, answer: string, research_title: string, client_name: string,
 		client_phone: string, is_contact: number, id_research: string, research_name: string, nps_answer: number, device_client: string, start_research: Date,
 		name_employee: string, is_report: number, type_report: string, ip_address: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.question = question;
+		this.store = store;
 		this.answer = answer;
 		this.research_title = research_title;
 		this.client_name = client_name;
@@ -93,6 +99,11 @@ class Answer
 	get getQuestion(): Question
 	{
 		return this.question;
+	}
+
+	get getStore(): Store
+	{
+		return this.store
 	}
 
 	get getAnswer(): string

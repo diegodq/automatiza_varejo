@@ -8,6 +8,7 @@ import ListDepartmentsByCompanyService from "../services/department/ListDepartme
 import ListTopicsByCompanyService from "../services/company/ListTopicsByCompanyService";
 import ListQuestionsByCompanyService from "../services/question/ListQuestionsByCompanyService";
 import LinkCompanyToProductService from "../services/company/LinkCompanyToProductService";
+import Company from "src/entities/Company";
 
 class CompanyController
 {
@@ -28,7 +29,7 @@ class CompanyController
 	static async list(request: Request, response: Response): Promise<Response>
 	{
 		const listCompanyService = new ListCompaniesService();
-		const listCompanies = await listCompanyService.execute();
+		const listCompanies: Company[] | null = await listCompanyService.execute();
 
 		return response.status(200).json(listCompanies);
 	}

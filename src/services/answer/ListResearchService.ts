@@ -9,6 +9,7 @@ type CompanyId =
 	company: Company;
 	from?: string;
 	to?: string;
+	store?: string
 }
 
 type OptionalQuery =
@@ -51,27 +52,48 @@ interface TransformedData {
 
 class ListResearchService
 {
-	public async execute({ company, from, to }: CompanyId): Promise<object>
+	public async execute({ company, from, to, store }: CompanyId): Promise<object>
 	{
-		const queryRunner = appDataSource.createQueryRunner();
-		await queryRunner.connect();
+		if(typeof store === 'undefined') {
+			const queryRunner = appDataSource.createQueryRunner();
+			await queryRunner.connect();
 
-		const resultQuery = await queryRunner.query(`select answer.id, answer.answer,
-		date_format(answer.created_at, '%d/%m/%Y %H:%i:%s') as formatted_date,
-		answer.nps_answer, answer.research_title, answer.research_name, answer.client_name, answer.client_phone,
-		answer.id_research, answer.is_contact,
-		answer.name_employee from question join answer
-		on answer.question_id = question.id
-		where question.company_id = ${company} and DATE(answer.created_at)
-		BETWEEN '${from}' AND '${to}' order by id asc;`);
+			const resultQuery = await queryRunner.query(`select answer.id, answer.answer,
+			date_format(answer.created_at, '%d/%m/%Y %H:%i:%s') as formatted_date,
+			answer.nps_answer, answer.research_title, answer.research_name, answer.client_name, answer.client_phone,
+			answer.id_research, answer.is_contact,
+			answer.name_employee from question join answer
+			on answer.question_id = question.id
+			where question.company_id = ? and DATE(answer.created_at)
+			BETWEEN ? AND ? order by id asc;`, [company, from, to]);
 
-		await queryRunner.release();
+			await queryRunner.release();
 
-		if(resultQuery.length == 0) {
-			throw new BadRequestError('no-research');
+			if(resultQuery.length == 0) {
+				throw new BadRequestError('no-research');
+			}
+
+			return this.transformData(resultQuery);
+		} else {
+			const queryRunner = appDataSource.createQueryRunner();
+			await queryRunner.connect();
+
+			const resultQuery = await queryRunner.query(`select answer.id, answer.answer, store.store_number, store.company_id,
+			date_format(answer.created_at, '%d/%m/%Y %H:%i:%s') as formatted_date,
+			answer.nps_answer, answer.research_title, answer.research_name,
+			answer.client_name, answer.client_phone, answer.id_research,
+			answer.is_contact, answer.name_employee from answer join store on answer.store_id = store.id
+			where store.store_number = ? and store.company_id = ?
+			and date(answer.created_at) between ? and ? order by answer.id asc;`, [store, company, from, to]);
+
+			await queryRunner.release();
+
+			if(resultQuery.length == 0) {
+				throw new BadRequestError('no-research');
+			}
+
+			return this.transformData(resultQuery);
 		}
-
-		return this.transformData(resultQuery);
 	}
 
 	public async optionalExecute({ company }:OptionalQuery): Promise<object>
@@ -81,7 +103,7 @@ class ListResearchService
 
 		const resultQuery = await queryRunner.query(`select answer.id, answer.answer, date_format(answer.created_at, '%d/%m/%Y %H:%i:%s') as formatted_date,
 		answer.nps_answer, answer.research_title, answer.research_name, answer.client_name, answer.client_phone, answer.id_research, answer.is_contact,
-		answer.name_employee from question join answer on answer.question_id = question.id where question.company_id = ${company} order by id asc;`);
+		answer.name_employee from question join answer on answer.question_id = question.id where question.company_id = ? order by id asc;`, [company]);
 
 		await queryRunner.release();
 

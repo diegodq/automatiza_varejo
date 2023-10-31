@@ -83,18 +83,18 @@ class AnswerController
 	{
 		const company: any = request.userId;
 
-		const { from, to } = request.params;
+		const { from, to, store } = request.params;
 
 		const listResearchService = new ListResearchService();
-		if(typeof from === 'undefined' && typeof to === 'undefined') {
+		if(typeof from === 'undefined' && typeof to === 'undefined' && typeof store === 'undefined') {
 			const research = await listResearchService.optionalExecute({ company });
 
 			return response.status(200).json({ research });
 		} else {
-			const research: object = await listResearchService.execute({ company, from, to });
+			const research: object = await listResearchService.execute({ company, from, to, store });
 
 			return response.status(200).json({ research });
-		}
+		};
 	}
 
 	static async makeReport(request: Request, response: Response)

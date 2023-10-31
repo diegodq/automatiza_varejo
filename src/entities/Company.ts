@@ -8,6 +8,7 @@ import Department from './Department';
 import Topic from './Topic';
 import Product from './Product';
 import ParamsProduct from './ParamsProduct';
+import Store from './Store';
 
 @Entity("company")
 class Company
@@ -22,7 +23,7 @@ class Company
 	@JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
 	customer: Customer;
 
-	@ManyToMany(() => Product, product => product.company, { nullable: true, onUpdate: 'CASCADE' })
+	@ManyToMany(() => Product, product => product.company, { nullable: true, onUpdate: 'CASCADE', onDelete: 'CASCADE' })
 	@JoinTable({
 		name: 'company_product',
 		joinColumn: {
@@ -45,37 +46,40 @@ class Company
 	@OneToMany(() => Topic, topic => topic.company)
 	topic: Topic[];
 
-	@Column({ type: "varchar" })
+	@OneToMany(() => Store, store => store.company)
+	store: Store[];
+
+	@Column({ type: "varchar", nullable: true, default: '' })
 	corporate_name: string;
 
-	@Column({ type: "varchar" })
+	@Column({ type: "varchar", default: '' })
 	fantasy_name: string;
 
 	@Column({ type: 'varchar', nullable: true, default: '' })
 	logo_company: string;
 
-	@Column({ type: "varchar", length: 20 })
+	@Column({ type: "varchar", length: 20, default: '' })
 	cnpj: string;
 
-	@Column({ type: "varchar", length: 17 })
+	@Column({ type: "varchar", length: 17, default: '' })
 	zip_code: string;
 
-	@Column({ type: "varchar", length: 17 })
+	@Column({ type: "varchar", length: 17, default: '' })
 	state: string;
 
-	@Column({ type: "varchar" })
+	@Column({ type: "varchar", default: '' })
 	address: string;
 
-	@Column({ type: "varchar", length: 20 })
+	@Column({ type: "varchar", length: 20, default: 0 })
 	number: string;
 
-	@Column({ type: 'varchar', nullable: true })
+	@Column({ type: 'varchar', nullable: true, default: '' })
 	complement: string;
 
-	@Column({ type: "varchar", length: 200 })
+	@Column({ type: "varchar", length: 200, default: '' })
 	district: string;
 
-	@Column({ type: "varchar", length: 200 })
+	@Column({ type: "varchar", length: 200, default: '' })
 	city: string;
 
 	@Column({ type: 'tinyint', nullable: true, default: 0 })
@@ -90,7 +94,7 @@ class Company
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, customer: Customer, paramsProduct: ParamsProduct, product: Product[], question: Question[], department: Department[], topic: Topic[], corporate_name: string, fantasy_name: string, logo_company: string ,cnpj: string, zip_code: string, state: string,
+	constructor(id: number, customer: Customer, paramsProduct: ParamsProduct, product: Product[], question: Question[], department: Department[], topic: Topic[], store: Store[], corporate_name: string, fantasy_name: string, logo_company: string ,cnpj: string, zip_code: string, state: string,
 		city: string, complement: string, district: string, address: string, number: string, is_report: number, type_report: string,
 		created_at: Date, updated_at: Date)
 	{
@@ -101,6 +105,7 @@ class Company
 		this.question = question;
 		this.department = department;
 		this.topic = topic;
+		this.store = store;
 		this.corporate_name = corporate_name;
 		this.fantasy_name = fantasy_name;
 		this.logo_company = logo_company;
@@ -151,6 +156,11 @@ class Company
 	get getTopic(): Topic[]
 	{
 		return this.topic;
+	}
+
+	get getStore(): Store[]
+	{
+		return this.store;
 	}
 
 	get getCorporateName(): string

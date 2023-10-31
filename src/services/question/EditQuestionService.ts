@@ -1,3 +1,4 @@
+import Question from "../../entities/Question";
 import questionRepository from "../../repositories/questionRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 
@@ -19,7 +20,7 @@ class EditQuestionService
 {
 	public async execute({ id, title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title }: QuestionRequest)
 	{
-		const questionExists = await questionRepository.findOneBy({ id: Number(id) });
+		const questionExists: Question | null = await questionRepository.findOneBy({ id: Number(id) });
 		if(!questionExists) {
 			throw new BadRequestError('no-question');
 		}
