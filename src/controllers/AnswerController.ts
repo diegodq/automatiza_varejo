@@ -54,15 +54,15 @@ class AnswerController
 	{
 		const company_id: string = request.userId;
 
-		const { from, to } = request.params;
+		const { from, to, store } = request.params;
 
 		const listAnswersService = new ListAnswersService();
-		if(typeof from === 'undefined' && typeof to === 'undefined') {
+		if(typeof from === 'undefined' && typeof to === 'undefined' && typeof store === 'undefined') {
 			const listAnswers: Answer[] | null = await listAnswersService.optionalExecute({ company_id });
 
 			return response.status(200).json({ status: 'success', listAnswers });
 		} else {
-			const listAnswers: Answer[] | null  = await listAnswersService.execute({ company_id, from, to });
+			const listAnswers: Answer[] | null  = await listAnswersService.execute({ company_id, from, to, store });
 
 			return response.status(200).json({ status: 'success', listAnswers });
 		}

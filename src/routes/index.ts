@@ -52,7 +52,7 @@ router.get('/question', isAuthenticated, QuestionController.list);
 router.get('/questions/:from?/:to?', isAuthenticated, QuestionController.listAll);
 router.get('/answer', isAuthenticated, AnswerController.list);
 router.get('/research/:from?/:to?/:store?', isAuthenticated, AnswerController.listResearch);
-router.get('/answers/:from?/:to?/store', isAuthenticated, AnswerController.listAll);
+router.get('/answers/:from?/:to?/:store?', isAuthenticated, AnswerController.listAll);
 router.get('/topic', isAuthenticated, TopicController.list);
 router.get('/topics', isAuthenticated, TopicController.listAll);
 router.get('/anchor-question', isAuthenticated, ParamsProductController.listAnchorQuestion);
@@ -64,10 +64,10 @@ router.get('/list/store', isAuthenticated, StoreController.listStore);
 router.get('/multi-store', isAuthenticated, CheckMultiStoreController.checkIfExistsMultiStore);
 
 //charts
-router.get('/dashboard/topics/:from/:to/:type_tree', isAuthenticated, DashboardController.toAmountTopicInAnswers);
-router.get('/dashboard/department/:from/:to/:type_tree', isAuthenticated, DashboardController.toAmountDepartmentInAnswers);
-router.get('/dashboard/employee/:from/:to/:type_tree', isAuthenticated, DashboardController.toAmountEmployeesInAnswers);
-router.get('/dashboard/research/:from/:to', isAuthenticated, DashboardController.toAmountResearch);
+router.get('/dashboard/topics/:from/:to/:type_tree/:store?', isAuthenticated, DashboardController.toAmountTopicInAnswers);
+router.get('/dashboard/department/:from/:to/:type_tree/:store?', isAuthenticated, DashboardController.toAmountDepartmentInAnswers);
+router.get('/dashboard/employee/:from/:to/:type_tree/:store?', isAuthenticated, DashboardController.toAmountEmployeesInAnswers);
+router.get('/dashboard/research/:from/:to', isAuthenticated, DashboardController.toAmountResearch); /** parou aqui */
 router.get('/dashboard/amount/month/', isAuthenticated, DashboardController.returnVolumeOfResearchInMonths);
 router.get('/dashboard/amount/research', isAuthenticated, DashboardController.returnResearchSevenDays);
 router.get('/dashboard/amount/nps/:from/:to', isAuthenticated, DashboardController.toAmountNPS);
@@ -124,7 +124,7 @@ router.patch('/update/lock-ip', isAuthenticated, ParamsProductController.updateL
 router.patch('/disable/store', isAuthenticated, StoreController.disableStore);
 
 // nps
-router.get('/nps/header/:cnpj_company/:ip_address?/store?', NPSController.listAnchorQuestionAndLogo);
+router.get('/nps/header/:cnpj_company/:ip_address?/:store?', NPSController.listAnchorQuestionAndLogo);
 router.get('/nps/topic/:cnpj_company', NPSController.listTopicByCompany);
 router.get('/nps/departments/:cnpj_company', NPSController.listDepartmentsByCompany);
 router.get('/nps/company/:cnpj_company/questions', NPSController.listQuestionAndParams);

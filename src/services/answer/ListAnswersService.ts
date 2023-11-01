@@ -6,6 +6,7 @@ type QueryString =
 {
 	from?: string;
 	to?: string;
+	store: string,
 	company_id: string;
 }
 
@@ -15,21 +16,37 @@ type OptionalQuery = {
 
 class ListAnswerService
 {
-	public async execute({ company_id, from, to }: QueryString): Promise<Answer[] | null>
+	public async execute({ company_id, from, to, store }: QueryString): Promise<Answer[] | null>
 	{
-		const queryRunner = appDataSource.createQueryRunner();
-		await queryRunner.connect();
+		if(typeof store === 'undefined') {
+			const queryRunner = appDataSource.createQueryRunner();
+			await queryRunner.connect();
 
-		const resultQuery: any = await queryRunner.query(`select answer.*, question.company_id from question
-		join answer on question.id = answer.question_id where question.company_id = ${company_id}
-		and DATE(answer.created_at) BETWEEN '${from}' AND '${to}' order by answer.id asc;`);
+			const resultQuery: any = await queryRunner.query(`select answer.*, question.company_id from question
+			join answer on question.id = answer.question_id where question.company_id = ?
+			and DATE(answer.created_at) BETWEEN ? AND ? order by answer.id asc;`, [ company_id, from, to ]);
 
-		await queryRunner.release();
-		if(resultQuery.length == 0) {
-			throw new BadRequestError('no-answers');
+			await queryRunner.release();
+			if(resultQuery.length == 0) {
+				throw new BadRequestError('no-answers');
+			}
+
+			return resultQuery;
+		} else {
+			const queryRunner = appDataSource.createQueryRunner();
+			await queryRunner.connect();
+
+			const resultQuery: any = await queryRunner.query(`select answer.*, store.company_id, store.store_number from store
+			join answer on store.id = answer.question_id where store.company_id = ? and store.store_number = ?
+			and DATE(answer.created_at) BETWEEN ? AND ? order by answer.id asc;`, [ company_id, store, from, to ]);
+
+			await queryRunner.release();
+			if(resultQuery.length == 0) {
+				throw new BadRequestError('no-answers');
+			}
+
+			return resultQuery;
 		}
-
-		return resultQuery;
 	}
 
 	public async optionalExecute({ company_id }:OptionalQuery): Promise<Answer[] | null>

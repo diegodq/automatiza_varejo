@@ -30,88 +30,168 @@ class DashboardController
 	{
 		const company: CompanyRequest = request.userId;
 
-		const { from, to, type_tree } = request.params;
+		const { from, to, type_tree, store } = request.params;
 
-		const queryRunner = appDataSource.createQueryRunner();
-		await queryRunner.connect();
+		if(typeof store === 'undefined') {
+			const queryRunner = appDataSource.createQueryRunner();
+			await queryRunner.connect();
 
-		const arrayPalavras = await queryRunner.query(`select topic.* from topic where topic.company_id = ?;`, [ company ]);
+			const arrayPalavras = await queryRunner.query(`select topic.* from topic where topic.company_id = ?;`, [ company ]);
 
-		const arrayObjetos = await queryRunner.query(`select answer.* from answer join question
-		on question.id = answer.question_id and date(answer.created_at)
-		between ? and ? and question.tree_question = ? and question.company_id = ?;`, [from, to, type_tree, company]);
+			const arrayObjetos = await queryRunner.query(`select answer.* from answer join question
+			on question.id = answer.question_id and date(answer.created_at)
+			between ? and ? and question.tree_question = ? and question.company_id = ?;`, [from, to, type_tree, company]);
 
-		await queryRunner.release();
+			await queryRunner.release();
 
-		const result = arrayPalavras.reduce((acc: any, topic: any) => {
-			const words = topic.name.split(',');
-			const count = arrayObjetos.filter((obj: any) => obj.answer.split(',').includes(words[0])).length;
-			if (count > 0) {
-				acc[topic.name] = count;
-			}
-			return acc;
-		}, {})
+			const result = arrayPalavras.reduce((acc: any, topic: any) => {
+				const words = topic.name.split(',');
+				const count = arrayObjetos.filter((obj: any) => obj.answer.split(',').includes(words[0])).length;
+				if (count > 0) {
+					acc[topic.name] = count;
+				}
+				return acc;
+			}, {})
 
-		response.status(200).json({ topics: result });
+			response.status(200).json({ topics: result });
+		} else {
+			const queryRunner = appDataSource.createQueryRunner();
+			await queryRunner.connect();
+
+			const arrayPalavras = await queryRunner.query(`select topic.* from topic where topic.company_id = ?;`, [ company ]);
+
+			const arrayObjetos = await queryRunner.query(`select answer.*, question.tree_question, store.store_number
+			from answer join store on answer.store_id = store.id
+			join question on question.id = answer.question_id where question.company_id = ?
+			and store.store_number = ? and date(answer.created_at)
+			between ? and ? and question.tree_question = ?;`, [company, store, from, to, type_tree, ]);
+
+			await queryRunner.release();
+
+			const result = arrayPalavras.reduce((acc: any, topic: any) => {
+				const words = topic.name.split(',');
+				const count = arrayObjetos.filter((obj: any) => obj.answer.split(',').includes(words[0])).length;
+				if (count > 0) {
+					acc[topic.name] = count;
+				}
+				return acc;
+			}, {})
+
+			response.status(200).json({ topics: result });
+		}
 	}
 
 	public static async toAmountDepartmentInAnswers(request: Request, response: Response)
 	{
 		const company: CompanyRequest = request.userId;
 
-		const { from, to, type_tree } = request.params;
+		const { from, to, type_tree, store } = request.params;
 
-		const queryRunner = appDataSource.createQueryRunner();
-		await queryRunner.connect();
+		if(typeof store === 'undefined') {
+			const queryRunner = appDataSource.createQueryRunner();
+			await queryRunner.connect();
 
-		const arrayPalavras = await queryRunner.query(`select department.* from department where department.company_id = ?;`, [ company ]);
+			const arrayPalavras = await queryRunner.query(`select department.* from department where department.company_id = ?;`, [ company ]);
 
-		const arrayObjetos = await queryRunner.query(`select answer.* from answer join question
-		on question.id = answer.question_id and date(answer.created_at)
-		between ? and ? and question.tree_question = ? and question.company_id = ?;`, [from, to, type_tree, company]);
+			const arrayObjetos = await queryRunner.query(`select answer.* from answer join question
+			on question.id = answer.question_id and date(answer.created_at)
+			between ? and ? and question.tree_question = ? and question.company_id = ?;`, [from, to, type_tree, company]);
 
-		await queryRunner.release();
+			await queryRunner.release();
 
-		const result = arrayPalavras.reduce((acc: any, department: any) => {
-			const words = department.name.split(',');
-			const count = arrayObjetos.filter((obj: any) => obj.answer.split(',').includes(words[0])).length;
-			if (count > 0) {
-				acc[department.name] = count;
-			}
-			return acc;
-			}, {});
+			const result = arrayPalavras.reduce((acc: any, department: any) => {
+				const words = department.name.split(',');
+				const count = arrayObjetos.filter((obj: any) => obj.answer.split(',').includes(words[0])).length;
+				if (count > 0) {
+					acc[department.name] = count;
+				}
+				return acc;
+				}, {});
 
-		response.status(200).json({ departments: result });
+			response.status(200).json({ departments: result });
+		} else {
+			const queryRunner = appDataSource.createQueryRunner();
+			await queryRunner.connect();
+
+			const arrayPalavras = await queryRunner.query(`select department.* from department where department.company_id = ?;`, [ company ]);
+
+			const arrayObjetos = await queryRunner.query(`select answer.*, question.tree_question, store.store_number
+			from answer join store on answer.store_id = store.id
+			join question on question.id = answer.question_id where question.company_id = ?
+			and store.store_number = ? and date(answer.created_at)
+			between ? and ? and question.tree_question = ?;`, [company, store, from, to, type_tree, ]);
+
+			await queryRunner.release();
+
+			const result = arrayPalavras.reduce((acc: any, department: any) => {
+				const words = department.name.split(',');
+				const count = arrayObjetos.filter((obj: any) => obj.answer.split(',').includes(words[0])).length;
+				if (count > 0) {
+					acc[department.name] = count;
+				}
+				return acc;
+				}, {});
+
+			response.status(200).json({ departments: result });
+		}
 	}
 
 	public static async toAmountEmployeesInAnswers(request: Request, response: Response)
 	{
 		const company: CompanyRequest = request.userId;
 
-		const { from, to, type_tree } = request.params;
+		const { from, to, type_tree, store } = request.params;
 
-		const queryRunner = appDataSource.createQueryRunner();
-		await queryRunner.connect();
+		if(typeof store === 'undefined') {
+			const queryRunner = appDataSource.createQueryRunner();
+			await queryRunner.connect();
 
-		const data = await queryRunner.query(`select answer.* from answer join question
-		on question.id = answer.question_id and date(answer.created_at)
-		between ? and ? and question.tree_question = ? and question.company_id = ?;`, [from, to, type_tree, company]);
+			const data = await queryRunner.query(`select answer.* from answer join question
+			on question.id = answer.question_id and date(answer.created_at)
+			between ? and ? and question.tree_question = ? and question.company_id = ?;`, [from, to, type_tree, company]);
 
-		await queryRunner.release();
+			await queryRunner.release();
 
-		const result = data.reduce((acc: any, obj: any) => {
-			const name = obj.name_employee;
-			const researchName = obj.research_name;
+			const result = data.reduce((acc: any, obj: any) => {
+				const name = obj.name_employee;
+				const researchName = obj.research_name;
 
-			if (name && !acc.processedNames.includes(researchName)) {
-					acc.processedNames.push(researchName);
-					acc.counts[name] = (acc.counts[name] || 0) + 1;
-			}
+				if (name && !acc.processedNames.includes(researchName)) {
+						acc.processedNames.push(researchName);
+						acc.counts[name] = (acc.counts[name] || 0) + 1;
+				}
 
-			return acc;
-		}, { counts: {}, processedNames: [] }).counts
+				return acc;
+			}, { counts: {}, processedNames: [] }).counts
 
-		response.status(200).json({ employees: result });
+			response.status(200).json({ employees: result });
+		} else {
+			const queryRunner = appDataSource.createQueryRunner();
+			await queryRunner.connect();
+
+			const data = await queryRunner.query(`select answer.*, question.tree_question, store.store_number
+			from answer join store on answer.store_id = store.id
+			join question on question.id = answer.question_id where question.company_id = ?
+			and store.store_number = ? and date(answer.created_at)
+			between ? and ? and question.tree_question = ?;`, [company, store, from, to, type_tree, ]);
+
+			await queryRunner.release();
+
+			const result = data.reduce((acc: any, obj: any) => {
+				const name = obj.name_employee;
+				const researchName = obj.research_name;
+
+				if (name && !acc.processedNames.includes(researchName)) {
+						acc.processedNames.push(researchName);
+						acc.counts[name] = (acc.counts[name] || 0) + 1;
+				}
+
+				return acc;
+			}, { counts: {}, processedNames: [] }).counts
+
+			response.status(200).json({ employees: result });
+		}
+
 	}
 
 	public static async toAmountResearch(request: Request, response: Response)
