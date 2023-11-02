@@ -11,10 +11,10 @@ class StoreController
 	{
 		const company: Company = request.userId;
 
-		const { name, address } = request.body;
+		const { name, address, store_number } = request.body;
 
 		const createNewStoreService = new CreateNewStoreService();
-		const newStore: string = await createNewStoreService.execute({ name, address, company });
+		const newStore: string = await createNewStoreService.execute({ name, address, company, store_number });
 
 		return response.status(200).json(newStore);
 	}
@@ -23,10 +23,10 @@ class StoreController
 	{
 		const company: Company = request.userId;
 
-		const { name, address } = request.body;
+		const { name, address, store_number } = request.body;
 
 		const editStoreService = new EditStoreService();
-		const editStore: string = await editStoreService.execute({ name, address, company });
+		const editStore: string = await editStoreService.execute({ name, address, company, store_number });
 
 		return response.status(200).json(editStore);
 	}

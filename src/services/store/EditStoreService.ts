@@ -8,12 +8,13 @@ type TypeStore =
 {
 	name: string,
 	address: string,
-	company: Company
+	company: Company,
+	store_number: number
 }
 
 class EditStoreService
 {
-	public async execute({ name, address, company }:TypeStore): Promise<string>
+	public async execute({ name, address, company, store_number }:TypeStore): Promise<string>
 	{
 		const storeExists: Store | null = await storeRepository.findOneBy({ name });
 		if(storeExists) {
@@ -23,7 +24,7 @@ class EditStoreService
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		await queryRunner.query(`update store set name = ?, address = ? where company_id = ?;`, [name, address, company]);
+		await queryRunner.query(`update store set name = ?, address = ?, store_number = ? where company_id = ?;`, [name, address, store_number, company, ]);
 
 		await queryRunner.release();
 
