@@ -9,10 +9,10 @@ class NPSController
 {
 	static async listAnchorQuestionAndLogo(request: Request, response: Response): Promise<Response>
 	{
-		const { cnpj_company, ip_address } = request.params;
+		const { cnpj_company, ip_address, store } = request.params;
 
 		const listAnchorAndLogoClient = new ListAnchorQuestionAndLogoClientService();
-		const data: object = await listAnchorAndLogoClient.execute({ cnpj_company, ip_address });
+		const data: object = await listAnchorAndLogoClient.execute({ cnpj_company, ip_address, store });
 
 		return response.status(200).json(data);
 	}

@@ -6,12 +6,13 @@ import formatCNPJ from "../../utils/formatCNPJ";
 
 type NPSRequest = {
 	cnpj_company: string,
-	ip_address: string
+	ip_address: string,
+	store: string
 }
 
 class ListAnchorQuestionAndLogoClientService
 {
-	public async execute({ cnpj_company, ip_address }: NPSRequest): Promise<object>
+	public async execute({ cnpj_company, ip_address, store }: NPSRequest): Promise<object>
 	{
 		const cnpj: string = formatCNPJ(cnpj_company);
 		if(cnpj.length < 14 && cnpj.length > 15) {
@@ -39,35 +40,70 @@ class ListAnchorQuestionAndLogoClientService
 			return item.logo_company;
 		})
 
-		const queryRunner = appDataSource.createQueryRunner();
-		await queryRunner.connect();
+		if(typeof store === 'undefined') {
+			const queryRunner = appDataSource.createQueryRunner();
+			await queryRunner.connect();
 
-		const dataResearch: any = await queryRunner.query(`select answer.created_at, answer.ip_address from answer where answer.ip_address <> '' 
-		and date(answer.created_at) = date(now()) order by answer.created_at desc limit 50;`);
+			const dataResearch: any = await queryRunner.query(`select answer.created_at, answer.ip_address from answer where answer.ip_address <> ''
+			and date(answer.created_at) = date(now()) order by answer.created_at desc limit 50;`);
 
-		const lockIp: any = await queryRunner.query(`select params_product.lock_by_ip from params_product join company 
-		where params_product.company_id = company.id and company.cnpj = '${cnpj}';`);
+			const lockIp: any = await queryRunner.query(`select params_product.lock_by_ip from params_product join company
+			where params_product.company_id = company.id and company.cnpj = ?;`, [cnpj]);
 
-		await queryRunner.release();
+			await queryRunner.release();
 
-		let allowResearch = true;
-		dataResearch.forEach((item: any): any => {
-			if(item.ip_address === ip_address)
-				allowResearch = false;
-		})
+			let allowResearch = true;
+			dataResearch.forEach((item: any): any => {
+				if(item.ip_address === ip_address)
+					allowResearch = false;
+			})
 
-		let ipLock = false;
-		lockIp.forEach((item: any ): any => {
-			if(item.lock_by_ip) ipLock = true;
-			else ipLock = false;
-		});
+			let ipLock = false;
+			lockIp.forEach((item: any ): any => {
+				if(item.lock_by_ip) ipLock = true;
+				else ipLock = false;
+			});
 
-		if(process.env.APP_MODE == 'development')
-			return { status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0], 
-			logo: logoClient[0] == '' ? '' : process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + logoClient[0], allowResearch: allowResearch, lockByIp: ipLock };
-		else
-			return {status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0], 
-			logo: logoClient[0] == '' ? '' : process.env.IMG_URL + '/logo/' + logoClient[0], allowResearch: allowResearch, lockByIp: ipLock };
+			if(process.env.APP_MODE == 'development')
+				return { status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0],
+				logo: logoClient[0] == '' ? '' : process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + logoClient[0], allowResearch: allowResearch, lockByIp: ipLock };
+			else
+				return {status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0],
+				logo: logoClient[0] == '' ? '' : process.env.IMG_URL + '/logo/' + logoClient[0], allowResearch: allowResearch, lockByIp: ipLock };
+		} else {
+			const queryRunner = appDataSource.createQueryRunner();
+			await queryRunner.connect();
+
+			const dataResearch: any = await queryRunner.query(`select answer.created_at, answer.ip_address from answer join store on store.id = answer.store_id
+			where answer.ip_address <> '' and date(answer.created_at) = date(now()) and store.store_number = ?
+			order by answer.created_at desc limit 50;`, [store]);
+
+			const lockIp: any = await queryRunner.query(`select params_product.lock_by_ip from params_product join company
+			on params_product.company_id = company.id
+			join store on store.company_id = company.id
+			where company.cnpj = ? and store.store_number = ? limit 1;`, [cnpj, store]);
+
+			await queryRunner.release();
+
+			let allowResearch = true;
+			dataResearch.forEach((item: any): any => {
+				if(item.ip_address === ip_address)
+					allowResearch = false;
+			})
+
+			let ipLock = false;
+			lockIp.forEach((item: any ): any => {
+				if(item.lock_by_ip) ipLock = true;
+				else ipLock = false;
+			});
+
+			if(process.env.APP_MODE == 'development')
+				return { status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0],
+				logo: logoClient[0] == '' ? '' : process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + logoClient[0], allowResearch: allowResearch, lockByIp: ipLock };
+			else
+				return {status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0],
+				logo: logoClient[0] == '' ? '' : process.env.IMG_URL + '/logo/' + logoClient[0], allowResearch: allowResearch, lockByIp: ipLock };
+		}
 	}
 }
 

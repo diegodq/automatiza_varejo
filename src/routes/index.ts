@@ -67,10 +67,10 @@ router.get('/multi-store', isAuthenticated, CheckMultiStoreController.checkIfExi
 router.get('/dashboard/topics/:from/:to/:type_tree/:store?', isAuthenticated, DashboardController.toAmountTopicInAnswers);
 router.get('/dashboard/department/:from/:to/:type_tree/:store?', isAuthenticated, DashboardController.toAmountDepartmentInAnswers);
 router.get('/dashboard/employee/:from/:to/:type_tree/:store?', isAuthenticated, DashboardController.toAmountEmployeesInAnswers);
-router.get('/dashboard/research/:from/:to', isAuthenticated, DashboardController.toAmountResearch); /** parou aqui */
-router.get('/dashboard/amount/month/', isAuthenticated, DashboardController.returnVolumeOfResearchInMonths);
-router.get('/dashboard/amount/research', isAuthenticated, DashboardController.returnResearchSevenDays);
-router.get('/dashboard/amount/nps/:from/:to', isAuthenticated, DashboardController.toAmountNPS);
+router.get('/dashboard/research/:from/:to/:store?', isAuthenticated, DashboardController.toAmountResearch);
+router.get('/dashboard/amount/month/:store?', isAuthenticated, DashboardController.returnVolumeOfResearchInMonths);
+router.get('/dashboard/amount/research/:store?', isAuthenticated, DashboardController.returnResearchSevenDays);
+router.get('/dashboard/amount/nps/:from/:to/:store?', isAuthenticated, DashboardController.toAmountNPS);
 
 router.post('/customer', CustomerController.create);
 router.post('/session', SessionController.create);

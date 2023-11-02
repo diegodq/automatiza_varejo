@@ -198,81 +198,157 @@ class DashboardController
 	{
 		const company: CompanyRequest = request.userId;
 
-		const { from, to } = request.params;
+		const { from, to, store } = request.params;
 
-		const queryRunner = appDataSource.createQueryRunner();
-		await queryRunner.connect();
+		if(typeof store === 'undefined') {
+			const queryRunner = appDataSource.createQueryRunner();
+			await queryRunner.connect();
 
-		const passingTree = await queryRunner.query(`select params_product.* from params_product
-		where params_product.company_id = ?;`, [ company ]);
+			const passingTree = await queryRunner.query(`select params_product.* from params_product
+			where params_product.company_id = ?;`, [ company ]);
 
-		const answers = await queryRunner.query(`select answer.* from answer join question on question.id = answer.question_id
-		where date(answer.created_at) between ? and ? and company_id = ?;`, [ from, to, company ]);
+			const answers = await queryRunner.query(`select answer.* from answer join question on question.id = answer.question_id
+			where date(answer.created_at) between ? and ? and company_id = ?;`, [ from, to, company ]);
 
-		await queryRunner.release();
+			await queryRunner.release();
 
-		function transformArray(inputArray: InputItem[], threshold: number): TransformedArrays {
-			const researchMap: { [key: string]: boolean } = {};
-			const positiveResearchs: TransformedItem[] = [];
-			const negativeResearchs: TransformedItem[] = [];
+			// eslint-disable-next-line no-inner-declarations
+			function transformArray(inputArray: InputItem[], threshold: number): TransformedArrays {
+				const researchMap: { [key: string]: boolean } = {};
+				const positiveResearchs: TransformedItem[] = [];
+				const negativeResearchs: TransformedItem[] = [];
 
-			inputArray.forEach((item: InputItem) => {
-				const nps_answer = parseInt(item.nps_answer as string);
-				const transformedItem: TransformedItem = {
-					researchID: item.research_name,
-					nps_answer: nps_answer,
-				};
+				inputArray.forEach((item: InputItem) => {
+					const nps_answer = parseInt(item.nps_answer as string);
+					const transformedItem: TransformedItem = {
+						researchID: item.research_name,
+						nps_answer: nps_answer,
+					};
 
-				if (!researchMap[item.research_name]) {
-					researchMap[item.research_name] = true;
-					if (nps_answer >= threshold) {
-						positiveResearchs.push(transformedItem);
-					} else {
-						negativeResearchs.push(transformedItem);
+					if (!researchMap[item.research_name]) {
+						researchMap[item.research_name] = true;
+						if (nps_answer >= threshold) {
+							positiveResearchs.push(transformedItem);
+						} else {
+							negativeResearchs.push(transformedItem);
+						}
 					}
-				}
-			});
+				});
 
-			return {
-				positiveResearchs,
-				negativeResearchs,
+				return {
+					positiveResearchs,
+					negativeResearchs,
+				};
 			};
-		};
 
-		const separatedResearches = transformArray(answers, passingTree[0].passing_tree);
+			const separatedResearches = transformArray(answers, passingTree[0].passing_tree);
 
-		function transformAndSumNPS(nps_answer: number): number {
-			if (nps_answer === 0) return 2;
-			if (nps_answer === 1) return 4;
-			if (nps_answer === 2) return 6;
-			if (nps_answer === 3) return 8;
-			if (nps_answer === 4) return 10;
-			return 0;
+			// eslint-disable-next-line no-inner-declarations
+			function transformAndSumNPS(nps_answer: number): number {
+				if (nps_answer === 0) return 2;
+				if (nps_answer === 1) return 4;
+				if (nps_answer === 2) return 6;
+				if (nps_answer === 3) return 8;
+				if (nps_answer === 4) return 10;
+				return 0;
+			}
+
+			const totalSum: number = separatedResearches.positiveResearchs.reduce((accumulator, currentValue) => {
+				return accumulator + transformAndSumNPS(currentValue.nps_answer);
+			}, 0);
+
+			console.log('total positive researches', separatedResearches.positiveResearchs.length);
+			console.log('total negative researches', separatedResearches.negativeResearchs.length);
+			console.log('total sum', totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length));
+
+			const newResult = [
+				separatedResearches.positiveResearchs.length,
+				separatedResearches.negativeResearchs.length,
+				totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length)
+			];
+
+			response.status(200).json({ to: newResult });
+		} else {
+			const queryRunner = appDataSource.createQueryRunner();
+			await queryRunner.connect();
+
+			const passingTree = await queryRunner.query(`select params_product.* from params_product
+			where params_product.company_id = ?;`, [ company ]);
+
+			const answers = await queryRunner.query(`select answer.* from answer
+			join store on answer.store_id = answer.store_id
+			where date(answer.created_at) between ? and ?
+			and store.company_id = ? and store.store_number = ?;`, [ from, to, company, store ]);
+
+			await queryRunner.release();
+
+			// eslint-disable-next-line no-inner-declarations
+			function transformArray(inputArray: InputItem[], threshold: number): TransformedArrays {
+				const researchMap: { [key: string]: boolean } = {};
+				const positiveResearchs: TransformedItem[] = [];
+				const negativeResearchs: TransformedItem[] = [];
+
+				inputArray.forEach((item: InputItem) => {
+					const nps_answer = parseInt(item.nps_answer as string);
+					const transformedItem: TransformedItem = {
+						researchID: item.research_name,
+						nps_answer: nps_answer,
+					};
+
+					if (!researchMap[item.research_name]) {
+						researchMap[item.research_name] = true;
+						if (nps_answer >= threshold) {
+							positiveResearchs.push(transformedItem);
+						} else {
+							negativeResearchs.push(transformedItem);
+						}
+					}
+				});
+
+				return {
+					positiveResearchs,
+					negativeResearchs,
+				};
+			};
+
+			const separatedResearches = transformArray(answers, passingTree[0].passing_tree);
+
+			// eslint-disable-next-line no-inner-declarations
+			function transformAndSumNPS(nps_answer: number): number {
+				if (nps_answer === 0) return 2;
+				if (nps_answer === 1) return 4;
+				if (nps_answer === 2) return 6;
+				if (nps_answer === 3) return 8;
+				if (nps_answer === 4) return 10;
+				return 0;
+			}
+
+			const totalSum: number = separatedResearches.positiveResearchs.reduce((accumulator, currentValue) => {
+				return accumulator + transformAndSumNPS(currentValue.nps_answer);
+			}, 0);
+
+			console.log('total positive researches', separatedResearches.positiveResearchs.length);
+			console.log('total negative researches', separatedResearches.negativeResearchs.length);
+			console.log('total sum', totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length));
+
+			const newResult = [
+				separatedResearches.positiveResearchs.length,
+				separatedResearches.negativeResearchs.length,
+				totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length)
+			];
+
+			response.status(200).json({ to: newResult });
 		}
-
-		const totalSum: number = separatedResearches.positiveResearchs.reduce((accumulator, currentValue) => {
-			return accumulator + transformAndSumNPS(currentValue.nps_answer);
-		}, 0);
-
-		console.log('total positive researches', separatedResearches.positiveResearchs.length);
-		console.log('total negative researches', separatedResearches.negativeResearchs.length);
-		console.log('total sum', totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length));
-
-		const newResult = [
-			separatedResearches.positiveResearchs.length,
-			separatedResearches.negativeResearchs.length,
-			totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length)
-		];
-
-		response.status(200).json({ to: newResult });
 	}
 
 	public static async returnVolumeOfResearchInMonths(request: Request, response: Response): Promise<Response>
 	{
 		const company = request.userId;
 
+		const { store } = request.params;
+
 		const volumeOfResearchInMonths = new VolumeOfResearchInMonths()
-		const resultVolume = await volumeOfResearchInMonths.execute({ company });
+		const resultVolume = await volumeOfResearchInMonths.execute({ company, store });
 
 		return response.status(200).json(resultVolume);
 	}
@@ -281,8 +357,10 @@ class DashboardController
 	{
 		const company = request.userId;
 
+		const { store } = request.params;
+
 		const volumeOfResearchSevenDays = new VolumeOfResearchSevenInDays();
-		const resultResearch = await volumeOfResearchSevenDays.execute({ company });
+		const resultResearch = await volumeOfResearchSevenDays.execute({ company, store });
 
 		return response.status(200).json(resultResearch);
 	}
@@ -291,10 +369,10 @@ class DashboardController
 	{
 		const company = request.userId;
 
-		const { from, to } = request.params;
+		const { from, to, store } = request.params;
 
 		const toAmountNPSService = new ToAmountNPSService();
-		const result = await toAmountNPSService.execute({ from, to, company });
+		const result: number[] = await toAmountNPSService.execute({ from, to, company, store });
 
 		return response.status(200).json(result);
 	}
