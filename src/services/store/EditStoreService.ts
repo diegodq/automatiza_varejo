@@ -2,31 +2,42 @@ import storeRepository from "../../repositories/storeRepository";
 import Store from "../../entities/Store";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Company from "../../entities/Company";
-import appDataSource from "../../data-source";
+import companyRepository from "../../repositories/companyRepository";
 
 type TypeStore =
 {
+	id: number,
 	name: string,
 	address: string,
-	company: Company,
-	store_number: number
+	company: Company
 }
 
 class EditStoreService
 {
-	public async execute({ name, address, company, store_number }:TypeStore): Promise<string>
+	public async execute({ id, name, address, company }:TypeStore): Promise<string>
 	{
-		const storeExists: Store | null = await storeRepository.findOneBy({ name });
-		if(storeExists) {
-			throw new BadRequestError('store-already-registered');
+		const companyExists: Company | null = await companyRepository.findOneBy({id: Number(company)});
+		if(!companyExists) {
+			throw new BadRequestError('company-do-not-exists');
 		}
 
-		const queryRunner = appDataSource.createQueryRunner();
-		await queryRunner.connect();
+		const storeExists: Store | null = await storeRepository.findOneBy({ id: Number(id) });
+		if(!storeExists) {
+			throw new BadRequestError('store-do-not-exists');
+		}
 
-		await queryRunner.query(`update store set name = ?, address = ?, store_number = ? where company_id = ?;`, [name, address, store_number, company, ]);
+		if(name ===  storeExists.name) {
+			throw new BadRequestError('store-already-exists');
+		}
 
-		await queryRunner.release();
+		if(address === storeExists.address) {
+			throw new BadRequestError('address-already-exists');
+		}
+
+		storeExists.name = name;
+		storeExists.address = address;
+
+		await storeRepository.save(storeExists);
 
 		return 'store-updated';
 	}

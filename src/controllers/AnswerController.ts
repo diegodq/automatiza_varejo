@@ -5,18 +5,10 @@ import ListAnswersService from "../services/answer/ListAnswersService";
 import ListAnswerService from "../services/answer/ListAnswerService";
 import RemoveAnswerService from "../services/answer/RemoveAnswerService";
 import ListResearchService from "../services/answer/ListResearchService";
-import fs from 'fs';
-import path from "path";
-
-import { Cache, CacheContainer } from "node-ts-cache";
-import { MemoryStorage } from "node-ts-cache-storage-memory";
 
 import PdfPrinter from "pdfmake";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 import Answer from "../entities/Answer";
-
-const userCache = new CacheContainer(new MemoryStorage());
-console.log(userCache);
 
 class AnswerController
 {

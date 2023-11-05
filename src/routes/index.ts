@@ -22,12 +22,12 @@ import HashDateController from "../controllers/HashDateController";
 import ReportsController from "../controllers/ReportsController";
 import ParamsProductController from "../controllers/ParamsProductController";
 
-import { validateCreateUser, validateSession, validateForgotPassword, validateCreateCompany,
-	contactUS, createQuestion, createTopic, generateQrCode,
-	addParamsController, addProduct, linkedProducts } from "../utils/validateFieldsSchema";
+import { validateAddStore } from './../utils/validateFieldsSchema';
+import validateRequestSchema from '../middleware/validateRequestSchema';
+
 import DashboardController from '../controllers/DashboardController';
-import StoreController from 'src/controllers/StoreController';
-import CheckMultiStoreController from 'src/controllers/CheckMultiStoreController';
+import StoreController from '../controllers/StoreController';
+import CheckMultiStoreController from '../controllers/CheckMultiStoreController';
 
 const uploadAvatar: Multer = multer(avatarConfig);
 const uploadLogoClient: Multer = multer(configLogoClient);
@@ -85,7 +85,7 @@ router.post('/params/question', isAuthenticated, ParamsQuestionController.create
 router.post('/add/product', isAuthenticated, ProductController.addNewProduct);
 router.post('/link/company/product', isAuthenticated, CompanyController.linkCompanyToProduct);
 router.post('/anchor-question', isAuthenticated, ParamsProductController.addAnchorQuestion);
-router.post('/create/store', isAuthenticated, StoreController.create);
+router.post('/create/store', isAuthenticated, validateAddStore, validateRequestSchema, StoreController.create);
 
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);
@@ -121,7 +121,7 @@ router.patch('/params/boolean/question', isAuthenticated, ParamsQuestionControll
 router.patch('/indicate/employee', isAuthenticated, TopicController.updateIndicateEmployee);
 router.patch('/anchor-question', isAuthenticated, ParamsProductController.updateAnchorQuestion);
 router.patch('/update/lock-ip', isAuthenticated, ParamsProductController.updateLockByIp);
-router.patch('/disable/store', isAuthenticated, StoreController.disableStore);
+router.patch('/status/store', isAuthenticated, StoreController.disableStore);
 
 // nps
 router.get('/nps/header/:cnpj_company/:ip_address?/:store?', NPSController.listAnchorQuestionAndLogo);

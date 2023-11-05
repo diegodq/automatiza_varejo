@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Company from "./Company";
 
 @Entity('params_product')
@@ -32,7 +32,7 @@ class ParamsProduct
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, anchor_question: string, background_color: string, passing_tree: number, font_color: string, company: Company, 
+	constructor(id: number, anchor_question: string, background_color: string, passing_tree: number, font_color: string, company: Company,
 		lock_by_ip: boolean, created_at: Date, updated_at: Date)
 	{
 		this.id = id;

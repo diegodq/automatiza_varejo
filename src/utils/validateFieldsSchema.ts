@@ -1,6 +1,6 @@
-import { body } from "express-validator";
+import { body } from 'express-validator';
 
-export const validateCreateUser = [
+export const validateCreateCustomer = [
 	body('first_name').exists({ checkFalsy: true }).isLength({ min: 4}).trim(),
 	body('surname').exists({ checkFalsy: true }).isLength({ min: 4}).trim(),
 	body('position').exists({ checkFalsy: true }).isLength({ min: 4}).trim(),
@@ -32,14 +32,14 @@ export const validateCreateCompany = [
 	body('city').exists({ checkFalsy: true }).isLength({ min: 3}).trim()
 ]
 
-export const contactUS = [
+export const validateContactUS = [
 	body('name').exists({ checkFalsy: true }).isLength({ min: 3}).trim(),
 	body('email').exists({ checkFalsy: true }).isEmail().trim(),
 	body('subject').exists({ checkFalsy: true }).isLength({ min: 3 }).trim(),
 	body('message').exists({ checkFalsy: true }).isLength({ min: 3 }).trim(),
 ]
 
-export const createQuestion = [
+export const validateCreateQuestion = [
 	body('title_question').exists({ checkFalsy: true }).isLength({ min: 5}).trim(),
 	body('tree_question').exists({ checkFalsy: true }).isNumeric().trim(),
 	body('question_description').exists({ checkFalsy: true }).isLength({ min: 5 }).trim(),
@@ -50,16 +50,16 @@ export const createQuestion = [
 	body('research_title').exists({ checkFalsy: true }).isLength({ min: 9 }).trim()
 ]
 
-export const createTopic = [
+export const validateCreateTopic = [
 	body('name').exists({ checkFalsy: true }).isLength({ min: 3}).trim(),
 	body('status').exists({ checkFalsy: true }).isLength({ min: 3}).trim()
 ]
 
-export const generateQrCode = [
+export const validateGenerateQrCode = [
 	body('cnpj').exists({ checkFalsy: true }).isLength({ min: 14 }).trim()
 ]
 
-export const createParamsQuestion = [
+export const validateCreateParamsQuestion = [
 	body('option_one').exists({ checkFalsy: true }).isLength({ min: 10 }).trim(),
 	body('option_two').exists({ checkFalsy: true }).isLength({ min: 10 }).trim(),
 	body('import_type').exists({ checkFalsy: true }).isLength({ min: 5 }).trim(),
@@ -69,17 +69,32 @@ export const createParamsQuestion = [
 	body('question').exists({ checkFalsy: true }).isLength({ min: 1 }).isLength({ min: 1 }).trim()
 ]
 
-export const addParamsController = [
+export const validateAddParamsController = [
 	body('background_color').exists({ checkFalsy: true }).isLength({ min: 5}).trim(),
 	body('font_color').exists({ checkFalsy: true }).isLength({ min: 5}).trim()
 ]
 
-export const addProduct = [
+export const validateAddProduct = [
 	body('name').exists({ checkFalsy: true }).isLength({ min: 3}).trim(),
 	body('description').exists({ checkFalsy: true }).isLength({ min: 10}).trim()
 ]
 
-export const linkedProducts = [
+export const validateAddStore = [
+	body('name')
+		.isLength({ min: 2}).withMessage('Endereço da loja deve ter pelo menos 3 número')
+		.trim(),
+
+	body('address')
+		.isLength({ min: 2}).withMessage('Endereço da loja deve ter pelo menos 3 número')
+		.trim(),
+
+		body('store_number')
+		.isNumeric().withMessage('Número da loja inválido')
+		.isLength({ min: 1}).withMessage('Número da loja deve ter pelo menos 1 número')
+		.trim()
+]
+
+export const validateLinkedProducts = [
 	body('company').exists({ checkFalsy: true }).isLength({ min: 1}).trim(),
 	body('product').exists({ checkFalsy: true }).isLength({ min: 1}).trim()
 ]

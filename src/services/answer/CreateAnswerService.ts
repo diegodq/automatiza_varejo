@@ -1,6 +1,7 @@
 import { BadRequestError } from '../../utils/ApiErrors';
 import Question from '../../entities/Question';
 import answerRepository from '../../repositories/answerRepository';
+import Answer from 'src/entities/Answer';
 
 interface AnswerTypes
 {
@@ -16,6 +17,7 @@ interface AnswerTypes
 	research_name: string
 	name_employee: string;
 	ip_address: string;
+	store_id: number,
 	question: Question;
 }
 
@@ -36,7 +38,7 @@ class CreateAnswerService
 			item.research_name = item.id_research.split('.')[0].replace(/[^\w\s]/gi, '');
 		});
 
-		const createAnswers = answerRepository.create(answers);
+		const createAnswers: Answer[] = answerRepository.create(answers);
 		await answerRepository.save(createAnswers);
 
 		return 'answers-added';

@@ -6,7 +6,8 @@ class QRCodeController
 {
 	static async generate(request: Request, response: Response)
 	{
-		const { cnpj } = request.body;
+		const company = request.userId;
+		const { cnpj, store_number } = request.body;
 
 		const url = `https://pesquisa.automatizavarejo.com.br/?cnpj=${cnpj}`;
 		const output = path.join(__dirname, '../qrcode/' + `${cnpj}.png`);

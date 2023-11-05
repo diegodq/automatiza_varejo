@@ -9,6 +9,7 @@ import Topic from './Topic';
 import Product from './Product';
 import ParamsProduct from './ParamsProduct';
 import Store from './Store';
+import QRCodeControl from './QRCodeControl';
 
 @Entity("company")
 class Company
@@ -48,6 +49,9 @@ class Company
 
 	@OneToMany(() => Store, store => store.company)
 	store: Store[];
+
+	@OneToOne(() => QRCodeControl, qrcode => qrcode.company)
+	qrcode: QRCodeControl
 
 	@Column({ type: "varchar", nullable: true, default: '' })
 	corporate_name: string;
@@ -94,8 +98,11 @@ class Company
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, customer: Customer, paramsProduct: ParamsProduct, product: Product[], question: Question[], department: Department[], topic: Topic[], store: Store[], corporate_name: string, fantasy_name: string, logo_company: string ,cnpj: string, zip_code: string, state: string,
-		city: string, complement: string, district: string, address: string, number: string, is_report: number, type_report: string,
+	constructor(id: number, customer: Customer, paramsProduct: ParamsProduct, product: Product[], question: Question[],
+		department: Department[], topic: Topic[], store: Store[], qrcode: QRCodeControl,
+		corporate_name: string, fantasy_name: string, logo_company: string ,cnpj: string,
+		zip_code: string, state: string, city: string, complement: string, district: string,
+		address: string, number: string, is_report: number, type_report: string,
 		created_at: Date, updated_at: Date)
 	{
 		this.id = id;
@@ -106,6 +113,7 @@ class Company
 		this.department = department;
 		this.topic = topic;
 		this.store = store;
+		this.qrcode = qrcode;
 		this.corporate_name = corporate_name;
 		this.fantasy_name = fantasy_name;
 		this.logo_company = logo_company;
@@ -161,6 +169,11 @@ class Company
 	get getStore(): Store[]
 	{
 		return this.store;
+	}
+
+	get getQrCodeControl(): QRCodeControl
+	{
+		return this.qrcode;
 	}
 
 	get getCorporateName(): string

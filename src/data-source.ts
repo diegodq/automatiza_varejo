@@ -13,10 +13,11 @@ import Topic from './entities/Topic';
 import ParamsQuestions from './entities/ParamsQuestions';
 import ParamsProduct from './entities/ParamsProduct';
 import Store from './entities/Store';
+import QRCodeControl from './entities/QRCodeControl';
 
 const port = process.env.DB_PORT as number | undefined;
 
-import { Default1698684650090 } from './migration/1698684650090-default';
+import { Default1699033993687 } from './migration/1699033993687-default';
 
 const appDataSource = new DataSource({
 	type: "mysql",
@@ -38,10 +39,11 @@ const appDataSource = new DataSource({
 		Topic,
 		ParamsQuestions,
 		ParamsProduct,
-		Store
+		Store,
+		QRCodeControl
 	],
 	migrations: [
-		Default1698684650090
+		Default1699033993687
 	]
 });
 

@@ -21,6 +21,21 @@ class CreateNewStoreService
 			throw new BadRequestError('no-company');
 		}
 
+		const storeExists: Store | null = await storeRepository.findOneBy({ name });
+		if(storeExists) {
+			throw new BadRequestError('store-already-registered');
+		}
+
+		const storeAddressExists: Store | null = await storeRepository.findOneBy({ address });
+		if(storeAddressExists) {
+			throw new BadRequestError('address-already-registered');
+		}
+
+		const storeNumberExists: Store | null = await storeRepository.findOneBy({ store_number });
+		if(storeNumberExists) {
+			throw new BadRequestError('store-number-already-registered');
+		}
+
 		const store: Store = storeRepository.create({ name, address, company, store_number });
 		await storeRepository.save(store);
 

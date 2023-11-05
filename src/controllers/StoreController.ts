@@ -23,10 +23,10 @@ class StoreController
 	{
 		const company: Company = request.userId;
 
-		const { name, address, store_number } = request.body;
+		const { id, name, address } = request.body;
 
 		const editStoreService = new EditStoreService();
-		const editStore: string = await editStoreService.execute({ name, address, company, store_number });
+		const editStore: string = await editStoreService.execute({ id, name, address, company });
 
 		return response.status(200).json(editStore);
 	}
@@ -43,11 +43,10 @@ class StoreController
 
 	static async disableStore(request: Request, response: Response): Promise<Response>
 	{
-		const company = request.userId;
-		const { status } = request.body;
+		const { status, store_number } = request.body;
 
 		const disableStoreService = new DisableStoreService();
-		const updateStore = await disableStoreService.execute({ status ,company });
+		const updateStore = await disableStoreService.execute({ status ,store_number });
 
 		return response.status(200).json(updateStore);
 	}
