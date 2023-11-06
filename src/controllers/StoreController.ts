@@ -38,7 +38,7 @@ class StoreController
 		const listStoreByCompany = new ListStoreByCompany();
 		const updateStore: object = await listStoreByCompany.execute({ company });
 
-		return response.status(200).json(updateStore);
+		return response.status(200).json({status: 'success', message: updateStore});
 	}
 
 	static async disableStore(request: Request, response: Response): Promise<Response>
@@ -48,7 +48,7 @@ class StoreController
 		const disableStoreService = new DisableStoreService();
 		const updateStore = await disableStoreService.execute({ status ,store_number });
 
-		return response.status(200).json(updateStore);
+		return response.status(200).json({status: 'success', message: updateStore});
 	}
 }
 

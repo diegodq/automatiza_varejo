@@ -10,7 +10,8 @@ class ListStoreByCompany
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const resultQuery = await queryRunner.query(`select id, name, address, store_number, company_id from store where company_id = ?;`, [company_id]);
+		const resultQuery = await queryRunner.query(`select id, name, address, store_number, active from store where company_id = ?;`, [company_id]);
+		
 		await queryRunner.release();
 
 		if(resultQuery.length === 0)

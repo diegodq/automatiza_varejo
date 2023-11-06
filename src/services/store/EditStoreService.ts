@@ -14,7 +14,7 @@ type TypeStore =
 
 class EditStoreService
 {
-	public async execute({ id, name, address, company }:TypeStore): Promise<string>
+	public async execute({ id, name, address,company }:TypeStore): Promise<string>
 	{
 		const companyExists: Company | null = await companyRepository.findOneBy({id: Number(company)});
 		if(!companyExists) {
@@ -24,14 +24,6 @@ class EditStoreService
 		const storeExists: Store | null = await storeRepository.findOneBy({ id: Number(id) });
 		if(!storeExists) {
 			throw new BadRequestError('store-do-not-exists');
-		}
-
-		if(name ===  storeExists.name) {
-			throw new BadRequestError('store-already-exists');
-		}
-
-		if(address === storeExists.address) {
-			throw new BadRequestError('address-already-exists');
 		}
 
 		storeExists.name = name;
