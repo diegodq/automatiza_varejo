@@ -7,12 +7,12 @@ import formatCNPJ from "../../utils/formatCNPJ";
 type NPSRequest = {
 	cnpj_company: string,
 	ip_address: string,
-	store: string
+	id_store: string
 }
 
 class ListAnchorQuestionAndLogoClientService
 {
-	public async execute({ cnpj_company, ip_address, store }: NPSRequest): Promise<object>
+	public async execute({ cnpj_company, ip_address, id_store }: NPSRequest): Promise<object>
 	{
 		const cnpj: string = formatCNPJ(cnpj_company);
 		if(cnpj.length < 14 && cnpj.length > 15) {
@@ -40,7 +40,7 @@ class ListAnchorQuestionAndLogoClientService
 			return item.logo_company;
 		})
 
-		if(typeof store === 'undefined') {
+		if(typeof id_store === 'undefined') {
 			const queryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
@@ -76,12 +76,12 @@ class ListAnchorQuestionAndLogoClientService
 
 			const dataResearch: any = await queryRunner.query(`select answer.created_at, answer.ip_address from answer join store on store.id = answer.store_id
 			where answer.ip_address <> '' and date(answer.created_at) = date(now()) and store.store_number = ?
-			order by answer.created_at desc limit 50;`, [store]);
+			order by answer.created_at desc limit 50;`, [id_store]);
 
 			const lockIp: any = await queryRunner.query(`select params_product.lock_by_ip from params_product join company
 			on params_product.company_id = company.id
 			join store on store.company_id = company.id
-			where company.cnpj = ? and store.store_number = ? limit 1;`, [cnpj, store]);
+			where company.cnpj = ? and store.store_number = ? limit 1;`, [cnpj, id_store]);
 
 			await queryRunner.release();
 

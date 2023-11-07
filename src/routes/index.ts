@@ -125,7 +125,7 @@ router.patch('/update/lock-ip', isAuthenticated, ParamsProductController.updateL
 router.patch('/status/store', isAuthenticated, StoreController.disableStore);
 
 // nps
-router.get('/nps/header/:cnpj_company/:ip_address?/:store?', NPSController.listAnchorQuestionAndLogo);
+router.get('/nps/header/:cnpj_company/:id_store?/:ip_address?', NPSController.listAnchorQuestionAndLogo);
 router.get('/nps/topic/:cnpj_company', NPSController.listTopicByCompany);
 router.get('/nps/departments/:cnpj_company', NPSController.listDepartmentsByCompany);
 router.get('/nps/company/:cnpj_company/questions', NPSController.listQuestionAndParams);
