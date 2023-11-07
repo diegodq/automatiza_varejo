@@ -14,7 +14,7 @@ class Answer
 	@JoinColumn({ name: 'question_id', referencedColumnName: 'id' })
 	question: Question;
 
-	@ManyToOne(() => Store, store => store.answer)
+	@ManyToOne(() => Store, store => store.answer, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
 	@JoinColumn({ name: 'store_id', referencedColumnName: 'id' })
 	store: Store;
 

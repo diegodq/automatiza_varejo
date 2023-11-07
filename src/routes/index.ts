@@ -85,7 +85,7 @@ router.post('/params/question', isAuthenticated, ParamsQuestionController.create
 router.post('/add/product', isAuthenticated, ProductController.addNewProduct);
 router.post('/link/company/product', isAuthenticated, CompanyController.linkCompanyToProduct);
 router.post('/anchor-question', isAuthenticated, ParamsProductController.addAnchorQuestion);
-router.post('/create/store', isAuthenticated, validateAddStore, validateRequestSchema, StoreController.create);
+router.post('/create/store', isAuthenticated, StoreController.create);
 
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);
@@ -94,6 +94,7 @@ router.delete('/department', isAuthenticated, DepartmentController.delete);
 router.delete('/question', isAuthenticated, QuestionController.remove);
 router.delete('/answer', isAuthenticated, AnswerController.remove);
 router.delete('/topic', isAuthenticated, TopicController.delete);
+router.delete('/remove/store', isAuthenticated, StoreController.removeStore);
 
 router.put('/company', isAuthenticated, CompanyController.update);
 router.put('/customer', isAuthenticated, CustomerController.update);
