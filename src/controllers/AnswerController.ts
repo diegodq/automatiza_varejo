@@ -17,7 +17,7 @@ class AnswerController
 		const answers: any = request.body;
 
 		const createAnswerService = new CreateAnswerService();
-		const answerCreated = await createAnswerService.execute( answers );
+		const answerCreated: string = await createAnswerService.execute( answers );
 
 		return response.status(200).json({ status: 'success', message: answerCreated });
 	}
@@ -27,7 +27,7 @@ class AnswerController
 		const { id, answer, client_name, client_phone } = request.body;
 
 		const editAnswerService = new EditAnswerService();
-		const answerEdited = await editAnswerService.execute({ id, answer, client_name, client_phone });
+		const answerEdited: string = await editAnswerService.execute({ id, answer, client_name, client_phone });
 
 		return response.status(200).json({ status: 'success', message: answerEdited });
 	}
