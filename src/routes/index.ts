@@ -60,6 +60,7 @@ router.get('/params/questions', isAuthenticated, ParamsQuestionController.listPa
 router.get('/list/store', isAuthenticated, StoreController.listStore);
 router.get('/multi-store', isAuthenticated, CheckMultiStoreController.checkIfExistsMultiStore);
 router.get('/info/store/:id_store', StoreController.getInfoStore);
+router.get('/qrcode/:id_store', isAuthenticated, QRCodeController.getQRCodeByStore);
 
 //charts
 router.get('/dashboard/topics/:from/:to/:type_tree/:store?', isAuthenticated, DashboardController.toAmountTopicInAnswers);
@@ -78,7 +79,6 @@ router.post('/contact-us', ContactUsController.sendNewMessage);
 router.post('/department', isAuthenticated, DepartmentController.add);
 router.post('/question', isAuthenticated, QuestionController.add);
 router.post('/topic', isAuthenticated, TopicController.add);
-router.post('/qrcode', isAuthenticated, QRCodeController.generate);
 router.post('/params/question', isAuthenticated, ParamsQuestionController.createParamsQuestion);
 router.post('/add/product', isAuthenticated, ProductController.addNewProduct);
 router.post('/link/company/product', isAuthenticated, CompanyController.linkCompanyToProduct);
