@@ -22,9 +22,6 @@ import HashDateController from "../controllers/HashDateController";
 import ReportsController from "../controllers/ReportsController";
 import ParamsProductController from "../controllers/ParamsProductController";
 
-import { validateAddStore } from './../utils/validateFieldsSchema';
-import validateRequestSchema from '../middleware/validateRequestSchema';
-
 import DashboardController from '../controllers/DashboardController';
 import StoreController from '../controllers/StoreController';
 import CheckMultiStoreController from '../controllers/CheckMultiStoreController';
@@ -62,6 +59,7 @@ router.get('/product/company', isAuthenticated, ProductController.listProducts);
 router.get('/params/questions', isAuthenticated, ParamsQuestionController.listParamsOfQuestion);
 router.get('/list/store', isAuthenticated, StoreController.listStore);
 router.get('/multi-store', isAuthenticated, CheckMultiStoreController.checkIfExistsMultiStore);
+router.get('/info/store/:id_store', StoreController.getInfoStore);
 
 //charts
 router.get('/dashboard/topics/:from/:to/:type_tree/:store?', isAuthenticated, DashboardController.toAmountTopicInAnswers);
@@ -100,7 +98,7 @@ router.put('/company', isAuthenticated, CompanyController.update);
 router.put('/customer', isAuthenticated, CustomerController.update);
 router.put('/department', isAuthenticated, DepartmentController.update);
 router.put('/question', isAuthenticated, QuestionController.edit);
-router.put('/answer', isAuthenticated, AnswerController.edit);
+// router.put('/answer', isAuthenticated, AnswerController.edit);
 router.put('/topic', isAuthenticated, TopicController.update);
 router.put('/edit/store', isAuthenticated, StoreController.editStore);
 

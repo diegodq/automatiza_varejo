@@ -7,21 +7,17 @@ class QRCodeControl
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column({ type: 'varchar', nullable: true, default: ''})
-	qrcode: string;
-
 	@OneToOne(() => Company, company => company.qrcode)
 	@JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
 	company: Company;
 
 	@Column({type:'int', nullable: true, default: 0 })
-	store_number: number;
+	id_store: number;
 
-	constructor(id: number, qrcode: string, store_number: number, company: Company)
+	constructor(id: number, id_store: number, company: Company)
 	{
 		this.id = id;
-		this.qrcode = qrcode;
-		this.store_number = store_number;
+		this.id_store = id_store;
 		this.company = company;
 	}
 
@@ -30,14 +26,9 @@ class QRCodeControl
 		return this.id;
 	}
 
-	get getQRCode(): string
+	get getStoreID(): number
 	{
-		return this.qrcode;
-	}
-
-	get getStoreNumber(): number
-	{
-		return this.store_number;
+		return this.id_store;
 	}
 
 	get getCompany(): Company

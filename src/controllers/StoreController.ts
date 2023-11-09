@@ -4,7 +4,8 @@ import CreateNewStoreService from "../services/store/CreateNewStoreService";
 import EditStoreService from "../services/store/EditStoreService";
 import ListStoreByCompany from "../services/store/ListStoreByCompany";
 import DisableStoreService from "../services/store/DisableStoreService";
-import RemoveStoreService from "src/services/store/RemoveStoreService";
+import RemoveStoreService from "../services/store/RemoveStoreService";
+import GetInfoStoreService from "../services/store/GetInfoStoreService";
 
 class StoreController
 {
@@ -58,6 +59,16 @@ class StoreController
 		const updateStore = await disableStoreService.execute({ status ,store_number });
 
 		return response.status(200).json({ status: 'success', message: updateStore });
+	}
+
+	static async getInfoStore(request: Request, response: Response): Promise<Response>
+	{
+		const { id_store } = request.params;
+
+		const getInfoStoreService = new GetInfoStoreService();
+		const infoStore = await getInfoStoreService.execute({ id_store });
+
+		return response.status(200).json({status: 'success', message: infoStore});
 	}
 }
 

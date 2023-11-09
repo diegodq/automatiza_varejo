@@ -18,43 +18,43 @@ class Answer
 	@JoinColumn({ name: 'store_id', referencedColumnName: 'id' })
 	store: Store;
 
-	@Column({ type:'varchar', nullable: true })
+	@Column({ type:'varchar', nullable: true, default: '' })
 	answer: string;
 
-	@Column({ type: 'varchar', nullable: true, length: 200 })
+	@Column({ type: 'varchar', nullable: true, length: 200, default: '' })
 	research_title: string;
 
-	@Column({ type: 'varchar', nullable: true, length: 90 })
+	@Column({ type: 'varchar', nullable: true, length: 90, default: '' })
 	client_name: string;
 
-	@Column({ type: 'varchar', nullable: true, length: 30 })
+	@Column({ type: 'varchar', nullable: true, length: 30, default: '' })
 	client_phone: string;
 
-	@Column({ type: 'tinyint', nullable: true })
+	@Column({ type: 'tinyint', nullable: true, default: 0 })
 	is_contact: number;
 
-	@Column({ type: 'tinyint', nullable: true })
+	@Column({ type: 'tinyint', nullable: true, default: 0 })
 	is_report: number;
 
-	@Column({ type: 'varchar', nullable: true, length: 80 })
+	@Column({ type: 'varchar', nullable: true, length: 80, default: '' })
 	type_report: string;
 
-	@Column({ type: 'varchar', nullable: true, length: 100 })
+	@Column({ type: 'varchar', nullable: true, length: 100, default: '' })
 	id_research: string;
 
-	@Column({ type: 'varchar', nullable: true, length: 200 })
+	@Column({ type: 'varchar', nullable: true, length: 200, default: '' })
 	research_name: string;
 
-	@Column({ type: 'int', nullable: true })
+	@Column({ type: 'int', nullable: true, default: 0 })
 	nps_answer: number;
 
-	@Column({ type: 'varchar', length: 50, nullable: true })
+	@Column({ type: 'varchar', length: 50, nullable: true, default: '' })
 	device_client: string;
 
 	@Column({ type: 'datetime', nullable: true })
 	start_research: Date;
 
-	@Column({ type: 'varchar', nullable: true, length: 90 })
+	@Column({ type: 'varchar', nullable: true, length: 90, default: '' })
 	name_employee: string;
 
 	@Column({ type: 'varchar', nullable: true, length: 60, default: '' })

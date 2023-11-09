@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import CreateAnswerService from "../services/answer/CreateAnswerService";
-import EditAnswerService from "../services/answer/EditAnswerService";
+// import EditAnswerService from "../services/answer/EditAnswerService";
 import ListAnswersService from "../services/answer/ListAnswersService";
 import ListAnswerService from "../services/answer/ListAnswerService";
 import RemoveAnswerService from "../services/answer/RemoveAnswerService";
@@ -22,15 +22,15 @@ class AnswerController
 		return response.status(200).json({ status: 'success', message: answerCreated });
 	}
 
-	static async edit(request: Request, response: Response): Promise<Response>
-	{
-		const { id, answer, client_name, client_phone } = request.body;
+	// static async edit(request: Request, response: Response): Promise<Response>
+	// {
+	// 	const { id, answer, client_name, client_phone } = request.body;
 
-		const editAnswerService = new EditAnswerService();
-		const answerEdited: string = await editAnswerService.execute({ id, answer, client_name, client_phone });
+	// 	const editAnswerService = new EditAnswerService();
+	// 	const answerEdited: string = await editAnswerService.execute({ id, answer, client_name, client_phone });
 
-		return response.status(200).json({ status: 'success', message: answerEdited });
-	}
+	// 	return response.status(200).json({ status: 'success', message: answerEdited });
+	// }
 
 	static async list(request: Request, response: Response): Promise<Response>
 	{

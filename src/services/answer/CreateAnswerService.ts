@@ -2,6 +2,7 @@ import { BadRequestError } from '../../utils/ApiErrors';
 import Question from '../../entities/Question';
 import answerRepository from '../../repositories/answerRepository';
 import Answer from 'src/entities/Answer';
+import Store from 'src/entities/Store';
 
 interface AnswerTypes
 {
@@ -17,7 +18,7 @@ interface AnswerTypes
 	research_name: string
 	name_employee: string;
 	ip_address: string;
-	store_id: number,
+	store: Store,
 	question: Question;
 }
 
@@ -30,11 +31,6 @@ class CreateAnswerService
 		}
 
 		answers.forEach(item => {
-			if(item.client_name == '' || null && item.client_phone == '' || null) {
-				item.is_contact = 0;
-			} else {
-				item.is_contact = 1;
-			}
 			item.research_name = item.id_research.split('.')[0].replace(/[^\w\s]/gi, '');
 		});
 
