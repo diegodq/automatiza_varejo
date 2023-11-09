@@ -1,5 +1,8 @@
 import path from "path";
 import qrcode from 'qrcode';
+import Company from "src/entities/Company";
+import companyRepository from "src/repositories/companyRepository";
+import qrCodeRepository from "src/repositories/qrCodeControlRepository";
 
 type QRCodeType =
 {
@@ -17,6 +20,10 @@ class CreateQrCodeService
 			margin: 1,
 			scale: 12
 		});
+
+		const idCompany: Company[] = await companyRepository.find({ select: { id: true }, where:{ cnpj } });
+
+
 	}
 }
 
