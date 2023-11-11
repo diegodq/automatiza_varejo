@@ -18,6 +18,7 @@ type OptionalQuery =
 }
 
 interface InputRecord {
+	store_number: number;
 	id: number;
 	formatted_date: string;
 	research_name: string;
@@ -42,6 +43,7 @@ interface TransformedRecord {
 	client_phone: string;
 	name_employee: string;
 	company_sector: string;
+	store_number: number;
 	is_contact: boolean;
 }
 
@@ -62,10 +64,20 @@ class ListResearchService
 			date_format(answer.created_at, '%d/%m/%Y %H:%i:%s') as formatted_date,
 			answer.nps_answer, answer.research_title, answer.research_name, answer.client_name, answer.client_phone,
 			answer.id_research, answer.is_contact,
-			answer.name_employee from question join answer
+			answer.name_employee, store.store_number from question join answer
 			on answer.question_id = question.id
+			join store on store.id = answer.store_id
 			where question.company_id = ? and DATE(answer.created_at)
 			BETWEEN ? AND ? order by id asc;`, [company, from, to]);
+
+			// const resultQuery = await queryRunner.query(`select answer.id, answer.answer,
+			// date_format(answer.created_at, '%d/%m/%Y %H:%i:%s') as formatted_date,
+			// answer.nps_answer, answer.research_title, answer.research_name, answer.client_name, answer.client_phone,
+			// answer.id_research, answer.is_contact,
+			// answer.name_employee from question join answer
+			// on answer.question_id = question.id
+			// where question.company_id = ? and DATE(answer.created_at)
+			// BETWEEN ? AND ? order by id asc;`, [company, from, to]);
 
 			await queryRunner.release();
 
@@ -133,6 +145,7 @@ class ListResearchService
 					name_employee: record.name_employee,
 					company_sector: record.company_sector,
           is_contact: record.is_contact,
+					store_number: record.store_number,
         };
       }
     });

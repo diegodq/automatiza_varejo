@@ -1,9 +1,5 @@
 import path from "path";
 import qrcode from 'qrcode';
-import Company from "../../entities/Company";
-import companyRepository from "../../repositories/companyRepository";
-import qrCodeRepository from "../../repositories/qrCodeControlRepository";
-import formatCNPJ from "src/utils/formatCNPJ";
 
 type QRCodeType =
 {
@@ -16,7 +12,7 @@ class CreateQrCodeService
 	public async execute({ cnpj, id_store }: QRCodeType): Promise<void>
 	{
 		const url = `https://pesquisa.automatizavarejo.com.br/?cnpj=${cnpj}/${id_store}`;
-		const output = path.join(__dirname, '../qrcode/' + `${cnpj}.${id_store}.png`);
+		const output = path.join(__dirname, '../../qrcode/' + `${cnpj}.${id_store}.png`);
 		await qrcode.toFile(output, url, {
 			margin: 1,
 			scale: 12

@@ -275,7 +275,7 @@ class DashboardController
 			const passingTree = await queryRunner.query(`select params_product.* from params_product
 			where params_product.company_id = ?;`, [ company ]);
 
-			const answers = await queryRunner.query(`select answer.* from answer
+			const answers = await queryRunner.query(`select answer.*, store.store_number from answer
 			join store on answer.store_id = answer.store_id
 			where date(answer.created_at) between ? and ?
 			and store.company_id = ? and store.store_number = ?;`, [ from, to, company, store ]);
@@ -327,9 +327,9 @@ class DashboardController
 				return accumulator + transformAndSumNPS(currentValue.nps_answer);
 			}, 0);
 
-			console.log('total positive researches', separatedResearches.positiveResearchs.length);
-			console.log('total negative researches', separatedResearches.negativeResearchs.length);
-			console.log('total sum', totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length));
+			// console.log('total positive researches', separatedResearches.positiveResearchs.length);
+			// console.log('total negative researches', separatedResearches.negativeResearchs.length);
+			// console.log('total sum', totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length));
 
 			const newResult = [
 				separatedResearches.positiveResearchs.length,

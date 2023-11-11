@@ -3,6 +3,8 @@ import appDataSource from "../../data-source";
 import companyRepository from "../../repositories/companyRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import formatCNPJ from "../../utils/formatCNPJ";
+import storeRepository from "../../repositories/storeRepository";
+import Store from "../../entities/Store";
 
 type NPSRequest = {
 	cnpj_company: string,
@@ -23,6 +25,13 @@ class ListAnchorQuestionAndLogoClientService
 		if(!companyExists) {
 			throw new BadRequestError('no-company');
 		}
+
+		const storeExists: Store | null = await storeRepository.findOneBy({ id: Number(id_store) });
+		if(!storeExists)
+			throw new BadRequestError('store-dot-not-exists');
+
+		if(!storeExists.active)
+			throw new BadRequestError('store-disable');
 
 		const information: Company[] = await companyRepository.find({
 			relations: {

@@ -9,6 +9,7 @@ import ListResearchService from "../services/answer/ListResearchService";
 import PdfPrinter from "pdfmake";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 import Answer from "../entities/Answer";
+import appDataSource from "src/data-source";
 
 class AnswerController
 {
@@ -84,7 +85,7 @@ class AnswerController
 			return response.status(200).json({ research });
 		} else {
 			const research: object = await listResearchService.execute({ company, from, to, store });
-
+			
 			return response.status(200).json({ research });
 		};
 	}
