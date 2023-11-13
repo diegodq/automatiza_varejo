@@ -13,8 +13,13 @@ class CreateQRCodeControlService
 {
 	public async execute({ qrcode_name, company, id_store }: QRCodeControlType): Promise<void>
 	{
-		const newQRCodeControl: QRCodeControl = qrCodeControlRepository.create({qrcode_name, company, id_store });
-		await qrCodeControlRepository.save(newQRCodeControl);
+		if(id_store === 0) {
+			const newQRCodeControl: QRCodeControl = qrCodeControlRepository.create({qrcode_name, company });
+			await qrCodeControlRepository.save(newQRCodeControl);
+		} else {
+			const newQRCodeControl: QRCodeControl = qrCodeControlRepository.create({qrcode_name, company, id_store });
+			await qrCodeControlRepository.save(newQRCodeControl);
+		}
 	}
 }
 

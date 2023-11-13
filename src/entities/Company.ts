@@ -50,8 +50,8 @@ class Company
 	@OneToMany(() => Store, store => store.company)
 	store: Store[];
 
-	@OneToOne(() => QRCodeControl, qrcode => qrcode.company)
-	qrcode: QRCodeControl
+	@OneToMany(() => QRCodeControl, qrCodeControl => qrCodeControl.company)
+	qrCodeControl: QRCodeControl[];
 
 	@Column({ type: "varchar", nullable: true, default: '' })
 	corporate_name: string;
@@ -99,7 +99,7 @@ class Company
 	updated_at: Date;
 
 	constructor(id: number, customer: Customer, paramsProduct: ParamsProduct, product: Product[], question: Question[],
-		department: Department[], topic: Topic[], store: Store[], qrcode: QRCodeControl,
+		department: Department[], topic: Topic[], store: Store[], qrCodeControl: QRCodeControl[],
 		corporate_name: string, fantasy_name: string, logo_company: string ,cnpj: string,
 		zip_code: string, state: string, city: string, complement: string, district: string,
 		address: string, number: string, is_report: number, type_report: string,
@@ -113,7 +113,7 @@ class Company
 		this.department = department;
 		this.topic = topic;
 		this.store = store;
-		this.qrcode = qrcode;
+		this.qrCodeControl = qrCodeControl;
 		this.corporate_name = corporate_name;
 		this.fantasy_name = fantasy_name;
 		this.logo_company = logo_company;
@@ -171,9 +171,9 @@ class Company
 		return this.store;
 	}
 
-	get getQrCodeControl(): QRCodeControl
+	get getQRCodeControl(): QRCodeControl[]
 	{
-		return this.qrcode;
+		return this.qrCodeControl;
 	}
 
 	get getCorporateName(): string

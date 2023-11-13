@@ -14,6 +14,7 @@ type NPSRequest = {
 
 class ListAnchorQuestionAndLogoClientService
 {
+
 	public async execute({ cnpj_company, ip_address, id_store }: NPSRequest): Promise<object>
 	{
 		const cnpj: string = formatCNPJ(cnpj_company);
@@ -22,16 +23,14 @@ class ListAnchorQuestionAndLogoClientService
 		}
 
 		const companyExists: Company | null = await companyRepository.findOneBy({ cnpj });
-		if(!companyExists) {
+		if(!companyExists)
 			throw new BadRequestError('no-company');
+
+		if(await this.checkMultiStoreIsOn(cnpj)) {
+			const storeExists: Store | null = await storeRepository.findOneBy({ id: Number(id_store) });
+			if(!storeExists)
+				throw new BadRequestError('store-do-not-exists');
 		}
-
-		const storeExists: Store | null = await storeRepository.findOneBy({ id: Number(id_store) });
-		if(!storeExists)
-			throw new BadRequestError('store-dot-not-exists');
-
-		if(!storeExists.active)
-			throw new BadRequestError('store-disable');
 
 		const information: Company[] = await companyRepository.find({
 			relations: {
@@ -114,6 +113,79 @@ class ListAnchorQuestionAndLogoClientService
 				logo: logoClient[0] == '' ? '' : process.env.IMG_URL + '/logo/' + logoClient[0], allowResearch: allowResearch, lockByIp: ipLock };
 		}
 	}
+
+	private async checkMultiStoreIsOn(cnpj: string): Promise<number>
+	{
+		const queryRunner = appDataSource.createQueryRunner();
+		await queryRunner.connect();
+
+		const multiStoreIsOn = await queryRunner.query(`select multi_store from company_product join company on company.id = company_product.company
+		where company.cnpj = ?;`, [cnpj]);
+
+		await queryRunner.release();
+
+		let hasMultiStore = 0;
+		multiStoreIsOn.forEach((item: {multi_store: number}) => {
+			hasMultiStore = item.multi_store;
+		})
+
+		return hasMultiStore;
+	}
+
+	// private async returnDataResearchWithoutIdStore(): Promise<any>
+	// {
+	// 	const queryRunner = appDataSource.createQueryRunner();
+	// 	await queryRunner.connect();
+
+	// 	const dataResearch = await queryRunner.query(`select answer.created_at, answer.ip_address from answer where answer.ip_address <> ''
+	// 	and date(answer.created_at) = date(now()) order by answer.created_at desc limit 50;`);
+
+	// 	await queryRunner.release();
+
+	// 	return dataResearch;
+	// }
+
+	// private async returnDataResearchWithIdStore(id_store: number): Promise<any>
+	// {
+	// 	const queryRunner = appDataSource.createQueryRunner();
+	// 	await queryRunner.connect();
+
+	// 	const dataResearch: any = await queryRunner.query(`select answer.created_at, answer.ip_address from answer join store on store.id = answer.store_id
+	// 		where answer.ip_address <> '' and date(answer.created_at) = date(now()) and store.id = ?
+	// 		order by answer.created_at desc limit 50;`, [id_store]);
+
+	// 	await queryRunner.release();
+
+	// 	return dataResearch;
+	// }
+
+	// private async returnLockIPWithoutIdStore(cnpj: string): Promise<any>
+	// {
+	// 	const queryRunner = appDataSource.createQueryRunner();
+	// 	await queryRunner.connect();
+
+	// 	const lockIP = await queryRunner.query(`select params_product.lock_by_ip from params_product join company
+	// 		where params_product.company_id = company.id and company.cnpj = ?;`, [cnpj]);
+
+	// 	await queryRunner.release();
+
+	// 	return lockIP;
+	// }
+
+	// private async returnLockIPWithIdStore(cnpj: string, id_store: number): Promise<any>
+	// {
+	// 	const queryRunner = appDataSource.createQueryRunner();
+	// 	await queryRunner.connect();
+
+	// 	const lockIP: any = await queryRunner.query(`select params_product.lock_by_ip from params_product join company
+	// 		on params_product.company_id = company.id
+	// 		join store on store.company_id = company.id
+	// 		where company.cnpj = ? and store.id = 1 limit 1;`, [cnpj, id_store]);
+
+	// 	await queryRunner.release();
+
+	// 	return lockIP;
+	// }
 }
 
 export default ListAnchorQuestionAndLogoClientService;

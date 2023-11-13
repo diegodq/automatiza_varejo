@@ -60,16 +60,16 @@ router.get('/params/questions', isAuthenticated, ParamsQuestionController.listPa
 router.get('/list/store', isAuthenticated, StoreController.listStore);
 router.get('/multi-store', isAuthenticated, CheckMultiStoreController.checkIfExistsMultiStore);
 router.get('/info/store/:id_store', StoreController.getInfoStore);
-router.get('/qrcode/:id_store', isAuthenticated, QRCodeController.getQRCodeByStore);
+router.get('/qrcode/:id_store/:cnpj?', isAuthenticated, QRCodeController.getQRCodeByStore);
 
 //charts
 router.get('/dashboard/topics/:from/:to/:type_tree/:store?', isAuthenticated, DashboardController.toAmountTopicInAnswers);
 router.get('/dashboard/department/:from/:to/:type_tree/:store?', isAuthenticated, DashboardController.toAmountDepartmentInAnswers);
 router.get('/dashboard/employee/:from/:to/:type_tree/:store?', isAuthenticated, DashboardController.toAmountEmployeesInAnswers);
-router.get('/dashboard/research/:from/:to/:store?', isAuthenticated, DashboardController.toAmountResearch);
+router.get('/dashboard/research/:from/:to/:store_number?', isAuthenticated, DashboardController.toAmountResearch);
 router.get('/dashboard/amount/month/:store?', isAuthenticated, DashboardController.returnVolumeOfResearchInMonths);
 router.get('/dashboard/amount/research/:store?', isAuthenticated, DashboardController.returnResearchSevenDays);
-router.get('/dashboard/amount/nps/:from/:to/:store?', isAuthenticated, DashboardController.toAmountNPS);
+router.get('/dashboard/amount/nps/:from/:to/:store_number?', isAuthenticated, DashboardController.toAmountNPS);
 
 router.post('/customer', CustomerController.create);
 router.post('/session', SessionController.create);
@@ -98,7 +98,7 @@ router.put('/company', isAuthenticated, CompanyController.update);
 router.put('/customer', isAuthenticated, CustomerController.update);
 router.put('/department', isAuthenticated, DepartmentController.update);
 router.put('/question', isAuthenticated, QuestionController.edit);
-// router.put('/answer', isAuthenticated, AnswerController.edit);
+// router.put('/answer', isAuthenticated, AnswerController.edit); //para remover
 router.put('/topic', isAuthenticated, TopicController.update);
 router.put('/edit/store', isAuthenticated, StoreController.editStore);
 

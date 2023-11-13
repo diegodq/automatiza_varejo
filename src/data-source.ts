@@ -17,7 +17,7 @@ import QRCodeControl from './entities/QRCodeControl';
 
 const port = process.env.DB_PORT as number | undefined;
 
-import { Default1699561660376 } from './migration/1699561660376-default';
+import { Default1699807379515 } from './migration/1699807379515-default';
 
 const appDataSource = new DataSource({
 	type: "mysql",
@@ -43,7 +43,7 @@ const appDataSource = new DataSource({
 		QRCodeControl
 	],
 	migrations: [
-		Default1699561660376
+		Default1699807379515
 	]
 });
 

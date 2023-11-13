@@ -198,9 +198,9 @@ class DashboardController
 	{
 		const company: CompanyRequest = request.userId;
 
-		const { from, to, store } = request.params;
+		const { from, to, store_number } = request.params;
 
-		if(typeof store === 'undefined') {
+		if(typeof store_number === 'undefined') {
 			const queryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
@@ -257,9 +257,9 @@ class DashboardController
 				return accumulator + transformAndSumNPS(currentValue.nps_answer);
 			}, 0);
 
-			console.log('total positive researches', separatedResearches.positiveResearchs.length);
-			console.log('total negative researches', separatedResearches.negativeResearchs.length);
-			console.log('total sum', totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length));
+			// console.log('total positive researches', separatedResearches.positiveResearchs.length);
+			// console.log('total negative researches', separatedResearches.negativeResearchs.length);
+			// console.log('total sum', totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length));
 
 			const newResult = [
 				separatedResearches.positiveResearchs.length,
@@ -278,7 +278,7 @@ class DashboardController
 			const answers = await queryRunner.query(`select answer.*, store.store_number from answer
 			join store on answer.store_id = answer.store_id
 			where date(answer.created_at) between ? and ?
-			and store.company_id = ? and store.store_number = ?;`, [ from, to, company, store ]);
+			and store.company_id = ? and store.store_number = ?;`, [ from, to, company, store_number ]);
 
 			await queryRunner.release();
 
@@ -369,10 +369,10 @@ class DashboardController
 	{
 		const company = request.userId;
 
-		const { from, to, store } = request.params;
+		const { from, to, store_number } = request.params;
 
 		const toAmountNPSService = new ToAmountNPSService();
-		const result: number[] = await toAmountNPSService.execute({ from, to, company, store });
+		const result: number[] = await toAmountNPSService.execute({ from, to, company, store_number });
 
 		return response.status(200).json(result);
 	}

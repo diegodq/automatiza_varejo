@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import Company from "./Company";
 
 @Entity('qrcode_control')
@@ -10,12 +10,12 @@ class QRCodeControl
 	@Column({ type: 'varchar', length: 200, default: '' })
 	qrcode_name: string;
 
-	@OneToOne(() => Company, company => company.qrcode)
-	@JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
-	company: Company;
-
 	@Column({type:'int', nullable: true, default: 0 })
 	id_store: number;
+
+	@ManyToOne(() => Company, company => company.qrCodeControl)
+	@JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
+	company: Company
 
 	constructor(id: number, qrcode_name: string, id_store: number, company: Company)
 	{
