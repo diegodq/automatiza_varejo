@@ -327,17 +327,19 @@ class DashboardController
 				return accumulator + transformAndSumNPS(currentValue.nps_answer);
 			}, 0);
 
-			// console.log('total positive researches', separatedResearches.positiveResearchs.length);
-			// console.log('total negative researches', separatedResearches.negativeResearchs.length);
-			// console.log('total sum', totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length));
+			console.log('total positive researches', separatedResearches.positiveResearchs.length);
+			console.log('total negative researches', separatedResearches.negativeResearchs.length);
+			console.log('total sum', totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length));
 
-			const newResult = [
-				separatedResearches.positiveResearchs.length,
+			// const newResult = [
+			// 	separatedResearches.positiveResearchs.length,
+			// 	separatedResearches.negativeResearchs.length,
+			// 	totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length)
+			// ];
+
+			response.status(200).json([separatedResearches.positiveResearchs.length,
 				separatedResearches.negativeResearchs.length,
-				totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length)
-			];
-
-			response.status(200).json({ to: newResult });
+				totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length)]);
 		}
 	}
 
@@ -365,7 +367,7 @@ class DashboardController
 		return response.status(200).json(resultResearch);
 	}
 
-	public static async toAmountNPS(request: Request, response: Response)
+	public static async toAmountNPS(request: Request, response: Response): Promise<Response>
 	{
 		const company = request.userId;
 

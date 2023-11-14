@@ -60,7 +60,7 @@ router.get('/params/questions', isAuthenticated, ParamsQuestionController.listPa
 router.get('/list/store', isAuthenticated, StoreController.listStore);
 router.get('/multi-store', isAuthenticated, CheckMultiStoreController.checkIfExistsMultiStore);
 router.get('/info/store/:id_store', StoreController.getInfoStore);
-router.get('/qrcode/:id_store/:cnpj?', isAuthenticated, QRCodeController.getQRCodeByStore);
+router.get('/qrcode/:id_store?', isAuthenticated, QRCodeController.getQRCodeByStore);
 
 //charts
 router.get('/dashboard/topics/:from/:to/:type_tree/:store?', isAuthenticated, DashboardController.toAmountTopicInAnswers);
