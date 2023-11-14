@@ -275,10 +275,15 @@ class DashboardController
 			const passingTree = await queryRunner.query(`select params_product.* from params_product
 			where params_product.company_id = ?;`, [ company ]);
 
-			const answers = await queryRunner.query(`select answer.*, store.store_number from answer
-			join store on answer.store_id = answer.store_id
-			where date(answer.created_at) between ? and ?
-			and store.company_id = ? and store.store_number = ?;`, [ from, to, company, store_number ]);
+			// const answers = await queryRunner.query(`select answer.*, store.store_number from answer
+			// join store on answer.store_id = answer.store_id
+			// where date(answer.created_at) between ? and ?
+			// and store.company_id = ? and store.store_number = ?;`, [ from, to, company, store_number ]);
+
+			const answers = await queryRunner.query(`select answer.*, store.store_number
+			from answer join store on store.id = answer.store_id
+			where date(answer.created_at) between ? and ? and store.company_id = ?
+			and store.store_number = ?;`, [ from, to, company, store_number ]);
 
 			await queryRunner.release();
 
