@@ -130,6 +130,8 @@ router.get('/nps/company/:cnpj_company/questions', NPSController.listQuestionAnd
 router.get('/nps/product/params/:cnpj_company', NPSController.listProductByCompany);
 router.get('/new/date', HashDateController.returnDateToHash);
 router.post('/answer', AnswerController.add);
+router.get('/list/store/:cnpj', StoreController.listStoreByCNPJ);
+router.get('/multistore/:cnpj', CheckMultiStoreController.checkIfExistsMultiStoreByCNPJ);
 
 // report
 // router.get('/answer/report', AnswerController.makeReport);

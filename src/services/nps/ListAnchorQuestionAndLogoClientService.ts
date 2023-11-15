@@ -5,6 +5,7 @@ import { BadRequestError } from "../../utils/ApiErrors";
 import formatCNPJ from "../../utils/formatCNPJ";
 import storeRepository from "../../repositories/storeRepository";
 import Store from "../../entities/Store";
+import paramsConfig from "../../params/paramsConfig";
 
 type NPSRequest = {
 	cnpj_company: string,
@@ -26,10 +27,16 @@ class ListAnchorQuestionAndLogoClientService
 		if(!companyExists)
 			throw new BadRequestError('no-company');
 
-		if(await this.checkMultiStoreIsOn(cnpj)) {
-			const storeExists: Store | null = await storeRepository.findOneBy({ id: Number(id_store) });
-			if(!storeExists)
-				throw new BadRequestError('store-do-not-exists');
+		if(paramsConfig.params.validateNPSHeaderParams) {
+			if(await this.checkMultiStoreIsOn(cnpj)) {
+				const storeExists: Store | null = await storeRepository.findOneBy({ id: Number(id_store) });
+				console.log(id_store);
+				if(!storeExists)
+					throw new BadRequestError('store-not-found');
+
+				if(!storeExists.active)
+					throw new BadRequestError('store-disable');
+			}
 		}
 
 		const information: Company[] = await companyRepository.find({

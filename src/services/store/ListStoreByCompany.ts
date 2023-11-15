@@ -1,4 +1,4 @@
-import { BadRequestError } from "src/utils/ApiErrors";
+import { BadRequestError } from "../../utils/ApiErrors";
 import appDataSource from "../../data-source";
 
 class ListStoreByCompany
@@ -11,7 +11,7 @@ class ListStoreByCompany
 		await queryRunner.connect();
 
 		const resultQuery = await queryRunner.query(`select id, name, address, store_number, active from store where company_id = ?;`, [company_id]);
-		
+
 		await queryRunner.release();
 
 		if(resultQuery.length === 0)

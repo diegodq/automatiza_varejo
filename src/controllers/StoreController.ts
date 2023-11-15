@@ -6,6 +6,7 @@ import ListStoreByCompany from "../services/store/ListStoreByCompany";
 import DisableStoreService from "../services/store/DisableStoreService";
 import RemoveStoreService from "../services/store/RemoveStoreService";
 import GetInfoStoreService from "../services/store/GetInfoStoreService";
+import ListStoreByCNPJ from "../services/store/ListStoreByCNPJ";
 
 class StoreController
 {
@@ -36,12 +37,22 @@ class StoreController
 		const company: number = request.userId;
 
 		const listStoreByCompany = new ListStoreByCompany();
-		const updateStore: object = await listStoreByCompany.execute({ company });
+		const listStore: object = await listStoreByCompany.execute({ company });
 
-		return response.status(200).json({ status: 'success', message: updateStore });
+		return response.status(200).json({ status: 'success', message: listStore });
 	}
 
-	static async removeStore(request: Request, response: Response): Promise<Response>
+	static async listStoreByCNPJ(request: Request, response: Response): Promise<Response>
+	{
+		const { cnpj } = request.params
+
+		const listStoreByCNPJ = new ListStoreByCNPJ();
+		const listStore: object = await listStoreByCNPJ.execute(cnpj);
+
+		return response.status(200).json({ status: 'success', message: listStore });
+	}
+
+	static async removeStore(request: Request, response: Response)
 	{
 		const { id_store } = request.body;
 

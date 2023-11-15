@@ -6,6 +6,7 @@ import companyRepository from "../../repositories/companyRepository";
 import storeRepository from "../../repositories/storeRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import fs from 'fs';
+import paramsConfig from "src/params/paramsConfig";
 
 type QRCodeType =
 {
@@ -23,13 +24,20 @@ class GetQRCodeService
 		if(!companyExists)
 			throw new BadRequestError('company-do-not-exists');
 
-		if(await this.checkMultiStoreIsOn(company)) {
-			const storeExists: Store | null = await storeRepository.findOneBy({ id: Number(idStore) });
-			if(!storeExists)
-				throw new BadRequestError('file-not-found');
+		if(paramsConfig.params.validateGetQRCodeParams) {
+			if(await this.checkMultiStoreIsOn(company)) {
+				const storeExists: Store | null = await storeRepository.findOneBy({ id: Number(idStore) });
+				console.log(id_store);
+				if(!storeExists)
+					throw new BadRequestError('store-not-found');
 
-			if(!storeExists.active)
-				throw new BadRequestError('store-disable');
+				if(!storeExists.active)
+					throw new BadRequestError('store-disable');
+			}
+
+			if(!await this.checkMultiStoreIsOn(company) && id_store != undefined) {
+				throw new BadRequestError('multi-store-disabled-for-this-store');
+			}
 		}
 
 		const queryRunner = appDataSource.createQueryRunner();

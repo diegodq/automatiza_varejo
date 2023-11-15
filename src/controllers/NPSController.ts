@@ -46,7 +46,7 @@ class NPSController
 		return response.status(200).json(topics);
 	}
 
-	static async listDepartmentsByCompany(request: Request, response: Response)
+	static async listDepartmentsByCompany(request: Request, response: Response): Promise<Response>
 	{
 		const { cnpj_company } = request.params;
 
