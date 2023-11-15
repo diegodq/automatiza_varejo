@@ -33,7 +33,6 @@ class NPSController
 
 		const listProductByCompany = new ListProductByCompanyService();
 		const product: object = await listProductByCompany.execute({ cnpj_company });
-
 		return response.status(200).json({ message: 'success', product });
 	}
 

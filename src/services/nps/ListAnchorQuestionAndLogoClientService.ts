@@ -48,70 +48,49 @@ class ListAnchorQuestionAndLogoClientService
 			return item.logo_company;
 		})
 
-		if(typeof id_store === 'undefined') {
-			const queryRunner = appDataSource.createQueryRunner();
-			await queryRunner.connect();
+		const queryRunner = appDataSource.createQueryRunner();
+		await queryRunner.connect();
 
-			const dataResearch: any = await queryRunner.query(`select answer.created_at, answer.ip_address from answer where answer.ip_address <> ''
+		let dataResearch = null;
+		let lockIp = null;
+
+		if(typeof id_store === 'undefined') {
+			dataResearch = await queryRunner.query(`select answer.created_at, answer.ip_address from answer where answer.ip_address <> ''
 			and date(answer.created_at) = date(now()) order by answer.created_at desc limit 50;`);
 
-			const lockIp: any = await queryRunner.query(`select params_product.lock_by_ip from params_product join company
+			lockIp = await queryRunner.query(`select params_product.lock_by_ip from params_product join company
 			where params_product.company_id = company.id and company.cnpj = ?;`, [cnpj]);
-
-			await queryRunner.release();
-
-			let allowResearch = true;
-			dataResearch.forEach((item: any): any => {
-				if(item.ip_address === ip_address)
-					allowResearch = false;
-			})
-
-			let ipLock = false;
-			lockIp.forEach((item: any ): any => {
-				if(item.lock_by_ip) ipLock = true;
-				else ipLock = false;
-			});
-
-			if(process.env.APP_MODE == 'development')
-				return { status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0],
-				logo: logoClient[0] == '' ? '' : process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + logoClient[0], allowResearch: allowResearch, lockByIp: ipLock };
-			else
-				return {status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0],
-				logo: logoClient[0] == '' ? '' : process.env.IMG_URL + '/logo/' + logoClient[0], allowResearch: allowResearch, lockByIp: ipLock };
 		} else {
-			const queryRunner = appDataSource.createQueryRunner();
-			await queryRunner.connect();
-
-			const dataResearch: any = await queryRunner.query(`select answer.created_at, answer.ip_address from answer join store on store.id = answer.store_id
+			dataResearch = await queryRunner.query(`select answer.created_at, answer.ip_address from answer join store on store.id = answer.store_id
 			where answer.ip_address <> '' and date(answer.created_at) = date(now()) and store.store_number = ?
 			order by answer.created_at desc limit 50;`, [id_store]);
 
-			const lockIp: any = await queryRunner.query(`select params_product.lock_by_ip from params_product join company
+			lockIp = await queryRunner.query(`select params_product.lock_by_ip from params_product join company
 			on params_product.company_id = company.id
 			join store on store.company_id = company.id
 			where company.cnpj = ? and store.store_number = ? limit 1;`, [cnpj, id_store]);
-
-			await queryRunner.release();
-
-			let allowResearch = true;
-			dataResearch.forEach((item: any): any => {
-				if(item.ip_address === ip_address)
-					allowResearch = false;
-			})
-
-			let ipLock = false;
-			lockIp.forEach((item: any ): any => {
-				if(item.lock_by_ip) ipLock = true;
-				else ipLock = false;
-			});
-
-			if(process.env.APP_MODE == 'development')
-				return { status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0],
-				logo: logoClient[0] == '' ? '' : process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + logoClient[0], allowResearch: allowResearch, lockByIp: ipLock };
-			else
-				return {status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0],
-				logo: logoClient[0] == '' ? '' : process.env.IMG_URL + '/logo/' + logoClient[0], allowResearch: allowResearch, lockByIp: ipLock };
 		}
+
+		await queryRunner.release();
+
+		let allowResearch = true;
+		dataResearch.forEach((item: any): any => {
+			if(item.ip_address === ip_address)
+				allowResearch = false;
+		})
+
+		let ipLock = false;
+		lockIp.forEach((item: any ): any => {
+			if(item.lock_by_ip) ipLock = true;
+			else ipLock = false;
+		});
+
+		if(process.env.APP_MODE == 'development')
+			return { status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0],
+			logo: logoClient[0] == '' ? '' : process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + logoClient[0], allowResearch: allowResearch, lockByIp: ipLock };
+		else
+			return {status: 'success', anchorQuestion: anchorQuestion[0] == null || '' ? '' : anchorQuestion[0],
+			logo: logoClient[0] == '' ? '' : process.env.IMG_URL + '/logo/' + logoClient[0], allowResearch: allowResearch, lockByIp: ipLock };
 	}
 
 	private async checkMultiStoreIsOn(cnpj: string): Promise<number>
@@ -131,61 +110,6 @@ class ListAnchorQuestionAndLogoClientService
 
 		return hasMultiStore;
 	}
-
-	// private async returnDataResearchWithoutIdStore(): Promise<any>
-	// {
-	// 	const queryRunner = appDataSource.createQueryRunner();
-	// 	await queryRunner.connect();
-
-	// 	const dataResearch = await queryRunner.query(`select answer.created_at, answer.ip_address from answer where answer.ip_address <> ''
-	// 	and date(answer.created_at) = date(now()) order by answer.created_at desc limit 50;`);
-
-	// 	await queryRunner.release();
-
-	// 	return dataResearch;
-	// }
-
-	// private async returnDataResearchWithIdStore(id_store: number): Promise<any>
-	// {
-	// 	const queryRunner = appDataSource.createQueryRunner();
-	// 	await queryRunner.connect();
-
-	// 	const dataResearch: any = await queryRunner.query(`select answer.created_at, answer.ip_address from answer join store on store.id = answer.store_id
-	// 		where answer.ip_address <> '' and date(answer.created_at) = date(now()) and store.id = ?
-	// 		order by answer.created_at desc limit 50;`, [id_store]);
-
-	// 	await queryRunner.release();
-
-	// 	return dataResearch;
-	// }
-
-	// private async returnLockIPWithoutIdStore(cnpj: string): Promise<any>
-	// {
-	// 	const queryRunner = appDataSource.createQueryRunner();
-	// 	await queryRunner.connect();
-
-	// 	const lockIP = await queryRunner.query(`select params_product.lock_by_ip from params_product join company
-	// 		where params_product.company_id = company.id and company.cnpj = ?;`, [cnpj]);
-
-	// 	await queryRunner.release();
-
-	// 	return lockIP;
-	// }
-
-	// private async returnLockIPWithIdStore(cnpj: string, id_store: number): Promise<any>
-	// {
-	// 	const queryRunner = appDataSource.createQueryRunner();
-	// 	await queryRunner.connect();
-
-	// 	const lockIP: any = await queryRunner.query(`select params_product.lock_by_ip from params_product join company
-	// 		on params_product.company_id = company.id
-	// 		join store on store.company_id = company.id
-	// 		where company.cnpj = ? and store.id = 1 limit 1;`, [cnpj, id_store]);
-
-	// 	await queryRunner.release();
-
-	// 	return lockIP;
-	// }
 }
 
 export default ListAnchorQuestionAndLogoClientService;
