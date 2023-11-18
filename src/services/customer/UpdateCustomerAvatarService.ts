@@ -29,7 +29,7 @@ class UpdateCustomerAvatarService
 			const userAvatarFilePath: string = path.join(multerConfig.directory, customer.avatar);
 			const userAvatarFileExists: Stats = await fs.promises.stat(userAvatarFilePath);
 			if(userAvatarFileExists) {
-				await fs.promises.unlink(userAvatarFilePath);
+				await fs.promises.unlink(userAvatarFilePath);'1	'
 			}
 		}
 

@@ -1,6 +1,6 @@
 import path from "path";
 import fs from 'fs';
-import configLogoClient from "../../configurations/configLogoClient";
+import configLogoClient from "../../configurations/configCompanyLogo";
 import { BadRequestError } from "../../utils/ApiErrors";
 import companyRepository from "../../repositories/companyRepository";
 

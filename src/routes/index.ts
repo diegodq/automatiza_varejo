@@ -7,7 +7,7 @@ import SessionController from "../controllers/SessionController";
 import isAuthenticated from "../middleware/isAuthenticated";
 import WelcomeController from "../controllers/WelcomeController";
 import avatarConfig from "../configurations/avatarConfig";
-import configLogoClient from "../configurations/configLogoClient";
+import configCompanyLogo from "../configurations/configCompanyLogo";
 import AvatarController from "../controllers/AvatarController";
 import DepartmentController from "../controllers/DepartmentController";
 import QuestionController from "../controllers/QuestionController";
@@ -27,7 +27,7 @@ import StoreController from '../controllers/StoreController';
 import CheckMultiStoreController from '../controllers/CheckMultiStoreController';
 
 const uploadAvatar: Multer = multer(avatarConfig);
-const uploadLogoClient: Multer = multer(configLogoClient);
+const uploadCompanyLogo: Multer = multer(configCompanyLogo);
 
 const router = express.Router();
 
@@ -103,7 +103,7 @@ router.put('/topic', isAuthenticated, TopicController.update);
 router.put('/edit/store', isAuthenticated, StoreController.editStore);
 
 router.patch('/avatar', isAuthenticated, uploadAvatar.single('file'), AvatarController.update);
-router.patch('/logo-company', isAuthenticated, uploadLogoClient.single('file'), LogoClientController.update);
+router.patch('/logo-company', isAuthenticated, uploadCompanyLogo.single('file'), LogoClientController.update);
 router.patch('/customer/email', isAuthenticated, CustomerController.updateEmailCustomer);
 router.patch('/customer/password', isAuthenticated, CustomerController.updatePasswordCustomer);
 router.patch('/customer/reset-password', CustomerController.reset);

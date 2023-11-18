@@ -6,7 +6,7 @@ import errorMiddleware from './middleware/errorsMiddleware';
 import routes from './routes';
 import cors from 'cors';
 import avatarConfig from './configurations/avatarConfig';
-import configLogoClient from './configurations/configLogoClient';
+import configLogoClient from './configurations/configCompanyLogo';
 import https from 'https';
 import fs from 'fs';
 import products from './configurations/products';
