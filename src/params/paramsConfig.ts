@@ -6,7 +6,9 @@ export default {
 		allowRemoveQuestions: true,
 		allowRemoveAnswers: false,
 		validateNPSHeaderParams: false,
-		validateGetQRCodeParams: true
+		validateGetQRCodeParams: true,
+		useQueuesForSendNotifications: false,
+		useQueuesForReports: false
 	},
 	jwt: {
 		secret: '2100fb51e744832359d132e5b75afdc0',

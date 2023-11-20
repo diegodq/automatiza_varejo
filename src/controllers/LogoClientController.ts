@@ -8,7 +8,7 @@ class LogoClientController
 	static async update(request: Request, response: Response): Promise<Response>
 	{
 		const updateLogoClientService = new UpdateLogoClientService();
-		const logo = await updateLogoClientService.execute({
+		const logo: string = await updateLogoClientService.execute({
 			id: request.userId,
 			logoClientName: request.file!.filename,
 			fileSize: request.file!.size
@@ -23,7 +23,6 @@ class LogoClientController
 	static async returnLogo(request: Request, response: Response): Promise<Response>
 	{
 		const id = request.userId;
-		console.log(id);
 
 		const returnLogoClientService = new ReturnLogoClientService();
 		const logo = await returnLogoClientService.execute({ id });

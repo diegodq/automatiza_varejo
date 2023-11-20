@@ -5,6 +5,7 @@ import appDataSource from "../../data-source";
 import Company from "../../entities/Company";
 import GenerateCustomerForgotTokenService from "../session/GenerateCustomerForgotTokenService";
 import Mailer from "../../configurations/mailer/Mailer";
+import Customer from "../../entities/Customer";
 
 type TypeRequest =
 {
@@ -22,10 +23,10 @@ class CreateCustomerService
 	public async execute({ first_name, surname, position, phone,
 		email, password, accept_terms }: TypeRequest): Promise<string | object>
 	{
-		const emailCustomer = await customerRepository.findOneBy({ email });
+		const emailCustomer: Customer | null = await customerRepository.findOneBy({ email });
 
 		if(emailCustomer) {
-			const idCustomer = emailCustomer.getId;
+			const idCustomer: number = emailCustomer.getId;
 
 			const customerHasCompany = await appDataSource.getRepository(Company).createQueryBuilder('company')
 			.where('company.customer = :id', { id: idCustomer }).getOne();
@@ -35,9 +36,9 @@ class CreateCustomerService
 			}
 		}
 
-		const hashedPassword = await hash(password, 8);
+		const hashedPassword: string = await hash(password, 8);
 
-		const newCustomer = customerRepository.create({ first_name, surname, position, phone, email,
+		const newCustomer: Customer = customerRepository.create({ first_name, surname, position, phone, email,
 			old_password: hashedPassword, password: hashedPassword, accept_terms });
 
 		newCustomer.accept_terms_on = new Date();
@@ -48,7 +49,7 @@ class CreateCustomerService
 			return { status: 'success', message: 'Development mode activated. In this mode email not sended. Please, active this client manually.' };
 		else {
 			const generateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
-			const token = await generateCustomerForgotTokenService.generate({ email });
+			const token: string = await generateCustomerForgotTokenService.generate({ email });
 
 			const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'verify-email.hbs');
 
