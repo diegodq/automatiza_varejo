@@ -11,21 +11,23 @@ class CreateQrCodeService
 {
 	public async execute({ cnpj, id_store }: QRCodeType): Promise<void>
 	{
+		let url = '';
+		let output = '';
+
 		if(id_store == 0) {
-			const url = `https://pesquisa.automatizavarejo.com.br/?cnpj=${cnpj}`;
-			const output = path.join(__dirname, '../../qrcode/' + `${cnpj}.png`);
-			await qrcode.toFile(output, url, {
-				margin: 1,
-				scale: 12
-			});
+			url = `https://pesquisa.automatizavarejo.com.br/?cnpj=${cnpj}`;
+			output = path.join(__dirname, '../../qrcode/' + `${cnpj}.png`);
 		} else {
-			const url = `https://pesquisa.automatizavarejo.com.br/?cnpj=${cnpj}/${id_store}`;
-			const output = path.join(__dirname, '../../qrcode/' + `${cnpj}.${id_store}.png`);
-			await qrcode.toFile(output, url, {
-				margin: 1,
-				scale: 12
-			});
+			url = `https://pesquisa.automatizavarejo.com.br/?cnpj=${cnpj}/${id_store}`;
+			output = path.join(__dirname, '../../qrcode/' + `${cnpj}.${id_store}.png`);
 		}
+		await qrcode.toFile(output, url, {
+			color: {
+				light: '#0000'
+			},
+			margin: 1,
+			scale: 12
+		});
 	}
 }
 
