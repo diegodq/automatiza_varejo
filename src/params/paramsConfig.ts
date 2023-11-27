@@ -7,7 +7,7 @@ export default {
 		allowRemoveAnswers: false,
 		validateNPSHeaderParams: false,
 		validateGetQRCodeParams: true,
-		useQueuesForSendNotifications: false,
+		useQueueForSendNotifications: false,
 		useQueuesForReports: false
 	},
 	jwt: {

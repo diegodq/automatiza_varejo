@@ -1,9 +1,5 @@
 import handlebars from "handlebars";
 import fs from 'fs';
-/**
- * definir uma classe onde nesse classe terá um método
- * que fará um parse. montará o conteúdo do email
- */
 
 interface iTemplateVariable
 {
