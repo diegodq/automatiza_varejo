@@ -17,6 +17,10 @@ class ListStoreByCompany
 		if(resultQuery.length === 0)
 			throw new BadRequestError('no-store');
 
+		resultQuery.forEach((item: { store_number: string | number; }) => {
+			if(item.store_number == 0) item.store_number = '';
+		});
+
 		return resultQuery;
 	}
 }

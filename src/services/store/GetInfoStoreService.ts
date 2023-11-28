@@ -18,10 +18,17 @@ class GetInfoStoreService
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const queryResult: object = await queryRunner.query(`select store.* from store
+		const queryResult = await queryRunner.query(`select store.* from store
 		where store.id = ?;`, [ id_store ]);
 
 		await queryRunner.release();
+
+		if(queryResult.length === 0)
+			throw new BadRequestError('no-store');
+
+		queryResult.forEach((item: { store_number: string | number; }) => {
+			if(item.store_number == 0) item.store_number = '';
+		});
 
 		return queryResult;
 	}
