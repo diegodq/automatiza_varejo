@@ -6,7 +6,7 @@ export default {
 		allowRemoveQuestions: true,
 		allowRemoveAnswers: false,
 		validateNPSHeaderParams: false,
-		validateGetQRCodeParams: true,
+		validateGetQRCodeParams: false,
 		useQueueForSendNotifications: false,
 		useQueuesForReports: false
 	},
