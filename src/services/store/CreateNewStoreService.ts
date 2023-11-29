@@ -5,7 +5,7 @@ import companyRepository from "../../repositories/companyRepository";
 import CreateQrCodeService from "../qrcodeService/CreateQrCodeService";
 import unformatCNPJ from "../../utils/unformatCNPJ";
 import CreateQRCodeControlService from "../qrcodeService/CreateQRCodeControlService";
-import appDataSource from "src/data-source";
+import appDataSource from "../../data-source";
 import Company from "../../entities/Company";
 
 type TypeStore =
