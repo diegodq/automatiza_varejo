@@ -10,6 +10,7 @@ import PdfPrinter from "pdfmake";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 import Answer from "../entities/Answer";
 import appDataSource from "src/data-source";
+import ListQuestionBinaryService from 'src/services/question/ListQuestionBinaryService';
 
 class AnswerController
 {
@@ -85,9 +86,21 @@ class AnswerController
 			return response.status(200).json({ research });
 		} else {
 			const research: object = await listResearchService.execute({ company, from, to, store });
-			
+
 			return response.status(200).json({ research });
 		};
+	}
+
+	static async listQuestionsBinary(request: Request, response: Response): Promise<Response>
+	{
+		const company: any = request.userId;
+
+		const {from, to, store_number} = request.params;
+
+		const listQuestionBinaryService = new ListQuestionBinaryService();
+		const listBinary: object = await listQuestionBinaryService.execute({company, from, to, store_number});
+
+		return response.status(200).json(listBinary);
 	}
 
 	static async makeReport(request: Request, response: Response)

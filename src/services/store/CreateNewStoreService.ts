@@ -24,18 +24,18 @@ class CreateNewStoreService
 		if(!companyExists)
 			throw new BadRequestError('no-company');
 
-		const storeExists: Store | null = await storeRepository.findOneBy({ name });
-		if(storeExists)
+		const storeExists: Store | null = await storeRepository.findOne({ where: { company: { id: Number(company) } } });
+		if(storeExists?.name == name)
 			throw new BadRequestError('store-already-registered');
 
-		const storeAddressExists: Store | null = await storeRepository.findOneBy({ address });
-		if(storeAddressExists)
+		const storeAddressExists: Store | null = await storeRepository.findOne({ where: { company: { id: Number(company) } } });
+		if(storeAddressExists?.address == address)
 			throw new BadRequestError('address-already-registered');
 
 		if(await this.checkMultiStoreIsOn(company))
 		{
-			const storeNumberExists: Store | null = await storeRepository.findOneBy({ store_number });
-			if(storeNumberExists)
+			const storeNumberExists: Store | null = await storeRepository.findOne({ where: { company: { id: Number(company) }} });
+			if(storeNumberExists?.store_number == store_number)
 				throw new BadRequestError('store-number-already-registered');
 		}
 

@@ -50,6 +50,7 @@ router.get('/questions/:from?/:to?', isAuthenticated, QuestionController.listAll
 router.get('/answer', isAuthenticated, AnswerController.list);
 router.get('/research/:from?/:to?/:store?', isAuthenticated, AnswerController.listResearch);
 router.get('/answers/:from?/:to?/:store?', isAuthenticated, AnswerController.listAll);
+router.get('/questions/binary/:from/:to/:store_number', isAuthenticated, AnswerController.listQuestionsBinary); // making
 router.get('/topic', isAuthenticated, TopicController.list);
 router.get('/topics', isAuthenticated, TopicController.listAll);
 router.get('/anchor-question', isAuthenticated, ParamsProductController.listAnchorQuestion);

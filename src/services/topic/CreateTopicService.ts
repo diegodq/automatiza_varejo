@@ -1,3 +1,4 @@
+import Topic from "src/entities/Topic";
 import Company from "../../entities/Company";
 import topicRepository from "../../repositories/topicRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
@@ -14,7 +15,7 @@ class CreateTopicService
 {
 	public async execute({ name, status, indicate_employee, company }: TopicRequest): Promise<string | any>
 	{
-		const topicExists = await topicRepository.findOne({ where: { company: { id: Number(company) } } });
+		const topicExists: Topic | null = await topicRepository.findOne({ where: { company: { id: Number(company) } } });
 		if(topicExists?.name == name) {
 			throw new BadRequestError('Tópico já cadastrado.');
 		}
