@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import CreateAnswerService from "../services/answer/CreateAnswerService";
-// import EditAnswerService from "../services/answer/EditAnswerService";
 import ListAnswersService from "../services/answer/ListAnswersService";
 import ListAnswerService from "../services/answer/ListAnswerService";
 import RemoveAnswerService from "../services/answer/RemoveAnswerService";
@@ -9,8 +8,7 @@ import ListResearchService from "../services/answer/ListResearchService";
 import PdfPrinter from "pdfmake";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 import Answer from "../entities/Answer";
-import appDataSource from "src/data-source";
-import ListQuestionBinaryService from 'src/services/question/ListQuestionBinaryService';
+import ListQuestionBinaryService from '../services/question/ListQuestionBinaryService';
 
 class AnswerController
 {
