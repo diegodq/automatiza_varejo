@@ -10,6 +10,12 @@ type RequestParams =
 	store_number: string
 }
 
+type TransformedData = {
+  pergunta: string;
+  arvore: number;
+  [key: string]: number | string;
+};
+
 
 class ListQuestionBinaryService
 {
@@ -18,54 +24,87 @@ class ListQuestionBinaryService
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const queryResult = await queryRunner.query(`SELECT DISTINCT
+		let queryResult = null;
+		if(store_number == undefined) {
+			queryResult = await queryRunner.query(`SELECT
+			question.id AS question_id,
 			question.question_description AS pergunta,
 			question.tree_question AS arvore,
 			params_questions.option_one,
-			params_questions.option_two
-		FROM question
-		JOIN params_questions ON question.id = params_questions.question_id
-		JOIN answer ON question.id = answer.question_id
-		JOIN store ON store.id = answer.store_id
+			COUNT(CASE WHEN answer.answer = params_questions.option_one THEN 1 END) AS incidencias_option_one,
+			params_questions.option_two,
+			COUNT(CASE WHEN answer.answer = params_questions.option_two THEN 1 END) AS incidencias_option_two
+	FROM
+			question
+	JOIN
+			params_questions ON question.id = params_questions.question_id
+	LEFT JOIN
+			answer ON question.id = answer.question_id
+			AND (answer.answer = params_questions.option_one OR answer.answer = params_questions.option_two)
+			AND params_questions.option_one <> ''
+			AND params_questions.option_two <> ''
+			AND question.company_id = ?
+			AND DATE(answer.created_at) BETWEEN ? AND ?
+	WHERE
+			question.type_question = 'binary'
+	GROUP BY
+			question.id,
+			question.question_description,
+			question.tree_question,
+			params_questions.option_one,
+			params_questions.option_two;`, [company, from, to]);
+		} else {
+			queryResult = await queryRunner.query(`SELECT
+			question.id AS question_id,
+			question.question_description AS pergunta,
+			question.tree_question AS arvore,
+			params_questions.option_one,
+			COUNT(CASE WHEN answer.answer = params_questions.option_one THEN 1 END) AS incidencias_option_one,
+			params_questions.option_two,
+			COUNT(CASE WHEN answer.answer = params_questions.option_two THEN 1 END) AS incidencias_option_two
+	FROM
+			question
+	JOIN
+			params_questions ON question.id = params_questions.question_id
+	LEFT JOIN
+			answer ON question.id = answer.question_id
+			JOIN store ON store.id = answer.store_id
+			AND (answer.answer = params_questions.option_one OR answer.answer = params_questions.option_two)
 			AND params_questions.option_one <> ''
 			AND params_questions.option_two <> ''
 			AND question.company_id = ?
 			AND DATE(answer.created_at) BETWEEN ? AND ?
 			AND store.store_number = ?
-		GROUP BY
-			params_questions.option_one,
-			params_questions.option_two,
-			question.tree_question,
+	WHERE
+			question.type_question = 'binary'
+	GROUP BY
+			question.id,
 			question.question_description,
-			answer.answer,
-			answer.store_id,
-			answer.created_at;`, [company, from, to, store_number]);
+			question.tree_question,
+			params_questions.option_one,
+			params_questions.option_two;`, [company, from, to, store_number]);
+		}
+
 
 		await queryRunner.release();
+
+		console.log(queryResult);
 
 		if(queryResult.length == 0)
 			throw new BadRequestError('no-results');
 
-		let countOptionOne = 0;
-		let countOptionTwo = 0;
+		const dadosTransformados: TransformedData[] = queryResult.map((item: { pergunta: string; arvore: string; option_one: string; incidencias_option_one: string; option_two: string; incidencias_option_two: string; }) => {
+			const { pergunta, arvore, option_one, incidencias_option_one, option_two, incidencias_option_two } = item;
 
-		queryResult.forEach((pergunta: { option_one: string; option_two: string; }) => {
-			if (pergunta.option_one === pergunta.option_one || pergunta.option_one === pergunta.option_one) {
-				countOptionOne++;
-			} else if (pergunta.option_two === pergunta.option_two || pergunta.option_two === pergunta.option_two) {
-				countOptionTwo++;
-			}
+			return {
+				pergunta,
+				arvore,
+				[option_one]: incidencias_option_one,
+				[option_two]: incidencias_option_two,
+			};
 		});
 
-		queryResult.forEach((pergunta: { [x: string]: number; }) => {
-			pergunta[pergunta.option_one] = countOptionOne;
-			pergunta[pergunta.option_two] = countOptionTwo;
-
-			delete pergunta["option_one"];
-  		delete pergunta["option_two"];
-		});
-
-		return queryResult;
+		return dadosTransformados;
 	}
 }
 

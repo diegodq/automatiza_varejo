@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, One
 import Answer from "./Answer";
 import Company from "./Company";
 import ParamsQuestions from "./ParamsQuestions";
+import QuestionGroupMapping from "./QuestionGroupMapping";
 
 @Entity('question')
 class Question
@@ -18,6 +19,9 @@ class Question
 	@ManyToOne(() => Company, company => company.question, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
 	company: Company;
+
+	@OneToMany(() => QuestionGroupMapping, questionGroupMapping => questionGroupMapping.question)
+	questionGroupMapping: QuestionGroupMapping
 
 	@Column({ type: 'varchar', nullable: true, length: 100 })
 	title_question: string;
@@ -55,7 +59,9 @@ class Question
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, params_questions: ParamsQuestions, answer: Answer, company: Company, title_question: string,
+	constructor(id: number, params_questions: ParamsQuestions, answer: Answer, company: Company,
+		questionGroupMapping: QuestionGroupMapping,
+		title_question: string,
 		tree_question: number,
 		question_description: string,
 		type_question: string, status: number, text_end_research: string,
@@ -67,6 +73,7 @@ class Question
 		this.params_questions = params_questions;
 		this.answer = answer;
 		this.company = company;
+		this.questionGroupMapping = questionGroupMapping;
 		this.title_question = title_question;
 		this.tree_question = tree_question;
 		this.question_description = question_description;
@@ -77,7 +84,6 @@ class Question
 		this.text_label_two = text_label_two;
 		this.research_title = research_title;
 		this.alert_label = alert_label;
-
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
@@ -95,6 +101,11 @@ class Question
 	get getCompany(): Company
 	{
 		return this.company;
+	}
+
+	get getQuestionGroupMapping(): QuestionGroupMapping
+	{
+		return this.questionGroupMapping;
 	}
 
 	get getTitleQuestion(): string
