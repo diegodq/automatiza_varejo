@@ -6,10 +6,10 @@ class CheckMultiStoreController
 {
 	static async checkIfExistsMultiStore(request: Request, response: Response): Promise<Response>
 	{
-		const company = request.userId;
+		const companyId = request.userId;
 
 		const checkMultiStoreService = new CheckMultiStoreService();
-		const result: boolean = await checkMultiStoreService.execute({ company });
+		const result: boolean = await checkMultiStoreService.execute({ companyId });
 
 		return response.status(200).json(result);
 	}
