@@ -72,17 +72,17 @@ class ListQuestionBinaryService
 				AND (answer.answer = params_questions.option_one OR answer.answer = params_questions.option_two)
 				AND params_questions.option_one <> ''
 				AND params_questions.option_two <> ''
-				AND DATE(answer.created_at) BETWEEN ? AND ?
-				AND store.id = ?
+				AND DATE(answer.created_at) BETWEEN '${from}' AND '${to}'
 		WHERE
 			question.type_question = 'binary'
-			AND question.company_id = ?
+			AND question.company_id = ${company}
+			AND store.id = ${id_store}
 		GROUP BY
 			question.id,
 			question.question_description,
 			question.tree_question,
 			params_questions.option_one,
-			params_questions.option_two;`, [company, from, to, id_store]);
+			params_questions.option_two;`);
 		}
 
 
