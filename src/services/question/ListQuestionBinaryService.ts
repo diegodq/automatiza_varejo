@@ -31,23 +31,23 @@ class ListQuestionBinaryService
 			question.question_description AS pergunta,
 			question.tree_question AS arvore,
 			params_questions.option_one,
-			COUNT(CASE WHEN answer.answer = params_questions.option_one THEN 1 END) AS incidencias_option_one,
+			SUM(CASE WHEN answer.answer = params_questions.option_one THEN 1 ELSE 0 END) AS incidencias_option_one,
 			params_questions.option_two,
-			COUNT(CASE WHEN answer.answer = params_questions.option_two THEN 1 END) AS incidencias_option_two
-	FROM
+			SUM(CASE WHEN answer.answer = params_questions.option_two THEN 1 ELSE 0 END) AS incidencias_option_two
+		FROM
 			question
-	JOIN
+		JOIN
 			params_questions ON question.id = params_questions.question_id
-	LEFT JOIN
+		LEFT JOIN
 			answer ON question.id = answer.question_id
-			AND (answer.answer = params_questions.option_one OR answer.answer = params_questions.option_two)
-			AND params_questions.option_one <> ''
-			AND params_questions.option_two <> ''
+				AND (answer.answer = params_questions.option_one OR answer.answer = params_questions.option_two)
+				AND params_questions.option_one <> ''
+				AND params_questions.option_two <> ''
+		WHERE
+			question.type_question = 'binary'
 			AND question.company_id = ?
 			AND DATE(answer.created_at) BETWEEN ? AND ?
-	WHERE
-			question.type_question = 'binary'
-	GROUP BY
+		GROUP BY
 			question.id,
 			question.question_description,
 			question.tree_question,
@@ -59,25 +59,25 @@ class ListQuestionBinaryService
 			question.question_description AS pergunta,
 			question.tree_question AS arvore,
 			params_questions.option_one,
-			COUNT(CASE WHEN answer.answer = params_questions.option_one THEN 1 END) AS incidencias_option_one,
+			SUM(CASE WHEN answer.answer = params_questions.option_one THEN 1 ELSE 0 END) AS incidencias_option_one,
 			params_questions.option_two,
-			COUNT(CASE WHEN answer.answer = params_questions.option_two THEN 1 END) AS incidencias_option_two
-	FROM
+			SUM(CASE WHEN answer.answer = params_questions.option_two THEN 1 ELSE 0 END) AS incidencias_option_two
+		FROM
 			question
-	JOIN
+		JOIN
 			params_questions ON question.id = params_questions.question_id
-	LEFT JOIN
+		LEFT JOIN
 			answer ON question.id = answer.question_id
 			JOIN store ON store.id = answer.store_id
-			AND (answer.answer = params_questions.option_one OR answer.answer = params_questions.option_two)
-			AND params_questions.option_one <> ''
-			AND params_questions.option_two <> ''
-			AND question.company_id = ?
-			AND DATE(answer.created_at) BETWEEN ? AND ?
-			AND store.store_number = ?
-	WHERE
+				AND (answer.answer = params_questions.option_one OR answer.answer = params_questions.option_two)
+				AND params_questions.option_one <> ''
+				AND params_questions.option_two <> ''
+				AND DATE(answer.created_at) BETWEEN ? AND ?
+				AND store.store_number = ?
+		WHERE
 			question.type_question = 'binary'
-	GROUP BY
+			AND question.company_id = ?
+		GROUP BY
 			question.id,
 			question.question_description,
 			question.tree_question,

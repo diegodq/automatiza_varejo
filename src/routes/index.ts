@@ -99,7 +99,7 @@ router.put('/company', isAuthenticated, CompanyController.update);
 router.put('/customer', isAuthenticated, CustomerController.update);
 router.put('/department', isAuthenticated, DepartmentController.update);
 router.put('/question', isAuthenticated, QuestionController.edit);
-// router.put('/answer', isAuthenticated, AnswerController.edit); //para remover
+// router.put('/answer', isAuthenticated, AnswerController.edit); // to remove
 router.put('/topic', isAuthenticated, TopicController.update);
 router.put('/edit/store', isAuthenticated, StoreController.editStore);
 
