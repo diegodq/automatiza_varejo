@@ -93,10 +93,10 @@ class AnswerController
 	{
 		const company: any = request.userId;
 
-		const {from, to, store_number} = request.params;
+		const {from, to, id_store} = request.params;
 
 		const listQuestionBinaryService = new ListQuestionBinaryService();
-		const listBinary: object = await listQuestionBinaryService.execute({company, from, to, store_number});
+		const listBinary: object = await listQuestionBinaryService.execute({company, from, to, id_store});
 
 		return response.status(200).json(listBinary);
 	}

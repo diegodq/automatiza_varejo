@@ -7,7 +7,7 @@ type RequestParams =
 	company: Company,
 	from: string,
 	to: string,
-	store_number: string
+	id_store: string
 }
 
 type TransformedData = {
@@ -19,13 +19,13 @@ type TransformedData = {
 
 class ListQuestionBinaryService
 {
-	public async execute({company, from, to, store_number}: RequestParams)
+	public async execute({company, from, to, id_store}: RequestParams)
 	{
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		let queryResult = null;
-		if(store_number == undefined) {
+		if(id_store == undefined) {
 			queryResult = await queryRunner.query(`SELECT
 			question.id AS question_id,
 			question.question_description AS pergunta,
@@ -73,7 +73,7 @@ class ListQuestionBinaryService
 				AND params_questions.option_one <> ''
 				AND params_questions.option_two <> ''
 				AND DATE(answer.created_at) BETWEEN ? AND ?
-				AND store.store_number = ?
+				AND store.id = ?
 		WHERE
 			question.type_question = 'binary'
 			AND question.company_id = ?
@@ -82,7 +82,7 @@ class ListQuestionBinaryService
 			question.question_description,
 			question.tree_question,
 			params_questions.option_one,
-			params_questions.option_two;`, [company, from, to, store_number]);
+			params_questions.option_two;`, [company, from, to, id_store]);
 		}
 
 
