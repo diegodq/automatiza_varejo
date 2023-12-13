@@ -5,14 +5,14 @@ interface ResearchDate {
 	from: string,
 	to: string,
 	company: Company,
-	store_number: string
+	id_store: string
 }
 
 class ToAmountNPSService
 {
-	public async execute({ from, to, company, store_number }: ResearchDate): Promise<Array<number>>
+	public async execute({ from, to, company, id_store }: ResearchDate): Promise<Array<number>>
 	{
-		if(typeof store_number === 'undefined') {
+		if(typeof id_store === 'undefined') {
 			const queryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
@@ -49,7 +49,7 @@ class ToAmountNPSService
 			const resultQuery = await queryRunner.query(`select answer.research_name, answer.nps_answer from answer
 			join store on store.id = answer.store_id
 			where date(answer.created_at) between ? and ?
-			and store.company_id = ? and store.store_number = ? order by answer.id desc;`, [from, to, company, store_number]);
+			and store.company_id = ? and store.id = ? order by answer.id desc;`, [from, to, company, id_store]);
 
 			await queryRunner.release();
 

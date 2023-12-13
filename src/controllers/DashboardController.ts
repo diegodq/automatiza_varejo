@@ -30,9 +30,9 @@ class DashboardController
 	{
 		const company: CompanyRequest = request.userId;
 
-		const { from, to, type_tree, store } = request.params;
+		const { from, to, type_tree, id_store } = request.params;
 
-		if(typeof store === 'undefined') {
+		if(typeof id_store === 'undefined') {
 			const queryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
@@ -63,8 +63,8 @@ class DashboardController
 			const arrayObjetos = await queryRunner.query(`select answer.*, question.tree_question, store.store_number
 			from answer join store on answer.store_id = store.id
 			join question on question.id = answer.question_id where question.company_id = ?
-			and store.store_number = ? and date(answer.created_at)
-			between ? and ? and question.tree_question = ?;`, [company, store, from, to, type_tree, ]);
+			and store.id = ? and date(answer.created_at)
+			between ? and ? and question.tree_question = ?;`, [company, id_store, from, to, type_tree, ]);
 
 			await queryRunner.release();
 
@@ -85,9 +85,9 @@ class DashboardController
 	{
 		const company: CompanyRequest = request.userId;
 
-		const { from, to, type_tree, store } = request.params;
+		const { from, to, type_tree, id_store } = request.params;
 
-		if(typeof store === 'undefined') {
+		if(typeof id_store === 'undefined') {
 			const queryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
@@ -118,8 +118,8 @@ class DashboardController
 			const arrayObjetos = await queryRunner.query(`select answer.*, question.tree_question, store.store_number
 			from answer join store on answer.store_id = store.id
 			join question on question.id = answer.question_id where question.company_id = ?
-			and store.store_number = ? and date(answer.created_at)
-			between ? and ? and question.tree_question = ?;`, [company, store, from, to, type_tree, ]);
+			and store.id = ? and date(answer.created_at)
+			between ? and ? and question.tree_question = ?;`, [company, id_store, from, to, type_tree, ]);
 
 			await queryRunner.release();
 
@@ -140,9 +140,9 @@ class DashboardController
 	{
 		const company: CompanyRequest = request.userId;
 
-		const { from, to, type_tree, store } = request.params;
+		const { from, to, type_tree, id_store } = request.params;
 
-		if(typeof store === 'undefined') {
+		if(typeof id_store === 'undefined') {
 			const queryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
@@ -172,8 +172,8 @@ class DashboardController
 			const data = await queryRunner.query(`select answer.*, question.tree_question, store.store_number
 			from answer join store on answer.store_id = store.id
 			join question on question.id = answer.question_id where question.company_id = ?
-			and store.store_number = ? and date(answer.created_at)
-			between ? and ? and question.tree_question = ?;`, [company, store, from, to, type_tree, ]);
+			and store.id = ? and date(answer.created_at)
+			between ? and ? and question.tree_question = ?;`, [company, id_store, from, to, type_tree, ]);
 
 			await queryRunner.release();
 
@@ -198,9 +198,9 @@ class DashboardController
 	{
 		const company: CompanyRequest = request.userId;
 
-		const { from, to, store_number } = request.params;
+		const { from, to, id_store } = request.params;
 
-		if(typeof store_number === 'undefined') {
+		if(typeof id_store === 'undefined') {
 			const queryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
@@ -283,7 +283,7 @@ class DashboardController
 			const answers = await queryRunner.query(`select answer.*, store.store_number
 			from answer join store on store.id = answer.store_id
 			where date(answer.created_at) between ? and ? and store.company_id = ?
-			and store.store_number = ?;`, [ from, to, company, store_number ]);
+			and store.id = ?;`, [ from, to, company, id_store ]);
 
 			await queryRunner.release();
 
@@ -352,10 +352,10 @@ class DashboardController
 	{
 		const company = request.userId;
 
-		const { store } = request.params;
+		const { id_store } = request.params;
 
 		const volumeOfResearchInMonths = new VolumeOfResearchInMonths()
-		const resultVolume = await volumeOfResearchInMonths.execute({ company, store });
+		const resultVolume = await volumeOfResearchInMonths.execute({ company, id_store });
 
 		return response.status(200).json(resultVolume);
 	}
@@ -364,10 +364,10 @@ class DashboardController
 	{
 		const company = request.userId;
 
-		const { store } = request.params;
+		const { id_store } = request.params;
 
 		const volumeOfResearchSevenDays = new VolumeOfResearchSevenInDays();
-		const resultResearch = await volumeOfResearchSevenDays.execute({ company, store });
+		const resultResearch = await volumeOfResearchSevenDays.execute({ company, id_store });
 
 		return response.status(200).json(resultResearch);
 	}
@@ -376,10 +376,10 @@ class DashboardController
 	{
 		const company = request.userId;
 
-		const { from, to, store_number } = request.params;
+		const { from, to, id_store } = request.params;
 
 		const toAmountNPSService = new ToAmountNPSService();
-		const result: number[] = await toAmountNPSService.execute({ from, to, company, store_number });
+		const result: number[] = await toAmountNPSService.execute({ from, to, company, id_store });
 
 		return response.status(200).json(result);
 	}

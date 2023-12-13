@@ -3,14 +3,14 @@ import appDataSource from "../../data-source";
 type CompanyType =
 {
 	company: number;
-	store: string
+	id_store: string
 }
 
 class VolumeOfResearchInMonths
 {
-	public async execute({ company, store }: CompanyType)
+	public async execute({ company, id_store }: CompanyType)
 	{
-		if(typeof store === 'undefined') {
+		if(typeof id_store === 'undefined') {
 			const queryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
@@ -57,7 +57,7 @@ class VolumeOfResearchInMonths
 
 			const resultQuery = await queryRunner.query(`SELECT answer.research_name, date_format(answer.created_at, '%Y-%m-%d') as month, store.store_number
 			FROM answer join store on store.id = answer.store_id
-			where store.company_id = ? and store.store_number = ? order by answer.created_at desc;`, [company, store]);
+			where store.company_id = ? and store.id = ? order by answer.created_at desc;`, [company, id_store]);
 
 			await queryRunner.release();
 
