@@ -5,7 +5,6 @@ import ContactUs from './entities/ContactUs';
 import Customer from './entities/Customer';
 import CustomerTokens from './entities/CustomerTokens';
 import Product from './entities/Product';
-import User from './entities/User';
 import Department from './entities/Department';
 import Question from './entities/Question';
 import Answer from './entities/Answer';
@@ -20,7 +19,7 @@ import TypeCustomer from './entities/TypeCustomer';
 
 const port = process.env.DB_PORT as number | undefined;
 
-import { Default1702661295292 } from './migration/1702661295292-default';
+import { Default1702680309705 } from './migrations/1702680309705-default';
 
 const appDataSource = new DataSource({
 	type: "mysql",
@@ -35,7 +34,6 @@ const appDataSource = new DataSource({
 		Customer,
 		Company,
 		ContactUs,
-		User,
 		Department,
 		Question,
 		Answer,
@@ -49,7 +47,7 @@ const appDataSource = new DataSource({
 		TypeCustomer
 	],
 	migrations: [
-		Default1702661295292
+		Default1702680309705
 	]
 });
 
