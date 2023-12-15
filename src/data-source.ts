@@ -16,10 +16,11 @@ import Store from './entities/Store';
 import QRCodeControl from './entities/QRCodeControl';
 import QuestionGroup from './entities/QuestionGroup';
 import QuestionGroupMapping from './entities/QuestionGroupMapping';
+import TypeCustomer from './entities/TypeCustomer';
 
 const port = process.env.DB_PORT as number | undefined;
 
-import { Default1702239360018 } from './migration/1702239360018-default';
+import { Default1702661295292 } from './migration/1702661295292-default';
 
 const appDataSource = new DataSource({
 	type: "mysql",
@@ -44,10 +45,11 @@ const appDataSource = new DataSource({
 		Store,
 		QRCodeControl,
 		QuestionGroup,
-		QuestionGroupMapping
+		QuestionGroupMapping,
+		TypeCustomer
 	],
 	migrations: [
-		Default1702239360018
+		Default1702661295292
 	]
 });
 
