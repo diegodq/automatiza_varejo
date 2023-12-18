@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Company from "./Company";
 import CustomerTokens from "./CustomerTokens";
 import UserTokens from "./CustomerTokens";
@@ -16,7 +16,7 @@ class Customer
 	@OneToMany(() => UserTokens, customerTokens => customerTokens.customer)
 	customerTokens: CustomerTokens[];
 
-	@OneToOne(() => TypeCustomer, type_customer => type_customer.customer)
+	@ManyToOne(() => TypeCustomer, type_customer => type_customer.customer)
 	@JoinColumn({ name: 'type_customer', referencedColumnName: 'id' })
 	type_customer: TypeCustomer;
 

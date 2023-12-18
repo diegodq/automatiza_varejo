@@ -6,6 +6,7 @@ import ListTopicService from "../services/topic/ListTopicService";
 import ListTopicsService from "../services/topic/ListTopicsService";
 import ChangeStatusTopicService from "../services/topic/ChangeStatusTopicService";
 import UpdateIndicateEmployee from "../services/answer/UpdateIndicateEmployee";
+import Topic from '../entities/Topic';
 
 class TopicController
 {
@@ -15,7 +16,7 @@ class TopicController
 
 		const { name, status, indicate_employee } = request.body;
 
-		const createTopicService = new CreateTopicService();
+		const createTopicService: CreateTopicService = new CreateTopicService();
 		const newTopic = await createTopicService.execute({ name, status, indicate_employee, company });
 
 		return response.status(200).json({ status: 'success', message: newTopic });
@@ -25,8 +26,8 @@ class TopicController
 	{
 		const { id, name, status } = request.body;
 
-		const editTopicService = new EditTopicService();
-		const editTopic = await editTopicService.execute({ id, name, status });
+		const editTopicService: EditTopicService = new EditTopicService();
+		const editTopic: string = await editTopicService.execute({ id, name, status });
 
 		return response.status(200).json({ status: 'success', message: editTopic });
 	}
@@ -35,36 +36,36 @@ class TopicController
 	{
 		const { id, new_status } = request.body;
 
-		const changeStatusTopicService = new ChangeStatusTopicService();
-		const changeStatus = await changeStatusTopicService.execute({ id, new_status });
+		const changeStatusTopicService: ChangeStatusTopicService = new ChangeStatusTopicService();
+		const changeStatus: string = await changeStatusTopicService.execute({ id, new_status });
 
 		return response.status(200).json({ status: 'success', message: changeStatus });
 	}
 
-	static async delete(request: Request, response: Response)
+	static async delete(request: Request, response: Response): Promise<Response>
 	{
 		const { id } = request.body;
 
-		const deleteTopicService = new DeleteTopicService();
-		const deleteTopic = await deleteTopicService.execute({ id });
+		const deleteTopicService: DeleteTopicService = new DeleteTopicService();
+		const deleteTopic: string = await deleteTopicService.execute({ id });
 
 		return response.status(200).json({ status: 'success', message: deleteTopic });
 	}
 
-	static async list(request: Request, response: Response)
+	static async list(request: Request, response: Response): Promise<Response>
 	{
 		const { id } = request.body;
 
-		const listTopicService = new ListTopicService();
-		const listTopic = await listTopicService.execute({ id });
+		const listTopicService: ListTopicService = new ListTopicService();
+		const listTopic: Topic | null = await listTopicService.execute({ id });
 
 		return response.status(200).json({ status: 'success', listTopic });
 	}
 
-	static async listAll(request: Request, response: Response)
+	static async listAll(request: Request, response: Response): Promise<Response>
 	{
-		const listTopicsService = new ListTopicsService();
-		const listTopics = await listTopicsService.execute();
+		const listTopicsService: ListTopicsService = new ListTopicsService();
+		const listTopics: Topic[] | null = await listTopicsService.execute();
 
 		return response.status(200).json({ status: 'success', listTopics });
 	}
@@ -73,8 +74,8 @@ class TopicController
 	{
 		const { id_topic, indicate_employee } = request.body;
 
-		const updateIndicateEmployee = new UpdateIndicateEmployee();
-		const updateDataEmployee = await updateIndicateEmployee.execute({ id_topic, indicate_employee });
+		const updateIndicateEmployee: UpdateIndicateEmployee = new UpdateIndicateEmployee();
+		const updateDataEmployee: string = await updateIndicateEmployee.execute({ id_topic, indicate_employee });
 
 		return response.status(200).json({ status: 'success', message: updateDataEmployee });
 	}

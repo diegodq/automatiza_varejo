@@ -15,22 +15,23 @@ import ActiveAccountClientService from '../services/customer/ActiveAccountClient
 import SendForgotEmailService from '../services/session/SendForgotEmailService';
 import ResendActivateAccountService from '../services/customer/ResendActivateAccountService';
 import Customer from '../entities/Customer';
+import UpdateEmailCustomerService from '../services/customer/UpdateEmailCustomerService';
 
 class CustomerController
 {
 	static async create(request: Request, response: Response): Promise<Response>
 	{
-		const { first_name, surname, position, phone, email, password, accept_terms } = request.body;
+		const { first_name, surname, position, phone, email, password, accept_terms, type_customer } = request.body;
 
-		const createCustomerService = new CreateCustomerService();
-		const newCustomer: string | object = await createCustomerService.execute({ first_name, surname, position, phone, email, password, accept_terms });
+		const createCustomerService: CreateCustomerService = new CreateCustomerService();
+		const newCustomer: string | object = await createCustomerService.execute({ first_name, surname, position, phone, email, password, accept_terms, type_customer });
 
 		return response.status(201).json({ status: 'success', message: newCustomer });
 	}
 
 	static async list(request: Request, response: Response): Promise<Response>
 	{
-		const listCustomerService = new ListCustomerService();
+		const listCustomerService: ListCustomerService = new ListCustomerService();
 		const listCustomers: Customer[] | undefined = await listCustomerService.execute();
 
 		return response.status(200).json(listCustomers);
@@ -38,9 +39,9 @@ class CustomerController
 
 	static async show(request: Request, response: Response): Promise<Response>
 	{
-		const id: any = request.userId;
+		const id: string = request.userId;
 
-		const showCustomerService = new ShowCustomerService();
+		const showCustomerService: ShowCustomerService = new ShowCustomerService();
 		const showCustomer: Customer | null = await showCustomerService.execute({ id });
 
 		return response.status(200).json(showCustomer);
@@ -48,32 +49,32 @@ class CustomerController
 
 	static async update(request: Request, response: Response): Promise<Response>
 	{
-		const id: any = request.userId;
+		const id: string = request.userId;
 
 		const { first_name, surname, position, phone } = request.body;
 
-		const updateCustomerService = new UpdateCustomerService();
+		const updateCustomerService: UpdateCustomerService = new UpdateCustomerService();
 		const updateCustomer: string = await updateCustomerService.execute({ id, first_name, surname, position, phone });
 
 		return response.status(201).json({ status: 'success', message: updateCustomer });
 	}
 
-	static async remove(request: Request, response: Response)
+	static async remove(request: Request, response: Response): Promise<Response>
 	{
-		const id: any = request.userId;
+		const id: string = request.userId;
 		const { email, password } = request.body;
 
-		const removeCustomerService = new RemoveCustomerService();
+		const removeCustomerService: RemoveCustomerService = new RemoveCustomerService();
 		const customerRemoved: string = await removeCustomerService.execute({ id, email, password });
 
 		return response.status(200).json({ status: 'success', message: customerRemoved });
 	}
 
-	static async showDetailsCustomer(request: Request, response: Response)
+	static async showDetailsCustomer(request: Request, response: Response): Promise<Response>
 	{
-		const id: any = request.userId;
+		const id: number = request.userId;
 
-		const showDetailsCustomerService = new ShowDetailCustomerService();
+		const showDetailsCustomerService: ShowDetailCustomerService= new ShowDetailCustomerService();
 		const details: object = await showDetailsCustomerService.execute({ id });
 
 		return response.status(200).json(details);
@@ -81,11 +82,11 @@ class CustomerController
 
 	static async updateEmailCustomer(request: Request, response: Response): Promise<Response>
 	{
-		const id: any = request.userId;
+		const id: string = request.userId;
 
 		const { password, new_email, agent_user, system_user, city_locate, country_name, country_capital } = request.body;
 
-		const updateEmailCustomer = new UpdateEmailCustomer();
+		const updateEmailCustomer: UpdateEmailCustomerService = new UpdateEmailCustomer();
 		const updateEmail: string = await updateEmailCustomer.execute({ id, password, new_email, agent_user, system_user, city_locate, country_name, country_capital });
 
 		return response.status(200).json({ status: 'success', message: updateEmail });
@@ -95,10 +96,10 @@ class CustomerController
 	{
 		const{ old_password, new_password, agent_user, system_user, city_locate, country_name, country_capital } = request.body;
 
-		const id: any = request.userId;
-		const password: any = new_password;
+		const id: string = request.userId;
+		const password: string = new_password;
 
-		const updatePasswordCustomer = new UpdatePasswordCustomer();
+		const updatePasswordCustomer: UpdatePasswordCustomer = new UpdatePasswordCustomer();
 		const updatePassword: string = await updatePasswordCustomer.execute({ id, old_password, password, agent_user, system_user, city_locate, country_name, country_capital });
 
 		return response.status(200).json({ status: 'success', updatePassword });
@@ -106,41 +107,41 @@ class CustomerController
 
 	static async removeAvatarCustomer(request: Request, response: Response): Promise<Response>
 	{
-		const id: any = request.userId;
-		const avatar: any = request.body.avatar;
+		const id: string = request.userId;
+		const avatar: string = request.body.avatar;
 
-		const removeAvatarCustomerService = new RemoveAvatarCustomerService();
+		const removeAvatarCustomerService: RemoveAvatarCustomerService = new RemoveAvatarCustomerService();
 		const avatarRemoved: string = await removeAvatarCustomerService.execute({ id, avatar });
 
 		return response.status(200).json({ status: 'success', message: avatarRemoved });
 	}
 
-	static async reset(request: Request, response: Response)
+	static async reset(request: Request, response: Response): Promise<Response>
 	{
 		const{ token, new_password } = request.body;
 
-		const resetPasswordService = new ResetPasswordService();
+		const resetPasswordService: ResetPasswordService = new ResetPasswordService();
 		const passwordReset: string = await resetPasswordService.execute({ token, new_password });
 
 		return response.status(200).json({ status: 'success', message: passwordReset });
 	}
 
-	static async checkHasCompany(request: Request, response: Response)
+	static async checkHasCompany(request: Request, response: Response): Promise<Response>
 	{
-		const id: any = request.userId;
+		const id: string = request.userId;
 
-		const checkHasCompanyService = new CheckHasCompanyService();
+		const checkHasCompanyService: CheckHasCompanyService = new CheckHasCompanyService();
 		const hasCompany: string = await checkHasCompanyService.execute({ id });
 
 		return response.status(200).json({ status: 'success', message: hasCompany });
 	}
 
-	static async acceptInfo(request: Request, response: Response)
+	static async acceptInfo(request: Request, response: Response): Promise<Response>
 	{
-		const id: any = request.userId;
+		const id: string = request.userId;
 		const { accept_newsletter, info_payment } = request.body;
 
-		const paymentNewsletterService = new PaymentNewsletterService();
+		const paymentNewsletterService: PaymentNewsletterService = new PaymentNewsletterService();
 		const info: object = await paymentNewsletterService.execute({ id, accept_newsletter, info_payment });
 
 		return response.status(200).json({ status: 'success', message: info });
@@ -150,7 +151,7 @@ class CustomerController
 	{
 		const { token, id } = request.body;
 
-		const activeAccountClientService = new ActiveAccountClientService();
+		const activeAccountClientService: ActiveAccountClientService = new ActiveAccountClientService();
 		const accountActivated: string | object = await activeAccountClientService.execute({ token, id });
 
 		return response.status(200).json(accountActivated);
@@ -159,7 +160,7 @@ class CustomerController
 	static async send(request: Request, response: Response): Promise<Response>
 	{
 		const { email } =  request.body;
-		const sendForgotEmailService = new SendForgotEmailService();
+		const sendForgotEmailService: SendForgotEmailService = new SendForgotEmailService();
 		const emailSent = await sendForgotEmailService.execute({ email });
 
 		return response.status(200).json({ status: 'success', message: emailSent });
@@ -169,7 +170,7 @@ class CustomerController
 	{
 		const { email } = request.body;
 
-		const resendActivateAccountService = new ResendActivateAccountService();
+		const resendActivateAccountService: ResendActivateAccountService = new ResendActivateAccountService();
 		const resendEmail: string = await resendActivateAccountService.execute({ email });
 
 		return response.status(200).json({ status: 'success', resendEmail});

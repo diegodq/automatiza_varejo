@@ -7,7 +7,7 @@ class LogoClientController
 {
 	static async update(request: Request, response: Response): Promise<Response>
 	{
-		const updateLogoClientService = new UpdateLogoClientService();
+		const updateLogoClientService: UpdateLogoClientService = new UpdateLogoClientService();
 		const logo: string = await updateLogoClientService.execute({
 			id: request.userId,
 			logoClientName: request.file!.filename,
@@ -24,8 +24,8 @@ class LogoClientController
 	{
 		const id = request.userId;
 
-		const returnLogoClientService = new ReturnLogoClientService();
-		const logo = await returnLogoClientService.execute({ id });
+		const returnLogoClientService: ReturnLogoClientService = new ReturnLogoClientService();
+		const logo : string = await returnLogoClientService.execute({ id });
 
 		if(process.env.APP_MODE == 'development')
 			return response.status(200).json({ status: 'success', logo: process.env.BASE_URL + ':' + process.env.SERVER_PORT + '/logo/' + logo });

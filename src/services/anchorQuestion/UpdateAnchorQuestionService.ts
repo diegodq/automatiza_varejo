@@ -1,6 +1,7 @@
 import { BadRequestError } from "../../utils/ApiErrors";
 import paramsProductRepository from "../../repositories/paramsProductRepository";
 import Company from "../../entities/Company";
+import ParamsProduct from '../../entities/ParamsProduct';
 
 type TopicRequest =
 {
@@ -14,7 +15,7 @@ class UpdateAnchorQuestionService
 	{
 		const id = Number(company);
 
-		const anchorQuestion = await paramsProductRepository.findOne({ where: { company: { id } } });
+		const anchorQuestion: ParamsProduct | null = await paramsProductRepository.findOne({ where: { company: { id } } });
 		if(!anchorQuestion) {
 			throw new BadRequestError('no-anchor-question');
 		}

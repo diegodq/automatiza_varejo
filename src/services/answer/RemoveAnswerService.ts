@@ -1,6 +1,7 @@
 import answerRepository from "../../repositories/answerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import paramsConfig from "../../params/paramsConfig";
+import Answer from '../../entities/Answer';
 
 type AnswerRequest =
 {
@@ -9,9 +10,9 @@ type AnswerRequest =
 
 class RemoveAnswerService
 {
-	public async execute({ id }: AnswerRequest)
+	public async execute({ id }: AnswerRequest): Promise<string>
 	{
-		const answer = await answerRepository.findOneBy({ id: Number(id) });
+		const answer: Answer | null = await answerRepository.findOneBy({ id: Number(id) });
 		if(!answer) {
 			throw new BadRequestError('no-answer');
 		}

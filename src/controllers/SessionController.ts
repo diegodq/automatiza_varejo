@@ -7,8 +7,8 @@ class SessionController
 	{
 		const { email, password } = request.body;
 
-		const createSessionCustomerService = new CreateSessionCustomerService();
-		const sessionCustomer = await createSessionCustomerService.execute({ email, password });
+		const createSessionCustomerService: CreateSessionCustomerService = new CreateSessionCustomerService();
+		const sessionCustomer: string | object = await createSessionCustomerService.execute({ email, password });
 
 		return response.status(200).json(sessionCustomer);
 	}

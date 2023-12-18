@@ -1,5 +1,6 @@
 import { BadRequestError } from "../../utils/ApiErrors";
 import topicRepository from "../../repositories/topicRepository";
+import Topic from '../../entities/Topic';
 
 type IndicateEmployee =
 {
@@ -11,7 +12,7 @@ class UpdateIndicateEmployee
 {
 	public async execute({ id_topic, indicate_employee }: IndicateEmployee)
 	{
-		const topicExist = await topicRepository.findOneBy({ id: Number(id_topic) });
+		const topicExist: Topic | null = await topicRepository.findOneBy({ id: Number(id_topic) });
 		if(!topicExist) {
 			throw new BadRequestError('no-topic');
 		}

@@ -9,6 +9,7 @@ import PdfPrinter from "pdfmake";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 import Answer from "../entities/Answer";
 import ListQuestionBinaryService from '../services/question/ListQuestionBinaryService';
+import Company from '../entities/Company';
 
 class AnswerController
 {
@@ -16,7 +17,7 @@ class AnswerController
 	{
 		const answers: any = request.body;
 
-		const createAnswerService = new CreateAnswerService();
+		const createAnswerService: CreateAnswerService = new CreateAnswerService();
 		const answerCreated: string = await createAnswerService.execute( answers );
 
 		return response.status(200).json({ status: 'success', message: answerCreated });
@@ -36,7 +37,7 @@ class AnswerController
 	{
 		const { id } = request.body;
 
-		const listAnswerService = new ListAnswerService();
+		const listAnswerService: ListAnswerService = new ListAnswerService();
 		const answer: Answer | null = await listAnswerService.execute({ id });
 
 		return response.status(200).json({ status: 'success', answer });
@@ -48,7 +49,7 @@ class AnswerController
 
 		const { from, to, store } = request.params;
 
-		const listAnswersService = new ListAnswersService();
+		const listAnswersService: ListAnswersService = new ListAnswersService();
 		if(typeof from === 'undefined' && typeof to === 'undefined' && typeof store === 'undefined') {
 			const listAnswers: Answer[] | null = await listAnswersService.optionalExecute({ company_id });
 
@@ -64,8 +65,8 @@ class AnswerController
 	{
 		const { id } = request.body;
 
-		const removeAnswerService = new RemoveAnswerService();
-		const answerRemoved = await removeAnswerService.execute({ id });
+		const removeAnswerService: RemoveAnswerService = new RemoveAnswerService();
+		const answerRemoved: string = await removeAnswerService.execute({ id });
 
 		return response.status(200).json({ status: 'success', message: answerRemoved });
 	}
@@ -77,9 +78,9 @@ class AnswerController
 
 		const { from, to, store } = request.params;
 
-		const listResearchService = new ListResearchService();
+		const listResearchService: ListResearchService = new ListResearchService();
 		if(typeof from === 'undefined' && typeof to === 'undefined' && typeof store === 'undefined') {
-			const research = await listResearchService.optionalExecute({ company });
+			const research: object = await listResearchService.optionalExecute({ company });
 
 			return response.status(200).json({ research });
 		} else {
@@ -91,11 +92,11 @@ class AnswerController
 
 	static async listQuestionsBinary(request: Request, response: Response): Promise<Response>
 	{
-		const company: any = request.userId;
+		const company: Company = request.userId;
 
 		const {from, to, id_store} = request.params;
 
-		const listQuestionBinaryService = new ListQuestionBinaryService();
+		const listQuestionBinaryService: ListQuestionBinaryService = new ListQuestionBinaryService();
 		const listBinary: object = await listQuestionBinaryService.execute({company, from, to, id_store});
 
 		return response.status(200).json(listBinary);

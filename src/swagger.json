@@ -1,0 +1,96 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Docs Automatiza Varejo API",
+		"description": "API Automtiza Varejo Especification",
+		"contact": {
+			"name": "Automatiza Varejo",
+			"url": "https://automatizavarejo.com.br/",
+			"email": "contato@automatizavarejo.com.br"
+		},
+		"license": {
+			"name": "Proprietary"
+		},
+		"version": "0.1"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:3007/",
+			"description": "API Tests"
+		},
+		{
+			"url": "https://api.automatizavarejo.com.br/",
+			"description": "API Production"
+		}
+	],
+	"paths": {
+		"/list/type/customers": {
+			"get": {
+				"summary": "List TypeCustomers",
+				"tags": ["TypeCustomer"],
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/TypeCustomer"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "no-customers"
+					}
+				}
+			}
+		},
+		"/create/type/customer": {
+			"post": {
+				"summary": "Add User",
+				"description": "This route add new User. This user will be part of users non-administrators",
+				"tags": ["TypeCustomer"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TypeCustomer"
+							},
+							"examples": {
+								"TypeCustomer": {
+									"value": {
+										"type_customer": "GERENTE"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "new-customer-added"
+					},
+					"400": {
+						"description": "type-customer-already-exists"
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"TypeCustomer": {
+				"type": "string",
+				"properties": {
+					"type_customer": {
+						"type": "string"
+					}
+				}
+			}
+		}
+	}
+}

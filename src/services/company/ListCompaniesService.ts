@@ -6,7 +6,7 @@ class ListCompaniesService
 {
 	public async execute(): Promise<Company[] | null>
 	{
-		const listCompanies = await companyRepository.find({ order: { id: 'ASC' } });
+		const listCompanies: Company[] = await companyRepository.find({ order: { id: 'ASC' } });
 		if (listCompanies.length == 0) {
 			throw new BadRequestError('Não há empresa cadastrada.');
 		}

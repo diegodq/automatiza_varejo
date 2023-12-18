@@ -11,7 +11,7 @@ class NPSController
 	{
 		const { cnpj_company, ip_address, id_store } = request.params;
 
-		const listAnchorAndLogoClient = new ListAnchorQuestionAndLogoClientService();
+		const listAnchorAndLogoClient: ListAnchorQuestionAndLogoClientService = new ListAnchorQuestionAndLogoClientService();
 		const data: object = await listAnchorAndLogoClient.execute({ cnpj_company, ip_address, id_store });
 
 		return response.status(200).json(data);
@@ -21,7 +21,7 @@ class NPSController
 	{
 		const { cnpj_company } = request.params;
 
-		const listQuestionAndParamsService = new ListQuestionAndParamsService();
+		const listQuestionAndParamsService: ListQuestionAndParamsService = new ListQuestionAndParamsService();
 		const questionsByCompany: object = await listQuestionAndParamsService.execute({ cnpj_company });
 
 		return response.status(200).json(questionsByCompany);
@@ -31,7 +31,7 @@ class NPSController
 	{
 		const { cnpj_company } = request.params;
 
-		const listProductByCompany = new ListProductByCompanyService();
+		const listProductByCompany: ListProductByCompanyService = new ListProductByCompanyService();
 		const product: object = await listProductByCompany.execute({ cnpj_company });
 		return response.status(200).json({ message: 'success', product });
 	}
@@ -40,7 +40,7 @@ class NPSController
 	{
 		const { cnpj_company } = request.params;
 
-		const listTopicByCompany = new ListTopicByCompany();
+		const listTopicByCompany: ListTopicByCompany = new ListTopicByCompany();
 		const topics: object = await listTopicByCompany.execute({ cnpj_company });
 
 		return response.status(200).json(topics);
@@ -50,7 +50,7 @@ class NPSController
 	{
 		const { cnpj_company } = request.params;
 
-		const listDepartmentsByCompany = new ListDepartmentsByCompany();
+		const listDepartmentsByCompany: ListDepartmentsByCompany = new ListDepartmentsByCompany();
 		const departments: object = await listDepartmentsByCompany.execute({ cnpj_company });
 
 		return response.status(200).json(departments);

@@ -1,5 +1,6 @@
 import answerRepository from "../../repositories/answerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
+import Answer from '../../entities/Answer';
 
 type AnswerRequest =
 {
@@ -13,7 +14,7 @@ class EditAnswerService
 {
 	public async execute({ id, answer, client_name, client_phone }: AnswerRequest)
 	{
-		const answerExists = await answerRepository.findOneBy({ id: Number(id) });
+		const answerExists: Answer | null = await answerRepository.findOneBy({ id: Number(id) });
 		if(!answerExists) {
 			throw new BadRequestError('no-answers');
 		}

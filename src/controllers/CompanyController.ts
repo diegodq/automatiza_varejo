@@ -19,8 +19,8 @@ class CompanyController
 		const { corporate_name, fantasy_name, cnpj, zip_code, state, address, complement, number,
 			district, city } = request.body;
 
-		const createCompanyService = new CreateCompanyService();
-		const newCompany = await createCompanyService.execute({ corporate_name, fantasy_name, cnpj, zip_code, state, address, complement, number,
+		const createCompanyService: CreateCompanyService = new CreateCompanyService();
+		const newCompany: object = await createCompanyService.execute({ corporate_name, fantasy_name, cnpj, zip_code, state, address, complement, number,
 			district, city, customer });
 
 		return response.status(201).json(newCompany);
@@ -28,38 +28,38 @@ class CompanyController
 
 	static async list(request: Request, response: Response): Promise<Response>
 	{
-		const listCompanyService = new ListCompaniesService();
+		const listCompanyService: ListCompaniesService = new ListCompaniesService();
 		const listCompanies: Company[] | null = await listCompanyService.execute();
 
 		return response.status(200).json(listCompanies);
 	}
 
-	static async listDepartmentsByCompany(request: Request, response: Response)
+	static async listDepartmentsByCompany(request: Request, response: Response): Promise<Response>
 	{
 		const id = request.userId;
 
-		const listDepartmentsByCompany = new ListDepartmentsByCompanyService();
-		const departments = await listDepartmentsByCompany.execute({ id });
+		const listDepartmentsByCompany: ListDepartmentsByCompanyService = new ListDepartmentsByCompanyService();
+		const departments: object = await listDepartmentsByCompany.execute({ id });
 
 		return response.status(200).json(departments);
 	}
 
-	static async listTopicsByCompany(request: Request, response: Response)
+	static async listTopicsByCompany(request: Request, response: Response): Promise<Response>
 	{
 		const id = request.userId;
 
-		const listTopicsByCompanyService = new ListTopicsByCompanyService();
-		const topics = await listTopicsByCompanyService.execute({ id });
+		const listTopicsByCompanyService: ListTopicsByCompanyService = new ListTopicsByCompanyService();
+		const topics: object = await listTopicsByCompanyService.execute({ id });
 
 		return response.status(200).json(topics);
 	}
 
-	static async listQuestionByCompany(request: Request, response: Response)
+	static async listQuestionByCompany(request: Request, response: Response): Promise<Response>
 	{
 		const id = request.userId;
 
-		const listQuestionsByCompanyService = new ListQuestionsByCompanyService();
-		const listQuestion = await listQuestionsByCompanyService.execute({ id });
+		const listQuestionsByCompanyService: ListQuestionsByCompanyService = new ListQuestionsByCompanyService();
+		const listQuestion: object = await listQuestionsByCompanyService.execute({ id });
 
 		return response.status(200).json(listQuestion);
 	}
@@ -68,8 +68,8 @@ class CompanyController
 	{
 		const { id } = request.params;
 
-		const showCompanyService = new ShowCompanyService();
-		const company = await showCompanyService.execute({ id });
+		const showCompanyService: ShowCompanyService = new ShowCompanyService();
+		const company: Company | null = await showCompanyService.execute({ id });
 
 		return response.status(200).json(company);
 	}
@@ -78,8 +78,8 @@ class CompanyController
 	{
 		const id = request.body.id;
 
-		const removeCompanyService = new RemoveCompanyService();
-		const companyRemoved = await removeCompanyService.execute(Number(id));
+		const removeCompanyService: RemoveCompanyService = new RemoveCompanyService();
+		const companyRemoved: string = await removeCompanyService.execute(Number(id));
 
 		return response.status(200).json({ status: 'success', message: companyRemoved });
 	}
@@ -89,19 +89,19 @@ class CompanyController
 		const { id, corporate_name, fantasy_name, cnpj,
 			zip_code, state, city, district, address, complement, number } = request.body;
 
-		const updateCompanyService = new UpdateCompanyService();
-		const updateCompany = await updateCompanyService.execute({ id, corporate_name, fantasy_name, cnpj,
+		const updateCompanyService: UpdateCompanyService = new UpdateCompanyService();
+		const updateCompany: string = await updateCompanyService.execute({ id, corporate_name, fantasy_name, cnpj,
 			zip_code, state, city, district, address, complement, number });
 
 		return response.status(200).json({ status: 'success', message: updateCompany });
 	}
 
-	static async linkCompanyToProduct(request: Request, response: Response)
+	static async linkCompanyToProduct(request: Request, response: Response): Promise<Response>
 	{
 		const { company, product } = request.body;
 
-		const linkCompanyToProductService = new LinkCompanyToProductService();
-		const linked = await linkCompanyToProductService.execute({ company, product });
+		const linkCompanyToProductService: LinkCompanyToProductService = new LinkCompanyToProductService();
+		const linked: string = await linkCompanyToProductService.execute({ company, product });
 
 		return response.status(200).json({ status: 'success', message: linked })
 	}

@@ -1,6 +1,7 @@
 import appDataSource from "../../data-source";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Company from "../../entities/Company";
+import { QueryRunner } from 'typeorm';
 
 type CompanyId =
 {
@@ -55,7 +56,7 @@ class ListResearchService
 	public async execute({ company, from, to, store }: CompanyId): Promise<object>
 	{
 		if(typeof store === 'undefined') {
-			const queryRunner = appDataSource.createQueryRunner();
+			const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
 			const resultQuery = await queryRunner.query(`select answer.id, answer.answer,
@@ -76,7 +77,7 @@ class ListResearchService
 
 			return this.transformData(resultQuery);
 		} else {
-			const queryRunner = appDataSource.createQueryRunner();
+			const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
 			const resultQuery = await queryRunner.query(`select answer.id, answer.answer, store.store_number, store.company_id,
@@ -99,7 +100,7 @@ class ListResearchService
 
 	public async optionalExecute({ company }:OptionalQuery): Promise<object>
 	{
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const resultQuery = await queryRunner.query(`select answer.id, answer.answer, date_format(answer.created_at, '%d/%m/%Y %H:%i:%s') as formatted_date,
@@ -139,7 +140,7 @@ class ListResearchService
       }
     });
 
-    const transformedResearch = Object.values(uniqueRecords);
+    const transformedResearch: TransformedRecord[] = Object.values(uniqueRecords);
 
     return {
         status: "success",

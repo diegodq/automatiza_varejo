@@ -1,6 +1,7 @@
 import appDataSource from '../../data-source';
 import Company from "../../entities/Company";
 import Product from "../../entities/Product";
+import { QueryRunner } from 'typeorm';
 
 type LinkRequest =
 {
@@ -12,7 +13,7 @@ class LinkCompanyToProductService
 {
 	public async execute({ company, product }: LinkRequest)
 	{
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		await queryRunner.query(`insert into company_product (company, product) values (${company}, ${product})`);

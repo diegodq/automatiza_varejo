@@ -7,7 +7,7 @@ class ContactUsController
 	{
 		const { name, email, subject, message } = request.body;
 
-		const createNewMessageService = new CreateNewMessageService();
+		const createNewMessageService: CreateNewMessageService = new CreateNewMessageService();
 		await createNewMessageService.execute({ name, email, subject, message });
 
 		return response.status(201).json({ status: true })

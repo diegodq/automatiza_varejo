@@ -17,11 +17,11 @@ import QuestionGroup from './entities/QuestionGroup';
 import QuestionGroupMapping from './entities/QuestionGroupMapping';
 import TypeCustomer from './entities/TypeCustomer';
 
-const port = process.env.DB_PORT as number | undefined;
+const port: number | undefined = process.env.DB_PORT as number | undefined;
 
-import { Default1702680309705 } from './migrations/1702680309705-default';
+import { Default1702865703339 } from './migrations/1702865703339-default';
 
-const appDataSource = new DataSource({
+const appDataSource: DataSource = new DataSource({
 	type: "mysql",
 	host: process.env.DB_HOST,
 	port: port,
@@ -47,7 +47,7 @@ const appDataSource = new DataSource({
 		TypeCustomer
 	],
 	migrations: [
-		Default1702680309705
+		Default1702865703339
 	]
 });
 

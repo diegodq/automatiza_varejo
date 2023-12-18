@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import QuestionGroupMapping from "./QuestionGroupMapping";
 
 @Entity('question_group')
@@ -13,11 +13,19 @@ class QuestionGroup
 	@OneToMany(() => QuestionGroupMapping, questionGroupMapping => questionGroupMapping.questionGroup)
 	questionGroupMapping: QuestionGroupMapping;
 
-	constructor(id: number, group_name: string, questionGroupMapping: QuestionGroupMapping)
+	@CreateDateColumn()
+	created_at: Date;
+
+	@UpdateDateColumn()
+	updated_at: Date;
+
+	constructor(id: number, group_name: string, questionGroupMapping: QuestionGroupMapping, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.group_name = group_name;
 		this.questionGroupMapping = questionGroupMapping;
+		this.created_at = created_at;
+		this.updated_at = updated_at;
 	}
 
 	get getId(): number
@@ -33,6 +41,16 @@ class QuestionGroup
 	get getQuestionGroupMapping(): QuestionGroupMapping
 	{
 		return this.questionGroupMapping;
+	}
+
+	get getCreatedAt(): Date
+	{
+		return this.created_at;
+	}
+
+	get getUpdatedAt(): Date
+	{
+		return this.updated_at;
 	}
 }
 

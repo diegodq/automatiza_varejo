@@ -16,7 +16,7 @@ class StoreController
 
 		const { name, address, store_number } = request.body;
 
-		const createNewStoreService = new CreateNewStoreService();
+		const createNewStoreService: CreateNewStoreService = new CreateNewStoreService();
 		const newStore: string = await createNewStoreService.execute({ name, address, company, store_number });
 
 		return response.status(200).json({ status: 'success', message: newStore });
@@ -26,7 +26,7 @@ class StoreController
 	{
 		const { id, name, address } = request.body;
 
-		const editStoreService = new EditStoreService();
+		const editStoreService: EditStoreService = new EditStoreService();
 		const editStore: string = await editStoreService.execute({ id, name, address });
 
 		return response.status(200).json({ status: 'success', message: editStore });
@@ -36,7 +36,7 @@ class StoreController
 	{
 		const company: number = request.userId;
 
-		const listStoreByCompany = new ListStoreByCompany();
+		const listStoreByCompany: ListStoreByCompany = new ListStoreByCompany();
 		const listStore: object = await listStoreByCompany.execute({ company });
 
 		return response.status(200).json({ status: 'success', message: listStore });
@@ -46,18 +46,18 @@ class StoreController
 	{
 		const { cnpj } = request.params
 
-		const listStoreByCNPJ = new ListStoreByCNPJ();
+		const listStoreByCNPJ: ListStoreByCNPJ = new ListStoreByCNPJ();
 		const listStore: object = await listStoreByCNPJ.execute(cnpj);
 
 		return response.status(200).json({ status: 'success', message: listStore });
 	}
 
-	static async removeStore(request: Request, response: Response)
+	static async removeStore(request: Request, response: Response): Promise<Response>
 	{
 		const { id_store } = request.body;
 
-		const removeStoreService = new RemoveStoreService();
-		const storeRemoved = await removeStoreService.execute(id_store);
+		const removeStoreService: RemoveStoreService = new RemoveStoreService();
+		const storeRemoved: string = await removeStoreService.execute(id_store);
 
 		return response.status(200).json({ status: 'success', storeRemoved });
 	}
@@ -66,8 +66,8 @@ class StoreController
 	{
 		const { status, store_number } = request.body;
 
-		const disableStoreService = new DisableStoreService();
-		const updateStore = await disableStoreService.execute({ status ,store_number });
+		const disableStoreService: DisableStoreService = new DisableStoreService();
+		const updateStore: string = await disableStoreService.execute({ status ,store_number });
 
 		return response.status(200).json({ status: 'success', message: updateStore });
 	}
@@ -76,8 +76,8 @@ class StoreController
 	{
 		const { id_store } = request.params;
 
-		const getInfoStoreService = new GetInfoStoreService();
-		const infoStore = await getInfoStoreService.execute({ id_store });
+		const getInfoStoreService: GetInfoStoreService = new GetInfoStoreService();
+		const infoStore: object = await getInfoStoreService.execute({ id_store });
 
 		return response.status(200).json({status: 'success', message: infoStore});
 	}

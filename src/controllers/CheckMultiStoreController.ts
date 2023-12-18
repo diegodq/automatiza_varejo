@@ -8,7 +8,7 @@ class CheckMultiStoreController
 	{
 		const companyId = request.userId;
 
-		const checkMultiStoreService = new CheckMultiStoreService();
+		const checkMultiStoreService: CheckMultiStoreService = new CheckMultiStoreService();
 		const result: boolean = await checkMultiStoreService.execute({ companyId });
 
 		return response.status(200).json(result);
@@ -18,7 +18,7 @@ class CheckMultiStoreController
 	{
 		const { cnpj } = request.params;
 
-		const checkMultiStoreByCNPJService = new CheckMultiStoreByCNPJService();
+		const checkMultiStoreByCNPJService: CheckMultiStoreByCNPJService = new CheckMultiStoreByCNPJService();
 		const result: boolean = await checkMultiStoreByCNPJService.execute(cnpj);
 
 		return response.status(200).json(result);

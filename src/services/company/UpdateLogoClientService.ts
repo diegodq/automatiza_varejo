@@ -3,6 +3,7 @@ import fs from 'fs';
 import configLogoClient from "../../configurations/configCompanyLogo";
 import { BadRequestError } from "../../utils/ApiErrors";
 import companyRepository from "../../repositories/companyRepository";
+import Company from '../../entities/Company';
 
 interface AvatarRequest
 {
@@ -15,7 +16,7 @@ class UpdateLogoClientService
 {
 	public async execute({ id, logoClientName, fileSize }: AvatarRequest): Promise<string>
 	{
-		const company = await companyRepository.findOneBy({ id: Number(id) });
+		const company: Company | null  = await companyRepository.findOneBy({ id: Number(id) });
 		if (!company) {
 			throw new BadRequestError('no-company');
 		}

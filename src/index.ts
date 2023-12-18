@@ -12,8 +12,18 @@ import fs from 'fs';
 import products from './configurations/products';
 import addProducts from './utils/insertProductsOnBoost';
 import createFolder from './utils/createFolder';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './swagger.json';
 
 const app = express();
+
+const options = {
+	swaggerOptions: {
+		validatorUrl: null
+	}
+};
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 
 appDataSource.initialize().then(() => {
 	if(process.env.APP_MODE == 'development') {

@@ -1,11 +1,12 @@
 import companyRepository from "../../repositories/companyRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
+import Company from '../../entities/Company';
 
 class RemoveCompanyService
 {
 	public async execute(id: number): Promise<string>
 	{
-		const company = await companyRepository.findOneBy({ id });
+		const company: Company | null = await companyRepository.findOneBy({ id });
 		if (!company) {
 			throw new BadRequestError('Empresa não cadastrada.');
 		}

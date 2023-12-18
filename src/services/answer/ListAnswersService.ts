@@ -1,6 +1,7 @@
 import { BadRequestError } from "../../utils/ApiErrors";
 import Answer from "../../entities/Answer";
 import appDataSource from "../../data-source";
+import { QueryRunner } from 'typeorm';
 
 type QueryString =
 {
@@ -19,7 +20,7 @@ class ListAnswerService
 	public async execute({ company_id, from, to, store }: QueryString): Promise<Answer[] | null>
 	{
 		if(typeof store === 'undefined') {
-			const queryRunner = appDataSource.createQueryRunner();
+			const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
 			const resultQuery: any = await queryRunner.query(`select answer.*, question.company_id from question
@@ -33,7 +34,7 @@ class ListAnswerService
 
 			return resultQuery;
 		} else {
-			const queryRunner = appDataSource.createQueryRunner();
+			const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
 			const resultQuery: any = await queryRunner.query(`select answer.*, store.company_id, store.store_number from store
@@ -51,7 +52,7 @@ class ListAnswerService
 
 	public async optionalExecute({ company_id }:OptionalQuery): Promise<Answer[] | null>
 	{
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const resultQuery: any = await queryRunner.query(`select answer.id, answer.answer, answer.research_title, answer.client_name, answer.client_phone, answer.is_contact,

@@ -1,6 +1,7 @@
 import { BadRequestError } from "../../utils/ApiErrors";
 import paramsConfig from "../../params/paramsConfig";
 import companyRepository from "../../repositories/companyRepository";
+import Company from '../../entities/Company';
 
 type RequestCompany =
 {
@@ -23,12 +24,12 @@ class UpdateCompanyService
 		zip_code, state, city, district, address,
 		complement ,number }: RequestCompany): Promise<string>
 	{
-		const company = await companyRepository.findOneBy({ id: Number(id) });
+		const company: Company | null = await companyRepository.findOneBy({ id: Number(id) });
 		if(!company) {
 			throw new BadRequestError('Empresa não cadastrada');
 		}
 
-		const companyCNPJ = await companyRepository.findOne({ where: { cnpj }});
+		const companyCNPJ: Company | null  = await companyRepository.findOne({ where: { cnpj }});
 		if(companyCNPJ?.cnpj !== cnpj || paramsConfig.params.allowChangeCNPJ == false) {
 			throw new BadRequestError('Alteração de CNPJ não permitido');
 		}

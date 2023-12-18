@@ -11,7 +11,7 @@ class ListAnswerService
 {
 	public async execute({ id }: AnswerQuestion): Promise<Answer | null>
 	{
-		const listAnswer = await answerRepository.findOneBy({ id: Number(id) });
+		const listAnswer: Answer | null = await answerRepository.findOneBy({ id: Number(id) });
 		if(!listAnswer) {
 			throw new BadRequestError('no-answer');
 		}

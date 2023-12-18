@@ -16,7 +16,7 @@ class ParamsProductController
 
 		const { anchor_question } = request.body;
 
-		const addAnchorQuestionService = new AddAnchorQuestionService();
+		const addAnchorQuestionService: AddAnchorQuestionService = new AddAnchorQuestionService();
 		const anchorQuestion: string = await addAnchorQuestionService.execute({ company, anchor_question });
 
 		return response.status(200).json({ status: 'success', anchorQuestion: anchorQuestion });
@@ -26,7 +26,7 @@ class ParamsProductController
 	{
 		const company: any = request.userId;
 
-		const listAnchorQuestion = new ListAnchorQuestionService();
+		const listAnchorQuestion: ListAnchorQuestionService = new ListAnchorQuestionService();
 		const anchorQuestion: any = await listAnchorQuestion.execute({ company });
 
 		return response.status(200).json({ status: 'success', message: anchorQuestion });
@@ -38,7 +38,7 @@ class ParamsProductController
 
 		const { anchor_question } = request.body;
 
-		const updateAnchorQuestionService = new UpdateAnchorQuestionService();
+		const updateAnchorQuestionService: UpdateAnchorQuestionService = new UpdateAnchorQuestionService();
 		const anchorQuestion: string = await updateAnchorQuestionService.execute({ company, anchor_question });
 
 		return response.status(200).json({ status: 'success', anchorQuestion: anchorQuestion });
@@ -50,7 +50,7 @@ class ParamsProductController
 
 		const { background_color } = request.body;
 
-		const updateBackgroundColorService = new UpdateBackgroundColorService();
+		const updateBackgroundColorService: UpdateBackgroundColorService = new UpdateBackgroundColorService();
 		const backgroundColor: string | undefined = await updateBackgroundColorService.execute({ company, background_color });
 
 		return response.status(200).json({ status: 'success', message: backgroundColor });
@@ -61,7 +61,7 @@ class ParamsProductController
 		const company: any = request.userId;
 		const { font_color } = request.body;
 
-		const updateFontColorService = new UpdateFontColorService();
+		const updateFontColorService: UpdateFontColorService = new UpdateFontColorService();
 		const fontColor: string | undefined = await updateFontColorService.execute({ company, font_color });
 
 		return response.status(200).json({ status: 'success', message: fontColor });
@@ -73,8 +73,8 @@ class ParamsProductController
 
 		const { passing_tree } = request.body;
 
-		const modifyPassingTreeService = new ModifyPassingTreeService();
-		const anchorQuestion = await modifyPassingTreeService.execute({ company, passing_tree });
+		const modifyPassingTreeService: ModifyPassingTreeService = new ModifyPassingTreeService();
+		const anchorQuestion: string = await modifyPassingTreeService.execute({ company, passing_tree });
 
 		return response.status(200).json({ status: 'success', message: anchorQuestion });
 	}
@@ -83,7 +83,7 @@ class ParamsProductController
 	{
 		const company: number = request.userId;
 
-		const listParamsProductService = new ListParamsProductService();
+		const listParamsProductService: ListParamsProductService = new ListParamsProductService();
 		const resultQuery: object = await listParamsProductService.execute({ company });
 
 		return response.status(200).json({ status: 'sucess', message: resultQuery });
@@ -94,7 +94,7 @@ class ParamsProductController
 		const company: number = request.userId;
 		const { lock_by_ip } = request.body;
 
-		const updateLockByIpService = new UpdateLockByIpService();
+		const updateLockByIpService: UpdateLockByIpService = new UpdateLockByIpService();
 		const resultQuery: string = await updateLockByIpService.execute({ company, lock_by_ip });
 
 		return response.status(200).json({ status: 'success', message: resultQuery });

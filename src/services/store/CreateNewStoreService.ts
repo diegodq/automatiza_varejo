@@ -18,7 +18,7 @@ type TypeStore =
 
 class CreateNewStoreService
 {
-	public async execute({ name, address, company, store_number }:TypeStore): Promise<string>
+	public async execute({ name, address, company, store_number }: TypeStore): Promise<string>
 	{
 		const companyExists: Company | null = await companyRepository.findOneBy({ id: Number(company) });
 		if(!companyExists)

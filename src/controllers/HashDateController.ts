@@ -2,9 +2,9 @@ import { Request, Response } from 'express';
 
 class HashDateController
 {
-	static async returnDateToHash(request:Request, response: Response)
+	static async returnDateToHash(request:Request, response: Response): Promise<Response>
 	{
-		const currentDate = new Date();
+		const currentDate: Date = new Date();
 		const offsetInMinutes: number = currentDate.getTimezoneOffset();
 		const offsetInMilliseconds: number = offsetInMinutes * 60 * 1000;
 		const newDate: Date = new Date(currentDate.getTime() - offsetInMilliseconds)

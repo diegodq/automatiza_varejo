@@ -1,6 +1,7 @@
 import customerRepository from "../../repositories/customerRepository";
 import customerTokenRepository from "../../repositories/customerTokenRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
+import Customer from '../../entities/Customer';
 
 type ActiveAccountRequest =
 {
@@ -17,7 +18,7 @@ class ActiveAccountClientService
 			throw new BadRequestError('Token não encontrado.');
 		}
 
-		const userExists = await customerRepository.findOneBy({ id: Number(id) });
+		const userExists: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 		if(!userExists) {
 			throw new BadRequestError('Cliente não cadastrado.');
 		}

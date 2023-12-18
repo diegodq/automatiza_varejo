@@ -13,7 +13,7 @@ class AddAnchorQuestionService
 {
 	public async execute({ anchor_question, company }: TopicRequest): Promise<string>
 	{
-		const anchorQuestionExists = await companyRepository.findOneBy({ id: Number(company) });
+		const anchorQuestionExists: Company | null = await companyRepository.findOneBy({ id: Number(company) });
 		if(!anchorQuestionExists) {
 			throw new BadRequestError('no-company');
 		}

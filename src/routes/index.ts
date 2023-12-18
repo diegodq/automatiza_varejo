@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 import multer, { Multer } from "multer";
 import ContactUsController from "../controllers/ContactUsController";
 import CustomerController from "../controllers/CustomerController";
@@ -25,11 +25,14 @@ import ParamsProductController from "../controllers/ParamsProductController";
 import DashboardController from '../controllers/DashboardController';
 import StoreController from '../controllers/StoreController';
 import CheckMultiStoreController from '../controllers/CheckMultiStoreController';
+import TypeCustomerController from '../controllers/TypeCustomerController';
+import QuestionGroupController from '../controllers/QuestionGroupController';
+import QuestionGroupMappingController from '../controllers/QuestionGroupMappingController';
 
 const uploadAvatar: Multer = multer(avatarConfig);
 const uploadCompanyLogo: Multer = multer(configCompanyLogo);
 
-const router = express.Router();
+const router:Router = express.Router();
 
 router.get('/welcome', WelcomeController.welcome);
 router.get('/customers', isAuthenticated, CustomerController.list);
@@ -62,6 +65,9 @@ router.get('/list/store', isAuthenticated, StoreController.listStore);
 router.get('/multi-store', isAuthenticated, CheckMultiStoreController.checkIfExistsMultiStore);
 router.get('/info/store/:id_store', StoreController.getInfoStore);
 router.get('/qrcode/:id_store?', isAuthenticated, QRCodeController.getQRCodeByStore);
+router.get('/list/type/customers', isAuthenticated, TypeCustomerController.list); // make documentation
+router.get('/list/question/group', isAuthenticated, QuestionGroupController.list); // make documentation
+router.get('/list/group/mapping', isAuthenticated, QuestionGroupMappingController.list); // make documentation
 
 //charts
 router.get('/dashboard/topics/:from/:to/:type_tree/:id_store?', isAuthenticated, DashboardController.toAmountTopicInAnswers);
@@ -85,6 +91,9 @@ router.post('/add/product', isAuthenticated, ProductController.addNewProduct);
 router.post('/link/company/product', isAuthenticated, CompanyController.linkCompanyToProduct);
 router.post('/anchor-question', isAuthenticated, ParamsProductController.addAnchorQuestion);
 router.post('/create/store', isAuthenticated, StoreController.create);
+router.post('/create/type/customer',isAuthenticated, TypeCustomerController.create); // make documentation
+router.post('/create/question/group', isAuthenticated, QuestionGroupController.create); // make documentation
+router.post('/create/group/mapping', isAuthenticated, QuestionGroupMappingController.create); // make documentation
 
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);
@@ -94,6 +103,9 @@ router.delete('/question', isAuthenticated, QuestionController.remove);
 router.delete('/answer', isAuthenticated, AnswerController.remove);
 router.delete('/topic', isAuthenticated, TopicController.delete);
 router.delete('/remove/store', isAuthenticated, StoreController.removeStore);
+router.delete('/remove/type/customer/:id',isAuthenticated,TypeCustomerController.remove); // make documentation
+router.delete('/remove/question/group/:id', isAuthenticated, QuestionGroupController.remove); // make documentation
+router.delete('/remove/group/mapping/:id', isAuthenticated, QuestionGroupMappingController.remove); // make documentation
 
 router.put('/company', isAuthenticated, CompanyController.update);
 router.put('/customer', isAuthenticated, CustomerController.update);
@@ -102,6 +114,8 @@ router.put('/question', isAuthenticated, QuestionController.edit);
 // router.put('/answer', isAuthenticated, AnswerController.edit); // to remove
 router.put('/topic', isAuthenticated, TopicController.update);
 router.put('/edit/store', isAuthenticated, StoreController.editStore);
+router.put('/update/type/customer', isAuthenticated, TypeCustomerController.update); // make documentation
+router.put('/update/group/question', isAuthenticated, QuestionGroupController.update); // make documentation
 
 router.patch('/avatar', isAuthenticated, uploadAvatar.single('file'), AvatarController.update);
 router.patch('/logo-company', isAuthenticated, uploadCompanyLogo.single('file'), LogoClientController.update);

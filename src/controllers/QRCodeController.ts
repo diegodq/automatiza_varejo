@@ -9,7 +9,7 @@ class QRCodeController
 
 		const { id_store } = request.params;
 
-		const getQrCodeService = new GetQRCodeService();
+		const getQrCodeService: GetQRCodeService = new GetQRCodeService();
 		const getQrCode: object = await getQrCodeService.execute({ company, id_store });
 
 		return response.status(200).json(getQrCode );

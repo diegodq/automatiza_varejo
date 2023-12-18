@@ -1,8 +1,9 @@
-import Company from "src/entities/Company";
+import Company from "../../entities/Company";
 import appDataSource from "../../data-source";
 import Customer from "../../entities/Customer";
 import companyRepository from "../../repositories/companyRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
+import { QueryRunner } from 'typeorm';
 
 interface RequestCompany
 {
@@ -25,7 +26,7 @@ class CreateCompanyService
 		state, address, number, complement,
 		district, city, customer }: RequestCompany ): Promise<object>
 	{
-		const companyCNPJ = await companyRepository.findOneBy({ cnpj });
+		const companyCNPJ: Company | null = await companyRepository.findOneBy({ cnpj });
 		if(companyCNPJ) {
 			throw new BadRequestError('Empresa já está cadastrada.');
 		}
@@ -42,7 +43,7 @@ class CreateCompanyService
 
 	private async addCompanyInParamsProduct(id: number)
 	{
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		await queryRunner.query(`insert into params_product (company_id) values (${id})`);

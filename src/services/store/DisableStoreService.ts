@@ -1,4 +1,5 @@
 import appDataSource from "../../data-source";
+import { QueryRunner } from 'typeorm';
 
 type TypeStore =
 {
@@ -10,7 +11,7 @@ class DisableStoreService
 {
 	public async execute({ status, store_number }: TypeStore): Promise<string>
 	{
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		await queryRunner.query(`update store set active = ? where store_number = ?;`, [status, store_number]);

@@ -8,18 +8,18 @@ class ProductController
 	{
 		const { name, description } = request.body;
 
-		const createProductService = new CreateProductService();
-		const newProduct = await createProductService.execute({ name, description });
+		const createProductService: CreateProductService = new CreateProductService();
+		const newProduct: string = await createProductService.execute({ name, description });
 
 		return response.status(200).json(newProduct);
 	}
 
-	static async listProducts(request: Request, response: Response)
+	static async listProducts(request: Request, response: Response): Promise<Response>
 	{
 		const company = request.userId;
 
-		const listProductByCompanyService = new ListProductByCompanyService();
-		const products = await listProductByCompanyService.execute({ company });
+		const listProductByCompanyService: ListProductByCompanyService = new ListProductByCompanyService();
+		const products: object | null = await listProductByCompanyService.execute({ company });
 
 		return response.status(200).json({ status: 'success', products });
 	}

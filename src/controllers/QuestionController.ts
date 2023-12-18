@@ -5,6 +5,8 @@ import ListQuestionService from "../services/question/ListQuestionService";
 import ListQuestionsService from "../services/question/ListQuestionsService";
 import RemoveQuestionService from "../services/question/RemoveQuestionService";
 import ChangeStatusQuestionService from "../services/question/ChangeStatusQuestionService";
+import Question from '../entities/Question';
+import ChangeStatusTopicService from '../services/topic/ChangeStatusTopicService';
 
 class QuestionController
 {
@@ -14,8 +16,8 @@ class QuestionController
 
 		const { title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title, alert_label } = request.body;
 
-		const createQuestionService = new CreateQuestionService();
-		const questionCreated = await createQuestionService.execute({ title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title, alert_label, company });
+		const createQuestionService: CreateQuestionService = new CreateQuestionService();
+		const questionCreated: object = await createQuestionService.execute({ title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title, alert_label, company });
 
 		return response.status(200).json({ status: 'success', questionCreated });
 	}
@@ -24,8 +26,8 @@ class QuestionController
 	{
 		const { id, title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title } = request.body;
 
-		const editQuestionService = new EditQuestionService();
-		const questionEdited = await editQuestionService.execute({ id, title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title });
+		const editQuestionService: EditQuestionService = new EditQuestionService();
+		const questionEdited: string = await editQuestionService.execute({ id, title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title });
 
 		return response.status(200).json({ status: 'success', message: questionEdited });
 	}
@@ -34,8 +36,8 @@ class QuestionController
 	{
 		const { id, new_status } = request.body;
 
-		const changeStatusQuestionService = new ChangeStatusQuestionService();
-		const changeStatus = await changeStatusQuestionService.execute({ id, new_status });
+		const changeStatusQuestionService: ChangeStatusTopicService = new ChangeStatusQuestionService();
+		const changeStatus: string = await changeStatusQuestionService.execute({ id, new_status });
 
 		return response.status(200).json({ status: 'success', message: changeStatus });
 	}
@@ -44,8 +46,8 @@ class QuestionController
 	{
 		const { id } = request.body;
 
-		const listQuestionService = new ListQuestionService();
-		const question = await listQuestionService.execute({ id });
+		const listQuestionService: ListQuestionService = new ListQuestionService();
+		const question: Question | null = await listQuestionService.execute({ id });
 
 		return response.status(200).json({ status: 'success', question });
 	}
@@ -55,13 +57,13 @@ class QuestionController
 		const company_id = request.userId;
 		const { from, to } = request.params;
 
-		const listQuestionsService = new ListQuestionsService();
+		const listQuestionsService:ListQuestionsService = new ListQuestionsService();
 		if(typeof from === 'undefined' && typeof to === 'undefined') {
-			const listQuestions = await listQuestionsService.optionalExecute({ company_id });
+			const listQuestions: object = await listQuestionsService.optionalExecute({ company_id });
 
 			return response.status(200).json({ status: 'success', listQuestions });
 		} else {
-			const listQuestions = await listQuestionsService.execute({ company_id, from, to });
+			const listQuestions: object = await listQuestionsService.execute({ company_id, from, to });
 
 			return response.status(200).json({ status: 'success', listQuestions });
 		}
@@ -71,8 +73,8 @@ class QuestionController
 	{
 		const { id } = request.body;
 
-		const removeQuestionService = new RemoveQuestionService();
-		const questionRemoved = await removeQuestionService.execute({ id });
+		const removeQuestionService: RemoveQuestionService = new RemoveQuestionService();
+		const questionRemoved: string = await removeQuestionService.execute({ id });
 
 		return response.status(200).json({ status: 'success', message: questionRemoved });
 	}

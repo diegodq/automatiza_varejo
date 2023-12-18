@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import Customer from "./Customer";
 
 @Entity()
@@ -7,11 +7,12 @@ class TypeCustomer
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@OneToOne(() => Customer, customer => customer.type_customer)
+	@OneToMany(() => Customer, customer => customer.type_customer)
 	customer: Customer
 
 	@Column({ type: 'varchar', length: 50, default: '' })
 	type_customer: string;
+
 
 	@CreateDateColumn()
 	createdAt: Date;
