@@ -10,7 +10,7 @@ import Topic from '../entities/Topic';
 
 class TopicController
 {
-	static async add(request: Request, response: Response)
+	static async add(request: Request, response: Response): Promise<Response>
 	{
 		const company = request.userId;
 
@@ -22,7 +22,7 @@ class TopicController
 		return response.status(200).json({ status: 'success', message: newTopic });
 	}
 
-	static async update(request: Request, response: Response)
+	static async update(request: Request, response: Response): Promise<Response>
 	{
 		const { id, name, status } = request.body;
 
@@ -32,7 +32,7 @@ class TopicController
 		return response.status(200).json({ status: 'success', message: editTopic });
 	}
 
-	static async changeStatus(request: Request, response: Response)
+	static async changeStatus(request: Request, response: Response): Promise<Response>
 	{
 		const { id, new_status } = request.body;
 

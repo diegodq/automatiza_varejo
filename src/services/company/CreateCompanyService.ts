@@ -16,27 +16,33 @@ interface RequestCompany
 	complement: string,
 	number: string,
 	district:string,
-	city: string,
-	customer: Customer
+	city: string
+	type_company?: string;
 }
 
 class CreateCompanyService
 {
 	public async execute( {corporate_name, fantasy_name, cnpj, zip_code,
 		state, address, number, complement,
-		district, city, customer }: RequestCompany ): Promise<object>
+		district, city, type_company }: RequestCompany ): Promise<object>
 	{
 		const companyCNPJ: Company | null = await companyRepository.findOneBy({ cnpj });
 		if(companyCNPJ) {
-			throw new BadRequestError('Empresa já está cadastrada.');
+			throw new BadRequestError('company-already-registered');
 		}
 
+		if(type_company == undefined)
+			type_company = 'MATRIZ';
+
+		if(type_company !== 'MATRIZ' && type_company !== 'FILIAL')
+			throw new BadRequestError('company-must-be-matriz-or-filial');
+
 		const newCompany: Company = companyRepository.create({ corporate_name, fantasy_name, cnpj, zip_code, state,
-			complement, address, number, district, city, customer });
+			complement, address, number, district, city, type_company });
 
 		const saveNewCompany: Company = await companyRepository.save(newCompany);
 
-		this.addCompanyInParamsProduct(saveNewCompany.getId);
+		await this.addCompanyInParamsProduct(saveNewCompany.getId);
 
 		return { message: 'success', companyId: newCompany.getId };
 	}

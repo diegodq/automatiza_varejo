@@ -3,6 +3,7 @@ import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Mailer from "../../configurations/mailer/Mailer";
 import GenerateCustomerForgotTokenService from "./GenerateCustomerForgotTokenService";
+import Customer from '../../entities/Customer';
 
 type RequestUser =
 {
@@ -13,15 +14,15 @@ class SendForgotEmailService
 {
 	public async execute({ email }: RequestUser): Promise<any>
 	{
-		const user = await customerRepository.findOneBy({ email });
+		const user: Customer | null = await customerRepository.findOneBy({ email });
 		if (!user) {
 			throw new BadRequestError('Usuário não encontrado.');
 		}
 
-		const generateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
-		const token = await generateCustomerForgotTokenService.generate({ email });
+		const generateCustomerForgotTokenService: GenerateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
+		const token: string = await generateCustomerForgotTokenService.generate({ email });
 
-		const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'password-reset.hbs');
+		const forgotPasswordTemplate: string = path.resolve(__dirname, '..', '..', 'notifications', 'password-reset.hbs');
 
 		await Mailer.sendMail({
 			from: {

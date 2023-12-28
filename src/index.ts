@@ -14,6 +14,8 @@ import addProducts from './utils/insertProductsOnBoost';
 import createFolder from './utils/createFolder';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './swagger.json';
+import paramsConfig from './params/paramsConfig';
+
 
 const app = express();
 
@@ -26,17 +28,36 @@ const options = {
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 
 appDataSource.initialize().then(() => {
-	if(process.env.APP_MODE == 'development') {
-		app.use(cors({
-			origin: '*'
-		}));
+	if (paramsConfig.params.useImplicitToken) {
+		if(process.env.APP_MODE == 'development') {
+			app.use(cors({
+				origin: ['http://localhost:3002'],
+				credentials: true,
+				methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+			}));
 
-		console.log('cors enable to any urls in development mode');
+			console.log('cors enable to any urls in development mode');
+		} else {
+			app.use(cors({
+				origin: ['https://api.automatizavarejo.com.br', 'https://app.automatizavarejo.com.br', 'https://automatizavarejo.com.br', 'https://pesquisa.automatizavarejo.com.br'],
+				credentials: true,
+				methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+			}));
+		}
 	} else {
-		app.use(cors({
-			origin: ['https://api.automatizavarejo.com.br', 'https://app.automatizavarejo.com.br', 'https://automatizavarejo.com.br', 'https://pesquisa.automatizavarejo.com.br'],
-			methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
-		}));
+		if(process.env.APP_MODE == 'development') {
+			app.use(cors({
+				origin: ['http://localhost:3002'],
+				methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+			}));
+
+			console.log('cors enable to any urls in development mode');
+		} else {
+			app.use(cors({
+				origin: ['https://api.automatizavarejo.com.br', 'https://app.automatizavarejo.com.br', 'https://automatizavarejo.com.br', 'https://pesquisa.automatizavarejo.com.br'],
+				methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+			}));
+		}
 	}
 
 	app.use('/avatar', express.static(avatarConfig.directory));

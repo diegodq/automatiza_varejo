@@ -10,8 +10,9 @@ class Customer
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@OneToMany(() => Company, company => company.customer)
-	company: Company[];
+	@ManyToOne(() => Company, company => company.customer, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+	@JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
+	company: Company;
 
 	@OneToMany(() => UserTokens, customerTokens => customerTokens.customer)
 	customerTokens: CustomerTokens[];
@@ -95,7 +96,7 @@ class Customer
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, company: Company[], customerTokens: CustomerTokens[], type_customer: TypeCustomer,first_name: string,
+	constructor(id: number, company: Company, customerTokens: CustomerTokens[], type_customer: TypeCustomer,first_name: string,
 		avatar: string, surname_name: string, position: string, phone: string, email: string, temp_email: string,
 		email_change_on: Date, resent_email_on: Date, activated: number, activated_on: Date, accept_newsletter: number,
 		info_payment: number, accept_terms: string, accept_terms_on: Date, system_user: string, agent_user: string, pass_change_on: Date,old_password: string,
@@ -137,7 +138,7 @@ class Customer
 		return this.id;
 	}
 
-	get getCompany(): Company[]
+	get getCompany(): Company
 	{
 		return this.company;
 	}

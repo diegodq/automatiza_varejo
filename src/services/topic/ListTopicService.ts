@@ -10,7 +10,7 @@ class ListTopicService
 {
 	public async execute({ id }: DepartmentRequest): Promise<Topic | null>
 	{
-		const listTopic = await topicRepository.findOneBy({ id: Number(id) });
+		const listTopic: Topic | null = await topicRepository.findOneBy({ id: Number(id) });
 		if(!listTopic) {
 			throw new BadRequestError('no-topic');
 		}

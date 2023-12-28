@@ -6,7 +6,7 @@ class ListDepartmentsService
 {
 	public async execute(): Promise<Department[] | null>
 	{
-		const listDepartment = await departmentRepository.find({ order: { id: 'ASC' } });
+		const listDepartment: Department[] = await departmentRepository.find({ order: { id: 'ASC' } });
 		if(listDepartment.length == 0) {
 			throw new BadRequestError('no-departments');
 		}

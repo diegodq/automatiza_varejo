@@ -11,7 +11,7 @@ class ListQuestionService
 {
 	public async execute({ id }: QuestionRequest): Promise<Question | null>
 	{
-		const listQuestion = await questionRepository.findOneBy({ id: Number(id) });
+		const listQuestion: Question | null = await questionRepository.findOneBy({ id: Number(id) });
 		if(!listQuestion) {
 			throw new BadRequestError('no-question');
 		}

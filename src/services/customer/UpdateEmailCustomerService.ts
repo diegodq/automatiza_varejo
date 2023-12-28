@@ -5,6 +5,7 @@ import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Mailer from "../../configurations/mailer/Mailer";
 import GenerateCustomerForgotTokenService from "../session/GenerateCustomerForgotTokenService";
+import Customer from '../../entities/Customer';
 moment.locale('pt-br');
 
 type UpdateRequest =
@@ -23,12 +24,12 @@ class UpdateEmailCustomer
 {
 	public async execute({ id, password, new_email, agent_user, system_user, city_locate, country_name, country_capital }: UpdateRequest): Promise<string>
 	{
-		const customer = await customerRepository.findOneBy({ id: Number(id) });
+		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
 			throw new BadRequestError('no-user');
 		}
 
-		const comparePassword = await compare(password, customer.password);
+		const comparePassword: boolean = await compare(password, customer.password);
 		if(!comparePassword) {
 			throw new BadRequestError('incorrect-password');
 		}
@@ -47,9 +48,9 @@ class UpdateEmailCustomer
 
 		await customerRepository.save(customer);
 
-		const generateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
-		const email = customer.email;
-		const token = await generateCustomerForgotTokenService.generate({ email });
+		const generateCustomerForgotTokenService: GenerateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
+		const email: string = customer.email;
+		const token: string = await generateCustomerForgotTokenService.generate({ email });
 
 		const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'email-change.hbs');
 

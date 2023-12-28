@@ -1,6 +1,7 @@
 import { BadRequestError } from "../../utils/ApiErrors";
 import appDataSource from "../../data-source";
 import formatCNPJ from "../../utils/formatCNPJ";
+import { QueryRunner } from 'typeorm';
 
 
 class ListStoreByCNPJ
@@ -9,7 +10,7 @@ class ListStoreByCNPJ
 	{
 		const cnpjCompany: string = formatCNPJ(cnpj);
 
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const resultQuery = await queryRunner.query(`select store.id, store.name, store.address, store.store_number, store.active from store

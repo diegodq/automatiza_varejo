@@ -1,5 +1,6 @@
 import departmentRepository from "../../repositories/departmentRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
+import Department from '../../entities/Department';
 
 type TopicRequest =
 {
@@ -11,7 +12,7 @@ class ChangeStatusDepartmentService
 {
 	public async execute({ id, new_status }: TopicRequest): Promise<string>
 	{
-		const departmentExist = await departmentRepository.findOneBy({ id: Number(id) });
+		const departmentExist: Department | null = await departmentRepository.findOneBy({ id: Number(id) });
 		if(!departmentExist) {
 			throw new BadRequestError('no-department');
 		}

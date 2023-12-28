@@ -1,5 +1,6 @@
 import { BadRequestError } from "../../utils/ApiErrors";
 import questionRepository from "../../repositories/questionRepository";
+import Question from '../../entities/Question';
 
 type ParamsType =
 {
@@ -10,7 +11,7 @@ class ListParamsOfQuestionsService
 {
 	public async execute({ id }: ParamsType): Promise<object>
 	{
-		const paramOfQuestion = await questionRepository.find(
+		const paramOfQuestion: Question[] = await questionRepository.find(
 			{ where: { company: { id } }, relations: { params_questions: true, company: true } }
 		);
 

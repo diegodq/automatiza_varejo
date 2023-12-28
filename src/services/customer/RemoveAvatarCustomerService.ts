@@ -1,5 +1,6 @@
 import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
+import Customer from '../../entities/Customer';
 
 type AvatarRequest =
 {
@@ -11,12 +12,12 @@ class RemoveAvatarCustomerService
 {
 	public async execute({ id, avatar }: AvatarRequest): Promise<string>
 	{
-		const customer = await customerRepository.findOneBy({ id: Number(id) });
+		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
 			throw new BadRequestError('Avatar não encontrado.');
 		}
 
-		const customerAvatar = customerRepository.find({ where:{ avatar } });
+		const customerAvatar: Customer[] = await customerRepository.find({ where:{ avatar } });
 		if(!customerAvatar) {
 			throw new BadRequestError('Avatar não encontrado');
 		}

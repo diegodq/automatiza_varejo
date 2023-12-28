@@ -1,5 +1,5 @@
-import {Column, CreateDateColumn, Entity, JoinColumn, JoinTable,
-	ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn,
+import {Column, CreateDateColumn, Entity, JoinTable,
+	ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn,
 	UpdateDateColumn} from 'typeorm';
 
 import Customer from "./Customer";
@@ -20,9 +20,8 @@ class Company
 	@OneToOne(() => ParamsProduct, paramsProduct => paramsProduct.company)
 	paramsProduct: ParamsProduct;
 
-	@ManyToOne(() => Customer, customer => customer.company, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
-	@JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
-	customer: Customer;
+	@OneToMany(() => Customer, customer => customer.company)
+	customer: Customer[];
 
 	@ManyToMany(() => Product, product => product.company, { nullable: true, onUpdate: 'CASCADE', onDelete: 'CASCADE' })
 	@JoinTable({
@@ -92,17 +91,20 @@ class Company
 	@Column({ type: 'varchar', nullable: true, length: 10, default: 'show' })
 	type_report: string;
 
+	@Column({ type: 'varchar', nullable: true, length: 10, default: 'MATRIZ' })
+	type_company: string;
+
 	@CreateDateColumn()
 	created_at: Date;
 
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, customer: Customer, paramsProduct: ParamsProduct, product: Product[], question: Question[],
+	constructor(id: number, customer: Customer[], paramsProduct: ParamsProduct, product: Product[], question: Question[],
 		department: Department[], topic: Topic[], store: Store[], qrCodeControl: QRCodeControl[],
 		corporate_name: string, fantasy_name: string, logo_company: string ,cnpj: string,
 		zip_code: string, state: string, city: string, complement: string, district: string,
-		address: string, number: string, is_report: number, type_report: string,
+		address: string, number: string, is_report: number, type_report: string, type_company: string,
 		created_at: Date, updated_at: Date)
 	{
 		this.id = id;
@@ -127,6 +129,7 @@ class Company
 		this.city = city;
 		this.is_report = is_report;
 		this.type_report = type_report;
+		this.type_company = type_company;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
@@ -136,7 +139,7 @@ class Company
 		return this.id;
 	}
 
-	get getCustomer(): Customer
+	get getCustomer(): Customer[]
 	{
 		return this.customer;
 	}
@@ -239,6 +242,11 @@ class Company
 	get getTypeRecord(): string
 	{
 		return this.type_report;
+	}
+
+	get getTypeCompany(): string
+	{
+		return this.type_company;
 	}
 
 	get getCreatedAt(): Date

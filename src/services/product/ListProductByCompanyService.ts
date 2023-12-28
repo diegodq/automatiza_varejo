@@ -1,6 +1,8 @@
 import companyRepository from "../../repositories/companyRepository";
 import productRepository from "../../repositories/productRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
+import Company from '../../entities/Company';
+import Product from '../../entities/Product';
 
 type ProductRequest =
 {
@@ -13,12 +15,12 @@ class ListProductByCompanyService
 	{
 		const id = Number(company);
 
-		const companyExists = await companyRepository.findOneBy({ id: Number(id) });
+		const companyExists: Company | null = await companyRepository.findOneBy({ id: Number(id) });
 		if(!companyExists) {
 			throw new BadRequestError('no-company');
 		}
 
-		const products = await productRepository.find({
+		const products: Product[] = await productRepository.find({
 			where: { company: { id } }
 		});
 

@@ -30,7 +30,7 @@ class UpdateCompanyService
 		}
 
 		const companyCNPJ: Company | null  = await companyRepository.findOne({ where: { cnpj }});
-		if(companyCNPJ?.cnpj !== cnpj || paramsConfig.params.allowChangeCNPJ == false) {
+		if(companyCNPJ?.cnpj !== cnpj || !paramsConfig.params.allowChangeCNPJ) {
 			throw new BadRequestError('Alteração de CNPJ não permitido');
 		}
 

@@ -16,6 +16,7 @@ import SendForgotEmailService from '../services/session/SendForgotEmailService';
 import ResendActivateAccountService from '../services/customer/ResendActivateAccountService';
 import Customer from '../entities/Customer';
 import UpdateEmailCustomerService from '../services/customer/UpdateEmailCustomerService';
+import ListCustomerByCompanyService from '../services/customer/ListCustomerByCompanyService';
 
 class CustomerController
 {
@@ -37,9 +38,19 @@ class CustomerController
 		return response.status(200).json(listCustomers);
 	}
 
+	static async listCustomerByCompany(request: Request, response: Response): Promise<Response>
+	{
+		const company = request.userId;
+
+		const listCustomerByCompanyService: ListCustomerByCompanyService = new ListCustomerByCompanyService();
+		const listCustomerByCompany: object = await listCustomerByCompanyService.execute({company});
+
+		return response.status(200).json(listCustomerByCompany);
+	}
+
 	static async show(request: Request, response: Response): Promise<Response>
 	{
-		const id: string = request.userId;
+		const { id } = request.params;
 
 		const showCustomerService: ShowCustomerService = new ShowCustomerService();
 		const showCustomer: Customer | null = await showCustomerService.execute({ id });

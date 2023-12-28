@@ -21,7 +21,6 @@ import NPSController from "../controllers/NPSController";
 import HashDateController from "../controllers/HashDateController";
 import ReportsController from "../controllers/ReportsController";
 import ParamsProductController from "../controllers/ParamsProductController";
-
 import DashboardController from '../controllers/DashboardController';
 import StoreController from '../controllers/StoreController';
 import CheckMultiStoreController from '../controllers/CheckMultiStoreController';
@@ -37,7 +36,7 @@ const router:Router = express.Router();
 router.get('/welcome', WelcomeController.welcome);
 router.get('/customers', isAuthenticated, CustomerController.list);
 router.get('/details', isAuthenticated, CustomerController.showDetailsCustomer);
-router.get('/customer', isAuthenticated, CustomerController.show);
+router.get('/customer/:id', isAuthenticated, CustomerController.show);
 router.get('/companies', isAuthenticated, CompanyController.list);
 router.get('/company/:id', isAuthenticated, CompanyController.show);
 router.get('/company-departments', isAuthenticated, CompanyController.listDepartmentsByCompany);
@@ -67,9 +66,10 @@ router.get('/info/store/:id_store', StoreController.getInfoStore);
 router.get('/qrcode/:id_store?', isAuthenticated, QRCodeController.getQRCodeByStore);
 router.get('/list/type/customers', isAuthenticated, TypeCustomerController.list); // make documentation
 router.get('/list/question/group', isAuthenticated, QuestionGroupController.list); // make documentation
-router.get('/list/group/mapping', isAuthenticated, QuestionGroupMappingController.list); // make documentation
+router.get('/list/group/mapping/:group_id', isAuthenticated, QuestionGroupMappingController.list); // make documentation
+router.get('/list/customer/company', isAuthenticated, CustomerController.listCustomerByCompany); // make documentation
 
-//charts
+//chart
 router.get('/dashboard/topics/:from/:to/:type_tree/:id_store?', isAuthenticated, DashboardController.toAmountTopicInAnswers);
 router.get('/dashboard/department/:from/:to/:type_tree/:id_store?', isAuthenticated, DashboardController.toAmountDepartmentInAnswers);
 router.get('/dashboard/employee/:from/:to/:type_tree/:id_store?', isAuthenticated, DashboardController.toAmountEmployeesInAnswers);

@@ -11,7 +11,7 @@ type LinkRequest =
 
 class LinkCompanyToProductService
 {
-	public async execute({ company, product }: LinkRequest)
+	public async execute({ company, product }: LinkRequest): Promise<string>
 	{
 		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();

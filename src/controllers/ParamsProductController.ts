@@ -12,7 +12,7 @@ class ParamsProductController
 {
 	static async addAnchorQuestion(request: Request, response: Response): Promise<Response>
 	{
-		const company: any = request.userId;
+		const company = request.userId;
 
 		const { anchor_question } = request.body;
 
@@ -24,17 +24,17 @@ class ParamsProductController
 
 	static async listAnchorQuestion(request: Request, response: Response): Promise<Response>
 	{
-		const company: any = request.userId;
+		const company = request.userId;
 
 		const listAnchorQuestion: ListAnchorQuestionService = new ListAnchorQuestionService();
-		const anchorQuestion: any = await listAnchorQuestion.execute({ company });
+		const anchorQuestion: string = await listAnchorQuestion.execute({ company });
 
 		return response.status(200).json({ status: 'success', message: anchorQuestion });
 	}
 
 	static async updateAnchorQuestion(request: Request, response: Response): Promise<Response>
 	{
-		const company: any = request.userId;
+		const company = request.userId;
 
 		const { anchor_question } = request.body;
 
@@ -46,7 +46,7 @@ class ParamsProductController
 
 	static async updateBackgroundColor(request: Request, response: Response): Promise<Response>
 	{
-		const company: any = request.userId;
+		const company = request.userId;
 
 		const { background_color } = request.body;
 
@@ -58,7 +58,7 @@ class ParamsProductController
 
 	static async updateFontColor(request: Request, response: Response ): Promise<Response>
 	{
-		const company: any = request.userId;
+		const company = request.userId;
 		const { font_color } = request.body;
 
 		const updateFontColorService: UpdateFontColorService = new UpdateFontColorService();
@@ -69,7 +69,7 @@ class ParamsProductController
 
 	static async changePassingTree(request: Request, response: Response): Promise<Response>
 	{
-		const company: any = request.userId;
+		const company = request.userId;
 
 		const { passing_tree } = request.body;
 

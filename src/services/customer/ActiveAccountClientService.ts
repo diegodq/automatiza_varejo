@@ -2,6 +2,7 @@ import customerRepository from "../../repositories/customerRepository";
 import customerTokenRepository from "../../repositories/customerTokenRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Customer from '../../entities/Customer';
+import CustomerTokens from '../../entities/CustomerTokens';
 
 type ActiveAccountRequest =
 {
@@ -13,7 +14,7 @@ class ActiveAccountClientService
 {
 	public async execute({ token, id }: ActiveAccountRequest): Promise<object | string>
 	{
-		const validUserToken = await customerTokenRepository.findOneBy({ token });
+		const validUserToken: CustomerTokens | null = await customerTokenRepository.findOneBy({ token });
 		if(!validUserToken) {
 			throw new BadRequestError('Token não encontrado.');
 		}

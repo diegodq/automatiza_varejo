@@ -1,6 +1,7 @@
 import { BadRequestError } from "../../utils/ApiErrors";
 import appDataSource from "../../data-source";
 import Company from "../../entities/Company";
+import { QueryRunner } from 'typeorm';
 
 type QueryString =
 {
@@ -17,7 +18,7 @@ class ListQuestionsService
 {
 	public async optionalExecute({ company_id }: QueryExecute): Promise<object>
 	{
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const resultQuery = await queryRunner.query('select * from question where company_id = ? order by id asc;', [ company_id ]);
@@ -32,7 +33,7 @@ class ListQuestionsService
 
 	public async execute({ company_id, from, to }: QueryString): Promise<object>
 	{
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const resultQuery = await queryRunner.query(`select * from question where company_id = 2

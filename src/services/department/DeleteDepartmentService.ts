@@ -1,6 +1,7 @@
 import paramsConfig from "../../params/paramsConfig";
 import departmentRepository from "../../repositories/departmentRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
+import Department from '../../entities/Department';
 
 type DepartmentRequest =
 {
@@ -9,9 +10,9 @@ type DepartmentRequest =
 
 class DeleteDepartmentService
 {
-	public async execute({ id }: DepartmentRequest)
+	public async execute({ id }: DepartmentRequest):Promise<string>
 	{
-		const department = await departmentRepository.findOneBy({ id });
+		const department: Department | null = await departmentRepository.findOneBy({ id });
 		if(!department) {
 			throw new BadRequestError('no-department');
 		}

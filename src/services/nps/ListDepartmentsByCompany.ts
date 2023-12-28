@@ -1,6 +1,8 @@
 import { BadRequestError } from "../../utils/ApiErrors";
 import formatCNPJ from "../../utils/formatCNPJ";
 import companyRepository from "../../repositories/companyRepository";
+import Company from '../../entities/Company';
+import Department from '../../entities/Department';
 
 type NPSRequest = {
 	cnpj_company: string
@@ -15,21 +17,21 @@ class ListDepartmentsByCompany
 			throw new BadRequestError('invalid-cnpj');
 		}
 
-		const companyExists = await companyRepository.findOneBy({ cnpj });
+		const companyExists: Company | null = await companyRepository.findOneBy({ cnpj });
 		if(!companyExists) {
 			throw new BadRequestError('no-company');
 		}
 
 		const id = companyExists.getId;
 
-		const topicByCompany = await companyRepository.find({
+		const topicByCompany: Company[] = await companyRepository.find({
 			relations: {
 				department: true
 			},
 			where: { id }
 		});
 
-		const departments = topicByCompany.map(item => {
+		const departments: Department[][] = topicByCompany.map(item => {
 			return item.department;
 		});
 

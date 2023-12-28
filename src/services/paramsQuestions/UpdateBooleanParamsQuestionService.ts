@@ -2,6 +2,8 @@ import Question from "../../entities/Question";
 import paramsQuestionRepository from "../../repositories/paramsQuestionRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import appDataSource from "../../data-source";
+import ParamsQuestions from '../../entities/ParamsQuestions';
+import { QueryRunner } from 'typeorm';
 
 type ParamsRequest =
 {
@@ -13,22 +15,22 @@ type ParamsRequest =
 
 class UpdateBooleanParamsQuestionService
 {
-	public async execute(params: ParamsRequest[]): Promise<any>
+	public async execute(params: ParamsRequest[]): Promise<string>
 	{
-		const param = params.map(param => { return param.question });
+		const param: Question[] = params.map(param => { return param.question });
 		const id = Number(param[0]);
 
-		const paramsExists = await paramsQuestionRepository.findOne({ where: { question: { id }} });
+		const paramsExists: ParamsQuestions | null = await paramsQuestionRepository.findOne({ where: { question: { id }} });
 		if(!paramsExists) {
 			throw new BadRequestError('no-params-question');
 		}
 
-		const position = params.map(param => { return param.position });
-		if(position.length <= 0) {
+		const position: number[] = params.map(param => { return param.position });
+		if(param.length <= 0) {
 			throw new BadRequestError('not-allowed-zero');
 		}
 
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		params.forEach(param => {

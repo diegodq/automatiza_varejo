@@ -57,7 +57,7 @@ class QuestionController
 		const company_id = request.userId;
 		const { from, to } = request.params;
 
-		const listQuestionsService:ListQuestionsService = new ListQuestionsService();
+		const listQuestionsService: ListQuestionsService = new ListQuestionsService();
 		if(typeof from === 'undefined' && typeof to === 'undefined') {
 			const listQuestions: object = await listQuestionsService.optionalExecute({ company_id });
 

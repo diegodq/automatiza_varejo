@@ -19,7 +19,7 @@ import TypeCustomer from './entities/TypeCustomer';
 
 const port: number | undefined = process.env.DB_PORT as number | undefined;
 
-import { Default1702865703339 } from './migrations/1702865703339-default';
+import { Default1703243288061 } from './migrations/1703243288061-default';
 
 const appDataSource: DataSource = new DataSource({
 	type: "mysql",
@@ -47,7 +47,7 @@ const appDataSource: DataSource = new DataSource({
 		TypeCustomer
 	],
 	migrations: [
-		Default1702865703339
+		Default1703243288061
 	]
 });
 

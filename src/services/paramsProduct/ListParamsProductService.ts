@@ -1,6 +1,6 @@
 import companyRepository from "../../repositories/companyRepository";
 import appDataSource from "../../data-source";
-import { QueryResult } from "typeorm";
+import { QueryResult, QueryRunner } from 'typeorm';
 import Company from "../../entities/Company";
 import { BadRequestError } from "../../utils/ApiErrors";
 
@@ -19,7 +19,7 @@ class ListParamsProductService
     if(!companyExists)
       throw new BadRequestError('company-not-found');
 
-    const queryRunner = appDataSource.createQueryRunner();
+    const queryRunner: QueryRunner = appDataSource.createQueryRunner();
     await queryRunner.connect();
 
     const resultQuery: QueryResult = await queryRunner.query(`select params_product.background_color, params_product.font_color, params_product.passing_tree, params_product.lock_by_ip, params_product.company_id 

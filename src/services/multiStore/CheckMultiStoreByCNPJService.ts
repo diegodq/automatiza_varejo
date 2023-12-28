@@ -1,5 +1,6 @@
 import formatCNPJ from "../../utils/formatCNPJ";
 import appDataSource from "../../data-source";
+import { QueryRunner } from 'typeorm';
 
 class CheckMultiStoreByCNPJService
 {
@@ -8,7 +9,7 @@ class CheckMultiStoreByCNPJService
 		const cnpjCompany: string = formatCNPJ(cnpj);
 		console.log(cnpjCompany);
 
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const queryResult = await queryRunner.query(`select multi_store from company_product

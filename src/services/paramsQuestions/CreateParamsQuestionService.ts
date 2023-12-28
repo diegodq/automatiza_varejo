@@ -2,6 +2,7 @@ import { BadRequestError } from "../../utils/ApiErrors";
 import questionRepository from "../../repositories/questionRepository";
 import paramsQuestionRepository from "../../repositories/paramsQuestionRepository";
 import Question from "../../entities/Question";
+import ParamsQuestions from '../../entities/ParamsQuestions';
 
 type ParamsType =
 {
@@ -18,14 +19,14 @@ class CreateParamsQuestionService
 {
 	public async execute(params: ParamsType[]): Promise<string>
 	{
-		const question = params.map(param => { return param.question });
+		const question: Question[] = params.map(param => { return param.question });
 
-		const questionExists = await questionRepository.findOneBy({ id: Number(question[0]) });
+		const questionExists: Question | null = await questionRepository.findOneBy({ id: Number(question[0]) });
 		if(!questionExists) {
 			throw new BadRequestError('no-questions');
 		}
 
-		const storeParams = paramsQuestionRepository.create(params);
+		const storeParams: ParamsQuestions[] = paramsQuestionRepository.create(params);
 
 		await paramsQuestionRepository.save(storeParams);
 		return 'params-added';

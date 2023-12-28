@@ -1,6 +1,7 @@
 import paramsProductRepository from '../../repositories/paramsProductRepository';
 import { BadRequestError } from "../../utils/ApiErrors";
 import Company from '../../entities/Company';
+import ParamsProduct from '../../entities/ParamsProduct';
 
 type BackgroundColorType =
 {
@@ -14,7 +15,7 @@ class UpdateBackgroundColorService
 	{
 		const id = Number(company);
 
-		const backgroundColor = await paramsProductRepository.findOne({ where: { company: { id } } });
+		const backgroundColor: ParamsProduct | null = await paramsProductRepository.findOne({ where: { company: { id } } });
 		if(!backgroundColor) {
 			throw new BadRequestError('no-params');
 		}

@@ -3,6 +3,8 @@ import Company from "../../entities/Company";
 import questionRepository from "../../repositories/questionRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import appDataSource from "../../data-source";
+import { QueryRunner } from 'typeorm';
+import Question from '../../entities/Question';
 
 type QuestionRequest =
 {
@@ -28,12 +30,12 @@ class CreateQuestionService
 	public async execute({ title_question, tree_question, question_description, type_question, status, text_end_research,
 		text_label_one, text_label_two, research_title, alert_label, company }: QuestionRequest): Promise<object>
 	{
-		const companyExists = await companyRepository.findOneBy({ id: Number(company) });
+		const companyExists: Company | null = await companyRepository.findOneBy({ id: Number(company) });
 		if(!companyExists) {
 			throw new BadRequestError('no-company');
 		}
 
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const existsTypeQuestion = await queryRunner.query(`select type_question, tree_question from question
@@ -47,7 +49,7 @@ class CreateQuestionService
 			}
 		});
 
-		const newQuestion = questionRepository.create({ title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title, alert_label, company });
+		const newQuestion: Question = questionRepository.create({ title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title, alert_label, company });
 		await questionRepository.save(newQuestion);
 
 		return { message: 'question-added', questionId: newQuestion.getId };

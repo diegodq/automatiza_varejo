@@ -21,7 +21,7 @@ class ListProductByCompanyService {
 			throw new BadRequestError('no-company');
 		}
 
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const paramsProduct: any = await queryRunner.query(`

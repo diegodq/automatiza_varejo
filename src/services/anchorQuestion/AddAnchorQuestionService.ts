@@ -2,6 +2,7 @@ import { BadRequestError } from "../../utils/ApiErrors";
 import companyRepository from "../../repositories/companyRepository";
 import paramsProductRepository from "../../repositories/paramsProductRepository";
 import Company from "../../entities/Company";
+import ParamsProduct from '../../entities/ParamsProduct';
 
 type TopicRequest =
 {
@@ -18,7 +19,7 @@ class AddAnchorQuestionService
 			throw new BadRequestError('no-company');
 		}
 
-		const anchorQuestion = paramsProductRepository.create({ anchor_question, company });
+		const anchorQuestion: ParamsProduct = paramsProductRepository.create({ anchor_question, company });
 		await paramsProductRepository.save(anchorQuestion);
 
 		return anchorQuestion.anchor_question;

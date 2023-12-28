@@ -49,10 +49,10 @@ class CreateNewStoreService
 
 			const qrcode_name: string = cnpj + '.' + id_store.toString();
 
-			const createQrCodeService = new CreateQrCodeService();
+			const createQrCodeService: CreateQrCodeService = new CreateQrCodeService();
 			await createQrCodeService.execute({ cnpj, id_store });
 
-			const createQRCodeControlService = new CreateQRCodeControlService();
+			const createQRCodeControlService: CreateQRCodeControlService = new CreateQRCodeControlService();
 			await createQRCodeControlService.execute({qrcode_name, company, id_store });
 
 			return 'new-store-added';
@@ -66,10 +66,10 @@ class CreateNewStoreService
 			const id_store = 0;
 			const qrcode_name: string = cnpj + '.' + id_store;
 
-			const createQrCodeService = new CreateQrCodeService();
+			const createQrCodeService: CreateQrCodeService = new CreateQrCodeService();
 			await createQrCodeService.execute({ cnpj, id_store });
 
-			const createQRCodeControlService = new CreateQRCodeControlService();
+			const createQRCodeControlService: CreateQRCodeControlService = new CreateQRCodeControlService();
 			await createQRCodeControlService.execute({qrcode_name, company, id_store });
 
 			return 'new-store-added';

@@ -1,5 +1,6 @@
 import { BadRequestError } from "../../utils/ApiErrors";
 import appDataSource from "../../data-source";
+import { QueryRunner } from 'typeorm';
 
 class ListStoreByCompany
 {
@@ -7,7 +8,7 @@ class ListStoreByCompany
 	{
 		const company_id = Number(company.company);
 
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const resultQuery = await queryRunner.query(`select id, name, address, store_number, active from store where company_id = ?;`, [company_id]);

@@ -1,5 +1,6 @@
 import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
+import Customer from '../../entities/Customer';
 
 type RequestInfo =
 {
@@ -12,7 +13,7 @@ class PaymentNewsletterService
 {
 	public async execute({ id, accept_newsletter, info_payment }: RequestInfo): Promise<object>
 	{
-		const customer = await customerRepository.findOneBy({ id: Number(id) });
+		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
 			throw new BadRequestError('Não há cliente cadastrado.');
 		}
@@ -25,17 +26,9 @@ class PaymentNewsletterService
 		let newsletter = null;
 		let payment = null;
 
-		if(customer.accept_newsletter == 1) {
-			newsletter = true;
-		} else {
-			newsletter = false;
-		}
+		newsletter = customer.accept_newsletter == 1;
 
-		if(customer.getInfoPayment == 1) {
-			payment = true;
-		} else {
-			payment = false;
-		}
+		payment = customer.getInfoPayment == 1;
 
 		return { accept_newsletter: newsletter, info_payment: payment }
 	}

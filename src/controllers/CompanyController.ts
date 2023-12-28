@@ -8,7 +8,7 @@ import ListDepartmentsByCompanyService from "../services/department/ListDepartme
 import ListTopicsByCompanyService from "../services/company/ListTopicsByCompanyService";
 import ListQuestionsByCompanyService from "../services/question/ListQuestionsByCompanyService";
 import LinkCompanyToProductService from "../services/company/LinkCompanyToProductService";
-import Company from "src/entities/Company";
+import Company from "../entities/Company";
 
 class CompanyController
 {
@@ -17,11 +17,11 @@ class CompanyController
 		const customer = request.userId;
 
 		const { corporate_name, fantasy_name, cnpj, zip_code, state, address, complement, number,
-			district, city } = request.body;
+			district, city, type_company } = request.body;
 
 		const createCompanyService: CreateCompanyService = new CreateCompanyService();
 		const newCompany: object = await createCompanyService.execute({ corporate_name, fantasy_name, cnpj, zip_code, state, address, complement, number,
-			district, city, customer });
+			district, city, type_company });
 
 		return response.status(201).json(newCompany);
 	}

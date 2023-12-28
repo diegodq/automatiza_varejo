@@ -4,6 +4,7 @@ import { hash, compare } from "bcryptjs";
 import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Mailer from "../../configurations/mailer/Mailer";
+import Customer from '../../entities/Customer';
 moment.locale('pt-br');
 
 type UpdateRequest =
@@ -22,17 +23,17 @@ class UpdatePasswordCustomer
 {
 	public async execute({ id, old_password, password, agent_user, system_user, city_locate, country_name, country_capital }: UpdateRequest): Promise<string>
 	{
-		const customer = await customerRepository.findOneBy({ id: Number(id) });
+		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
 			throw new BadRequestError('Cliente não cadastrado.');
 		}
 
-		const verifyPassword = await compare(old_password, customer.password);
+		const verifyPassword: boolean = await compare(old_password, customer.password);
 		if(!verifyPassword) {
 			throw new BadRequestError('Senha antiga desconhecida.');
 		}
 
-		const newPassword = await hash(password, 8);
+		const newPassword: string = await hash(password, 8);
 
 		customer.old_password = newPassword;
 		customer.password = newPassword;
@@ -45,7 +46,7 @@ class UpdatePasswordCustomer
 
 		await customerRepository.save(customer);
 
-		const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'password-change.hbs');
+		const forgotPasswordTemplate: string = path.resolve(__dirname, '..', '..', 'notifications', 'password-change.hbs');
 
 		await Mailer.sendMail({
 			from: {

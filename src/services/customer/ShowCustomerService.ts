@@ -11,7 +11,7 @@ class ShowCustomerService
 {
 	public async execute({ id }: RequestCustomer): Promise<Customer | null>
 	{
-		const customer = await customerRepository.findOneBy({ id: Number(id) });
+		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
 			throw new BadRequestError('Não há cliente cadastrado.');
 		}

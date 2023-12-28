@@ -20,7 +20,7 @@ class CreateTopicService
 			throw new BadRequestError('Tópico já cadastrado.');
 		}
 
-		const newTopic = topicRepository.create({ name, status, indicate_employee, company });
+		const newTopic: Topic = topicRepository.create({ name, status, indicate_employee, company });
 		await topicRepository.save(newTopic);
 
 		return 'topic-added';

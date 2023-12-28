@@ -8,7 +8,8 @@ export default {
 		validateNPSHeaderParams: false,
 		validateGetQRCodeParams: false,
 		useQueueForSendNotifications: false,
-		useQueuesForReports: false
+		useQueuesForReports: false,
+		useImplicitToken: false
 	},
 	jwt: {
 		secret: '2100fb51e744832359d132e5b75afdc0',

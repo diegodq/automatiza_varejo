@@ -3,6 +3,7 @@ import path from "path";
 import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Mailer from "../../configurations/mailer/Mailer";
+import Customer from '../../entities/Customer';
 
 type RequestCustomer =
 {
@@ -15,12 +16,12 @@ class RemoveCustomerService
 {
 	public async execute({ id, email, password }: RequestCustomer): Promise<string>
 	{
-		const customer = await customerRepository.findOneBy({ id: Number(id) });
+		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
 			throw new BadRequestError('Não há cliente cadastrado.');
 		}
 
-		const passwordCheck = await compare(password, customer.password);
+		const passwordCheck: boolean = await compare(password, customer.password);
 		if(customer.email != email) {
 			throw new BadRequestError('Senha ou email incorreto');
 		}
@@ -31,7 +32,7 @@ class RemoveCustomerService
 
 		await customerRepository.remove(customer);
 
-		const accountRemoved = path.resolve(__dirname, '..', '..', 'notifications', 'account-removed.hbs');
+		const accountRemoved: string = path.resolve(__dirname, '..', '..', 'notifications', 'account-removed.hbs');
 
 		await Mailer.sendMail({
 			from: {

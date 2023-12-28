@@ -1,6 +1,7 @@
 import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import paramsConfig from "../../params/paramsConfig";
+import Customer from '../../entities/Customer';
 
 type TypeRequest =
 {
@@ -15,7 +16,7 @@ class UpdateCustomerService
 {
 	public async execute({ id, first_name, surname, position, phone }: TypeRequest): Promise<string>
 	{
-		const customer = await customerRepository.findOneBy({ id: Number(id) });
+		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 		if (!customer) {
 			throw new BadRequestError('Cliente não encontrado.');
 		}

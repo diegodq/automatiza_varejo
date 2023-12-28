@@ -58,7 +58,7 @@ class CreateCustomerService
 
 				await libMail.add({ user });
 			} else {
-				this.sendNotificationWithoutQueue({ first_name, email, token, newCustomer });
+				await this.sendNotificationWithoutQueue({ first_name, email, token, newCustomer });
 			}
 
 			return `Enviamos um e-mail com link de ativação para ${email}. Ative seu cadastro clicando no link enviado.`;

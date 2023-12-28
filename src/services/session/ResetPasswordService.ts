@@ -6,6 +6,9 @@ import customerTokenRepository from "../../repositories/customerTokenRepository"
 import { BadRequestError } from "../../utils/ApiErrors";
 import Mailer from '../../configurations/mailer/Mailer';
 import appDataSource from "../../data-source";
+import CustomerTokens from '../../entities/CustomerTokens';
+import { QueryRunner } from 'typeorm';
+import Customer from '../../entities/Customer';
 
 type RequestCustomer =
 {
@@ -17,12 +20,12 @@ class ResetPasswordService
 {
 	public async execute({ token, new_password }: RequestCustomer): Promise<string>
 	{
-		const validUserToken = await customerTokenRepository.findOneBy({ token });
+		const validUserToken: CustomerTokens | null = await customerTokenRepository.findOneBy({ token });
 		if(!validUserToken) {
 			throw new BadRequestError('Token não encontrado.');
 		}
 
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 		const result = await queryRunner.query(`select customer_id from customer_tokens where token = '${token}';`);
 		await queryRunner.release();
@@ -34,24 +37,24 @@ class ResetPasswordService
 
 		console.log('id do token', id);
 
-		const userExists = await customerRepository.findOneBy({ id });
+		const userExists: Customer | null = await customerRepository.findOneBy({ id });
 		if(!userExists) {
 			throw new BadRequestError('Cliente não cadastrado.');
 		}
 
-		const compareDate = addHours(validUserToken.created_at, 2);
+		const compareDate: Date = addHours(validUserToken.created_at, 2);
 		if(isAfter(Date.now(), compareDate)) {
 			throw new BadRequestError('Token expirado.');
 		}
 
-		const newPass = await hash(new_password, 8);
+		const newPass: string = await hash(new_password, 8);
 
-		const queryRunner2 = appDataSource.createQueryRunner();
+		const queryRunner2: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner2.connect();
 		await queryRunner2.query(`update customer set password = '${newPass}' where id = '${id}';`);
 		await queryRunner2.release();
 
-		const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'password-change.hbs');
+		const forgotPasswordTemplate: string = path.resolve(__dirname, '..', '..', 'notifications', 'password-change.hbs');
 
 		await Mailer.sendMail({
 			from: {

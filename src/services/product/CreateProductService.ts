@@ -1,6 +1,7 @@
 import Product from "../../entities/Product";
 import appDataSource from "../../data-source";
 import productRepository from "../../repositories/productRepository";
+import { QueryRunner } from 'typeorm';
 
 interface RequestProduct
 {
@@ -15,7 +16,7 @@ class CreateProductService
 		const newProduct: Product = productRepository.create({ name, description });
 		await productRepository.save(newProduct);
 
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		await queryRunner.query(`insert into params_product (product_id) values (${newProduct.getId});`);

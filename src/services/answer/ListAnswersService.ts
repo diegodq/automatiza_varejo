@@ -23,7 +23,7 @@ class ListAnswerService
 			const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
-			const resultQuery: any = await queryRunner.query(`select answer.*, question.company_id from question
+			const resultQuery = await queryRunner.query(`select answer.*, question.company_id from question
 			join answer on question.id = answer.question_id where question.company_id = ?
 			and DATE(answer.created_at) BETWEEN ? AND ? order by answer.id asc;`, [ company_id, from, to ]);
 
@@ -37,7 +37,7 @@ class ListAnswerService
 			const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
-			const resultQuery: any = await queryRunner.query(`select answer.*, store.company_id, store.store_number from store
+			const resultQuery = await queryRunner.query(`select answer.*, store.company_id, store.store_number from store
 			join answer on store.id = answer.question_id where store.company_id = ? and store.store_number = ?
 			and DATE(answer.created_at) BETWEEN ? AND ? order by answer.id asc;`, [ company_id, store, from, to ]);
 
@@ -55,7 +55,7 @@ class ListAnswerService
 		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const resultQuery: any = await queryRunner.query(`select answer.id, answer.answer, answer.research_title, answer.client_name, answer.client_phone, answer.is_contact,
+		const resultQuery = await queryRunner.query(`select answer.id, answer.answer, answer.research_title, answer.client_name, answer.client_phone, answer.is_contact,
 		answer.is_report, answer.type_report, answer.id_research, answer.research_name, answer.nps_answer,
 		answer.device_client, answer.start_research, answer.name_employee, CONVERT_TZ(answer.created_at, '+00:00', '-03:00') as created_at,
 		CONVERT_TZ(answer.updated_at, '+00:00', '-03:00') as updated_at, answer.question_id, question.company_id from question

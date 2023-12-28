@@ -6,7 +6,7 @@ class ListTopicsService
 {
 	public async execute(): Promise<Topic[] | null>
 	{
-		const listTopics = await topicRepository.find({ order: { id: 'ASC' } });
+		const listTopics: Topic[] = await topicRepository.find({ order: { id: 'ASC' } });
 		if(listTopics.length == 0) {
 			throw new BadRequestError('no-topics');
 		}

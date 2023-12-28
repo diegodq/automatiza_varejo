@@ -2,6 +2,7 @@ import appDataSource from "../../data-source";
 import storeRepository from "../../repositories/storeRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Store from "../../entities/Store";
+import { QueryRunner } from 'typeorm';
 
 type StoreType = {
 	id_store: string
@@ -15,7 +16,7 @@ class GetInfoStoreService
 		if(!storeExists)
 			throw new BadRequestError('store-do-not-exists');
 
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const queryResult = await queryRunner.query(`select store.* from store

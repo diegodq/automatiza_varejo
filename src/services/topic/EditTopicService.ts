@@ -1,5 +1,6 @@
 import topicRepository from "../../repositories/topicRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
+import Topic from '../../entities/Topic';
 
 type TopicRequest =
 {
@@ -12,7 +13,7 @@ class EditTopicService
 {
 	public async execute({ id, name, status }: TopicRequest)
 	{
-		const topicExists = await topicRepository.findOneBy({ id: Number(id) });
+		const topicExists: Topic | null = await topicRepository.findOneBy({ id: Number(id) });
 		if(!topicExists) {
 			throw new BadRequestError('no-topic');
 		}

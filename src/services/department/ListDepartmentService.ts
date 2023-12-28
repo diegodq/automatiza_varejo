@@ -10,7 +10,7 @@ class ListDepartmentService
 {
 	public async execute({ id }: DepartmentRequest): Promise<Department | null>
 	{
-		const listDepartment = await departmentRepository.findOneBy({ id });
+		const listDepartment: Department | null = await departmentRepository.findOneBy({ id });
 		if(!listDepartment) {
 			throw new BadRequestError('no-department');
 		}

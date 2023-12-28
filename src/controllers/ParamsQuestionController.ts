@@ -8,10 +8,10 @@ class QuestionParamsController
 {
 	static async createParamsQuestion(request: Request, response: Response): Promise<Response>
 	{
-		const params: any = request.body;
+		const params = request.body;
 
 		const createParamsQuestionService: CreateParamsQuestionService = new CreateParamsQuestionService();
-		const paramsStored: any = await createParamsQuestionService.execute(params);
+		const paramsStored: string = await createParamsQuestionService.execute(params);
 
 		return response.status(200).json({ status: 'success', message: paramsStored });
 	}
@@ -28,17 +28,17 @@ class QuestionParamsController
 
 	static async updateBooleanParams(request: Request, response: Response): Promise<Response>
 	{
-		const params: any = request.body;
+		const params = request.body;
 
 		const updateBooleanParamsQuestionService: UpdateBooleanParamsQuestionService = new UpdateBooleanParamsQuestionService();
-		const paramsUpdated: object = await updateBooleanParamsQuestionService.execute(params);
+		const paramsUpdated: string = await updateBooleanParamsQuestionService.execute(params);
 
 		return response.status(200).json({status: 'success', message: paramsUpdated });
 	}
 
 	static async listParamsOfQuestion(request: Request, response: Response): Promise<Response>
 	{
-		const id: any = request.userId;
+		const id = request.userId;
 
 		const listParamsOfQuestion: ListParamsOfQuestionsService = new ListParamsOfQuestionsService();
 		const list: object = await listParamsOfQuestion.execute({ id });

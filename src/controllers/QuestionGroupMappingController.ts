@@ -17,8 +17,11 @@ class QuestionGroupMappingController
 
 	static async list(request: Request, response: Response): Promise<Response>
 	{
+		const { group_id } = request.params;
+		const company = request.userId;
+
 		const getQuestionGroupMappingService: GetQuestionsGroupMappingService = new GetQuestionsGroupMappingService();
-		const listGroup: object = await getQuestionGroupMappingService.execute();
+		const listGroup: object = await getQuestionGroupMappingService.execute({ group_id, company });
 
 		return response.status(200).json(listGroup);
 	}

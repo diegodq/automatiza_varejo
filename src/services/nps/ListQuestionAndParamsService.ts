@@ -2,6 +2,8 @@ import questionRepository from "../../repositories/questionRepository";
 import companyRepository from "../../repositories/companyRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import formatCNPJ from "../../utils/formatCNPJ";
+import Company from '../../entities/Company';
+import Question from '../../entities/Question';
 
 type NPSRequest = {
 	cnpj_company: string
@@ -16,14 +18,14 @@ class ListQuestionAndParamsService
 			throw new BadRequestError('invalid-cnpj');
 		}
 
-		const companyExists = await companyRepository.findOneBy({ cnpj });
+		const companyExists: Company | null = await companyRepository.findOneBy({ cnpj });
 		if(!companyExists) {
 			throw new BadRequestError('no-company');
 		}
 
 		const id = companyExists.getId;
 
-		const questions = await questionRepository.find({
+		const questions: Question[] = await questionRepository.find({
 			relations: {
 				params_questions: true
 			},

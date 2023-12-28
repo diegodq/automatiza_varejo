@@ -1,5 +1,6 @@
 import Company from "../../entities/Company";
 import appDataSource from "../../data-source";
+import { QueryRunner } from 'typeorm';
 
 type PropsTypes = {
 	companyId: Company
@@ -11,7 +12,7 @@ class CheckMultiStoreService
 	{
 		const company = Number(companyId);
 
-		const queryRunner = appDataSource.createQueryRunner();
+		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const queryResult = await queryRunner.query(`select multi_store from company_product where company = ?;`, [ company ]);
