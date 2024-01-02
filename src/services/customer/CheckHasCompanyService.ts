@@ -1,5 +1,4 @@
 import appDataSource from "../../data-source";
-import Company from "../../entities/Company";
 import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Customer from '../../entities/Customer';
@@ -16,13 +15,13 @@ class CheckHasCompanyService
 	{
 		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
-			throw new BadRequestError('Não há cliente cadastrado.');
+			throw new BadRequestError('no-registered-customer');
 		}
 
-		const hasCompany: ObjectLiteral | null = await appDataSource.getRepository(Company).createQueryBuilder("company")
-		.where("company.customer = :id", { id }).getOne();
+		const hasCompany: ObjectLiteral | null = await appDataSource.getRepository(Customer).createQueryBuilder("customer")
+		.where("customer.company_id = :id", { id }).getOne();
 		if(!hasCompany) {
-			throw new BadRequestError('no-company')
+			throw new BadRequestError('no-company');
 		}
 
 		return 'has-company';

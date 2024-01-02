@@ -31,7 +31,7 @@ appDataSource.initialize().then(() => {
 	if (paramsConfig.params.useImplicitToken) {
 		if(process.env.APP_MODE == 'development') {
 			app.use(cors({
-				origin: ['http://localhost:3002'],
+				origin: 'http://localhost:3002',
 				credentials: true,
 				methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 			}));
@@ -47,7 +47,7 @@ appDataSource.initialize().then(() => {
 	} else {
 		if(process.env.APP_MODE == 'development') {
 			app.use(cors({
-				origin: ['http://localhost:3002'],
+				origin: 'http://localhost:3002',
 				methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 			}));
 
