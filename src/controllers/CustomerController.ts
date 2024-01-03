@@ -22,10 +22,10 @@ class CustomerController
 {
 	static async create(request: Request, response: Response): Promise<Response>
 	{
-		const { first_name, surname, position, phone, email, password, accept_terms, type_customer } = request.body;
+		const { first_name, surname, position, phone, email, password, accept_terms, type_customer, company } = request.body;
 
 		const createCustomerService: CreateCustomerService = new CreateCustomerService();
-		const newCustomer: string | object = await createCustomerService.execute({ first_name, surname, position, phone, email, password, accept_terms, type_customer });
+		const newCustomer: string | object = await createCustomerService.execute({ first_name, surname, position, phone, email, password, accept_terms, type_customer, company });
 
 		return response.status(201).json({ status: 'success', message: newCustomer });
 	}
@@ -140,6 +140,7 @@ class CustomerController
 	static async checkHasCompany(request: Request, response: Response): Promise<Response>
 	{
 		const id: string = request.userId;
+		console.log(id);
 
 		const checkHasCompanyService: CheckHasCompanyService = new CheckHasCompanyService();
 		const hasCompany: string = await checkHasCompanyService.execute({ id });

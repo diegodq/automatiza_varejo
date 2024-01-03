@@ -19,12 +19,13 @@ type TypeRequest =
 	email: string,
 	password: string,
 	accept_terms: string,
-	type_customer: TypeCustomer
+	type_customer: TypeCustomer,
+	company?: Company
 }
 
 class CreateCustomerService
 {
-	public async execute({ first_name, surname, position, phone, email, password, accept_terms, type_customer }: TypeRequest): Promise<string | object>
+	public async execute({ first_name, surname, position, phone, email, password, accept_terms, type_customer, company }: TypeRequest): Promise<string | object>
 	{
 		const emailCustomer: Customer | null = await customerRepository.findOneBy({ email });
 
@@ -34,15 +35,14 @@ class CreateCustomerService
 			const customerHasCompany: Company | null = await appDataSource.getRepository(Company).createQueryBuilder('company')
 			.where('company.customer = :id', { id: idCustomer }).getOne();
 			if(!customerHasCompany) {
-				return { status: 'warn', message: 'no-company',
-				data: idCustomer };
+				return { status: 'warn', message: 'no-company', data: idCustomer };
 			}
 		}
 
 		const hashedPassword: string = await hash(password, 8);
 
 		const newCustomer: Customer = customerRepository.create({ first_name, surname, position, phone, email,
-			old_password: hashedPassword, password: hashedPassword, accept_terms, type_customer });
+			old_password: hashedPassword, password: hashedPassword, accept_terms, type_customer, company });
 
 		newCustomer.accept_terms_on = new Date();
 		await customerRepository.save(newCustomer);
