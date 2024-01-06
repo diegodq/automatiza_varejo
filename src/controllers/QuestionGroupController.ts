@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import CreateQuestionGroupService from '../services/questionGroup/CreateQuestionGroupService';
 import GetQuestionsGroupService from '../services/questionGroup/GetQuestionsGroupService';
-import QuestionGroup from '../entities/QuestionGroup';
 import RemoveQuestionGroupService from '../services/questionGroup/RemoveQuestionGroupService';
 import UpdateQuestionGroupService from '../services/questionGroup/UpdateQuestionGroupService';
 

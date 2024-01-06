@@ -20,7 +20,7 @@ function isAuthenticated(request: Request, response: Response, next: NextFunctio
 		request.typeUser = inputSub?.split(', ')[1];
 
 		return next();
-	} catch( _) {
+	} catch( _ ) {
 		return response.status(400).json({ valid: false, message: 'Acesso não autorizado.' });
 	}
 }

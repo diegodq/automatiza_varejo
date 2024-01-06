@@ -2,6 +2,7 @@ import paramsProductRepository from "../../repositories/paramsProductRepository"
 import { BadRequestError } from "../../utils/ApiErrors";
 import Company from "../../entities/Company";
 import ParamsProduct from '../../entities/ParamsProduct';
+import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 
 type FontColorType =
 {
@@ -12,7 +13,7 @@ class UpdateFontColorService
 {
 	public async execute({ company, font_color }: FontColorType): Promise<string | undefined>
 	{
-		const id = Number(company);
+		const id = await convertUserIdInCompanyId(Number(company));
 
 		const fontColor: ParamsProduct | null = await paramsProductRepository.findOne({ where: { company: { id } } });
 		if(!fontColor) {

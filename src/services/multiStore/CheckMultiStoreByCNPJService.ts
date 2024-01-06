@@ -7,7 +7,6 @@ class CheckMultiStoreByCNPJService
 	public async execute(cnpj: any): Promise<boolean>
 	{
 		const cnpjCompany: string = formatCNPJ(cnpj);
-		console.log(cnpjCompany);
 
 		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();

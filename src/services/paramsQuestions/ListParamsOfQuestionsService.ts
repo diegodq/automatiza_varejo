@@ -1,16 +1,19 @@
 import { BadRequestError } from "../../utils/ApiErrors";
 import questionRepository from "../../repositories/questionRepository";
 import Question from '../../entities/Question';
+import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 
 type ParamsType =
 {
-	id: number
+	company_id: number
 }
 
 class ListParamsOfQuestionsService
 {
-	public async execute({ id }: ParamsType): Promise<object>
+	public async execute({ company_id }: ParamsType): Promise<object>
 	{
+		const id = await convertUserIdInCompanyId(Number(company_id));
+
 		const paramOfQuestion: Question[] = await questionRepository.find(
 			{ where: { company: { id } }, relations: { params_questions: true, company: true } }
 		);

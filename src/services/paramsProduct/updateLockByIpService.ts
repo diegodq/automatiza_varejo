@@ -1,3 +1,4 @@
+import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 import ParamsProduct from "../../entities/ParamsProduct";
 import paramsProductRepository from "../../repositories/paramsProductRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
@@ -12,7 +13,7 @@ class UpdateLockByIpService
 {
 	public async execute({ company, lock_by_ip }: QuestionRequest): Promise<string>
 	{
-		const id = Number(company);
+		const id = await convertUserIdInCompanyId(Number(company));
 
 		const lockByIp: ParamsProduct | null = await paramsProductRepository.findOne({ where: { company: { id } } });
 		if(!lockByIp) {

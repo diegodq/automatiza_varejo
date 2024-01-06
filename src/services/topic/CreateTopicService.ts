@@ -1,30 +1,38 @@
-import Topic from "src/entities/Topic";
-import Company from "../../entities/Company";
+import Topic from "../../entities/Topic";
 import topicRepository from "../../repositories/topicRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
+import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 
-type TopicRequest =
-{
-	name: string;
-	status: number;
-	indicate_employee: number;
-	company: Company;
-}
+type TopicRequest = {
+  name: string;
+  status: number;
+  indicate_employee: number;
+  company_id: number;
+};
 
-class CreateTopicService
-{
-	public async execute({ name, status, indicate_employee, company }: TopicRequest): Promise<string | any>
-	{
-		const topicExists: Topic | null = await topicRepository.findOne({ where: { company: { id: Number(company) } } });
-		if(topicExists?.name == name) {
-			throw new BadRequestError('Tópico já cadastrado.');
-		}
+class CreateTopicService {
+  public async execute({ name, status, indicate_employee, company_id }: TopicRequest): Promise<string | any> {
+    const companyId = await convertUserIdInCompanyId(Number(company_id));
 
-		const newTopic: Topic = topicRepository.create({ name, status, indicate_employee, company });
-		await topicRepository.save(newTopic);
+    const topicExists: Topic | null = await topicRepository.findOne({
+      where: { company: { id: companyId } },
+    });
 
-		return 'topic-added';
-	}
+    if (topicExists?.name === name) {
+      throw new BadRequestError('topic-already-registered.');
+    }
+
+    const newTopic = topicRepository.create({
+      name,
+      status,
+      indicate_employee,
+      company: { id: companyId }
+    });
+
+    await topicRepository.save(newTopic);
+
+    return 'topic-added';
+  }
 }
 
 export default CreateTopicService;

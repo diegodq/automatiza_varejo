@@ -3,6 +3,7 @@ import Company from "../../entities/Company";
 import { BadRequestError } from "../../utils/ApiErrors";
 import companyRepository from "../../repositories/companyRepository";
 import Department from '../../entities/Department';
+import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 
 
 type DepartmentRequest =
@@ -16,12 +17,14 @@ class CreateDepartmentService
 {
 	public async execute({ name, status, company }: DepartmentRequest): Promise<string | any>
 	{
-		const companyExists: Company | null = await companyRepository.findOneBy({ id: Number(company) });
+		const idCompany = await convertUserIdInCompanyId(Number(company));
+
+		const companyExists: Company | null = await companyRepository.findOneBy({ id: idCompany });
 		if(!companyExists) {
 			throw new BadRequestError('no-company');
 		}
 
-		const departmentExists: Department | null = await departmentRepository.findOne({ where: { company: { id: Number(company) } } });
+		const departmentExists: Department | null = await departmentRepository.findOne({ where: { company: { id: idCompany } } });
 		if(departmentExists?.name == name) {
 			throw new BadRequestError('Tópico já cadastrado.');
 		}

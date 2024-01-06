@@ -12,12 +12,12 @@ class QuestionController
 {
 	static async add(request: Request, response: Response): Promise<Response>
 	{
-		const company = request.userId;
+		const company_id = request.userId;
 
 		const { title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title, alert_label } = request.body;
 
 		const createQuestionService: CreateQuestionService = new CreateQuestionService();
-		const questionCreated: object = await createQuestionService.execute({ title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title, alert_label, company });
+		const questionCreated: object = await createQuestionService.execute({ title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title, alert_label, company_id });
 
 		return response.status(200).json({ status: 'success', questionCreated });
 	}
@@ -55,6 +55,7 @@ class QuestionController
 	static async listAll(request: Request, response: Response): Promise<Response>
 	{
 		const company_id = request.userId;
+
 		const { from, to } = request.params;
 
 		const listQuestionsService: ListQuestionsService = new ListQuestionsService();

@@ -1,3 +1,4 @@
+import convertUserIdInCompanyId from "src/utils/convertUserIdInCompanyId";
 import appDataSource from "../../data-source";
 
 type CompanyType =
@@ -10,13 +11,15 @@ class VolumeOfResearchSevenInDays
 {
 	public async execute({ company, id_store }: CompanyType)
 	{
+		const idCompany = await convertUserIdInCompanyId(Number(company));
+
 		if(typeof id_store === 'undefined') {
 			const queryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
 			const resultQuery = await queryRunner.query(`SELECT answer.research_name, date_format(answer.created_at, '%Y-%m-%d') as date
 			FROM answer join question on answer.question_id = question.id
-			and question.company_id = ? order by answer.created_at desc;`, [company]);
+			and question.company_id = ? order by answer.created_at desc;`, [idCompany]);
 
 			await queryRunner.release();
 
@@ -60,7 +63,7 @@ class VolumeOfResearchSevenInDays
 
 			const resultQuery = await queryRunner.query(`SELECT answer.research_name, date_format(answer.created_at, '%Y-%m-%d') as date, store.store_number
 			FROM answer join store on store.id = answer.store_id
-			and store.company_id = ? and store.id = ? order by answer.created_at desc;`, [company, id_store]);
+			and store.company_id = ? and store.id = ? order by answer.created_at desc;`, [idCompany, id_store]);
 
 			await queryRunner.release();
 

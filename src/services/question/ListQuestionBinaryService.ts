@@ -1,3 +1,4 @@
+import convertUserIdInCompanyId from "src/utils/convertUserIdInCompanyId";
 import appDataSource from "../../data-source";
 import Company from "../../entities/Company";
 import { BadRequestError } from "../../utils/ApiErrors";
@@ -21,6 +22,8 @@ class ListQuestionBinaryService
 {
 	public async execute({company, from, to, id_store}: RequestParams)
 	{
+		const idCompany = await convertUserIdInCompanyId(Number(company));
+
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
@@ -52,7 +55,7 @@ class ListQuestionBinaryService
 			question.question_description,
 			question.tree_question,
 			params_questions.option_one,
-			params_questions.option_two;`, [company, from, to]);
+			params_questions.option_two;`, [idCompany, from, to]);
 		} else {
 			queryResult = await queryRunner.query(`SELECT
 			question.id AS question_id,
@@ -75,7 +78,7 @@ class ListQuestionBinaryService
 				AND DATE(answer.created_at) BETWEEN '${from}' AND '${to}'
 		WHERE
 			question.type_question = 'binary'
-			AND question.company_id = ${company}
+			AND question.company_id = ${idCompany}
 			AND store.id = ${id_store}
 		GROUP BY
 			question.id,

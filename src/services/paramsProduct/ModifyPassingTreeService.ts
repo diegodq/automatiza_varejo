@@ -1,7 +1,8 @@
 import Company from "../../entities/Company";
 import { BadRequestError } from "../../utils/ApiErrors";
 import paramsProductRepository from "../../repositories/paramsProductRepository";
-import ParamsProduct from "src/entities/ParamsProduct";
+import ParamsProduct from "../../entities/ParamsProduct";
+import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 
 type TopicRequest =
 {
@@ -13,7 +14,7 @@ class ModifyPassingTreeService
 {
 	public async execute({ company, passing_tree }: TopicRequest): Promise<string>
 	{
-		const id = Number(company);
+		const id = await convertUserIdInCompanyId(Number(company));
 
 		const passingTree: ParamsProduct | null = await paramsProductRepository.findOne({ where: { company: { id } } });
 		if(!passingTree) {

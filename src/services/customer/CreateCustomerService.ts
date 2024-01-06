@@ -1,7 +1,6 @@
 import path from "path";
 import { hash } from "bcryptjs";
 import customerRepository from "../../repositories/customerRepository";
-import appDataSource from "../../data-source";
 import Company from "../../entities/Company";
 import GenerateCustomerForgotTokenService from "../session/GenerateCustomerForgotTokenService";
 import Mailer from "../../configurations/mailer/Mailer";
@@ -9,6 +8,8 @@ import Customer from "../../entities/Customer";
 import libMail from "../../lib/libMail";
 import paramsConfig from "../../params/paramsConfig";
 import TypeCustomer from '../../entities/TypeCustomer';
+import { BadRequestError } from "src/utils/ApiErrors";
+import convertUserIdInCompanyId from "src/utils/convertUserIdInCompanyId";
 
 type TypeRequest =
 {
@@ -28,15 +29,8 @@ class CreateCustomerService
 	public async execute({ first_name, surname, position, phone, email, password, accept_terms, type_customer, company }: TypeRequest): Promise<string | object>
 	{
 		const emailCustomer: Customer | null = await customerRepository.findOneBy({ email });
-
 		if(emailCustomer) {
-			const idCustomer: number = emailCustomer.getId;
-
-			const customerHasCompany: Company | null = await appDataSource.getRepository(Company).createQueryBuilder('company')
-			.where('company.customer = :id', { id: idCustomer }).getOne();
-			if(!customerHasCompany) {
-				return { status: 'warn', message: 'no-company', data: idCustomer };
-			}
+			throw new BadRequestError('customer-already-registered');
 		}
 
 		const hashedPassword: string = await hash(password, 8);

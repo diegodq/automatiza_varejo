@@ -12,12 +12,12 @@ class ParamsProductController
 {
 	static async addAnchorQuestion(request: Request, response: Response): Promise<Response>
 	{
-		const company = request.userId;
+		const company_id = request.userId;
 
 		const { anchor_question } = request.body;
 
 		const addAnchorQuestionService: AddAnchorQuestionService = new AddAnchorQuestionService();
-		const anchorQuestion: string = await addAnchorQuestionService.execute({ company, anchor_question });
+		const anchorQuestion: string = await addAnchorQuestionService.execute({ company_id, anchor_question });
 
 		return response.status(200).json({ status: 'success', anchorQuestion: anchorQuestion });
 	}
@@ -79,7 +79,7 @@ class ParamsProductController
 		return response.status(200).json({ status: 'success', message: anchorQuestion });
 	}
 
-	static async listParamsProduct(request: Request, response: Response): Promise<Response> 
+	static async listParamsProduct(request: Request, response: Response): Promise<Response>
 	{
 		const company: number = request.userId;
 

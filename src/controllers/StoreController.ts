@@ -12,12 +12,12 @@ class StoreController
 {
 	static async create(request: Request, response: Response): Promise<Response>
 	{
-		const company: Company = request.userId;
+		const company_id: Company = request.userId;
 
 		const { name, address, store_number } = request.body;
 
 		const createNewStoreService: CreateNewStoreService = new CreateNewStoreService();
-		const newStore: string = await createNewStoreService.execute({ name, address, company, store_number });
+		const newStore: string = await createNewStoreService.execute({ name, address, company_id, store_number });
 
 		return response.status(200).json({ status: 'success', message: newStore });
 	}

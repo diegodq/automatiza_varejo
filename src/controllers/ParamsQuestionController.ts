@@ -38,10 +38,10 @@ class QuestionParamsController
 
 	static async listParamsOfQuestion(request: Request, response: Response): Promise<Response>
 	{
-		const id = request.userId;
+		const company_id = request.userId;
 
 		const listParamsOfQuestion: ListParamsOfQuestionsService = new ListParamsOfQuestionsService();
-		const list: object = await listParamsOfQuestion.execute({ id });
+		const list: object = await listParamsOfQuestion.execute({ company_id });
 
 		return response.status(200).json({ status: 'success', list });
 	}

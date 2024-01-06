@@ -1,6 +1,7 @@
 import Company from "../../entities/Company";
 import appDataSource from "../../data-source";
 import { QueryRunner } from 'typeorm';
+import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 
 type PropsTypes = {
 	companyId: Company
@@ -10,12 +11,14 @@ class CheckMultiStoreService
 {
 	public async execute({companyId}: PropsTypes ): Promise<boolean>
 	{
-		const company = Number(companyId);
+		const idCompany = await convertUserIdInCompanyId(Number(companyId));
+
+		// const company = Number(companyId);
 
 		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const queryResult = await queryRunner.query(`select multi_store from company_product where company = ?;`, [ company ]);
+		const queryResult = await queryRunner.query(`select multi_store from company_product where company = ?;`, [ idCompany ]);
 
 		await queryRunner.release();
 

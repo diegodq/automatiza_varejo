@@ -2,6 +2,7 @@ import paramsProductRepository from '../../repositories/paramsProductRepository'
 import { BadRequestError } from "../../utils/ApiErrors";
 import Company from '../../entities/Company';
 import ParamsProduct from '../../entities/ParamsProduct';
+import convertUserIdInCompanyId from '../../utils/convertUserIdInCompanyId';
 
 type BackgroundColorType =
 {
@@ -13,7 +14,7 @@ class UpdateBackgroundColorService
 {
 	public async execute({ company, background_color }: BackgroundColorType): Promise<string | undefined>
 	{
-		const id = Number(company);
+		const id = await convertUserIdInCompanyId(Number(company));
 
 		const backgroundColor: ParamsProduct | null = await paramsProductRepository.findOne({ where: { company: { id } } });
 		if(!backgroundColor) {

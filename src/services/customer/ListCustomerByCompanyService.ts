@@ -2,6 +2,7 @@ import appDataSource from '../../data-source';
 import { QueryRunner } from 'typeorm';
 import { BadRequestError } from '../../utils/ApiErrors';
 import Company from '../../entities/Company';
+import convertUserIdInCompanyId from '../../utils/convertUserIdInCompanyId';
 
 type ListRequest =
 {
@@ -12,14 +13,14 @@ class ListCustomerByCompanyService
 {
 	public async execute({ company }: ListRequest): Promise<object>
 	{
-		const companyId = Number(company);
+		const idCompany = await convertUserIdInCompanyId(Number(company));
 
 		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const queryResult = await queryRunner.query(`select company.fantasy_name, customer.id, customer.first_name,
 		customer.surname, customer.position, customer.activated, customer.email, customer.type_customer,
-		customer.avatar from customer join company on customer.company_id = company.id where company.id = ?`, [companyId]);
+		customer.avatar from customer join company on customer.company_id = company.id where company.id = ?`, [idCompany]);
 
 		await queryRunner.release();
 

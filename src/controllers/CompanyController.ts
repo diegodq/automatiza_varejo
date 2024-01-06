@@ -14,8 +14,6 @@ class CompanyController
 {
 	static async create(request: Request, response: Response): Promise<Response>
 	{
-		const customer = request.userId;
-
 		const { corporate_name, fantasy_name, cnpj, zip_code, state, address, complement, number,
 			district, city, type_company } = request.body;
 

@@ -2,6 +2,7 @@ import { BadRequestError } from "../../utils/ApiErrors";
 import appDataSource from "../../data-source";
 import Company from "../../entities/Company";
 import { QueryRunner } from 'typeorm';
+import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 
 type QueryString =
 {
@@ -18,10 +19,12 @@ class ListQuestionsService
 {
 	public async optionalExecute({ company_id }: QueryExecute): Promise<object>
 	{
+		const company = await convertUserIdInCompanyId(Number(company_id));
+
 		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const resultQuery = await queryRunner.query('select * from question where company_id = ? order by id asc;', [ company_id ]);
+		const resultQuery = await queryRunner.query('select * from question where company_id = ? order by id asc;', [ company ]);
 
 		await queryRunner.release();
 
@@ -33,11 +36,13 @@ class ListQuestionsService
 
 	public async execute({ company_id, from, to }: QueryString): Promise<object>
 	{
+		const company = await convertUserIdInCompanyId(Number(company_id));
+
 		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const resultQuery = await queryRunner.query(`select * from question where company_id = 2
-		and DATE(question.created_at) BETWEEN ? AND ? order by question.id asc;`, [ company_id, from, to ]);
+		and DATE(question.created_at) BETWEEN ? AND ? order by question.id asc;`, [ company, from, to ]);
 
 		await queryRunner.release();
 

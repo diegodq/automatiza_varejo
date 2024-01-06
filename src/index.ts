@@ -47,8 +47,7 @@ appDataSource.initialize().then(() => {
 	} else {
 		if(process.env.APP_MODE == 'development') {
 			app.use(cors({
-				origin: 'http://localhost:3002',
-				methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+				origin: '*',
 			}));
 
 			console.log('cors enable to any urls in development mode');
@@ -94,3 +93,12 @@ appDataSource.initialize().then(() => {
 	console.log('API não conseguiu conectar-se ao Banco de Dados', error);
 	process.exit(128);
 })
+
+// post /anchor/question
+// from now on the parameter company become by name company_id
+
+// post /question
+// from now on the parameter company become by name company_id
+
+// post /create/store
+// from now on the parameter company become by name company_id

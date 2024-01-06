@@ -11,9 +11,9 @@ class ShowDetailCustomerService
 {
 	public async execute({ id }: RequestCustomer): Promise<object>
 	{
-		const customer: Customer | null = await customerRepository.findOneBy({ id })
+		const customer: Customer | null = await customerRepository.findOneBy({ id });
 		if(!customer) {
-			throw new BadRequestError('Não há cliente cadastrado.')
+			throw new BadRequestError('there-is-no-registered-client.')
 		}
 
 		const details: Customer[] = await customerRepository.find({
@@ -21,12 +21,12 @@ class ShowDetailCustomerService
 			relations: {
 				company: true
 			}
-		})
+		});
 
 		const allDataCustomer = Object.assign({}, ...details.map(item => {
-			const company = item.company
-			const { company: deletedProperty, ...newItem } = item
-			return Object.assign({}, newItem, company)
+			const company = item.company;
+			const { company: deletedProperty, ...newItem } = item;
+			return Object.assign({}, newItem, company);
 		}))
 
 		return allDataCustomer;

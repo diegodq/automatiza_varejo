@@ -6,21 +6,26 @@ import companyRepository from "../../repositories/companyRepository";
 import storeRepository from "../../repositories/storeRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import paramsConfig from "../../params/paramsConfig";
+import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 import fs from 'fs';
 
 type QRCodeType =
 {
-	company: Company,
+	company_id: number,
 	id_store: string
 }
 
 class GetQRCodeService
 {
-	public async execute({ company, id_store }: QRCodeType): Promise<object>
+	public async execute({ company_id, id_store }: QRCodeType): Promise<object>
 	{
-		const companyExists: Company | null = await companyRepository.findOneBy({ id: Number(company) });
+		const companyId: number = await convertUserIdInCompanyId(company_id);
+
+		const companyExists: Company | null = await companyRepository.findOneBy({ id: companyId });
 		if(!companyExists)
 			throw new BadRequestError('company-do-not-exists');
+
+		const company: Company = companyExists;
 
 		if(paramsConfig.params.validateGetQRCodeParams) {
 			if(await this.checkMultiStoreIsOn(company) == 1) {

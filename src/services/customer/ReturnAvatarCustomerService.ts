@@ -1,3 +1,4 @@
+import Customer from "src/entities/Customer";
 import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 
@@ -11,7 +12,7 @@ class ReturnAvatarCustomerService
 {
 	public async execute({ id }: AvatarRequest): Promise<string>
 	{
-		const customer = await customerRepository.findOneBy({ id: Number(id) });
+		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
 			throw new BadRequestError('Usuário não encontrado.');
 		}

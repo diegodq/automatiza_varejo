@@ -5,6 +5,7 @@ import { BadRequestError } from "../../utils/ApiErrors";
 import appDataSource from "../../data-source";
 import { QueryRunner } from 'typeorm';
 import Question from '../../entities/Question';
+import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 
 type QuestionRequest =
 {
@@ -18,7 +19,7 @@ type QuestionRequest =
 	text_label_two: string;
 	research_title: string;
 	alert_label: string;
-	company: Company;
+	company_id: Company;
 }
 
 type DataQuestion = {
@@ -28,12 +29,16 @@ type DataQuestion = {
 class CreateQuestionService
 {
 	public async execute({ title_question, tree_question, question_description, type_question, status, text_end_research,
-		text_label_one, text_label_two, research_title, alert_label, company }: QuestionRequest): Promise<object>
+		text_label_one, text_label_two, research_title, alert_label, company_id }: QuestionRequest): Promise<object>
 	{
-		const companyExists: Company | null = await companyRepository.findOneBy({ id: Number(company) });
+		const companyId: number = await convertUserIdInCompanyId(Number(company_id));
+
+		const companyExists: Company | null = await companyRepository.findOneBy({ id: Number(companyId) });
 		if(!companyExists) {
 			throw new BadRequestError('no-company');
 		}
+
+		const company: Company = companyExists;
 
 		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();

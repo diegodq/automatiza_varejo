@@ -2,6 +2,7 @@ import appDataSource from "../../data-source";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Company from "../../entities/Company";
 import { QueryRunner } from 'typeorm';
+import convertUserIdInCompanyId from "src/utils/convertUserIdInCompanyId";
 
 type CompanyId =
 {
@@ -19,7 +20,7 @@ type OptionalQuery =
 interface InputRecord {
 	store_number: number;
 	id: number;
-	formatted_date: string;	
+	formatted_date: string;
 	research_name: string;
 	device_client: string;
 	start_research: Date;
@@ -55,6 +56,8 @@ class ListResearchService
 {
 	public async execute({ company, from, to, store }: CompanyId): Promise<object>
 	{
+		const idCompany = await convertUserIdInCompanyId(Number(company));
+
 		if(typeof store === 'undefined') {
 			const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
@@ -67,7 +70,7 @@ class ListResearchService
 			on answer.question_id = question.id
 			left join store on store.id = answer.store_id
 			where question.company_id = ? and DATE(answer.created_at)
-			BETWEEN ? AND ? order by id asc;`, [company, from, to]);
+			BETWEEN ? AND ? order by id asc;`, [idCompany, from, to]);
 
 			await queryRunner.release();
 
@@ -100,12 +103,14 @@ class ListResearchService
 
 	public async optionalExecute({ company }:OptionalQuery): Promise<object>
 	{
+		const idCompany = await convertUserIdInCompanyId(Number(company));
+
 		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const resultQuery = await queryRunner.query(`select answer.id, answer.answer, date_format(answer.created_at, '%d/%m/%Y %H:%i:%s') as formatted_date,
 		answer.nps_answer, answer.research_title, answer.research_name, answer.client_name, answer.client_phone, answer.id_research, answer.is_contact,
-		answer.name_employee from question join answer on answer.question_id = question.id where question.company_id = ? order by id asc;`, [company]);
+		answer.name_employee from question join answer on answer.question_id = question.id where question.company_id = ? order by id asc;`, [idCompany]);
 
 		await queryRunner.release();
 

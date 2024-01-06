@@ -27,6 +27,7 @@ import CheckMultiStoreController from '../controllers/CheckMultiStoreController'
 import TypeCustomerController from '../controllers/TypeCustomerController';
 import QuestionGroupController from '../controllers/QuestionGroupController';
 import QuestionGroupMappingController from '../controllers/QuestionGroupMappingController';
+import isAuthenticatedCustomer from 'src/middleware/isAuthenticatedCustomer';
 
 const uploadAvatar: Multer = multer(avatarConfig);
 const uploadCompanyLogo: Multer = multer(configCompanyLogo);
@@ -78,7 +79,7 @@ router.get('/dashboard/amount/month/:id_store?', isAuthenticated, DashboardContr
 router.get('/dashboard/amount/research/:id_store?', isAuthenticated, DashboardController.returnResearchSevenDays);
 router.get('/dashboard/amount/nps/:from/:to/:id_store?', isAuthenticated, DashboardController.toAmountNPS);
 
-router.post('/customer', CustomerController.create);
+router.post('/customer', isAuthenticatedCustomer, CustomerController.create);
 router.post('/session', SessionController.create);
 router.post('/forgot-password', CustomerController.send);
 router.post('/company', isAuthenticated, CompanyController.create);
@@ -89,7 +90,7 @@ router.post('/topic', isAuthenticated, TopicController.add);
 router.post('/params/question', isAuthenticated, ParamsQuestionController.createParamsQuestion);
 router.post('/add/product', isAuthenticated, ProductController.addNewProduct);
 router.post('/link/company/product', isAuthenticated, CompanyController.linkCompanyToProduct);
-router.post('/anchor-question', isAuthenticated, ParamsProductController.addAnchorQuestion);
+router.post('/anchor/question', isAuthenticated, ParamsProductController.addAnchorQuestion);
 router.post('/create/store', isAuthenticated, StoreController.create);
 router.post('/create/type/customer',isAuthenticated, TypeCustomerController.create); // make documentation
 router.post('/create/question/group', isAuthenticated, QuestionGroupController.create); // make documentation

@@ -1,6 +1,7 @@
 import companyRepository from '../../repositories/companyRepository';
 import { BadRequestError } from "../../utils/ApiErrors";
 import Company from '../../entities/Company';
+import convertUserIdInCompanyId from '../../utils/convertUserIdInCompanyId';
 
 type LogoRequest =
 {
@@ -11,7 +12,9 @@ class ReturnLogoClientService
 {
 	public async execute({ id }: LogoRequest): Promise<string>
 	{
-		const company: Company | null = await companyRepository.findOneBy({ id: Number(id) });
+		const idCompany = await convertUserIdInCompanyId(Number(id));
+
+		const company: Company | null = await companyRepository.findOneBy({ id: idCompany });
 		if(!company) {
 			throw new BadRequestError('Usuário não encontrado.');
 		}

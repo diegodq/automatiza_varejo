@@ -14,6 +14,7 @@ class DepartmentController
 	static async add(request: Request, response: Response): Promise<Response>
 	{
 		const company = request.userId;
+
 		const { name, status } = request.body;
 
 		const createDepartmentService: CreateDepartmentTService = new CreateDepartmentService();

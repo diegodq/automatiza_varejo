@@ -8,7 +8,7 @@ class ListCustomerService
 	{
 		const showCustomer: Customer[] = await customerRepository.find();
 		if(showCustomer.length == 0) {
-			throw new BadRequestError('Não há clientes cadastrados.');
+			throw new BadRequestError('there-is-no-registered-clients.');
 		}
 
 		return showCustomer;

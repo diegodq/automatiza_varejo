@@ -1,3 +1,4 @@
+import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 import appDataSource from "../../data-source";
 import Company from "../../entities/Company";
 
@@ -12,6 +13,8 @@ class ToAmountNPSService
 {
 	public async execute({ from, to, company, id_store }: ResearchDate): Promise<Array<number>>
 	{
+		const idCompany = await convertUserIdInCompanyId(Number(company));
+
 		if(typeof id_store === 'undefined') {
 			const queryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
@@ -19,7 +22,7 @@ class ToAmountNPSService
 			const resultQuery = await queryRunner.query(`select answer.research_name, answer.nps_answer from answer
 			join question on answer.question_id = question.id
 			where date(answer.created_at) between ? and ?
-			and question.company_id = ? order by answer.id desc;`, [from, to, company]);
+			and question.company_id = ? order by answer.id desc;`, [from, to, idCompany]);
 
 			await queryRunner.release();
 
@@ -49,7 +52,7 @@ class ToAmountNPSService
 			const resultQuery = await queryRunner.query(`select answer.research_name, answer.nps_answer from answer
 			join store on store.id = answer.store_id
 			where date(answer.created_at) between ? and ?
-			and store.company_id = ? and store.id = ? order by answer.id desc;`, [from, to, company, id_store]);
+			and store.company_id = ? and store.id = ? order by answer.id desc;`, [from, to, idCompany, id_store]);
 
 			await queryRunner.release();
 

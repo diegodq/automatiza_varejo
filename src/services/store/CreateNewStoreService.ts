@@ -7,34 +7,39 @@ import unformatCNPJ from "../../utils/unformatCNPJ";
 import CreateQRCodeControlService from "../qrcodeService/CreateQRCodeControlService";
 import appDataSource from "../../data-source";
 import Company from "../../entities/Company";
+import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 
 type TypeStore =
 {
 	name: string,
 	address: string,
-	company: Company
+	company_id: Company
 	store_number: number
 }
 
 class CreateNewStoreService
 {
-	public async execute({ name, address, company, store_number }: TypeStore): Promise<string>
+	public async execute({ name, address, company_id, store_number }: TypeStore): Promise<string>
 	{
-		const companyExists: Company | null = await companyRepository.findOneBy({ id: Number(company) });
+		const companyId = await convertUserIdInCompanyId(Number(company_id));
+
+		const companyExists: Company | null = await companyRepository.findOneBy({ id: Number(companyId) });
 		if(!companyExists)
 			throw new BadRequestError('no-company');
 
-		const storeExists: Store | null = await storeRepository.findOne({ where: { company: { id: Number(company) } } });
+		const storeExists: Store | null = await storeRepository.findOne({ where: { company: { id: Number(companyId) } } });
 		if(storeExists?.name == name)
 			throw new BadRequestError('store-already-registered');
 
-		const storeAddressExists: Store | null = await storeRepository.findOne({ where: { company: { id: Number(company) } } });
+		const storeAddressExists: Store | null = await storeRepository.findOne({ where: { company: { id: Number(companyId) } } });
 		if(storeAddressExists?.address == address)
 			throw new BadRequestError('address-already-registered');
 
+		const company: Company = companyExists;
+
 		if(await this.checkMultiStoreIsOn(company))
 		{
-			const storeNumberExists: Store | null = await storeRepository.findOne({ where: { company: { id: Number(company) }} });
+			const storeNumberExists: Store | null = await storeRepository.findOne({ where: { company: { id: Number(companyId) }} });
 			if(storeNumberExists?.store_number == store_number)
 				throw new BadRequestError('store-number-already-registered');
 		}
