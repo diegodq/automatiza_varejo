@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 
-function createFolder(directories: Array<string>)
+async function createFolder(directories: Array<string>)
 {
 	directories.forEach(folder => {
 		const folders = fs.existsSync(path.join(__dirname, '..', `/${folder}`));

@@ -31,12 +31,11 @@ appDataSource.initialize().then(() => {
 	if (paramsConfig.params.useImplicitToken) {
 		if(process.env.APP_MODE == 'development') {
 			app.use(cors({
-				origin: 'http://localhost:3002',
+				origin: '*',
 				credentials: true,
-				methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 			}));
 
-			console.log('cors enable to any urls in development mode');
+			console.log('Cors enable to any urls in development mode');
 		} else {
 			app.use(cors({
 				origin: ['https://api.automatizavarejo.com.br', 'https://app.automatizavarejo.com.br', 'https://automatizavarejo.com.br', 'https://pesquisa.automatizavarejo.com.br'],
@@ -50,7 +49,7 @@ appDataSource.initialize().then(() => {
 				origin: '*',
 			}));
 
-			console.log('cors enable to any urls in development mode');
+			console.log('Cors enable to any urls in development mode');
 		} else {
 			app.use(cors({
 				origin: ['https://api.automatizavarejo.com.br', 'https://app.automatizavarejo.com.br', 'https://automatizavarejo.com.br', 'https://pesquisa.automatizavarejo.com.br'],
@@ -72,14 +71,14 @@ appDataSource.initialize().then(() => {
 
 	app.use(errorMiddleware);
 
-	app.listen(process.env.SERVER_PORT, () => {
+	app.listen(process.env.SERVER_PORT, async () => {
 		console.log('api running on port', process.env.SERVER_PORT);
-		addProducts(products);
-		createFolder(['qrcode', 'reports']);
+		await addProducts(products);
+		await createFolder(['qrcode', 'reports']);
 	});
 
 	if(process.env.APP_MODE == 'development') {
-		console.log('not enable certificates in development mode');
+		console.log('Not enable certificates in development mode');
 	} else {
 		const options = {
 			key: fs.readFileSync('/etc/letsencrypt/live/automatizavarejo.com.br/privkey.pem'),
@@ -90,7 +89,7 @@ appDataSource.initialize().then(() => {
 	}
 
 }).catch((error) => {
-	console.log('API não conseguiu conectar-se ao Banco de Dados', error);
+	console.log('API was unable to connect to the Database', error);
 	process.exit(128);
 })
 
