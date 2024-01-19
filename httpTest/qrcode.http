@@ -1,0 +1,5 @@
+# test get qrcode url
+GET http://localhost:3007/qrcode/8
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDUzMjQwOTcsImV4cCI6MTcwNTQwNjg5Nywic3ViIjoiMSwgdW5kZWZpbmVkIn0.pX3mCbIZpx2wdoKBQLYZQ6oBKARLcdM-bdJcwW2fgXk
+### end

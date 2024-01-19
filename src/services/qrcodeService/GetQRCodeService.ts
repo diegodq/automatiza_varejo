@@ -1,13 +1,13 @@
 import path from "path";
 import appDataSource from "../../data-source";
-import Company from "../../entities/Company";
 import Store from "../../entities/Store";
-import companyRepository from "../../repositories/companyRepository";
 import storeRepository from "../../repositories/storeRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import paramsConfig from "../../params/paramsConfig";
 import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 import fs from 'fs';
+import Customer from "../../entities/Customer";
+import customerRepository from "../../repositories/customerRepository";
 
 type QRCodeType =
 {
@@ -21,23 +21,23 @@ class GetQRCodeService
 	{
 		const companyId: number = await convertUserIdInCompanyId(company_id);
 
-		const companyExists: Company | null = await companyRepository.findOneBy({ id: companyId });
+		const companyExists: Customer | null = await customerRepository.findOneBy({ id: companyId });
 		if(!companyExists)
 			throw new BadRequestError('company-do-not-exists');
 
-		const company: Company = companyExists;
+		// const company: Company = companyExists;
 
 		if(paramsConfig.params.validateGetQRCodeParams) {
-			if(await this.checkMultiStoreIsOn(company) == 1) {
-				if(await this.checkMultiStoreIsOn(company) == 1 && id_store == undefined) {
+			if(await this.checkMultiStoreIsOn(companyId) == 1) {
+				if(await this.checkMultiStoreIsOn(companyId) == 1 && id_store == undefined) {
 					throw new BadRequestError('multi-store-enable-send-id-store');
 				}
 
-				if(await this.checkMultiStoreIsOn(company) == 0 && id_store != undefined) {
+				if(await this.checkMultiStoreIsOn(companyId) == 0 && id_store != undefined) {
 					throw new BadRequestError('multi-store-disabled-for-this-store');
 				}
 
-				const storeExists: Store | null = await storeRepository.findOneBy({ id: Number(id_store) });
+				const storeExists: Store | null = await storeRepository.findOneBy({ id: companyId });
 				if(!storeExists)
 					throw new BadRequestError('store-not-found');
 
@@ -50,17 +50,17 @@ class GetQRCodeService
 		await queryRunner.connect();
 
 		let resultQueryRunner = null;
-		if(await this.checkMultiStoreIsOn(company)) {
+		if(await this.checkMultiStoreIsOn(company_id)) {
 			resultQueryRunner = await queryRunner.query(`select qrcode_name from qrcode_control where
-			qrcode_control.company_id = ? and qrcode_control.id_store = ?;`, [company, id_store]);
+			qrcode_control.company_id = ? and qrcode_control.id_store = ?;`, [companyId, id_store]);
 		} else {
 			resultQueryRunner = await queryRunner.query(`select substring(qrcode_name, 1, 14) as qrcode_name
-			from qrcode_control where id_store = 0 and company_id = ?;`, [ company ]);
+			from qrcode_control where id_store = 0 and company_id = ?;`, [ companyId ]);
 		}
 
 		await queryRunner.release();
 
-		if(await this.checkMultiStoreIsOn(company) == 0 && resultQueryRunner.length == 0) {
+		if(await this.checkMultiStoreIsOn(company_id) == 0 && resultQueryRunner.length == 0) {
 			throw new BadRequestError('unregistered-qrcode-for-head-office');
 		}
 
@@ -80,13 +80,13 @@ class GetQRCodeService
 			return { status: 'success', address: process.env.IMG_URL + '/qrcode/' + `${qrCodeName}.png` };
 	}
 
-	private async checkMultiStoreIsOn(company: Company): Promise<number>
+	private async checkMultiStoreIsOn(companyId: number): Promise<number>
 	{
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		const multiStoreIsOn = await queryRunner.query(`select multi_store from company_product join company
-		on company.id = company_product.company where company.id = ?;`, [company]);
+		on company.id = company_product.company where company.id = ?;`, [companyId]);
 
 		await queryRunner.release();
 

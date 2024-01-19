@@ -2,7 +2,7 @@ import { BadRequestError } from "../../utils/ApiErrors";
 import Answer from "../../entities/Answer";
 import appDataSource from "../../data-source";
 import { QueryRunner } from 'typeorm';
-import convertUserIdInCompanyId from "src/utils/convertUserIdInCompanyId";
+import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 
 type QueryString =
 {

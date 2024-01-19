@@ -27,7 +27,7 @@ import CheckMultiStoreController from '../controllers/CheckMultiStoreController'
 import TypeCustomerController from '../controllers/TypeCustomerController';
 import QuestionGroupController from '../controllers/QuestionGroupController';
 import QuestionGroupMappingController from '../controllers/QuestionGroupMappingController';
-import isAuthenticatedCustomer from 'src/middleware/isAuthenticatedCustomer';
+import isAuthenticatedCustomer from '../middleware/isAuthenticatedCustomer';
 
 const uploadAvatar: Multer = multer(avatarConfig);
 const uploadCompanyLogo: Multer = multer(configCompanyLogo);

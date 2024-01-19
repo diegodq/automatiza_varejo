@@ -1,4 +1,4 @@
-import convertUserIdInCompanyId from "src/utils/convertUserIdInCompanyId";
+import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 import appDataSource from "../../data-source";
 import Company from "../../entities/Company";
 import { BadRequestError } from "../../utils/ApiErrors";

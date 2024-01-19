@@ -8,8 +8,7 @@ import Customer from "../../entities/Customer";
 import libMail from "../../lib/libMail";
 import paramsConfig from "../../params/paramsConfig";
 import TypeCustomer from '../../entities/TypeCustomer';
-import { BadRequestError } from "src/utils/ApiErrors";
-import convertUserIdInCompanyId from "src/utils/convertUserIdInCompanyId";
+import { BadRequestError } from "../../utils/ApiErrors";
 
 type TypeRequest =
 {
