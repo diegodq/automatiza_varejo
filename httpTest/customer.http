@@ -1,0 +1,29 @@
+# create new user
+POST http://localhost:3007/customer
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDU3NzMxMTYsImV4cCI6MTcwNTg1NTkxNiwic3ViIjoiMiwgdW5kZWZpbmVkIn0.s94ADpxFRTpbBvtpH5jU-A5TDDyZSgA8NFKp05vpJUs
+
+{
+	"first_name": "Rodolfo",
+	"surname": "Canela",
+	"position": "GERENTE",
+	"phone": "(61) 996778575",
+	"email": "rodolfo@gmail.com",
+	"password": "@senha123",
+	"accept_terms": 1,
+	"type_customer": 4,
+	"company": 2
+}
+### end
+
+# delete user
+DELETE http://localhost:3007/customer
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDU3NzMxMTYsImV4cCI6MTcwNTg1NTkxNiwic3ViIjoiMiwgdW5kZWZpbmVkIn0.s94ADpxFRTpbBvtpH5jU-A5TDDyZSgA8NFKp05vpJUs
+
+{
+	"id": 12,
+	"email": "pediegoss@gmail.com",
+	"password": "@senha123"
+}
+###

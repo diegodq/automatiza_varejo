@@ -1,8 +1,9 @@
 # test make login
 POST http://localhost:3007/session
 Content-Type: application/json
+
 {
-	"email": "goncalina23@hotmail.com",
-	"password": "@Goncalina123"
+	"email": "comercial@automatizavarejo.com.br",
+	"password": "@Teste1234"
 }
 ### end

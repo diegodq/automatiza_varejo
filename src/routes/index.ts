@@ -66,6 +66,7 @@ router.get('/multi-store', isAuthenticated, CheckMultiStoreController.checkIfExi
 router.get('/info/store/:id_store', StoreController.getInfoStore);
 router.get('/qrcode/:id_store?', isAuthenticated, QRCodeController.getQRCodeByStore);
 router.get('/list/type/customers', isAuthenticated, TypeCustomerController.list); // make documentation
+router.get('/type/customer', isAuthenticated, TypeCustomerController.getTypeCustomer); // make documentation
 router.get('/list/question/group', isAuthenticated, QuestionGroupController.list); // make documentation
 router.get('/list/group/mapping/:group_id', isAuthenticated, QuestionGroupMappingController.list); // make documentation
 router.get('/list/customer/company', isAuthenticated, CustomerController.listCustomerByCompany); // make documentation

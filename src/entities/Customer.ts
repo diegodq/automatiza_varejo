@@ -10,7 +10,7 @@ class Customer
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@ManyToOne(() => Company, company => company.customer, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+	@ManyToOne(() => Company, company => company.customer, { onUpdate: 'CASCADE' })
 	@JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
 	company: Company;
 

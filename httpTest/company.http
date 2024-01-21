@@ -1,5 +1,17 @@
-# test get qrcode url
-GET http://localhost:3007/qrcode/8
+## create new user
+POST http://localhost:3007/company
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDU3NzMxMTYsImV4cCI6MTcwNTg1NTkxNiwic3ViIjoiMiwgdW5kZWZpbmVkIn0.s94ADpxFRTpbBvtpH5jU-A5TDDyZSgA8NFKp05vpJUs
+
+{
+	"first_name": "",
+	"surname",
+	"position",
+	"phone",
+	"email",
+	"password",
+	"accept_terms",
+	"type_customer"
+}
+
 ### end

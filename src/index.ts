@@ -16,7 +16,6 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './swagger.json';
 import paramsConfig from './params/paramsConfig';
 
-
 const app = express();
 
 const options = {

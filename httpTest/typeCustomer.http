@@ -1,0 +1,15 @@
+# list type customer
+GET http://localhost:3007/type/customer
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDU3NzMxMTYsImV4cCI6MTcwNTg1NTkxNiwic3ViIjoiMiwgdW5kZWZpbmVkIn0.s94ADpxFRTpbBvtpH5jU-A5TDDyZSgA8NFKp05vpJUs
+### end
+
+# add new type user
+POST http://localhost:3007/create/type/customer
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDU3NzMxMTYsImV4cCI6MTcwNTg1NTkxNiwic3ViIjoiMiwgdW5kZWZpbmVkIn0.s94ADpxFRTpbBvtpH5jU-A5TDDyZSgA8NFKp05vpJUs
+
+{
+	"type_customer": "GERENTE"
+}
+###
