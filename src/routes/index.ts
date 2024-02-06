@@ -24,10 +24,11 @@ import ParamsProductController from "../controllers/ParamsProductController";
 import DashboardController from '../controllers/DashboardController';
 import StoreController from '../controllers/StoreController';
 import CheckMultiStoreController from '../controllers/CheckMultiStoreController';
-import TypeCustomerController from '../controllers/TypeCustomerController';
 import QuestionGroupController from '../controllers/QuestionGroupController';
 import QuestionGroupMappingController from '../controllers/QuestionGroupMappingController';
 import isAuthenticatedCustomer from '../middleware/isAuthenticatedCustomer';
+import PermissionController from '../controllers/PermissionController';
+import RolesController from '../controllers/RolesController';
 
 const uploadAvatar: Multer = multer(avatarConfig);
 const uploadCompanyLogo: Multer = multer(configCompanyLogo);
@@ -65,11 +66,13 @@ router.get('/list/store', isAuthenticated, StoreController.listStore);
 router.get('/multi-store', isAuthenticated, CheckMultiStoreController.checkIfExistsMultiStore);
 router.get('/info/store/:id_store', StoreController.getInfoStore);
 router.get('/qrcode/:id_store?', isAuthenticated, QRCodeController.getQRCodeByStore);
-router.get('/list/type/customers', isAuthenticated, TypeCustomerController.list); // make documentation
-router.get('/type/customer', isAuthenticated, TypeCustomerController.getTypeCustomer); // make documentation
-router.get('/list/question/group', isAuthenticated, QuestionGroupController.list); // make documentation
-router.get('/list/group/mapping/:group_id', isAuthenticated, QuestionGroupMappingController.list); // make documentation
-router.get('/list/customer/company', isAuthenticated, CustomerController.listCustomerByCompany); // make documentation
+router.get('/list/question/group', isAuthenticated, QuestionGroupController.list);
+router.get('/list/group/mapping/:group_id', isAuthenticated, QuestionGroupMappingController.list);
+router.get('/list/customer/company', isAuthenticated, CustomerController.listCustomerByCompany);
+router.get('/list/permissions', PermissionController.listPermissionService); // put in the Trello, make documentation
+router.get('/list/roles', RolesController.listRolesService); // put in the Trello, make documentation
+router.get('/list/roles/customer/:id_customer', RolesController.listRoleByCustomer); // put in the Trello, make documentation
+router.get('/list/permission/customer/:id_customer', PermissionController.listPermissionByCustomer); // put in the Trello, make documentation
 
 //chart
 router.get('/dashboard/topics/:from/:to/:type_tree/:id_store?', isAuthenticated, DashboardController.toAmountTopicInAnswers);
@@ -81,6 +84,8 @@ router.get('/dashboard/amount/research/:id_store?', isAuthenticated, DashboardCo
 router.get('/dashboard/amount/nps/:from/:to/:id_store?', isAuthenticated, DashboardController.toAmountNPS);
 
 router.post('/customer', isAuthenticatedCustomer, CustomerController.create);
+router.post('/new/permission', PermissionController.createPermission); // put in the Trello, make documentation
+router.post('/add/permission/customer',);
 router.post('/session', SessionController.create);
 router.post('/forgot-password', CustomerController.send);
 router.post('/company', isAuthenticated, CompanyController.create);
@@ -93,9 +98,8 @@ router.post('/add/product', isAuthenticated, ProductController.addNewProduct);
 router.post('/link/company/product', isAuthenticated, CompanyController.linkCompanyToProduct);
 router.post('/anchor/question', isAuthenticated, ParamsProductController.addAnchorQuestion);
 router.post('/create/store', isAuthenticated, StoreController.create);
-router.post('/create/type/customer',isAuthenticated, TypeCustomerController.create); // make documentation
-router.post('/create/question/group', isAuthenticated, QuestionGroupController.create); // make documentation
-router.post('/create/group/mapping', isAuthenticated, QuestionGroupMappingController.create); // make documentation
+router.post('/create/question/group', isAuthenticated, QuestionGroupController.create);
+router.post('/create/group/mapping', isAuthenticated, QuestionGroupMappingController.create);
 
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);
@@ -105,19 +109,18 @@ router.delete('/question', isAuthenticated, QuestionController.remove);
 router.delete('/answer', isAuthenticated, AnswerController.remove);
 router.delete('/topic', isAuthenticated, TopicController.delete);
 router.delete('/remove/store', isAuthenticated, StoreController.removeStore);
-router.delete('/remove/type/customer/:id',isAuthenticated,TypeCustomerController.remove); // make documentation
-router.delete('/remove/question/group/:id', isAuthenticated, QuestionGroupController.remove); // make documentation
-router.delete('/remove/group/mapping/:id', isAuthenticated, QuestionGroupMappingController.remove); // make documentation
+router.delete('/remove/question/group/:id', isAuthenticated, QuestionGroupController.remove);
+router.delete('/remove/group/mapping/:id', isAuthenticated, QuestionGroupMappingController.remove);
+router.delete('/remove/permission', PermissionController.removePermission); // put in the Trello, make documentation
 
 router.put('/company', isAuthenticated, CompanyController.update);
+router.put('/update/permission', PermissionController.updatePermission); // put in the Trello, make documentation
 router.put('/customer', isAuthenticated, CustomerController.update);
 router.put('/department', isAuthenticated, DepartmentController.update);
 router.put('/question', isAuthenticated, QuestionController.edit);
-// router.put('/answer', isAuthenticated, AnswerController.edit); // to remove
 router.put('/topic', isAuthenticated, TopicController.update);
 router.put('/edit/store', isAuthenticated, StoreController.editStore);
-router.put('/update/type/customer', isAuthenticated, TypeCustomerController.update); // make documentation
-router.put('/update/group/question', isAuthenticated, QuestionGroupController.update); // make documentation
+router.put('/update/group/question', isAuthenticated, QuestionGroupController.update);
 
 router.patch('/avatar', isAuthenticated, uploadAvatar.single('file'), AvatarController.update);
 router.patch('/logo-company', isAuthenticated, uploadCompanyLogo.single('file'), LogoClientController.update);

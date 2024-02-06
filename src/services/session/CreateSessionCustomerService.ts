@@ -33,7 +33,8 @@ class CreateSessionCustomerService
 		}
 
 		const token: string = sign({}, paramsConfig.jwt.secret, {
-			subject: `${String(customer.id)}, ${customer.type_customer}`,
+			// subject: `${String(customer.id)}, ${customer.type_customer}`,
+			subject: String(customer.id),
 			expiresIn: paramsConfig.jwt.expiresIn
 		})
 

@@ -87,7 +87,7 @@ class CreateNewStoreService
 		await queryRunner.connect();
 
 		const multiStoreIsOn = await queryRunner.query(`select multi_store from company_product join company
-		on company.id = company_product.company where company.id = ?;`, [company]);
+		on company.id = company_product.company where company.id = ?;`, [company.id]);
 
 		await queryRunner.release();
 

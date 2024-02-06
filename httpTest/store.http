@@ -1,0 +1,10 @@
+# crate a now store
+POST http://localhost:3007/create/store
+Content-Type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDcxNTM4NzcsImV4cCI6MTcwNzIzNjY3Nywic3ViIjoiMiJ9.KyQHFRtbjG0NK55bSaZaofhtcKP3m8zNFWRjagcVtz8
+
+{
+	"name": "Empresa Comercial 2",
+	"address": "Teste endereço 2",
+	"store_number": 2
+}

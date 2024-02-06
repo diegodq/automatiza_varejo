@@ -91,12 +91,3 @@ appDataSource.initialize().then(() => {
 	console.log('API was unable to connect to the Database', error);
 	process.exit(128);
 })
-
-// post /anchor/question
-// from now on the parameter company become by name company_id
-
-// post /question
-// from now on the parameter company become by name company_id
-
-// post /create/store
-// from now on the parameter company become by name company_id

@@ -1,0 +1,10 @@
+# list roles by employee
+GET http://localhost:3007/list/roles/customer/1
+Content-Type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDYwMzIxODUsImV4cCI6MTcwNjExNDk4NSwic3ViIjoiMiJ9.CWN3kJanZ6X_jLULcWGhaLXlG_pBQxwdW0ECBHeTjMU
+### end
+
+GET http://localhost:3007/list/roles
+Content-Type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDYwMzIxODUsImV4cCI6MTcwNjExNDk4NSwic3ViIjoiMiJ9.CWN3kJanZ6X_jLULcWGhaLXlG_pBQxwdW0ECBHeTjMU
+### end

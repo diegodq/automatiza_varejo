@@ -23,7 +23,8 @@ class Company
 	@OneToMany(() => Customer, customer => customer.company)
 	customer: Customer[];
 
-	@ManyToMany(() => Product, product => product.company, { nullable: true, onUpdate: 'CASCADE', onDelete: 'CASCADE' })
+	@ManyToMany(() => Product,
+	product => product.company, { nullable: true, onUpdate: 'CASCADE', onDelete: 'CASCADE' })
 	@JoinTable({
 		name: 'company_product',
 		joinColumn: {

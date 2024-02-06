@@ -24,10 +24,10 @@ class CustomerController
 	{
 		const company = request.userId;
 
-		const { first_name, surname, position, phone, email, password, accept_terms, type_customer } = request.body;
+		const { first_name, surname, position, phone, email, password, accept_terms } = request.body;
 
 		const createCustomerService: CreateCustomerService = new CreateCustomerService();
-		const newCustomer: string | object = await createCustomerService.execute({ first_name, surname, position, phone, email, password, accept_terms, type_customer, company });
+		const newCustomer: string | object = await createCustomerService.execute({ first_name, surname, position, phone, email, password, accept_terms, company });
 
 		return response.status(201).json({ status: 'success', message: newCustomer });
 	}

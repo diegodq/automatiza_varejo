@@ -1,0 +1,34 @@
+# add new permission
+POST http://localhost:3007/new/permission
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDYwMzIxODUsImV4cCI6MTcwNjExNDk4NSwic3ViIjoiMiJ9.CWN3kJanZ6X_jLULcWGhaLXlG_pBQxwdW0ECBHeTjMU
+
+{
+	"name": "permission test 3",
+	"description": "permission test 3"
+}
+### end
+
+# update one permission
+PUT http://localhost:3007/update/permission
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDYwMzIxODUsImV4cCI6MTcwNjExNDk4NSwic3ViIjoiMiJ9.CWN3kJanZ6X_jLULcWGhaLXlG_pBQxwdW0ECBHeTjMU
+
+{
+	"id": 5,
+	"name": "permission test1",
+	"description": "permission test1"
+}
+### end
+
+# list permission
+GET http://localhost:3007/list/permissions
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDYwMzIxODUsImV4cCI6MTcwNjExNDk4NSwic3ViIjoiMiJ9.CWN3kJanZ6X_jLULcWGhaLXlG_pBQxwdW0ECBHeTjMU
+### end
+
+# delete a permission
+DELETE http://localhost:3007/remove/permission
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDYwMzIxODUsImV4cCI6MTcwNjExNDk4NSwic3ViIjoiMiJ9.CWN3kJanZ6X_jLULcWGhaLXlG_pBQxwdW0ECBHeTjMU
+### end
