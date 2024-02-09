@@ -12,7 +12,7 @@ class Roles
 	@JoinTable({
 		name: 'roles_customer',
 		joinColumn: {
-			name: 'rules',
+			name: 'role',
 			referencedColumnName: 'id'
 		},
 		inverseJoinColumn: {

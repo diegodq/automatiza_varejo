@@ -1,7 +1,7 @@
 # create new user
 POST http://localhost:3007/customer
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDU3NzMxMTYsImV4cCI6MTcwNTg1NTkxNiwic3ViIjoiMiwgdW5kZWZpbmVkIn0.s94ADpxFRTpbBvtpH5jU-A5TDDyZSgA8NFKp05vpJUs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDc0Mzg3ODEsImV4cCI6MTcwNzUyMTU4MSwic3ViIjoiMiJ9.rI9APKXHKcXHdDXNHJEkNUpl-Tkwpiz4_-RXs-l1KAs
 
 {
 	"first_name": "Rodolfo",
@@ -19,11 +19,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDU3NzMxM
 # delete user
 DELETE http://localhost:3007/customer
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDU3NzMxMTYsImV4cCI6MTcwNTg1NTkxNiwic3ViIjoiMiwgdW5kZWZpbmVkIn0.s94ADpxFRTpbBvtpH5jU-A5TDDyZSgA8NFKp05vpJUs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDc0Mzg3ODEsImV4cCI6MTcwNzUyMTU4MSwic3ViIjoiMiJ9.rI9APKXHKcXHdDXNHJEkNUpl-Tkwpiz4_-RXs-l1KAs
 
 {
 	"id": 12,
 	"email": "pediegoss@gmail.com",
 	"password": "@senha123"
 }
+###
+
+GET http://localhost:3007/list/customer/company
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDc1MDI2NDksImV4cCI6MTcwNzU4NTQ0OSwic3ViIjoiMiJ9.KPxs1j-Mj9VWBscOyetRXyzzOYgeZMw3BG0nOQEsvnc
 ###
