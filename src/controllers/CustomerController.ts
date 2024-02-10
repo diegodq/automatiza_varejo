@@ -17,6 +17,7 @@ import ResendActivateAccountService from '../services/customer/ResendActivateAcc
 import Customer from '../entities/Customer';
 import UpdateEmailCustomerService from '../services/customer/UpdateEmailCustomerService';
 import ListCustomerByCompanyService from '../services/customer/ListCustomerByCompanyService';
+import GetTypeCustomer from '../services/customer/GetTypeCustomer';
 
 class CustomerController
 {
@@ -189,6 +190,16 @@ class CustomerController
 		const resendEmail: string = await resendActivateAccountService.execute({ email });
 
 		return response.status(200).json({ status: 'success', resendEmail});
+	}
+
+	static async getTypeCustomer(request: Request, response: Response): Promise<Response>
+	{
+		const id = request.userId;
+
+		// const getTypeCustomerService: GetTypeCustomer = new GetTypeCustomer();
+		// const result = getTypeCustomerService.execute(id);
+
+		return response.status(200).json(id);
 	}
 }
 

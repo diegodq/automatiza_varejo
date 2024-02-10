@@ -1,7 +1,7 @@
 # create new user
 POST http://localhost:3007/customer
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDc0Mzg3ODEsImV4cCI6MTcwNzUyMTU4MSwic3ViIjoiMiJ9.rI9APKXHKcXHdDXNHJEkNUpl-Tkwpiz4_-RXs-l1KAs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDc1ODI4MTUsImV4cCI6MTcwNzY2NTYxNSwic3ViIjoiMiJ9.XF2EJ1s5SiIIr3DiFGju30s8x9O1Lb_MEjxsobg0A2c
 
 {
 	"first_name": "Rodolfo",
@@ -19,7 +19,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDc0Mzg3O
 # delete user
 DELETE http://localhost:3007/customer
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDc0Mzg3ODEsImV4cCI6MTcwNzUyMTU4MSwic3ViIjoiMiJ9.rI9APKXHKcXHdDXNHJEkNUpl-Tkwpiz4_-RXs-l1KAs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDc1ODI4MTUsImV4cCI6MTcwNzY2NTYxNSwic3ViIjoiMiJ9.XF2EJ1s5SiIIr3DiFGju30s8x9O1Lb_MEjxsobg0A2c
 
 {
 	"id": 12,
@@ -30,5 +30,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDc0Mzg3O
 
 GET http://localhost:3007/list/customer/company
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDc1MDI2NDksImV4cCI6MTcwNzU4NTQ0OSwic3ViIjoiMiJ9.KPxs1j-Mj9VWBscOyetRXyzzOYgeZMw3BG0nOQEsvnc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDc1ODI4MTUsImV4cCI6MTcwNzY2NTYxNSwic3ViIjoiMiJ9.XF2EJ1s5SiIIr3DiFGju30s8x9O1Lb_MEjxsobg0A2c
+###
+
+GET http://localhost:3007/type/customer
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDc1ODI4MTUsImV4cCI6MTcwNzY2NTYxNSwic3ViIjoiMiJ9.XF2EJ1s5SiIIr3DiFGju30s8x9O1Lb_MEjxsobg0A2c
 ###

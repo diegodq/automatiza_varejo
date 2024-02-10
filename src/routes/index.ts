@@ -73,6 +73,7 @@ router.get('/list/permissions', PermissionController.listPermissionService); // 
 router.get('/list/roles', RolesController.listRolesService); // put in the Trello, make documentation
 router.get('/list/roles/customer/:id_customer', RolesController.listRoleByCustomer); // put in the Trello, make documentation
 router.get('/list/permission/customer/:id_customer', PermissionController.listPermissionByCustomer); // put in the Trello, make documentation
+router.get('/type/customer', CustomerController.getTypeCustomer);
 
 //chart
 router.get('/dashboard/topics/:from/:to/:type_tree/:id_store?', isAuthenticated, DashboardController.toAmountTopicInAnswers);
