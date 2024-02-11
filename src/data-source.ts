@@ -1,6 +1,24 @@
 import 'dotenv/config';
 import { DataSource } from "typeorm";
 
+import Answer from './entities/Answer';
+import Company from './entities/Company';
+import ContactUs from './entities/ContactUs';
+import Customer from './entities/Customer';
+import CustomerTokens from './entities/CustomerTokens';
+import Department from './entities/Department';
+import ParamsProduct from './entities/ParamsProduct';
+import ParamsQuestions from './entities/ParamsQuestions';
+import Permissions from './entities/Permissions';
+import Product from './entities/Product';
+import QRCodeControl from './entities/QRCodeControl';
+import Question from './entities/Question';
+import QuestionGroup from './entities/QuestionGroup';
+import QuestionGroupMapping from './entities/QuestionGroupMapping';
+import Roles from './entities/Roles';
+import Store from './entities/Store';
+import Topic from './entities/Topic';
+
 const port: number | undefined = process.env.DB_PORT as number | undefined;
 
 const appDataSource: DataSource = new DataSource({
@@ -11,7 +29,23 @@ const appDataSource: DataSource = new DataSource({
 	password: process.env.DB_PASS,
 	database: process.env.DB_NAME,
 	entities: [
-		`${__dirname}/**/entities/*.ts`
+		Answer,
+		Company,
+		ContactUs,
+		Customer,
+		CustomerTokens,
+		Department,
+		ParamsProduct,
+		ParamsQuestions,
+		Permissions,
+		Product,
+		QRCodeControl,
+		Question,
+		QuestionGroup,
+		QuestionGroupMapping,
+		Roles,
+		Store,
+		Topic
 	],
 	migrations: [
 		`${__dirname}/**/migrations/*.ts`

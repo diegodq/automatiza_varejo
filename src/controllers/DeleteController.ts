@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import appDataSource from "src/data-source";
+import appDataSource from "../data-source";
 import { QueryRunner } from "typeorm";
 
 class DeleteController

@@ -4,7 +4,7 @@ import UpdatePermissionService from "../services/permissions/UpdatePermissionSer
 import ListPermissionsService from "../services/permissions/ListPermissionsService";
 import RemovePermissionsService from "../services/permissions/RemovePermissionsService";
 import AddPermissionToCustomerService from "../services/permissions/AddPermissionToCustomerService";
-import ListPermissionsByCustomerService from "src/services/permissions/ListPermissionsByCustomerService";
+import ListPermissionsByCustomerService from "../services/permissions/ListPermissionsByCustomerService";
 
 class PermissionController
 {

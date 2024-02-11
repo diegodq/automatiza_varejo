@@ -18,7 +18,7 @@ import Customer from '../entities/Customer';
 import UpdateEmailCustomerService from '../services/customer/UpdateEmailCustomerService';
 import ListCustomerByCompanyService from '../services/customer/ListCustomerByCompanyService';
 import GetTypeCustomer from '../services/customer/GetTypeCustomer';
-import ListTypeCustomersService from 'src/services/customer/ListTypeCustomersService';
+import ListTypeCustomersService from '../services/customer/ListTypeCustomersService';
 
 class CustomerController
 {
