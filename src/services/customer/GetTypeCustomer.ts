@@ -1,4 +1,4 @@
-import appDataSource from "src/data-source";
+import appDataSource from "../../data-source";
 import { QueryRunner } from "typeorm";
 
 class GetTypeCustomer
@@ -6,7 +6,6 @@ class GetTypeCustomer
 	public async execute(id: string): Promise<object>
 	{
 		const idCustomer = Number(id);
-		console.log(idCustomer);
 
 		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();

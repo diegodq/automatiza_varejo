@@ -18,6 +18,7 @@ import Customer from '../entities/Customer';
 import UpdateEmailCustomerService from '../services/customer/UpdateEmailCustomerService';
 import ListCustomerByCompanyService from '../services/customer/ListCustomerByCompanyService';
 import GetTypeCustomer from '../services/customer/GetTypeCustomer';
+import ListTypeCustomersService from 'src/services/customer/ListTypeCustomersService';
 
 class CustomerController
 {
@@ -44,6 +45,7 @@ class CustomerController
 	static async listCustomerByCompany(request: Request, response: Response): Promise<Response>
 	{
 		const company = request.userId;
+		console.log(company);
 		const { idRole } = request.params;
 
 		const idRoleNumber = Number(idRole);
@@ -196,10 +198,18 @@ class CustomerController
 	{
 		const id = request.userId;
 
-		// const getTypeCustomerService: GetTypeCustomer = new GetTypeCustomer();
-		// const result = getTypeCustomerService.execute(id);
+		const getTypeCustomer = new GetTypeCustomer();
+		const result: object = await getTypeCustomer.execute(id);
 
-		return response.status(200).json(id);
+		return response.status(200).json(result);
+	}
+
+	static async listTypeCustomers(request: Request, response: Response)
+	{
+		const listTypeCustomers: ListTypeCustomersService = new ListTypeCustomersService();
+		const result: object = await listTypeCustomers.execute();
+
+		return response.status(200).json(result);
 	}
 }
 

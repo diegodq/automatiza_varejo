@@ -1,8 +1,8 @@
 import Customer from '../entities/Customer';
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Entity("permission")
-class Permission
+@Entity("permissions")
+class Permissions
 {
 	@PrimaryGeneratedColumn()
 	id: number;
@@ -18,11 +18,11 @@ class Permission
 	@JoinTable({
 		name: 'customer_permissions',
 		joinColumn: {
-			name: 'customer',
+			name: 'customer_id',
 			referencedColumnName: 'id'
 		},
 		inverseJoinColumn: {
-			name: 'permission',
+			name: 'permission_id',
 			referencedColumnName: 'id'
 		}
 	})
@@ -70,4 +70,4 @@ class Permission
 	}
 }
 
-export default Permission;
+export default Permissions;

@@ -4,7 +4,7 @@ import ContactUsController from "../controllers/ContactUsController";
 import CustomerController from "../controllers/CustomerController";
 import CompanyController from "../controllers/CompanyController";
 import SessionController from "../controllers/SessionController";
-import isAuthenticated from "../middleware/isAuthenticated";
+import { isAuthenticated } from "../middleware/isAuthenticated";
 import WelcomeController from "../controllers/WelcomeController";
 import avatarConfig from "../configurations/avatarConfig";
 import configCompanyLogo from "../configurations/configCompanyLogo";
@@ -29,6 +29,7 @@ import QuestionGroupMappingController from '../controllers/QuestionGroupMappingC
 import isAuthenticatedCustomer from '../middleware/isAuthenticatedCustomer';
 import PermissionController from '../controllers/PermissionController';
 import RolesController from '../controllers/RolesController';
+import DeleteController from '../controllers/DeleteController';
 
 const uploadAvatar: Multer = multer(avatarConfig);
 const uploadCompanyLogo: Multer = multer(configCompanyLogo);
@@ -73,7 +74,8 @@ router.get('/list/permissions', PermissionController.listPermissionService); // 
 router.get('/list/roles', RolesController.listRolesService); // put in the Trello, make documentation
 router.get('/list/roles/customer/:id_customer', RolesController.listRoleByCustomer); // put in the Trello, make documentation
 router.get('/list/permission/customer/:id_customer', PermissionController.listPermissionByCustomer); // put in the Trello, make documentation
-router.get('/type/customer', CustomerController.getTypeCustomer);
+router.get('/type/customer', isAuthenticated, CustomerController.getTypeCustomer);
+router.get('/list/type/customers', isAuthenticated, CustomerController.listTypeCustomers);
 
 //chart
 router.get('/dashboard/topics/:from/:to/:type_tree/:id_store?', isAuthenticated, DashboardController.toAmountTopicInAnswers);
@@ -102,6 +104,8 @@ router.post('/create/store', isAuthenticated, StoreController.create);
 router.post('/create/question/group', isAuthenticated, QuestionGroupController.create);
 router.post('/create/group/mapping', isAuthenticated, QuestionGroupMappingController.create);
 
+// test permissions
+router.delete('/delete/tests', isAuthenticated, DeleteController.deleteTest);
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);
 router.delete('/avatar', isAuthenticated, CustomerController.removeAvatarCustomer);

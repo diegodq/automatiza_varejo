@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import paramsConfig from "../params/paramsConfig";
 import { UnauthorizedError } from "../utils/ApiErrors";
 
-function isAuthenticated(request: Request, response: Response, next: NextFunction)
+export function isAuthenticated(request: Request, response: Response, next: NextFunction)
 {
 	const authHeader: string | undefined = request.headers.authorization;
 	if(!authHeader) {
@@ -24,5 +24,3 @@ function isAuthenticated(request: Request, response: Response, next: NextFunctio
 		return response.status(400).json({ valid: false, message: 'Acesso não autorizado.' });
 	}
 }
-
-export default isAuthenticated;
