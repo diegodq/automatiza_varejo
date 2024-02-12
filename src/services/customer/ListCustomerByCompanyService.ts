@@ -6,28 +6,21 @@ import convertUserIdInCompanyId from '../../utils/convertUserIdInCompanyId';
 
 type ListRequest =
 {
-	company: Company,
-	idRoleNumber: number
+	company: Company
 }
 
 class ListCustomerByCompanyService
 {
 	public async execute({ company }: ListRequest): Promise<object>
 	{
-		const idCustomer = await convertUserIdInCompanyId(Number(company));
-		const idCompany = idCustomer;
-
-		const idRoleNumber = await this.getRoleIdCustomer(idCustomer);
+		const idCustomer: number = await convertUserIdInCompanyId(Number(company));
 
 		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		const queryResult = await queryRunner.query(`select company.fantasy_name, customer.id, customer.first_name,
-		customer.surname, customer.position, customer.activated, customer.email,
-		customer.avatar, roles.name as role from customer join roles_customer
-		on customer.id = roles_customer.customer join roles on roles.id = roles_customer.role
-		join company on customer.company_id = company.id
-		where customer.id = ? and roles.id = ? and company.id = ?;`, [idCustomer, idRoleNumber, idCompany]);
+		const queryResult = await queryRunner.query(`select customer.id, customer.company_id, customer.first_name, customer.surname,
+		customer.position, customer.activated, customer.email from customer
+		join company on company.id = customer.company_id where customer.company_id = ?;`, [idCustomer]);
 
 		await queryRunner.release();
 
@@ -45,23 +38,6 @@ class ListCustomerByCompanyService
 		}
 
 		return queryResult;
-	}
-
-	private async getRoleIdCustomer(idCustomer: number): Promise<number>
-	{
-		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
-		await queryRunner.connect();
-
-		const getRoleId = await queryRunner.query(`select roles_customer.role from roles_customer
-		where roles_customer.customer = ?;`,[idCustomer]);
-
-		await queryRunner.release();
-
-		const roleId = getRoleId.map((item: { role: number }) => {
-			return item.role;
-		});
-
-		return roleId;
 	}
 }
 

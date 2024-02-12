@@ -45,13 +45,9 @@ class CustomerController
 	static async listCustomerByCompany(request: Request, response: Response): Promise<Response>
 	{
 		const company = request.userId;
-		console.log(company);
-		const { idRole } = request.params;
-
-		const idRoleNumber = Number(idRole);
 
 		const listCustomerByCompanyService: ListCustomerByCompanyService = new ListCustomerByCompanyService();
-		const listCustomerByCompany: object = await listCustomerByCompanyService.execute({ company, idRoleNumber });
+		const listCustomerByCompany: object = await listCustomerByCompanyService.execute({ company });
 
 		return response.status(200).json(listCustomerByCompany);
 	}
