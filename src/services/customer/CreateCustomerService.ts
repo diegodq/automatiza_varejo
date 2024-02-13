@@ -45,7 +45,7 @@ class CreateCustomerService
 			const token: string = await generateCustomerForgotTokenService.generate({ email });
 
 			if(paramsConfig.params.useQueueForSendNotifications) {
-				const user = { first_name, email, token, newCustomer }
+				const user = { first_name, email, token, newCustomer };
 
 				await libMail.add({ user });
 			} else {

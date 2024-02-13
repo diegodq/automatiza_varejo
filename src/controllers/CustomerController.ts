@@ -76,10 +76,12 @@ class CustomerController
 
 	static async remove(request: Request, response: Response): Promise<Response>
 	{
+		const root: string = request.userId;
+
 		const { id, email, password } = request.body;
 
 		const removeCustomerService: RemoveCustomerService = new RemoveCustomerService();
-		const customerRemoved: string = await removeCustomerService.execute({ id, email, password });
+		const customerRemoved: string = await removeCustomerService.execute({ root, id, email, password });
 
 		return response.status(200).json({ status: 'success', message: customerRemoved });
 	}
