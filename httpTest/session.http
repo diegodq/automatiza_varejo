@@ -3,7 +3,7 @@ POST http://localhost:3007/session
 Content-Type: application/json
 
 {
-	"email": "comercial@automatizavarejo.com.br",
+	"email": "carlos@automatizavarejo.com.br",
 	"password": "@Teste1234"
 }
 ### end

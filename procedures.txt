@@ -1,0 +1,26 @@
+CREATE PROCEDURE remove_companies_and_users(in customer_id int, in company_id int)
+begin
+	-- foreign key customer
+	delete from customer_tokens where customer_tokens.customer_id = customer_id;
+	delete from roles_customer where roles_customer.customer_id = customer_id;
+	delete from customer_permissions where customer_permissions.customer_id = customer_id;
+	delete from customer where customer.company_id = company_id;
+
+	-- foreign keys company
+	delete from store where store.company_id = company_id;
+	delete from department where department.company_id = company_id;
+	delete from company_product where company_product.company = company_id;
+	delete from params_product where params_product.company_id = company_id;
+	delete from question where question.company_id = company_id;
+	delete from qrcode_control where qrcode_control.company_id = company_id;
+	delete from topic where topic.company_id = company_id;
+	delete from company where company.id = company_id;
+end;
+
+
+begin
+	delete from customer_permissions where customer_permissions.customer_id = customer_id;
+	delete from roles_customer where roles_customer.customer_id = customer_id;
+	delete from customer_tokens where customer_tokens.customer_id = customer_id;
+	delete from customer where customer.id = customer_id;
+end;
