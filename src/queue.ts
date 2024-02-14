@@ -1,5 +1,7 @@
 import 'dotenv/config';
-import libMail from './lib/libMail';
+import { libCreateAccountMail, libDeleteAccountMail } from './lib/libMail';
 import customerNotification from './jobs/customerNotification';
+import deleteAccountNotification from './jobs/deleteAccountNotification';
 
-libMail.process(customerNotification.handle);
+libCreateAccountMail.process(customerNotification.handle);
+libDeleteAccountMail.process(deleteAccountNotification.handle);

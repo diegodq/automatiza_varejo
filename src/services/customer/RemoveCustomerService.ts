@@ -6,6 +6,8 @@ import { BadRequestError } from "../../utils/ApiErrors";
 import Mailer from "../../configurations/mailer/Mailer";
 import Customer from '../../entities/Customer';
 import appDataSource from '../../data-source';
+import paramsConfig from "../../params/paramsConfig";
+import { libDeleteAccountMail } from "src/lib/libMail";
 
 type RequestCustomer =
 {
@@ -47,22 +49,13 @@ class RemoveCustomerService
 
 			this.deleteCustomersAndCompany(customer_id, company_id);
 
-			const accountRemoved: string = path.resolve(__dirname, '..', '..', 'notifications', 'account-removed.hbs');
-			await Mailer.sendMail({
-				from: {
-					name: 'Equipe Automatiza Varejo',
-					email: 'noreply@automatizavarejo.com.br'
-				},
-				to: {
-					name: customer.first_name,
-					email: customer.email
-				},
-				subject: 'Exclusão de conta',
-				templateData: {
-					file: accountRemoved,
-					variables: {}
-				}
-			});
+			if(paramsConfig.params.useQueueForSendNotifications) {
+				const user = { customer };
+
+				await libDeleteAccountMail.add({ user });
+			} else {
+				await this.sendNotificationWithoutQueue(customer);
+			}
 
 			return 'account-removed';
 		}
@@ -91,6 +84,26 @@ class RemoveCustomerService
 		this.deleteCustomer(customer);
 
 		return 'customer-removed';
+	}
+
+	private async sendNotificationWithoutQueue(customer: Customer)
+	{
+		const accountRemoved: string = path.resolve(__dirname, '..', '..', 'notifications', 'account-removed.hbs');
+		await Mailer.sendMail({
+			from: {
+				name: 'Equipe Automatiza Varejo',
+				email: 'noreply@automatizavarejo.com.br'
+			},
+			to: {
+				name: customer.first_name,
+				email: customer.email
+			},
+			subject: 'Exclusão de conta',
+			templateData: {
+				file: accountRemoved,
+				variables: {}
+			}
+		});
 	}
 
 	private async findCompanyByUser(customer: number)

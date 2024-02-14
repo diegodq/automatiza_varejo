@@ -5,7 +5,7 @@ import Company from "../../entities/Company";
 import GenerateCustomerForgotTokenService from "../session/GenerateCustomerForgotTokenService";
 import Mailer from "../../configurations/mailer/Mailer";
 import Customer from "../../entities/Customer";
-import libMail from "../../lib/libMail";
+import { libCreateAccountMail } from "../../lib/libMail";
 import paramsConfig from "../../params/paramsConfig";
 import { BadRequestError } from "../../utils/ApiErrors";
 
@@ -47,7 +47,7 @@ class CreateCustomerService
 			if(paramsConfig.params.useQueueForSendNotifications) {
 				const user = { first_name, email, token, newCustomer };
 
-				await libMail.add({ user });
+				await libCreateAccountMail.add({ user });
 			} else {
 				await this.sendNotificationWithoutQueue({ first_name, email, token, newCustomer });
 			}
