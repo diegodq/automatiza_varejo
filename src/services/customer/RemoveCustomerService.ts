@@ -47,6 +47,23 @@ class RemoveCustomerService
 
 			this.deleteCustomersAndCompany(customer_id, company_id);
 
+			const accountRemoved: string = path.resolve(__dirname, '..', '..', 'notifications', 'account-removed.hbs');
+			await Mailer.sendMail({
+				from: {
+					name: 'Equipe Automatiza Varejo',
+					email: 'noreply@automatizavarejo.com.br'
+				},
+				to: {
+					name: customer.first_name,
+					email: customer.email
+				},
+				subject: 'Exclusão de conta',
+				templateData: {
+					file: accountRemoved,
+					variables: {}
+				}
+			});
+
 			return 'account-removed';
 		}
 
@@ -102,23 +119,6 @@ class RemoveCustomerService
 		await queryRunner.query(`call remove_companies_and_users(?, ?);`, [customer_id, company_id]);
 
 		await queryRunner.release();
-
-		// const accountRemoved: string = path.resolve(__dirname, '..', '..', 'notifications', 'account-removed.hbs');
-		// await Mailer.sendMail({
-		// 	from: {
-		// 		name: 'Equipe Automatiza Varejo',
-		// 		email: 'noreply@automatizavarejo.com.br'
-		// 	},
-		// 	to: {
-		// 		name: customer.first_name,
-		// 		email: customer.email
-		// 	},
-		// 	subject: 'Exclusão de conta',
-		// 	templateData: {
-		// 		file: accountRemoved,
-		// 		variables: {}
-		// 	}
-		// });
 	}
 
 	private async deleteCustomer(customer: Customer): Promise<void>
