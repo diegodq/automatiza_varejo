@@ -21,6 +21,7 @@ import GetTypeCustomer from '../services/customer/GetTypeCustomer';
 import ListTypeCustomersService from '../services/customer/ListTypeCustomersService';
 import JoinCustomerRoleService from '../services/customer/JoinCustomerRoleService';
 import UpdateJoinCustomerRole from '../services/customer/UpdateJoinCustomerRole';
+import JoinCustomerPermissionsService from './JoinCustomerPermissionsService';
 
 class CustomerController
 {
@@ -230,6 +231,16 @@ class CustomerController
 		const result: string = await updateJoinCustomerRole.execute({ role_id, customer_id });
 
 		return response.status(200).json(result);
+	}
+
+	static async joinCustomerPermissions(request: Request, response: Response): Promise<Response>
+	{
+		// const joinCustomerPermissionsService: JoinCustomerPermissionsService = new JoinCustomerPermissionsService();
+		// const result: string = await joinCustomerPermissionsService.execute({ customer_id, permissions });
+
+		console.log(request.body.permissions);
+
+		return response.status(200).json(request.body.permissions);
 	}
 }
 
