@@ -128,6 +128,7 @@ router.put('/question', isAuthenticated, QuestionController.edit);
 router.put('/topic', isAuthenticated, TopicController.update);
 router.put('/edit/store', isAuthenticated, StoreController.editStore);
 router.put('/update/group/question', isAuthenticated, QuestionGroupController.update);
+router.put('/update/customer/permissions', isAuthenticated, CustomerController.updateCustomerPermissions);
 
 router.patch('/avatar', isAuthenticated, uploadAvatar.single('file'), AvatarController.update);
 router.patch('/logo-company', isAuthenticated, uploadCompanyLogo.single('file'), LogoClientController.update);

@@ -1,45 +1,67 @@
 import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
-import paramsConfig from "../../params/paramsConfig";
 import Customer from '../../entities/Customer';
+
+type dataJson = {
+	[key: string]: string | number;
+}
 
 type TypeRequest =
 {
-	id: string;
-	first_name: string;
-	surname: string;
-	position: string;
-	phone: string;
+	tokenId: string;
+	dataJson: dataJson;
 }
 
 class UpdateCustomerService
 {
-	public async execute({ id, first_name, surname, position, phone }: TypeRequest): Promise<string>
+	public async execute({ tokenId, dataJson }: TypeRequest): Promise<string>
 	{
-		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
-		if (!customer) {
-			throw new BadRequestError('Cliente não encontrado.');
+		let keyFound = false;
+		for (const key in dataJson)
+		{
+			if(key === 'id') {
+				keyFound = true;
+				break;
+			}
 		}
 
-		if(paramsConfig.params.allowChangeCPF) {
-			customer.first_name = first_name;
-			customer.surname = surname;
-			customer.position = position;
-			customer.phone = phone;
+		if (!keyFound) {
+			const customer: Customer | null = await customerRepository.findOneBy({ id: Number(tokenId) });
+			if(!customer) {
+				throw new BadRequestError('customer-not-found.');
+			}
 
-			await customerRepository.save(customer);
+			await customerRepository.update(customer.id, dataJson);
 		}
 
-		if(!paramsConfig.params.allowChangeCPF) {
-			customer.first_name = first_name;
-			customer.surname = surname;
-			customer.position = position;
-			customer.phone = phone;
-
-			await customerRepository.save(customer);
+		let idClient = 0
+		for (const idCustomer in dataJson)
+		{
+			if (idCustomer === 'id') {
+				const id: number = dataJson[idCustomer] as number;
+				idClient = id;
+			}
 		}
 
-		return 'Cliente atualizado.';
+		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(idClient) });
+		if(!customer) {
+			throw new BadRequestError('customer-not-found.');
+		}
+
+		const newDataJson = await this.returnNewObject(dataJson, String(idClient));
+
+		await customerRepository.update(customer.id, newDataJson);
+		return 'customer-updated';
+	}
+
+	private async returnNewObject(dataJson: any, keyToRemove: string): Promise<object>
+	{
+		const newObject = { ...dataJson };
+		if (keyToRemove in newObject) {
+			delete newObject[keyToRemove];
+		}
+
+		return newObject;
 	}
 }
 

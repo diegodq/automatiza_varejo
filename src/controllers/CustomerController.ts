@@ -22,6 +22,7 @@ import ListTypeCustomersService from '../services/customer/ListTypeCustomersServ
 import JoinCustomerRoleService from '../services/customer/JoinCustomerRoleService';
 import UpdateJoinCustomerRole from '../services/customer/UpdateJoinCustomerRole';
 import JoinCustomerPermissionsService from './JoinCustomerPermissionsService';
+import UpdateCustomerPermissionsService from './UpdateCustomerPermissionsService';
 
 class CustomerController
 {
@@ -67,12 +68,10 @@ class CustomerController
 
 	static async update(request: Request, response: Response): Promise<Response>
 	{
-		const id: string = request.userId;
-
-		const { first_name, surname, position, phone } = request.body;
+		const tokenId: string = request.userId;
 
 		const updateCustomerService: UpdateCustomerService = new UpdateCustomerService();
-		const updateCustomer: string = await updateCustomerService.execute({ id, first_name, surname, position, phone });
+		const updateCustomer: string = await updateCustomerService.execute({ tokenId, dataJson: request.body });
 
 		return response.status(201).json({ status: 'success', message: updateCustomer });
 	}
@@ -235,12 +234,18 @@ class CustomerController
 
 	static async joinCustomerPermissions(request: Request, response: Response): Promise<Response>
 	{
-		// const joinCustomerPermissionsService: JoinCustomerPermissionsService = new JoinCustomerPermissionsService();
-		// const result: string = await joinCustomerPermissionsService.execute({ customer_id, permissions });
+		const joinCustomerPermissionsService: JoinCustomerPermissionsService = new JoinCustomerPermissionsService();
+		const result: string = await joinCustomerPermissionsService.execute({ customer_id: request.body.customer_id, permissions: request.body.permissions });
 
-		console.log(request.body.permissions);
+		return response.status(200).json(result);
+	}
 
-		return response.status(200).json(request.body.permissions);
+	static async updateCustomerPermissions(request: Request, response: Response): Promise<Response>
+	{
+		const updateCustomerPermissionsService: UpdateCustomerPermissionsService = new UpdateCustomerPermissionsService();
+		const result: string = await updateCustomerPermissionsService.execute({ customer_id: request.body.customer_id, permissions: request.body.permissions });
+
+		return response.status(200).json(result);
 	}
 }
 

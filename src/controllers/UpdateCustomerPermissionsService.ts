@@ -5,7 +5,7 @@ type RequestType = {
 	permissions: []
 }
 
-class JoinCustomerPermissionsService
+class UpdateCustomerPermissionsService
 {
 	public async execute({ customer_id, permissions }: RequestType): Promise<string>
 	{
@@ -16,6 +16,7 @@ class JoinCustomerPermissionsService
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
+		await queryRunner.query(`delete from customer_permissions where customer_id = ?;`, [customer_id]);
 		for(let index = 0; index < sortArray.length; index++)
 		{
 			queryRunner.query(`insert into customer_permissions (customer_id, permission_id) values (${customer_id}, ${sortArray[index]})`);
@@ -23,8 +24,8 @@ class JoinCustomerPermissionsService
 
 		await queryRunner.release();
 
-		return 'permission-added';
+		return 'permission-updated';
 	}
 }
 
-export default JoinCustomerPermissionsService;
+export default UpdateCustomerPermissionsService;
