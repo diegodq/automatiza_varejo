@@ -19,6 +19,8 @@ import UpdateEmailCustomerService from '../services/customer/UpdateEmailCustomer
 import ListCustomerByCompanyService from '../services/customer/ListCustomerByCompanyService';
 import GetTypeCustomer from '../services/customer/GetTypeCustomer';
 import ListTypeCustomersService from '../services/customer/ListTypeCustomersService';
+import JoinCustomerRoleService from '../services/customer/JoinCustomerRoleService';
+import UpdateJoinCustomerRole from '../services/customer/UpdateJoinCustomerRole';
 
 class CustomerController
 {
@@ -202,10 +204,30 @@ class CustomerController
 		return response.status(200).json(result);
 	}
 
-	static async listTypeCustomers(request: Request, response: Response)
+	static async listTypeCustomers(request: Request, response: Response): Promise<Response>
 	{
 		const listTypeCustomers: ListTypeCustomersService = new ListTypeCustomersService();
 		const result: object = await listTypeCustomers.execute();
+
+		return response.status(200).json(result);
+	}
+
+	static async joinCustomerRole(request: Request, response: Response): Promise<Response>
+	{
+		const { role_id, customer_id } = request.body;
+
+		const joinCustomerRoleService: JoinCustomerRoleService = new JoinCustomerRoleService();
+		const result: string = await joinCustomerRoleService.execute({ role_id, customer_id });
+
+		return response.status(200).json(result);
+	}
+
+	static async updateJoinCustomerRole(request: Request, response: Response): Promise<Response>
+	{
+		const { role_id, customer_id } = request.body;
+
+		const updateJoinCustomerRole: UpdateJoinCustomerRole = new UpdateJoinCustomerRole();
+		const result: string = await updateJoinCustomerRole.execute({ role_id, customer_id });
 
 		return response.status(200).json(result);
 	}

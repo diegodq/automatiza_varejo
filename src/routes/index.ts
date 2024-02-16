@@ -103,6 +103,7 @@ router.post('/anchor/question', isAuthenticated, ParamsProductController.addAnch
 router.post('/create/store', isAuthenticated, StoreController.create);
 router.post('/create/question/group', isAuthenticated, QuestionGroupController.create);
 router.post('/create/group/mapping', isAuthenticated, QuestionGroupMappingController.create);
+router.post('/join/role/customer', isAuthenticated, CustomerController.joinCustomerRole);
 
 // test permissions
 router.delete('/delete/tests', isAuthenticated, DeleteController.deleteTest);
@@ -146,6 +147,7 @@ router.patch('/indicate/employee', isAuthenticated, TopicController.updateIndica
 router.patch('/anchor-question', isAuthenticated, ParamsProductController.updateAnchorQuestion);
 router.patch('/update/lock-ip', isAuthenticated, ParamsProductController.updateLockByIp);
 router.patch('/status/store', isAuthenticated, StoreController.disableStore);
+router.patch('/update/role/customer', isAuthenticated, CustomerController.updateJoinCustomerRole);
 
 // nps
 router.get('/nps/header/:cnpj_company/:id_store?/:ip_address?', NPSController.listAnchorQuestionAndLogo);
