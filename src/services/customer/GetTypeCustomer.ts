@@ -11,8 +11,8 @@ class GetTypeCustomer
 		await queryRunner.connect();
 
 		const getRoleId = await queryRunner.query(`select roles.name from roles join roles_customer
-		on roles_customer.role = roles.id
-		where roles_customer.customer = ?;`,[idCustomer]);
+		on roles_customer.role_id = roles.id
+		where roles_customer.customer_id = ?;`,[idCustomer]);
 
 		await queryRunner.release();
 
