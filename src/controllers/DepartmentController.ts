@@ -50,7 +50,7 @@ class DepartmentController
 		const deleteDepartmentService: DeleteDepartmentService = new DeleteDepartmentService();
 		const departmentRemoved: string = await deleteDepartmentService.execute({ id });
 
-		return response.status(200).json({ status: 'success', message: departmentRemoved });
+		return response.status(204).json({ status: 'success', message: departmentRemoved });
 	}
 
 	static async list(request: Request, response: Response): Promise<Response>

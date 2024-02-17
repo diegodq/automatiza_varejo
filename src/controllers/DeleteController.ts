@@ -20,7 +20,7 @@ class DeleteController
 
 		await queryRunner.release();
 
-		return response.status(200).json({ role: getRole, permissions: getPermission });
+		return response.status(204).json({ role: getRole, permissions: getPermission });
 	}
 }
 

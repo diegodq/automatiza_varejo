@@ -48,7 +48,7 @@ class PermissionController
 		const removePermissionsService: RemovePermissionsService = new RemovePermissionsService();
 		const permissionRemoved: string = await removePermissionsService.execute( id );
 
-		return response.status(200).json(permissionRemoved);
+		return response.status(204).json(permissionRemoved);
 	}
 
 	public static async addPermissionToCustomer(request: Request, response: Response)

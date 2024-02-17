@@ -85,7 +85,7 @@ class CustomerController
 		const removeCustomerService: RemoveCustomerService = new RemoveCustomerService();
 		const customerRemoved: string = await removeCustomerService.execute({ root, id, email, password });
 
-		return response.status(200).json({ status: 'success', message: customerRemoved });
+		return response.status(204).json({ status: 'success', message: customerRemoved });
 	}
 
 	static async showDetailsCustomer(request: Request, response: Response): Promise<Response>
@@ -131,7 +131,7 @@ class CustomerController
 		const removeAvatarCustomerService: RemoveAvatarCustomerService = new RemoveAvatarCustomerService();
 		const avatarRemoved: string = await removeAvatarCustomerService.execute({ id, avatar });
 
-		return response.status(200).json({ status: 'success', message: avatarRemoved });
+		return response.status(204).json({ status: 'success', message: avatarRemoved });
 	}
 
 	static async reset(request: Request, response: Response): Promise<Response>

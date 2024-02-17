@@ -32,7 +32,7 @@ class QuestionGroupController
 		const removeQuestionGroupService: RemoveQuestionGroupService = new RemoveQuestionGroupService();
 		const questonGroupRemoved: string = await removeQuestionGroupService.execute({id})
 
-		return response.status(200).json(questonGroupRemoved);
+		return response.status(204).json(questonGroupRemoved);
 	}
 
 	static async update(request: Request, response: Response): Promise<Response>

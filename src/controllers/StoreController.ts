@@ -59,7 +59,7 @@ class StoreController
 		const removeStoreService: RemoveStoreService = new RemoveStoreService();
 		const storeRemoved: string = await removeStoreService.execute(id_store);
 
-		return response.status(200).json({ status: 'success', storeRemoved });
+		return response.status(204).json({ status: 'success', storeRemoved });
 	}
 
 	static async disableStore(request: Request, response: Response): Promise<Response>

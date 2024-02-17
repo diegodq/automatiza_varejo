@@ -48,13 +48,13 @@ class UpdateCustomerService
 			throw new BadRequestError('customer-not-found.');
 		}
 
-		const newDataJson = await this.returnNewObject(dataJson, String(idClient));
+		const newDataJson: object = await this.returnNewObject(dataJson, String(idClient));
 
 		await customerRepository.update(customer.id, newDataJson);
 		return 'customer-updated';
 	}
 
-	private async returnNewObject(dataJson: any, keyToRemove: string): Promise<object>
+	private async returnNewObject(dataJson: dataJson, keyToRemove: string): Promise<object>
 	{
 		const newObject = { ...dataJson };
 		if (keyToRemove in newObject) {
