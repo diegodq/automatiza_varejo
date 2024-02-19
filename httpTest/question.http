@@ -1,0 +1,21 @@
+@host = localhost:3007
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDgzNTMyNjIsImV4cCI6MTcwODQzNjA2Miwic3ViIjoiMTgifQ.obiW5crfv5dUPXcL6C2aSaSbKs2wiP60-aJYOlsm4Ck
+
+# create new user
+POST http://{{host}}/question
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+	"title_question": "title question",
+	"tree_question": 0,
+	"question_description": "test descriptions",
+	"type_question": "finish",
+	"status": 1,
+	"text_end_research": "Ficamos muito felizes",
+	"text_label_one": "label one",
+	"text_label_two": "label two",
+	"research_title": "test research",
+	"alert_label": "alert label test",
+	"company_id": 2
+}

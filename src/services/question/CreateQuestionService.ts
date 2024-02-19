@@ -19,7 +19,7 @@ type QuestionRequest =
 	text_label_two: string;
 	research_title: string;
 	alert_label: string;
-	company_id: Company;
+	company_id: number;
 }
 
 type DataQuestion = {
@@ -44,7 +44,7 @@ class CreateQuestionService
 		await queryRunner.connect();
 
 		const existsTypeQuestion = await queryRunner.query(`select type_question, tree_question from question
-		where type_question = ? and company_id = ?`, [type_question, company]);
+		where type_question = ? and company_id = ?`, [type_question, company.id]);
 
 		await queryRunner.release();
 

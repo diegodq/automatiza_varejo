@@ -1,5 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDgzMTEzODAsImV4cCI6MTcwODM5NDE4MCwic3ViIjoiMiJ9.gNrQkmCFW6hvFsTTsTClKXCz19Tz-5uhSLh73giQgtY
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDgzNTMyNjIsImV4cCI6MTcwODQzNjA2Miwic3ViIjoiMTgifQ.obiW5crfv5dUPXcL6C2aSaSbKs2wiP60-aJYOlsm4Ck
 
 # create new user
 POST http://{{host}}/customer
@@ -129,8 +129,8 @@ Authorization: {{token}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="image"; filename="image.png"
+Content-Disposition: form-data; name="file"; filename="image.png"
 Content-Type: image/png
 
-< ./image.png
+< ../imagesTest/image.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--

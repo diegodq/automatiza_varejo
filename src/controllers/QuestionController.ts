@@ -7,12 +7,14 @@ import RemoveQuestionService from "../services/question/RemoveQuestionService";
 import ChangeStatusQuestionService from "../services/question/ChangeStatusQuestionService";
 import Question from '../entities/Question';
 import ChangeStatusTopicService from '../services/topic/ChangeStatusTopicService';
+import convertUserIdInCompanyId from "src/utils/convertUserIdInCompanyId";
 
 class QuestionController
 {
 	static async add(request: Request, response: Response): Promise<Response>
 	{
-		const company_id = request.userId;
+		const id = request.userId;
+		const company_id = await convertUserIdInCompanyId(Number(id));
 
 		const { title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title, alert_label } = request.body;
 

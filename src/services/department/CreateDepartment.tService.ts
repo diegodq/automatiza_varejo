@@ -4,35 +4,42 @@ import { BadRequestError } from "../../utils/ApiErrors";
 import companyRepository from "../../repositories/companyRepository";
 import Department from '../../entities/Department';
 import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
+import appDataSource from "../../data-source";
 
 
 type DepartmentRequest =
 {
 	name: string;
 	status: number;
-	company: Company;
+	company: number;
 }
 
 class CreateDepartmentService
 {
 	public async execute({ name, status, company }: DepartmentRequest): Promise<string | any>
 	{
-		const idCompany = await convertUserIdInCompanyId(Number(company));
+		const company_id: number = await convertUserIdInCompanyId(Number(company));
 
-		const companyExists: Company | null = await companyRepository.findOneBy({ id: idCompany });
+		const companyExists: Company | null = await companyRepository.findOneBy({ id: company_id });
 		if(!companyExists) {
 			throw new BadRequestError('no-company');
 		}
 
-		const departmentExists: Department | null = await departmentRepository.findOne({ where: { company: { id: idCompany } } });
+		const departmentExists: Department | null = await departmentRepository.findOne({ where: { company: { id: company_id } } });
 		if(departmentExists?.name == name) {
-			throw new BadRequestError('Tópico já cadastrado.');
+			throw new BadRequestError('department-already-registered');
 		}
 
-		const newDepartment: Department = departmentRepository.create({ name, status, company });
-		await departmentRepository.save(newDepartment);
+		const queryRunner = appDataSource.createQueryRunner();
+  	await queryRunner.connect();
 
-		return 'Departamento adicionado.';
+  	await queryRunner.query(`insert into department
+		(name, status, company_id)
+		values (?, ?, ?);`, [name, status, company_id]);
+
+  	await queryRunner.release();
+
+		return 'department-added';
 	}
 }
 
