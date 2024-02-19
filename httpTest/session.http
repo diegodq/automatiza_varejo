@@ -1,5 +1,7 @@
+@host = localhost:3007
+
 # test make login
-POST http://localhost:3007/session
+POST http://{{host}}/session
 Content-Type: application/json
 
 {

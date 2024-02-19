@@ -29,7 +29,7 @@ class Question
 	@Column({ type: 'tinyint', nullable: true })
 	tree_question: number;
 
-	@Column({ type: 'varchar', nullable: true, length: 100 })
+	@Column({ type: 'varchar', nullable: true })
 	question_description: string;
 
 	@Column({ type: 'varchar', length: 20 })
