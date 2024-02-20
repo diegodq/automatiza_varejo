@@ -68,7 +68,7 @@ class AnswerController
 		const removeAnswerService: RemoveAnswerService = new RemoveAnswerService();
 		const answerRemoved: string = await removeAnswerService.execute({ id });
 
-		return response.status(204).json({ status: 'success', message: answerRemoved });
+		return response.status(200).json({ status: 'success', message: answerRemoved });
 	}
 
 

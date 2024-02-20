@@ -79,7 +79,7 @@ class QuestionController
 		const removeQuestionService: RemoveQuestionService = new RemoveQuestionService();
 		const questionRemoved: string = await removeQuestionService.execute({ id });
 
-		return response.status(204).json({ status: 'success', message: questionRemoved });
+		return response.status(200).json({ status: 'success', message: questionRemoved });
 	}
 }
 

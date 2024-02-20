@@ -29,7 +29,6 @@ import QuestionGroupMappingController from '../controllers/QuestionGroupMappingC
 import isAuthenticatedCustomer from '../middleware/isAuthenticatedCustomer';
 import PermissionController from '../controllers/PermissionController';
 import RolesController from '../controllers/RolesController';
-import DeleteController from '../controllers/DeleteController';
 
 const uploadAvatar: Multer = multer(avatarConfig);
 const uploadCompanyLogo: Multer = multer(configCompanyLogo);
@@ -107,7 +106,6 @@ router.post('/join/role/customer', isAuthenticated, CustomerController.joinCusto
 router.post('/join/customer/permissions', isAuthenticated, CustomerController.joinCustomerPermissions);
 
 // test permissions
-router.delete('/delete/tests', isAuthenticated, DeleteController.deleteTest);
 router.delete('/customer', isAuthenticated, CustomerController.remove);
 router.delete('/company', isAuthenticated, CompanyController.remove);
 router.delete('/avatar', isAuthenticated, CustomerController.removeAvatarCustomer);

@@ -49,7 +49,7 @@ class TopicController
 		const deleteTopicService: DeleteTopicService = new DeleteTopicService();
 		const deleteTopic: string = await deleteTopicService.execute({ id });
 
-		return response.status(204).json({ status: 'success', message: deleteTopic });
+		return response.status(200).json({ status: 'success', message: deleteTopic });
 	}
 
 	static async list(request: Request, response: Response): Promise<Response>

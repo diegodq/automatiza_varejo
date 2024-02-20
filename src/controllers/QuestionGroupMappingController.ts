@@ -33,7 +33,7 @@ class QuestionGroupMappingController
 		const removeQuestionGroupMappingService: RemoveQuestionGroupMappingService = new RemoveQuestionGroupMappingService();
 		const removeGroupMapping: string = await removeQuestionGroupMappingService.execute({ id });
 
-		return response.status(204).json(removeGroupMapping);
+		return response.status(200).json(removeGroupMapping);
 	}
 }
 

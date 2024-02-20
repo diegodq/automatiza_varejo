@@ -79,7 +79,7 @@ class CompanyController
 		const removeCompanyService: RemoveCompanyService = new RemoveCompanyService();
 		const companyRemoved: string = await removeCompanyService.execute(Number(id));
 
-		return response.status(204).json({ status: 'success', message: companyRemoved });
+		return response.status(200).json({ status: 'success', message: companyRemoved });
 	}
 
 	static async update(request: Request, response: Response): Promise<Response>
