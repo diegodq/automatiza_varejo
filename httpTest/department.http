@@ -1,13 +1,12 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDgzNTMyNjIsImV4cCI6MTcwODQzNjA2Miwic3ViIjoiMTgifQ.obiW5crfv5dUPXcL6C2aSaSbKs2wiP60-aJYOlsm4Ck
-
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDg0NzAyNTQsImV4cCI6MTcwODU1MzA1NCwic3ViIjoiMSJ9.zAQeQDhwuj6SyLBxv8HjFxhQEqZBeNc6QeSmnmUGjNw
 # create new user
 POST http://{{host}}/department
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-	"name": "Test Department",
+	"name": "Test Department 2",
 	"status": 1,
 	"company": 2
 }

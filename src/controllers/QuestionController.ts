@@ -7,7 +7,7 @@ import RemoveQuestionService from "../services/question/RemoveQuestionService";
 import ChangeStatusQuestionService from "../services/question/ChangeStatusQuestionService";
 import Question from '../entities/Question';
 import ChangeStatusTopicService from '../services/topic/ChangeStatusTopicService';
-import convertUserIdInCompanyId from "src/utils/convertUserIdInCompanyId";
+import convertUserIdInCompanyId from "../utils/convertUserIdInCompanyId";
 
 class QuestionController
 {

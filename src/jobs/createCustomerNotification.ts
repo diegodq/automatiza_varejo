@@ -1,7 +1,7 @@
 import Mailer from '../configurations/mailer/Mailer';
 import path from 'path';
 
-const forgotPasswordTemplate = path.resolve(__dirname, '..', 'notifications', 'verify-email.hbs');
+const createAccountTemplate: string = path.resolve(__dirname, '..', '..', 'notifications', 'verify-email.hbs');
 
 export default {
 	key: 'createCustomer',
@@ -19,7 +19,7 @@ export default {
 			},
 			subject: 'BEM-VINDO À AUTOMATIZA VAREJO!',
 			templateData: {
-				file: forgotPasswordTemplate,
+				file: createAccountTemplate,
 				variables: {
 					name: user.first_name,
 					link: `https://app.automatizavarejo.com.br/active-customer?token=${user.token}&id=${user.newCustomer.id}`,

@@ -7,7 +7,7 @@ import Mailer from "../../configurations/mailer/Mailer";
 import Customer from '../../entities/Customer';
 import appDataSource from '../../data-source';
 import paramsConfig from "../../params/paramsConfig";
-import { libDeleteAccountMail } from "src/lib/libMail";
+import { libDeleteAccountMail } from "../../lib/libMail";
 
 type RequestCustomer =
 {

@@ -37,7 +37,7 @@
 		"babel-plugin-transform-typescript-metadata": "^0.3.2",
 		"eslint": "^8.34.0",
 		"eslint-config-prettier": "^8.6.0",
-		"nodemon": "^2.0.20",
+		"nodemon": "^3.0.3",
 		"prettier": "^2.8.4",
 		"ts-node": "^10.9.2",
 		"tsconfig-paths": "^4.1.2",

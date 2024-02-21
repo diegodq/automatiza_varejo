@@ -18,6 +18,8 @@ import paramsConfig from './params/paramsConfig';
 
 const app = express();
 
+const whiteList: string[] = ['https://api.automatizavarejo.com.br', 'https://app.automatizavarejo.com.br', 'https://automatizavarejo.com.br', 'https://pesquisa.automatizavarejo.com.br'];
+
 const options = {
 	swaggerOptions: {
 		validatorUrl: null
@@ -37,7 +39,12 @@ appDataSource.initialize().then(() => {
 			console.log('Cors enable to any urls in development mode');
 		} else {
 			app.use(cors({
-				origin: ['https://api.automatizavarejo.com.br', 'https://app.automatizavarejo.com.br', 'https://automatizavarejo.com.br', 'https://pesquisa.automatizavarejo.com.br'],
+				origin: function (origin: string | undefined, callback: (arg0: Error | null, arg1: boolean) => void) {
+					if (!origin || whiteList.indexOf(origin) !== -1)
+						callback(null, true);
+					else
+						callback(new Error('Not allowed by cors'), false);
+				},
 				credentials: true,
 				methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 			}));
@@ -51,7 +58,13 @@ appDataSource.initialize().then(() => {
 			console.log('Cors enable to any urls in development mode');
 		} else {
 			app.use(cors({
-				origin: ['https://api.automatizavarejo.com.br', 'https://app.automatizavarejo.com.br', 'https://automatizavarejo.com.br', 'https://pesquisa.automatizavarejo.com.br'],
+				origin: function (origin: string | undefined, callback: (arg0: Error | null, arg1: boolean) => void) {
+					if (!origin || whiteList.indexOf(origin) !== -1)
+						callback(null, true);
+					else
+						callback(new Error('Not allowed by cors'), false);
+				},
+				credentials: true,
 				methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 			}));
 		}

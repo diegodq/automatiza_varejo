@@ -1,7 +1,7 @@
 import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Customer from '../../entities/Customer';
-import appDataSource from "src/data-source";
+import appDataSource from "../../data-source";
 
 type RoleCustomerRequest = {
 	role_id?: number,

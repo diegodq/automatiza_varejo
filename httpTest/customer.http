@@ -1,5 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDgzNTMyNjIsImV4cCI6MTcwODQzNjA2Miwic3ViIjoiMTgifQ.obiW5crfv5dUPXcL6C2aSaSbKs2wiP60-aJYOlsm4Ck
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDg0NzAyNTQsImV4cCI6MTcwODU1MzA1NCwic3ViIjoiMSJ9.zAQeQDhwuj6SyLBxv8HjFxhQEqZBeNc6QeSmnmUGjNw
 
 # create new user
 POST http://{{host}}/customer
@@ -24,9 +24,9 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-	"id": 12,
-	"email": "pediegoss@gmail.com",
-	"password": "@senha123"
+	"id": 29,
+	"email": "goncalina23@hotmail.com",
+	"password": "@Goncalina123"
 }
 ###
 
