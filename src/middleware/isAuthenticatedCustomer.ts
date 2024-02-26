@@ -1,12 +1,12 @@
 import { JwtPayload, verify } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from "express";
 import paramsConfig from "../params/paramsConfig";
+import canPermission from '../utils/canPermission';
 
-function isAuthenticated(request: Request, response: Response, next: NextFunction)
+async function isAuthenticated(request: Request, response: Response, next: NextFunction)
 {
 	const authHeader: string | undefined = request.headers.authorization;
 
-	// Se não houver token, apenas passe para o próximo middleware
 	if(!authHeader) {
 		return next();
 	}
@@ -20,10 +20,13 @@ function isAuthenticated(request: Request, response: Response, next: NextFunctio
 		request.userId = inputSub?.split(', ')[0];
 		request.typeUser = inputSub?.split(', ')[1];
 
+		if (!await canPermission(request.userId, request.method))
+			return response.status(400).json({ valid: false, message: 'no-permission' });
+
 		return next();
 	} catch( _ ) {
 		return response.status(400).json({ valid: false, message: 'Acesso não autorizado.' });
 	}
 }
-
+	
 export default isAuthenticated;

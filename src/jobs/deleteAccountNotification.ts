@@ -1,11 +1,11 @@
 import Mailer from '../configurations/mailer/Mailer';
 import path from 'path';
 
-const accountRemoved: string = path.resolve(__dirname, '..', '..', 'notifications', 'account-removed.hbs');
+const accountRemoved: string = path.resolve(__dirname, '..', 'notifications', 'account-removed.hbs');
 
 export default {
 	key: 'deleteAccount',
-	async handle({ data }: any) {
+	async handle({ data }: any): Promise<void> {
 		const { customer } = data;
 
 		await Mailer.sendMail({
@@ -23,5 +23,7 @@ export default {
 				variables: {}
 			}
 		});
+
+		console.log('into worker removeCustomer');
 	}
 }

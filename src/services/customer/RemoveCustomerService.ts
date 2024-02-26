@@ -28,7 +28,15 @@ class RemoveCustomerService
 			if(!customer)
 				throw new BadRequestError('do-not-registered-customer');
 
+			if(paramsConfig.params.useQueueForSendNotifications) {
+				const user = { customer };
+				await libDeleteAccountMail.add({ user });
+			} else {
+				await this.sendNotificationWithoutQueue(customer);
+			}
+
 			await this.deleteCustomer(customer);
+
 			return 'customer-removed';
 		}
 
@@ -47,15 +55,14 @@ class RemoveCustomerService
 			const customer_id = customer.id;
 			const company_id = await this.findCompanyByUser(customer.id);
 
-			this.deleteCustomersAndCompany(customer_id, company_id);
-
 			if(paramsConfig.params.useQueueForSendNotifications) {
 				const user = { customer };
-
 				await libDeleteAccountMail.add({ user });
 			} else {
 				await this.sendNotificationWithoutQueue(customer);
 			}
+
+			this.deleteCustomersAndCompany(customer_id, company_id);
 
 			return 'account-removed';
 		}

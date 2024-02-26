@@ -35,7 +35,7 @@ class CustomerController
 		const createCustomerService: CreateCustomerService = new CreateCustomerService();
 		const newCustomer: string | object = await createCustomerService.execute({ first_name, surname, position, phone, email, password, accept_terms, company, role_id });
 
-		return response.status(201).json({ status: 'success', message: newCustomer });
+		return response.status(200).json({ status: 'success', message: newCustomer });
 	}
 
 	static async list(request: Request, response: Response): Promise<Response>

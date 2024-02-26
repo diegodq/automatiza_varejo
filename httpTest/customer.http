@@ -1,6 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDg0NzAyNTQsImV4cCI6MTcwODU1MzA1NCwic3ViIjoiMSJ9.zAQeQDhwuj6SyLBxv8HjFxhQEqZBeNc6QeSmnmUGjNw
-
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDg4MTAyODIsImV4cCI6MTcwODg5MzA4Miwic3ViIjoiNDYifQ.z-vEbVekIT6PNb6TTWRyau2yCeOq8mke_BzyA3Sq35E
 # create new user
 POST http://{{host}}/customer
 Content-Type: application/json
@@ -15,7 +14,7 @@ Authorization: {{token}}
 	"password": "@senha123",
 	"accept_terms": 1,
 	"company": 2,
-	"role_id": 1
+	"role_id": 3
 }
 ###
 
@@ -24,7 +23,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-	"id": 29,
+	"id": 42,
 	"email": "goncalina23@hotmail.com",
 	"password": "@Goncalina123"
 }

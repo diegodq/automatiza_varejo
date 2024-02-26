@@ -4,6 +4,8 @@ import CustomerTokens from "./CustomerTokens";
 import UserTokens from "./CustomerTokens";
 import Permission from "./Permissions";
 import Roles from "./Roles";
+import Paths from './Paths';
+
 
 @Entity('customer')
 class Customer
@@ -23,6 +25,9 @@ class Customer
 
 	@ManyToMany(() => Roles, roles => roles.customer)
 	roles: Roles[];
+
+	@ManyToMany(() => Paths, paths => paths.customer)
+	paths: Paths[];
 
 	@Column({ type: 'varchar', length: 200 })
 	first_name: string;
@@ -99,7 +104,7 @@ class Customer
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, company: Company, customerTokens: CustomerTokens[], permission: Permission[], roles: Roles[], first_name: string,
+	constructor(id: number, company: Company, customerTokens: CustomerTokens[], permission: Permission[], roles: Roles[], paths: Paths[], first_name: string,
 		avatar: string, surname_name: string, position: string, phone: string, email: string, temp_email: string,
 		email_change_on: Date, resent_email_on: Date, activated: number, activated_on: Date, accept_newsletter: number,
 		info_payment: number, accept_terms: string, accept_terms_on: Date, system_user: string, agent_user: string, pass_change_on: Date,old_password: string,
@@ -110,6 +115,7 @@ class Customer
 		this.customerTokens = customerTokens;
 		this.permission = permission;
 		this.roles = roles;
+		this.paths = paths;
 		this.first_name = first_name;
 		this.avatar = avatar;
 		this.surname = surname_name;
@@ -160,6 +166,11 @@ class Customer
 	get getRoles(): Roles[]
 	{
 		return this.roles;
+	}
+
+	public getPaths(): Paths[]
+	{
+		return this.paths;
 	}
 
 	get getFirstName(): string

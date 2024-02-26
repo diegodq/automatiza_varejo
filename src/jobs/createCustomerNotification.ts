@@ -1,11 +1,11 @@
 import Mailer from '../configurations/mailer/Mailer';
 import path from 'path';
 
-const createAccountTemplate: string = path.resolve(__dirname, '..', '..', 'notifications', 'verify-email.hbs');
+const createAccountTemplate: string = path.resolve(__dirname, '..', 'notifications', 'verify-email.hbs');
 
 export default {
 	key: 'createCustomer',
-	async handle({ data }: any) {
+	async handle({ data }: any): Promise<void> {
 		const { user } = data;
 
 		await Mailer.sendMail({

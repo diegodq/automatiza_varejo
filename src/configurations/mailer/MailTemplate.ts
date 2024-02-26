@@ -16,8 +16,8 @@ class MailTemplate
 {
 	public async parse({ file, variables }: RequestTemplate ): Promise<string>
 	{
-		const fileTamplateContent = await fs.promises.readFile(file, { encoding: 'utf-8' });
-		const parseTemplate = handlebars.compile(fileTamplateContent);
+		const fileTemplateContent: string = await fs.promises.readFile(file, { encoding: 'utf-8' });
+		const parseTemplate: HandlebarsTemplateDelegate = handlebars.compile(fileTemplateContent);
 		return parseTemplate(variables);
 	}
 }
