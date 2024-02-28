@@ -55,7 +55,7 @@ class CreateCustomerService
 		return `Enviamos um e-mail com link de ativação para ${email}. Ative seu cadastro clicando no link enviado.`;
 	}
 
-	private async sendNotificationWithoutQueue({ first_name, email, token, newCustomer }: any)
+	private async sendNotificationWithoutQueue({ first_name, email, token, newCustomer }: any): Promise<void>
 	{
 		const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'verify-email.hbs');
 

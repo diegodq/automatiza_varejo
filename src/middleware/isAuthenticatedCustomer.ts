@@ -28,5 +28,5 @@ async function isAuthenticated(request: Request, response: Response, next: NextF
 		return response.status(400).json({ valid: false, message: 'Acesso não autorizado.' });
 	}
 }
-	
+
 export default isAuthenticated;

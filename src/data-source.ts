@@ -18,6 +18,7 @@ import QuestionGroupMapping from './entities/QuestionGroupMapping';
 import Roles from './entities/Roles';
 import Store from './entities/Store';
 import Topic from './entities/Topic';
+import Paths from './entities/Paths';
 
 const port: number | undefined = process.env.DB_PORT as number | undefined;
 
@@ -45,7 +46,8 @@ const appDataSource: DataSource = new DataSource({
 		QuestionGroupMapping,
 		Roles,
 		Store,
-		Topic
+		Topic,
+		Paths
 	],
 	migrations: [
 		`${__dirname}/**/migrations/*.ts`

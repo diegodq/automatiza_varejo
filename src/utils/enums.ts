@@ -9,7 +9,7 @@ enum EnumPermissions {
 enum FixedRole {
 	ADMINISTRATOR = 1,
 	GERENTE = 2,
-	OTHER = 'OTHER'
+	USUÁRIO = 3
 }
 
 export { EnumPermissions, FixedRole }

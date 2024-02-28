@@ -14,15 +14,15 @@ class Permissions
 	description: string;
 
 	@ManyToMany(() => Customer,
-	customer => customer.permission, { onDelete: 'NO ACTION', onUpdate: 'CASCADE' })
+	customer => customer.permission, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
 	@JoinTable({
 		name: 'customer_permissions',
 		joinColumn: {
-			name: 'customer_id',
+			name: 'permission_id',
 			referencedColumnName: 'id'
 		},
 		inverseJoinColumn: {
-			name: 'permission_id',
+			name: 'customer_id',
 			referencedColumnName: 'id'
 		}
 	})

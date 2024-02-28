@@ -11,11 +11,11 @@ class Paths
 	@JoinTable({
 		name: 'customer_paths',
 		joinColumn: {
-			name: 'customer_id',
+			name: 'path_id',
 			referencedColumnName: 'id'
 		},
 		inverseJoinColumn: {
-			name: 'path_id',
+			name: 'customer_id',
 			referencedColumnName: 'id'
 		}
 	})

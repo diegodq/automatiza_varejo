@@ -1,23 +1,18 @@
 import appDataSource from "../data-source";
-import { FixedRole } from "./enums";
 
-async function canPermission(userId: string, method: string): Promise<boolean>
+async function canPermission(userId: string, path: string, method: string): Promise<boolean>
 {
 	const queryRunner = appDataSource.createQueryRunner();
 	await queryRunner.connect();
 
-	const queryResult = await queryRunner.query(`select roles_customer.role_id from roles_customer
-	where roles_customer.customer_id = ?;`, [ Number(userId) ]);
+	const queryResult = await queryRunner.query(`select paths.path, paths.http_verb from paths
+	join customer_paths on paths.id = customer_paths.path_id join customer
+	on customer.id = customer_paths.customer_id
+	where customer_paths.customer_id = ? and paths.path = ? and paths.http_verb = ?;`, [ Number(userId), path, method ] );
 
 	await queryRunner.release();
 
-	let roleName  = null;
-	queryResult.forEach((permission: { role_id: number }) => {
-		if(permission.role_id !== FixedRole.ADMINISTRATOR && permission.role_id !== FixedRole.GERENTE)
-			roleName = 'OTHER';
-	});
-
-	if (roleName === FixedRole.OTHER && method !== 'GET')
+	if (queryResult.length === 0)
 		return false;
 
 	return true;
