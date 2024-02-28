@@ -11,7 +11,7 @@ class ShowProductService
 {
 	public async execute({ id }: RequestProduct): Promise<Product | null>
 	{
-		const product = await productRepository.findOneBy({ id: Number(id) });
+		const product: Product | null = await productRepository.findOneBy({ id: Number(id) });
 		if(!product) {
 			throw new BadRequestError('Produto não cadastrado');
 		}

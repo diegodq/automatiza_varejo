@@ -12,7 +12,7 @@ type AnswerRequest =
 
 class EditAnswerService
 {
-	public async execute({ id, answer, client_name, client_phone }: AnswerRequest)
+	public async execute({ id, answer, client_name, client_phone }: AnswerRequest): Promise<string>
 	{
 		const answerExists: Answer | null = await answerRepository.findOneBy({ id: Number(id) });
 		if(!answerExists) {

@@ -1,3 +1,4 @@
+import Product from "src/entities/Product";
 import productRepository from "../../repositories/productRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 
@@ -12,7 +13,7 @@ class UpdateProductService
 {
 	public async execute( { id, name, description }: RequestBody ): Promise<string>
 	{
-		const product = await productRepository.findOneBy({ id: Number(id) });
+		const product: Product | null = await productRepository.findOneBy({ id: Number(id) });
 		if(!product) {
 			throw new BadRequestError('Produto não encontrado.');
 		}
