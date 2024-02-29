@@ -2,7 +2,7 @@ import { JwtPayload, verify } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from "express";
 import paramsConfig from "../params/paramsConfig";
 import {UnauthorizedError } from "../utils/ApiErrors";
-import canPermission from '../utils/canPermission';
+import hasPermission from '../utils/hasPermission';
 
 export async function isAuthenticated(request: Request, response: Response, next: NextFunction): Promise<void | Response<string>>
 {
@@ -20,7 +20,11 @@ export async function isAuthenticated(request: Request, response: Response, next
 		request.userId = inputSub?.split(', ')[0];
 		request.typeUser = inputSub?.split(', ')[1];
 
-		if (!await canPermission(request.userId, request.path, request.method))
+		const idUser = request.userId;
+		const path = request.path;
+		const method = request.method;
+
+		if (!await hasPermission(idUser, path, method))
 			return response.status(400).json({ valid: false, message: 'no-permission' });
 
 		return next();

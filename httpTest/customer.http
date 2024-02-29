@@ -1,5 +1,6 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDkwODA4OTQsImV4cCI6MTcwOTE2MzY5NCwic3ViIjoiMSJ9.b4z5QJ3VOyhVJSJTNDTPRz_qK4L5XDC0nWAljjIyIRg
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDkxNjY0NTcsImV4cCI6MTcwOTI0OTI1Nywic3ViIjoiMTcifQ.3RW6RTvkwTb-K2vYYCPPhlZc5_AY2K_EUbdcAHZPqrE
+
 # create new user
 POST http://{{host}}/customer
 Content-Type: application/json

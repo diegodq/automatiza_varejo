@@ -1,4 +1,4 @@
-import appDataSource from "../data-source";
+ import appDataSource from "../data-source";
 
 async function checkPermission(user: number, permission: number): Promise<boolean> {
 	const queryRunner = appDataSource.createQueryRunner();

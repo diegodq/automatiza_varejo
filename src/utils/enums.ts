@@ -12,4 +12,12 @@ enum FixedRole {
 	USUÁRIO = 3
 }
 
-export { EnumPermissions, FixedRole }
+enum HTTP_Verbs {
+	GET = 'GET',
+	POST = 'POST',
+	DELETE = 'DELETE',
+	PATCH = 'PATCH',
+	PUT = 'PUT'
+}
+
+export { EnumPermissions, FixedRole, HTTP_Verbs }

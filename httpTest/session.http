@@ -5,14 +5,10 @@ POST http://{{host}}/session
 Content-Type: application/json
 
 {
-	"email": "goncalina23@hotmail.com",
-	"password": "@Goncalina123"
+	"email": "pediegoss@gmail.com",
+	"password": "@senha123"
 }
 ###
-
-
-
-
 
 # {
 # 	"email": "goncalina23@hotmail.com",
