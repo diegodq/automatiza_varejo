@@ -124,6 +124,11 @@ Authorization: {{token}}
 }
 ###
 
+GET http://{{host}}/details
+Content-Type: application/json
+Authorization: {{token}}
+###
+
 PATCH http://{{host}}/logo-company
 Authorization: {{token}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
