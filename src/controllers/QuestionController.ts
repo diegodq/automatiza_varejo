@@ -8,6 +8,7 @@ import ChangeStatusQuestionService from "../services/question/ChangeStatusQuesti
 import Question from '../entities/Question';
 import ChangeStatusTopicService from '../services/topic/ChangeStatusTopicService';
 import convertUserIdInCompanyId from "../utils/convertUserIdInCompanyId";
+import UpdateMultiplyQuestionsService from "../services/question/UpdateMultiplyQuestionsService";
 
 class QuestionController
 {
@@ -16,20 +17,20 @@ class QuestionController
 		const id = request.userId;
 		const company_id = await convertUserIdInCompanyId(Number(id));
 
-		const { title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title, alert_label } = request.body;
+		const { title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, multiply_questions, alert_label } = request.body;
 
 		const createQuestionService: CreateQuestionService = new CreateQuestionService();
-		const questionCreated: object = await createQuestionService.execute({ title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title, alert_label, company_id });
+		const questionCreated: object = await createQuestionService.execute({ title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, multiply_questions, alert_label, company_id });
 
 		return response.status(200).json({ status: 'success', questionCreated });
 	}
 
 	static async edit(request: Request, response: Response): Promise<Response>
 	{
-		const { id, title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title } = request.body;
+		const { id, title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, multiply_questions } = request.body;
 
 		const editQuestionService: EditQuestionService = new EditQuestionService();
-		const questionEdited: string = await editQuestionService.execute({ id, title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title });
+		const questionEdited: string = await editQuestionService.execute({ id, title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, multiply_questions });
 
 		return response.status(200).json({ status: 'success', message: questionEdited });
 	}
@@ -80,6 +81,16 @@ class QuestionController
 		const questionRemoved: string = await removeQuestionService.execute({ id });
 
 		return response.status(200).json({ status: 'success', message: questionRemoved });
+	}
+
+	static async updateMultiplyQuestions(request: Request, response: Response): Promise<Response>
+	{
+		const { id_question, multiply_questions} = request.body;
+
+		const updateMultiplyQuestionsService: UpdateMultiplyQuestionsService = new UpdateMultiplyQuestionsService();
+		const result: string = await updateMultiplyQuestionsService.execute({ id_question, multiply_questions});
+
+		return response.status(200).json({ status: 'success', message: result });
 	}
 }
 

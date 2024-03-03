@@ -17,8 +17,9 @@ begin
 	delete from company where company.id = company_id;
 end;
 
-
+create procedure remove_user(in customer_id int)
 begin
+	delete from customer_paths where customer_paths.customer_id = customer_id;
 	delete from customer_permissions where customer_permissions.customer_id = customer_id;
 	delete from roles_customer where roles_customer.customer_id = customer_id;
 	delete from customer_tokens where customer_tokens.customer_id = customer_id;

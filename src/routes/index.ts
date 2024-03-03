@@ -148,6 +148,7 @@ router.patch('/anchor-question', isAuthenticated, ParamsProductController.update
 router.patch('/update/lock-ip', isAuthenticated, ParamsProductController.updateLockByIp);
 router.patch('/status/store', isAuthenticated, StoreController.disableStore);
 router.patch('/update/role/customer', isAuthenticated, CustomerController.updateJoinCustomerRole);
+router.patch('/update/multiply/questions', isAuthenticated, QuestionController.updateMultiplyQuestions);
 
 // nps
 router.get('/nps/header/:cnpj_company/:id_store?/:ip_address?', NPSController.listAnchorQuestionAndLogo);

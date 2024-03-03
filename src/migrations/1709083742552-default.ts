@@ -16,6 +16,7 @@ export class Default1709083742552 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE \`customer_paths\` (\`path_id\` int NOT NULL, \`customer_id\` int NOT NULL, INDEX \`IDX_63ce5c044ecf6205efa54dd194\` (\`path_id\`), INDEX \`IDX_659d73e067f13c03de7709f4bd\` (\`customer_id\`), PRIMARY KEY (\`path_id\`, \`customer_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`ALTER TABLE \`company_product\` DROP COLUMN \`multi_store\``);
         await queryRunner.query(`ALTER TABLE \`question\` DROP COLUMN \`question_description\``);
+				await queryRunner.query(`ALTER TABLE \`company_product\` ADD \`multi_store\` tinyint NULL DEFAULT '0'`);
         await queryRunner.query(`ALTER TABLE \`question\` ADD \`question_description\` varchar(255) NULL`);
         await queryRunner.query(`CREATE INDEX \`IDX_3efb387fd25a66f9d84f5e17df\` ON \`customer_permissions\` (\`permission_id\`)`);
         await queryRunner.query(`CREATE INDEX \`IDX_d6e001f3eaa0ded45e7bed27b9\` ON \`customer_permissions\` (\`customer_id\`)`);
@@ -45,7 +46,6 @@ export class Default1709083742552 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`name\` \`name\` varchar(255) COLLATE "utf8mb4_0900_ai_ci" NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`question\` DROP COLUMN \`question_description\``);
         await queryRunner.query(`ALTER TABLE \`question\` ADD \`question_description\` varchar(100) COLLATE "utf8mb4_0900_ai_ci" NULL`);
-        await queryRunner.query(`ALTER TABLE \`company_product\` ADD \`multi_store\` tinyint NULL DEFAULT '0'`);
         await queryRunner.query(`DROP INDEX \`IDX_659d73e067f13c03de7709f4bd\` ON \`customer_paths\``);
         await queryRunner.query(`DROP INDEX \`IDX_63ce5c044ecf6205efa54dd194\` ON \`customer_paths\``);
         await queryRunner.query(`DROP TABLE \`customer_paths\``);

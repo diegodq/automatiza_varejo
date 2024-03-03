@@ -1,7 +1,7 @@
 import { BadRequestError } from "../../utils/ApiErrors";
 import customerRepository from "../../repositories/customerRepository";
 import Customer from '../../entities/Customer';
-import appDataSource from "src/data-source";
+import appDataSource from "../../data-source";
 
 type RequestCustomer =
 {

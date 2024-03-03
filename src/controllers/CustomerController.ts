@@ -23,17 +23,18 @@ import JoinCustomerRoleService from '../services/customer/JoinCustomerRoleServic
 import UpdateJoinCustomerRole from '../services/customer/UpdateJoinCustomerRole';
 import JoinCustomerPermissionsService from './JoinCustomerPermissionsService';
 import UpdateCustomerPermissionsService from './UpdateCustomerPermissionsService';
+import convertUserIdInCompanyId from '../utils/convertUserIdInCompanyId';
 
 class CustomerController
 {
 	static async create(request: Request, response: Response): Promise<Response>
 	{
-		const company = request.userId;
+		const company_id = await convertUserIdInCompanyId(request.userId);
 
 		const { first_name, surname, position, phone, email, password, accept_terms, role_id } = request.body;
 
 		const createCustomerService: CreateCustomerService = new CreateCustomerService();
-		const newCustomer: string | object = await createCustomerService.execute({ first_name, surname, position, phone, email, password, accept_terms, company, role_id });
+		const newCustomer: string | object = await createCustomerService.execute({ first_name, surname, position, phone, email, password, accept_terms, company_id, role_id });
 
 		return response.status(200).json({ status: 'success', message: newCustomer });
 	}

@@ -20,11 +20,7 @@ export async function isAuthenticated(request: Request, response: Response, next
 		request.userId = inputSub?.split(', ')[0];
 		request.typeUser = inputSub?.split(', ')[1];
 
-		const idUser = request.userId;
-		const path = request.path;
-		const method = request.method;
-
-		if (!await hasPermission(idUser, path, method))
+		if (!await hasPermission(request.userId, request.path, request.method))
 			return response.status(400).json({ valid: false, message: 'no-permission' });
 
 		return next();

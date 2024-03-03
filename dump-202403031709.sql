@@ -111,6 +111,7 @@ DROP TABLE IF EXISTS `company_product`;
 CREATE TABLE `company_product` (
   `company` int NOT NULL,
   `product` int NOT NULL,
+  `multi_store` tinyint DEFAULT '0',
   PRIMARY KEY (`company`,`product`),
   KEY `IDX_6d4301639c0f64533b454f3bda` (`company`),
   KEY `IDX_f98fd6722c590dc1d4a767c60c` (`product`),
@@ -125,7 +126,7 @@ CREATE TABLE `company_product` (
 
 LOCK TABLES `company_product` WRITE;
 /*!40000 ALTER TABLE `company_product` DISABLE KEYS */;
-INSERT INTO `company_product` VALUES (1,1),(2,1);
+INSERT INTO `company_product` VALUES (1,1,1),(2,1,0);
 /*!40000 ALTER TABLE `company_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,7 +198,7 @@ CREATE TABLE `customer` (
   UNIQUE KEY `IDX_7f0a0b82d3e4b38ace0200652c` (`temp_email`),
   KEY `FK_170a73f2523d7ca266834e38ef1` (`company_id`),
   CONSTRAINT `FK_170a73f2523d7ca266834e38ef1` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +207,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (1,'RANIEL','9669a09be9c2dd37dc6ae874b7d1fc97b3a4.1.png','MARCOS','PROPRIETÁRIO','(61) 9 8487-9194','goncalina23@hotmail.com',NULL,NULL,NULL,1,NULL,0,0,'1','2023-12-08 15:53:49','$2a$08$HNn5uuEOvBO4v9nX8VKjnezNrJ/FNsSb9exUO1cDVNP17.OtxDZ7q','$2a$08$HNn5uuEOvBO4v9nX8VKjnezNrJ/FNsSb9exUO1cDVNP17.OtxDZ7q',NULL,NULL,NULL,NULL,NULL,NULL,'2023-12-08 18:53:49.077301','2024-01-02 15:26:55.131873',1),(2,'LUIZ','18f8fa9a94ca4e18d43e064c028953e716a9.2.png','F. MAYRINK','COMERCIAL','(61) 9 8239-5892','comercial@automatizavarejo.com.br',NULL,NULL,NULL,1,NULL,0,1,'1','2023-08-29 22:30:37','$2a$08$pUDc6Or2IAC80s6vX2LVgOZcmC8zCLlmsMwOoVF8wG/yrm5Dm3SXi','$2a$08$.1yKCuDChvwd8YtcD6PEG.FQCvvIa2w7/SPh0KTNSOdzQm0mpigBu',NULL,NULL,NULL,NULL,NULL,NULL,'2023-08-29 22:30:37.388046','2024-01-02 15:26:56.055584',2),(17,'Diego',NULL,'Sousa','GERENTE','(61) 996778575','pediegoss@gmail.com',NULL,NULL,NULL,1,NULL,0,0,'1','2024-02-27 22:36:31','$2a$08$LaW8S20mVrh2CGcDthGSS.T7yNenjk5jFC0aqE.dl1Ah/YmUBV6FK','$2a$08$LaW8S20mVrh2CGcDthGSS.T7yNenjk5jFC0aqE.dl1Ah/YmUBV6FK',NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-27 22:36:30.862097','2024-02-27 22:36:45.747859',1);
+INSERT INTO `customer` VALUES (1,'RANIEL','9669a09be9c2dd37dc6ae874b7d1fc97b3a4.1.png','MARCOS','PROPRIETÁRIO','(61) 9 8487-9194','goncalina23@hotmail.com',NULL,NULL,NULL,1,NULL,0,0,'1','2023-12-08 15:53:49','$2a$08$HNn5uuEOvBO4v9nX8VKjnezNrJ/FNsSb9exUO1cDVNP17.OtxDZ7q','$2a$08$HNn5uuEOvBO4v9nX8VKjnezNrJ/FNsSb9exUO1cDVNP17.OtxDZ7q',NULL,NULL,NULL,NULL,NULL,NULL,'2023-12-08 18:53:49.077301','2024-01-02 15:26:55.131873',1),(2,'LUIZ','18f8fa9a94ca4e18d43e064c028953e716a9.2.png','F. MAYRINK','COMERCIAL','(61) 9 8239-5892','comercial@automatizavarejo.com.br',NULL,NULL,NULL,1,NULL,0,1,'1','2023-08-29 22:30:37','$2a$08$pUDc6Or2IAC80s6vX2LVgOZcmC8zCLlmsMwOoVF8wG/yrm5Dm3SXi','$2a$08$.1yKCuDChvwd8YtcD6PEG.FQCvvIa2w7/SPh0KTNSOdzQm0mpigBu',NULL,NULL,NULL,NULL,NULL,NULL,'2023-08-29 22:30:37.388046','2024-01-02 15:26:56.055584',2),(32,'Diego',NULL,'Gatão','ADMIN','(61) 996778575','pediegoss@gmail.com',NULL,NULL,NULL,1,NULL,0,0,'1','2024-03-03 11:48:29','$2a$08$C4SUPuTve5CzQjbzr1xffeKMYJfxQUGmZYq5yvESZCabb1ffoTDCa','$2a$08$C4SUPuTve5CzQjbzr1xffeKMYJfxQUGmZYq5yvESZCabb1ffoTDCa',NULL,NULL,NULL,NULL,NULL,NULL,'2024-03-03 11:48:28.910770','2024-03-03 11:48:39.761205',2);
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,7 +235,7 @@ CREATE TABLE `customer_paths` (
 
 LOCK TABLES `customer_paths` WRITE;
 /*!40000 ALTER TABLE `customer_paths` DISABLE KEYS */;
-INSERT INTO `customer_paths` VALUES (1,1),(1,2),(2,17),(3,17),(4,17),(5,17),(6,17),(7,17),(8,17),(9,17),(10,17);
+INSERT INTO `customer_paths` VALUES (11,1),(11,2),(11,32);
 /*!40000 ALTER TABLE `customer_paths` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,7 +263,7 @@ CREATE TABLE `customer_permissions` (
 
 LOCK TABLES `customer_permissions` WRITE;
 /*!40000 ALTER TABLE `customer_permissions` DISABLE KEYS */;
-INSERT INTO `customer_permissions` VALUES (1,1),(2,1),(1,2),(2,2),(1,3),(2,3),(1,4),(2,4),(1,5),(2,5);
+INSERT INTO `customer_permissions` VALUES (1,1),(2,1),(32,1),(1,2),(2,2),(32,2),(1,3),(2,3),(32,3),(1,4),(2,4),(32,4),(1,5),(2,5),(32,5);
 /*!40000 ALTER TABLE `customer_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -282,7 +283,7 @@ CREATE TABLE `customer_tokens` (
   PRIMARY KEY (`id`),
   KEY `FK_603f63d478610e2c71e15dffc57` (`customer_id`),
   CONSTRAINT `FK_603f63d478610e2c71e15dffc57` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -291,7 +292,7 @@ CREATE TABLE `customer_tokens` (
 
 LOCK TABLES `customer_tokens` WRITE;
 /*!40000 ALTER TABLE `customer_tokens` DISABLE KEYS */;
-INSERT INTO `customer_tokens` VALUES (1,'9da446ec-d39d-44fd-9b02-06792bad7e88','2023-12-08 18:53:49.089049','2023-12-08 18:53:49.089049',1),(2,'70c1cb11-d34d-4a66-98e4-f17f3a83d7ee','2024-02-27 22:36:30.881230','2024-02-27 22:36:30.881230',17);
+INSERT INTO `customer_tokens` VALUES (1,'9da446ec-d39d-44fd-9b02-06792bad7e88','2023-12-08 18:53:49.089049','2023-12-08 18:53:49.089049',1),(8,'c623db20-8f08-4260-8a2e-16b9e770a9f6','2024-03-03 11:48:28.948248','2024-03-03 11:48:28.948248',32);
 /*!40000 ALTER TABLE `customer_tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -337,7 +338,7 @@ CREATE TABLE `migrations` (
   `timestamp` bigint NOT NULL,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -346,7 +347,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,1702661295292,'Default1702661295292'),(2,1702680309705,'Default1702680309705'),(3,1702780466356,'Default1702780466356'),(4,1702864886672,'Default1702864886672'),(5,1703243288061,'Default1703243288061'),(6,1703242711956,'Default1703242711956'),(7,1705786126033,'Default1705786126033'),(8,1705951460131,'Default1705951460131'),(10,1705958011148,'Default1705958011148'),(17,1705954432337,'Default1705954432337'),(18,1705970895075,'Default1705970895075'),(19,1709083742552,'Default1709083742552');
+INSERT INTO `migrations` VALUES (1,1702661295292,'Default1702661295292'),(2,1702680309705,'Default1702680309705'),(3,1702780466356,'Default1702780466356'),(4,1702864886672,'Default1702864886672'),(5,1703243288061,'Default1703243288061'),(6,1703242711956,'Default1703242711956'),(7,1705786126033,'Default1705786126033'),(8,1705951460131,'Default1705951460131'),(10,1705958011148,'Default1705958011148'),(17,1705954432337,'Default1705954432337'),(18,1705970895075,'Default1705970895075'),(19,1709083742552,'Default1709083742552'),(20,1709430633775,'Default1709430633775');
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -431,7 +432,7 @@ CREATE TABLE `paths` (
   `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -440,7 +441,7 @@ CREATE TABLE `paths` (
 
 LOCK TABLES `paths` WRITE;
 /*!40000 ALTER TABLE `paths` DISABLE KEYS */;
-INSERT INTO `paths` VALUES (1,'*','*','2024-02-27 22:33:22.103618','2024-02-27 23:20:21.660793'),(2,'/session','POST','2024-02-27 22:34:36.185146','2024-02-27 23:20:21.665608'),(3,'/forgot-password','POST','2024-02-27 22:34:36.213800','2024-02-27 23:20:21.669713'),(4,'/customer','DELETE','2024-02-27 22:34:36.218681','2024-02-27 23:20:21.674471'),(5,'/avatar','DELETE','2024-02-27 22:34:52.801999','2024-02-27 23:20:21.679550'),(6,'/avatar','PATCH','2024-02-27 22:35:09.373346','2024-02-27 23:20:21.685419'),(7,'/customer/email','PATCH','2024-02-27 22:35:34.429772','2024-02-27 23:20:21.691302'),(8,'/customer/password','PATCH','2024-02-27 22:35:34.438682','2024-02-27 23:20:21.697997'),(9,'/customer/reset-password','PATCH','2024-02-27 22:35:46.660599','2024-02-27 23:20:21.709011'),(10,'*','GET','2024-02-28 21:11:36.404271','2024-02-28 21:11:36.404271');
+INSERT INTO `paths` VALUES (2,'/session','POST','2024-02-27 22:34:36.185146','2024-02-27 23:20:21.665608'),(3,'/forgot-password','POST','2024-02-27 22:34:36.213800','2024-02-27 23:20:21.669713'),(4,'/customer','DELETE','2024-02-27 22:34:36.218681','2024-02-27 23:20:21.674471'),(5,'/avatar','DELETE','2024-02-27 22:34:52.801999','2024-02-27 23:20:21.679550'),(6,'/avatar','PATCH','2024-02-27 22:35:09.373346','2024-02-27 23:20:21.685419'),(7,'/customer/email','PATCH','2024-02-27 22:35:34.429772','2024-02-27 23:20:21.691302'),(8,'/customer/password','PATCH','2024-02-27 22:35:34.438682','2024-02-27 23:20:21.697997'),(9,'/customer/reset-password','PATCH','2024-02-27 22:35:46.660599','2024-02-27 23:20:21.709011'),(10,'*','GET','2024-02-28 21:11:36.404271','2024-02-28 21:11:36.404271'),(11,'*','*','2024-03-02 11:12:21.909227','2024-03-02 11:12:21.909227');
 /*!40000 ALTER TABLE `paths` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -542,12 +543,12 @@ CREATE TABLE `question` (
   `text_end_research` varchar(200) DEFAULT NULL,
   `text_label_one` varchar(40) DEFAULT NULL,
   `text_label_two` varchar(40) DEFAULT NULL,
-  `research_title` varchar(80) DEFAULT NULL,
   `alert_label` varchar(255) DEFAULT NULL,
   `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
   `company_id` int DEFAULT NULL,
   `question_description` varchar(255) DEFAULT NULL,
+  `multiply_questions` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_150758ea0fe6f96dd2cd53bff21` (`company_id`),
   CONSTRAINT `FK_150758ea0fe6f96dd2cd53bff21` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -560,7 +561,7 @@ CREATE TABLE `question` (
 
 LOCK TABLES `question` WRITE;
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
-INSERT INTO `question` VALUES (1,'FINA. PESQUISA',1,'finish',1,'Ficamos muito felizes que teve uma ótima experiência conosco. Se importa em responder mais algumas perguntas? É rapidinho!','Pode ser.','Hoje não.','','','2023-08-29 22:43:11.723548','2023-09-07 16:17:15.000000',2,NULL),(2,'ALERTA',0,'alert',1,'','','','','Lamentamos muito que não tenha tido uma boa experiência conosco. Vamos precisar te fazer mais algumas perguntas, tudo bem?','2023-08-29 22:43:58.339090','2023-09-05 21:10:24.000000',2,NULL),(3,'SOLIC. CONTATO',0,'contact',1,'','','','','','2023-08-29 22:44:08.165371','2023-09-05 21:10:24.000000',2,NULL),(4,'ALERTA',0,'alert',1,'','','','','Anotamos tudo por aqui. Agora precisamos que nos informe seus dados para que, se preciso for, possamos entrar em contato e entender melhor o ocorrido, tudo bem?','2023-08-29 22:44:45.068647','2023-09-05 21:10:21.000000',2,NULL),(5,'departamento mais gostou',1,'import',1,NULL,NULL,NULL,NULL,NULL,'2023-08-29 22:51:58.008235','2023-10-18 20:45:05.000000',2,NULL),(6,'o que no departamento',1,'import',1,NULL,NULL,NULL,NULL,NULL,'2023-08-29 22:52:44.585459','2023-09-05 21:19:12.000000',2,NULL),(7,'conte-nos',1,'input',1,NULL,NULL,NULL,NULL,NULL,'2023-08-29 22:53:18.549229','2023-09-05 21:19:13.000000',2,NULL),(9,'departamento não gostou',0,'import',1,NULL,NULL,NULL,NULL,NULL,'2023-08-29 22:54:29.454306','2023-09-19 02:09:57.000000',2,NULL),(10,'não gostou departamento',0,'import',1,NULL,NULL,NULL,NULL,NULL,'2023-08-29 22:55:12.008283','2023-09-05 21:19:14.000000',2,NULL),(11,'o que houve',0,'input',1,NULL,NULL,NULL,NULL,NULL,'2023-08-29 22:56:08.570697','2023-08-29 22:57:31.058167',2,NULL),(40,'indicaria',1,'binary',1,NULL,NULL,NULL,NULL,NULL,'2023-10-14 23:33:08.079563','2023-10-21 23:51:29.000000',2,NULL),(41,'voltaria comprar',0,'binary',1,NULL,NULL,NULL,NULL,NULL,'2023-10-14 23:33:42.090809','2023-10-21 23:51:26.000000',2,NULL),(42,'setores não gostou',0,'import',1,NULL,NULL,NULL,NULL,NULL,'2023-12-12 02:25:31.475028','2023-12-12 02:45:54.828965',1,NULL),(43,'o que não gostou nos setores',0,'import',1,NULL,NULL,NULL,NULL,NULL,'2023-12-12 02:26:23.445143','2023-12-12 02:46:07.848556',1,NULL),(44,'voltaria comprar',0,'binary',1,NULL,NULL,NULL,NULL,NULL,'2023-12-12 02:27:03.095961','2023-12-12 02:27:03.095961',1,NULL),(45,'conte-nos',0,'input',1,NULL,NULL,NULL,NULL,NULL,'2023-12-12 02:27:59.603601','2023-12-12 02:37:43.150751',1,NULL),(46,'ALERTA',0,'alert',1,'','','','','LAMENTAMOS MUITO SUA EXPERIÊNCIA NEGATIVA CONOSCO. VAMOS PRECISAR TE FAZER MAIS ALGUMAS PERGUNTAS E ENTENDER O QUE HOUVE, TUDO BEM?','2023-12-12 02:28:53.823169','2023-12-12 02:28:53.823169',1,NULL),(47,'ALERTA',0,'alert',1,'','','','','ESTAMOS ANOTANDO TUDO POR AQUI. AGORA, VOU PRECISAR QUE DEIXE SEU CONTATO PARA QUE, SE PRECISO FOR, POSSAMOS ENTRAR EM CONTATO PARA COLETAR ALGUNS DETALHES. TUDO BEM?','2023-12-12 02:29:34.530266','2023-12-12 02:29:34.530266',1,NULL),(48,'SOLIC. CONTATO',0,'contact',1,'','','','','','2023-12-12 02:29:44.059184','2023-12-12 02:29:44.059184',1,NULL),(49,'setor mais gostou',1,'import',1,NULL,NULL,NULL,NULL,NULL,'2023-12-12 02:30:47.971322','2023-12-12 02:44:48.108045',1,NULL),(50,'mais gostou nos setores',1,'import',1,NULL,NULL,NULL,NULL,NULL,'2023-12-12 02:31:51.918961','2023-12-12 02:31:51.918961',1,NULL),(51,'produtos frescos no horário',1,'binary',1,NULL,NULL,NULL,NULL,NULL,'2023-12-12 02:32:39.783985','2023-12-12 02:32:39.783985',1,NULL),(52,'algo mais',1,'input',1,NULL,NULL,NULL,NULL,NULL,'2023-12-12 02:38:19.615424','2023-12-12 02:38:19.615424',1,NULL),(53,'FINA. PESQUISA',1,'finish',1,'FICAMOS MUITO FELIZES QUE TEVE UMA EXPERIÊNCIA POSITIVA CONOSCO. SE IMPORTA EM RESPONDER MAIS ALGUMAS PERGUNTAS? É RAPIDINHO!','Pode ser!','Hoje não!','','','2023-12-12 02:39:15.699963','2023-12-12 02:39:15.699963',1,NULL);
+INSERT INTO `question` VALUES (1,'FINA. PESQUISA',1,'finish',1,'Ficamos muito felizes que teve uma ótima experiência conosco. Se importa em responder mais algumas perguntas? É rapidinho!','Pode ser.','Hoje não.','','2023-08-29 22:43:11.723548','2023-09-07 16:17:15.000000',2,NULL,NULL),(2,'ALERTA',0,'alert',1,'','','','Lamentamos muito que não tenha tido uma boa experiência conosco. Vamos precisar te fazer mais algumas perguntas, tudo bem?','2023-08-29 22:43:58.339090','2023-09-05 21:10:24.000000',2,NULL,NULL),(3,'SOLIC. CONTATO',0,'contact',1,'','','','','2023-08-29 22:44:08.165371','2023-09-05 21:10:24.000000',2,NULL,NULL),(4,'ALERTA',0,'alert',1,'','','','Anotamos tudo por aqui. Agora precisamos que nos informe seus dados para que, se preciso for, possamos entrar em contato e entender melhor o ocorrido, tudo bem?','2023-08-29 22:44:45.068647','2023-09-05 21:10:21.000000',2,NULL,NULL),(5,'departamento mais gostou',1,'import',1,NULL,NULL,NULL,NULL,'2023-08-29 22:51:58.008235','2024-03-02 23:50:25.959323',2,'Qual departamento você mais gostou em nossa loja?',NULL),(6,'o que no departamento',1,'import',1,NULL,NULL,NULL,NULL,'2023-08-29 22:52:44.585459','2024-03-02 23:50:25.968420',2,'No departamento escolhido, o que você destacaria com um elogio?',NULL),(7,'conte-nos',1,'input',1,NULL,NULL,NULL,NULL,'2023-08-29 22:53:18.549229','2024-03-02 23:50:25.972790',2,'Algo mais que queria compartilhar a respeito da sua boa experiência conosco?',NULL),(9,'departamento não gostou',0,'import',1,NULL,NULL,NULL,NULL,'2023-08-29 22:54:29.454306','2024-03-02 23:50:25.976271',2,'Em qual departamento você não teve uma boa experiência?',NULL),(10,'não gostou departamento',0,'import',1,NULL,NULL,NULL,NULL,'2023-08-29 22:55:12.008283','2024-03-02 23:50:25.980361',2,'O que gostaria destacar negativamente no departamento escolhido?',NULL),(11,'o que houve',0,'input',1,NULL,NULL,NULL,NULL,'2023-08-29 22:56:08.570697','2024-03-02 23:50:25.986638',2,'Nos dê a oportunidade de melhorar! Conte-nos com suas palavras, a hora é agora!',NULL),(40,'indicaria',1,'binary',1,NULL,NULL,NULL,NULL,'2023-10-14 23:33:08.079563','2024-03-02 23:50:25.992003',2,'Indicaria nossa loja como um bom lugar para se comprar?',NULL),(41,'voltaria comprar',0,'binary',1,NULL,NULL,NULL,NULL,'2023-10-14 23:33:42.090809','2024-03-02 23:50:25.997393',2,'Voltaria a comprar conosco em uma nova oportunidade?',NULL),(42,'setores não gostou',0,'import',1,NULL,NULL,NULL,NULL,'2023-12-12 02:25:31.475028','2023-12-12 02:45:54.828965',1,NULL,NULL),(43,'o que não gostou nos setores',0,'import',1,NULL,NULL,NULL,NULL,'2023-12-12 02:26:23.445143','2023-12-12 02:46:07.848556',1,NULL,NULL),(44,'voltaria comprar',0,'binary',1,NULL,NULL,NULL,NULL,'2023-12-12 02:27:03.095961','2023-12-12 02:27:03.095961',1,NULL,NULL),(45,'conte-nos',0,'input',1,NULL,NULL,NULL,NULL,'2023-12-12 02:27:59.603601','2023-12-12 02:37:43.150751',1,NULL,NULL),(46,'ALERTA',0,'alert',1,'','','','LAMENTAMOS MUITO SUA EXPERIÊNCIA NEGATIVA CONOSCO. VAMOS PRECISAR TE FAZER MAIS ALGUMAS PERGUNTAS E ENTENDER O QUE HOUVE, TUDO BEM?','2023-12-12 02:28:53.823169','2023-12-12 02:28:53.823169',1,NULL,NULL),(47,'ALERTA',0,'alert',1,'','','','ESTAMOS ANOTANDO TUDO POR AQUI. AGORA, VOU PRECISAR QUE DEIXE SEU CONTATO PARA QUE, SE PRECISO FOR, POSSAMOS ENTRAR EM CONTATO PARA COLETAR ALGUNS DETALHES. TUDO BEM?','2023-12-12 02:29:34.530266','2023-12-12 02:29:34.530266',1,NULL,NULL),(48,'SOLIC. CONTATO',0,'contact',1,'','','','','2023-12-12 02:29:44.059184','2023-12-12 02:29:44.059184',1,NULL,NULL),(49,'setor mais gostou',1,'import',1,NULL,NULL,NULL,NULL,'2023-12-12 02:30:47.971322','2023-12-12 02:44:48.108045',1,NULL,NULL),(50,'mais gostou nos setores',1,'import',1,NULL,NULL,NULL,NULL,'2023-12-12 02:31:51.918961','2023-12-12 02:31:51.918961',1,NULL,NULL),(51,'produtos frescos no horário',1,'binary',1,NULL,NULL,NULL,NULL,'2023-12-12 02:32:39.783985','2023-12-12 02:32:39.783985',1,NULL,NULL),(52,'algo mais',1,'input',1,NULL,NULL,NULL,NULL,'2023-12-12 02:38:19.615424','2023-12-12 02:38:19.615424',1,NULL,NULL),(53,'FINA. PESQUISA',1,'finish',1,'FICAMOS MUITO FELIZES QUE TEVE UMA EXPERIÊNCIA POSITIVA CONOSCO. SE IMPORTA EM RESPONDER MAIS ALGUMAS PERGUNTAS? É RAPIDINHO!','Pode ser!','Hoje não!','','2023-12-12 02:39:15.699963','2023-12-12 02:39:15.699963',1,NULL,NULL);
 /*!40000 ALTER TABLE `question` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -672,7 +673,7 @@ CREATE TABLE `roles_customer` (
 
 LOCK TABLES `roles_customer` WRITE;
 /*!40000 ALTER TABLE `roles_customer` DISABLE KEYS */;
-INSERT INTO `roles_customer` VALUES (1,1),(1,2),(3,17);
+INSERT INTO `roles_customer` VALUES (1,1),(2,2),(2,32);
 /*!40000 ALTER TABLE `roles_customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -777,4 +778,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-28 21:31:29
+-- Dump completed on 2024-03-03 17:19:45

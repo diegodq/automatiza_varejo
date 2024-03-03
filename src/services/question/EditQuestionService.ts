@@ -13,12 +13,12 @@ type QuestionRequest =
 	text_end_research: string;
 	text_label_one: string;
 	text_label_two: string;
-	research_title: string;
+	multiply_questions: number;
 }
 
 class EditQuestionService
 {
-	public async execute({ id, title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title }: QuestionRequest)
+	public async execute({ id, title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, multiply_questions }: QuestionRequest)
 	{
 		const questionExists: Question | null = await questionRepository.findOneBy({ id: Number(id) });
 		if(!questionExists) {
@@ -33,7 +33,7 @@ class EditQuestionService
 		questionExists.text_end_research = text_end_research;
 		questionExists.text_label_one = text_label_one;
 		questionExists.text_label_two = text_label_two;
-		questionExists.research_title = research_title;
+		questionExists.multiply_questions = multiply_questions;
 
 		await questionRepository.save(questionExists);
 

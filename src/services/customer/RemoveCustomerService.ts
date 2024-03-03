@@ -26,7 +26,7 @@ class RemoveCustomerService
 		if(await this.checkRootAccount(customerId) && id !== undefined) {
 			const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 			if(!customer)
-				throw new BadRequestError('do-not-registered-customer');
+				throw new BadRequestError('customer-not-found');
 
 			if(paramsConfig.params.useQueueForSendNotifications) {
 				const user = { customer };
@@ -43,7 +43,7 @@ class RemoveCustomerService
 		if(await this.checkRootAccount(customerId) && id === undefined) {
 			const customer: Customer | null = await customerRepository.findOneBy({ id: Number(customerId) });
 			if(!customer)
-				throw new BadRequestError('do-not-registered-customer');
+				throw new BadRequestError('customer-not-found');
 
 			if(customer.email != email)
 				throw new BadRequestError('incorrect-email-or-password');
@@ -62,7 +62,7 @@ class RemoveCustomerService
 				await this.sendNotificationWithoutQueue(customer);
 			}
 
-			this.deleteCustomersAndCompany(customer_id, company_id);
+			await this.deleteCustomersAndCompany(customer_id, company_id);
 
 			return 'account-removed';
 		}
@@ -70,7 +70,7 @@ class RemoveCustomerService
 		if(await this.checkRemoveYourSelf(customerId)) {
 			const customer: Customer | null = await customerRepository.findOneBy({ id: Number(customerId) });
 			if(!customer)
-				throw new BadRequestError('do-not-registered-customer.');
+				throw new BadRequestError('customer-not-found');
 
 			if(customer.email != email)
 				throw new BadRequestError('do-not-registered-customer.');
@@ -79,16 +79,16 @@ class RemoveCustomerService
 			if(!passwordCheck)
 				throw new BadRequestError('incorrect-email-or-password');
 
-			this.deleteCustomer(customer);
+			await this.deleteCustomer(customer);
 
 			return 'customer-removed';
 		}
 
 		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer)
-			throw new BadRequestError('do-not-registered-customer');
+			throw new BadRequestError('customer-not-found');
 
-		this.deleteCustomer(customer);
+		await this.deleteCustomer(customer);
 
 		return 'customer-removed';
 	}
@@ -151,7 +151,7 @@ class RemoveCustomerService
 		await queryRunner.release();
 	}
 
-	private async checkRootAccount(rootId: number): Promise<boolean>
+	public async checkRootAccount(rootId: number): Promise<boolean>
 	{
 		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
@@ -163,7 +163,7 @@ class RemoveCustomerService
 
 		let isRoot = false;
 		queryResult.forEach((role: {role_id: number}) => {
-			if(role.role_id === FixedRole.ADMINISTRATOR)
+			if(role.role_id === FixedRole.ADMINISTRATOR || role.role_id === FixedRole.GERENTE)
 				isRoot = true;
 		});
 

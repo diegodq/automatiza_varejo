@@ -1,17 +1,71 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDkxNjY0NTcsImV4cCI6MTcwOTI0OTI1Nywic3ViIjoiMTcifQ.3RW6RTvkwTb-K2vYYCPPhlZc5_AY2K_EUbdcAHZPqrE
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDk0OTY4MzEsImV4cCI6MTcwOTU3OTYzMSwic3ViIjoiNDQifQ.GTYp2xmvnt2akDI6PQYAG8izujaJct_ssxsFQ6xKlIk
+GET http://{{host}}/type/customer
+Content-Type: application/json
+Authorization: {{token}}
+###
 
-# create new user
+GET http://{{host}}/list/customer/company
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/multi-store
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/dashboard/department/2024-02-22/2024-02-29/1
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+
+GET http://{{host}}/dashboard/amount/research
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/avatar
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/type/customer
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/company-questions
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/details
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/list/store
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/list/type/customers
+Content-Type: application/json
+Authorization: {{token}}
+###
+
 POST http://{{host}}/customer
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-	"first_name": "Diego",
+	"first_name": "Joerlison",
 	"surname": "Sousa",
-	"position": "GERENTE",
+	"position": "ADMIN",
 	"phone": "(61) 996778575",
-	"email": "pediegoss@gmail.com",
+	"email": "joerlison@gmail.com",
 	"password": "@senha123",
 	"accept_terms": 1,
 	"company": 2,
@@ -24,25 +78,8 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-	"id": 42,
-	"email": "goncalina23@hotmail.com",
-	"password": "@Goncalina123"
+	"id": 35
 }
-###
-
-GET http://{{host}}/list/type/customers
-Content-Type: application/json
-Authorization: {{token}}
-###
-
-DELETE http://{{host}}/delete/tests
-Content-Type: application/json
-Authorization: {{token}}
-###
-
-GET http://{{host}}/list/customer/company
-Content-Type: application/json
-Authorization: {{token}}
 ###
 
 DELETE http://{{host}}/customer
@@ -50,14 +87,9 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-	"email": "carlos@automatizavarejo.com.br",
-	"password": "@Teste1234"
+	"email": "joerlison@gmail.com",
+	"password": "@senha123"
 }
-###
-
-GET http://{{host}}/type/customer
-Content-Type: application/json
-Authorization: {{token}}
 ###
 
 POST http://{{host}}/join/role/customer
@@ -115,7 +147,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-	"id": 14,
+	"id": 17,
 	"first_name": "Diego",
 	"surname": "Gatão",
 	"position": "ADMIN",
@@ -124,10 +156,7 @@ Authorization: {{token}}
 }
 ###
 
-GET http://{{host}}/details
-Content-Type: application/json
-Authorization: {{token}}
-###
+
 
 PATCH http://{{host}}/logo-company
 Authorization: {{token}}

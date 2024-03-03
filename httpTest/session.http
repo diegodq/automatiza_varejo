@@ -1,12 +1,11 @@
 @host = localhost:3007
 
-# test make login
 POST http://{{host}}/session
 Content-Type: application/json
 
 {
-	"email": "pediegoss@gmail.com",
-	"password": "@senha123"
+	"email": "joerlison@gmail.com",
+	"password": "@senha123" 
 }
 ###
 
@@ -16,6 +15,16 @@ Content-Type: application/json
 # }
 
 # {
+# 	"email": "comercial@automatizavarejo.com.br",
+# 	"password": "@Teste1234"
+# }
+
+# {
 # 	"email": "pediegoss@gmail.com",
+# 	"password": "@senha123"
+# }
+
+# {
+# 	"email": "janderson@gmail.com",
 # 	"password": "@senha123"
 # }

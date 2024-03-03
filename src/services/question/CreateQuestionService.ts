@@ -17,7 +17,7 @@ type QuestionRequest =
 	text_end_research: string;
 	text_label_one: string;
 	text_label_two: string;
-	research_title: string;
+	multiply_questions: number;
 	alert_label: string;
 	company_id: number;
 }
@@ -29,7 +29,7 @@ type DataQuestion = {
 class CreateQuestionService
 {
 	public async execute({ title_question, tree_question, question_description, type_question, status, text_end_research,
-		text_label_one, text_label_two, research_title, alert_label, company_id }: QuestionRequest): Promise<object>
+		text_label_one, text_label_two, multiply_questions, alert_label, company_id }: QuestionRequest): Promise<object>
 	{
 		const companyId: number = await convertUserIdInCompanyId(Number(company_id));
 
@@ -54,7 +54,7 @@ class CreateQuestionService
 			}
 		});
 
-		const newQuestion: Question = questionRepository.create({ title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, research_title, alert_label, company });
+		const newQuestion: Question = questionRepository.create({ title_question, tree_question, question_description, type_question, status, text_end_research, text_label_one, text_label_two, multiply_questions, alert_label, company });
 		await questionRepository.save(newQuestion);
 
 		return { message: 'question-added', questionId: newQuestion.getId };

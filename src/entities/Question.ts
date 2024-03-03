@@ -47,8 +47,8 @@ class Question
 	@Column({ type: 'varchar', nullable: true, length: 40 })
 	text_label_two: string;
 
-	@Column({ type: 'varchar', nullable: true, length: 80 })
-	research_title: string;
+	@Column({ type: 'tinyint', nullable: true })
+	multiply_questions: number;
 
 	@Column({ type: 'varchar', nullable: true })
 	alert_label: string;
@@ -59,15 +59,21 @@ class Question
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, params_questions: ParamsQuestions, answer: Answer, company: Company,
+	constructor(id: number,
+		params_questions: ParamsQuestions,
+		answer: Answer, company: Company,
 		questionGroupMapping: QuestionGroupMapping,
 		title_question: string,
 		tree_question: number,
 		question_description: string,
-		type_question: string, status: number, text_end_research: string,
+		type_question: string, status: number,
+		text_end_research: string,
 		text_label_one: string,
-		text_label_two: string, research_title: string, alert_label: string,
-		created_at: Date, updated_at: Date)
+		text_label_two: string,
+		multiply_questions: number,
+		alert_label: string,
+		created_at: Date,
+		updated_at: Date)
 	{
 		this.id = id;
 		this.params_questions = params_questions;
@@ -82,7 +88,7 @@ class Question
 		this.text_end_research = text_end_research;
 		this.text_label_one = text_label_one;
 		this.text_label_two = text_label_two;
-		this.research_title = research_title;
+		this.multiply_questions = multiply_questions;
 		this.alert_label = alert_label;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
@@ -148,9 +154,9 @@ class Question
 		return this.text_label_two;
 	}
 
-	get getResearchTitle(): string
+	get getMultiplyQuestions(): number
 	{
-		return this.research_title;
+		return this.multiply_questions;
 	}
 
 	get getAlertLabel(): string
