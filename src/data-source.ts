@@ -20,6 +20,8 @@ import Store from './entities/Store';
 import Topic from './entities/Topic';
 import Paths from './entities/Paths';
 
+import { Default1709599722257 } from './migrations/1709599722257-default';
+
 const port: number | undefined = process.env.DB_PORT as number | undefined;
 
 const appDataSource: DataSource = new DataSource({

@@ -1,6 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDk0OTY4MzEsImV4cCI6MTcwOTU3OTYzMSwic3ViIjoiNDQifQ.GTYp2xmvnt2akDI6PQYAG8izujaJct_ssxsFQ6xKlIk
-GET http://{{host}}/type/customer
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDk3NjA1MTcsImV4cCI6MTcwOTg0MzMxNywic3ViIjoiMiJ9.QKAek31Ls17HdJgHzdjFzAKucRlcQdO3_FnmSoCPJP4
 Content-Type: application/json
 Authorization: {{token}}
 ###
@@ -154,9 +153,7 @@ Authorization: {{token}}
 	"phone": "718278373",
 	"role_id": 1
 }
-###
-
-
+###f
 
 PATCH http://{{host}}/logo-company
 Authorization: {{token}}
@@ -168,3 +165,28 @@ Content-Type: image/png
 
 < ../imagesTest/image.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+###
+
+GET http://{{host}}/question
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+	"id": 1
+}
+###
+
+GET http://{{host}}/nps/company/29979262000121/questions
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/research/2024-3-6/2024-3-6
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/questions/binary/2024-3-6/2024-3-6
+Content-Type: application/json
+Authorization: {{token}}
+###

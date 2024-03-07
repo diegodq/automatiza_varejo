@@ -21,8 +21,8 @@ class Answer
 	@Column({ type:'varchar', nullable: true, default: '' })
 	answer: string;
 
-	@Column({ type: 'varchar', nullable: true, length: 200, default: '' })
-	research_title: string;
+	@Column({ type: 'varchar', nullable: true, length: 255, default: '' })
+	other_answer: string;
 
 	@Column({ type: 'varchar', nullable: true, length: 90, default: '' })
 	client_name: string;
@@ -66,7 +66,7 @@ class Answer
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, question: Question, store: Store, answer: string, research_title: string, client_name: string,
+	constructor(id: number, question: Question, store: Store, answer: string, other_answer: string, client_name: string,
 		client_phone: string, is_contact: number, id_research: string, research_name: string, nps_answer: number, device_client: string, start_research: Date,
 		name_employee: string, is_report: number, type_report: string, ip_address: string, created_at: Date, updated_at: Date)
 	{
@@ -74,7 +74,7 @@ class Answer
 		this.question = question;
 		this.store = store;
 		this.answer = answer;
-		this.research_title = research_title;
+		this.other_answer = other_answer;
 		this.client_name = client_name;
 		this.client_phone = client_phone;
 		this.is_contact = is_contact;
@@ -111,9 +111,9 @@ class Answer
 		return this.answer;
 	}
 
-	get getResearchTitle(): string
+	get getOtherAnswer(): string
 	{
-		return this.research_title;
+		return this.other_answer;
 	}
 
 	get getClientName(): string

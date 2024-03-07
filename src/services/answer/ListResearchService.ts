@@ -64,7 +64,7 @@ class ListResearchService
 
 			const resultQuery = await queryRunner.query(`select answer.id, answer.answer,
 			date_format(answer.created_at, '%d/%m/%Y %H:%i:%s') as formatted_date,
-			answer.nps_answer, answer.research_title, answer.research_name, answer.client_name, answer.client_phone,
+			answer.nps_answer, answer.other_answer, answer.research_name, answer.client_name, answer.client_phone,
 			answer.id_research, answer.is_contact,
 			answer.name_employee, store.store_number from question join answer
 			on answer.question_id = question.id
@@ -73,6 +73,8 @@ class ListResearchService
 			BETWEEN ? AND ? order by id asc;`, [idCompany, from, to]);
 
 			await queryRunner.release();
+
+			console.log('store undefined ', resultQuery);
 
 			if(resultQuery.length == 0) {
 				throw new BadRequestError('no-research');
@@ -85,13 +87,15 @@ class ListResearchService
 
 			const resultQuery = await queryRunner.query(`select answer.id, answer.answer, store.store_number, store.company_id,
 			date_format(answer.created_at, '%d/%m/%Y %H:%i:%s') as formatted_date,
-			answer.nps_answer, answer.research_title, answer.research_name,
+			answer.nps_answer, answer.other_answer, answer.research_name,
 			answer.client_name, answer.client_phone, answer.id_research,
 			answer.is_contact, answer.name_employee from answer join store on answer.store_id = store.id
 			where store.store_number = ? and store.company_id = ?
 			and date(answer.created_at) between ? and ? order by answer.id asc;`, [store, company, from, to]);
 
 			await queryRunner.release();
+
+			console.log(resultQuery);
 
 			if(resultQuery.length == 0) {
 				throw new BadRequestError('no-research');
@@ -109,10 +113,12 @@ class ListResearchService
 		await queryRunner.connect();
 
 		const resultQuery = await queryRunner.query(`select answer.id, answer.answer, date_format(answer.created_at, '%d/%m/%Y %H:%i:%s') as formatted_date,
-		answer.nps_answer, answer.research_title, answer.research_name, answer.client_name, answer.client_phone, answer.id_research, answer.is_contact,
+		answer.nps_answer, answer.other_answer, answer.research_name, answer.client_name, answer.client_phone, answer.id_research, answer.is_contact,
 		answer.name_employee from question join answer on answer.question_id = question.id where question.company_id = ? order by id asc;`, [idCompany]);
 
 		await queryRunner.release();
+
+		console.log(resultQuery);
 
 		if(resultQuery.length == 0) {
 			throw new BadRequestError('no-research');
