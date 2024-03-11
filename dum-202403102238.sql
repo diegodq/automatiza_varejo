@@ -338,7 +338,7 @@ CREATE TABLE `migrations` (
   `timestamp` bigint NOT NULL,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -347,7 +347,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,1702661295292,'Default1702661295292'),(2,1702680309705,'Default1702680309705'),(3,1702780466356,'Default1702780466356'),(4,1702864886672,'Default1702864886672'),(5,1703243288061,'Default1703243288061'),(6,1703242711956,'Default1703242711956'),(7,1705786126033,'Default1705786126033'),(8,1705951460131,'Default1705951460131'),(10,1705958011148,'Default1705958011148'),(17,1705954432337,'Default1705954432337'),(18,1705970895075,'Default1705970895075'),(19,1709083742552,'Default1709083742552'),(20,1709430633775,'Default1709430633775'),(21,1709599722257,'Default1709599722257');
+INSERT INTO `migrations` VALUES (1,1702661295292,'Default1702661295292'),(2,1702680309705,'Default1702680309705'),(3,1702780466356,'Default1702780466356'),(4,1702864886672,'Default1702864886672'),(5,1703243288061,'Default1703243288061'),(6,1703242711956,'Default1703242711956'),(7,1705786126033,'Default1705786126033'),(8,1705951460131,'Default1705951460131'),(10,1705958011148,'Default1705958011148'),(17,1705954432337,'Default1705954432337'),(18,1705970895075,'Default1705970895075'),(19,1709083742552,'Default1709083742552'),(20,1709430633775,'Default1709430633775'),(21,1709599722257,'Default1709599722257'),(23,1710000503730,'Default1710000503730'),(24,1710119860272,'Default1710119860272');
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -473,6 +473,33 @@ INSERT INTO `permissions` VALUES (1,'CRIAR','','2024-02-10 19:03:34.239080','202
 UNLOCK TABLES;
 
 --
+-- Table structure for table `possible_answers`
+--
+
+DROP TABLE IF EXISTS `possible_answers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `possible_answers` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `answer` varchar(255) DEFAULT '',
+  `question_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_4e2667064dc7188962dbb9d471a` (`question_id`),
+  CONSTRAINT `FK_4e2667064dc7188962dbb9d471a` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `possible_answers`
+--
+
+LOCK TABLES `possible_answers` WRITE;
+/*!40000 ALTER TABLE `possible_answers` DISABLE KEYS */;
+INSERT INTO `possible_answers` VALUES (5,'asdf',1),(6,'asdf',2),(7,'asdf',3),(8,'asfd',4),(9,'asdf',5),(10,'asdf',6),(11,'asdf',7);
+/*!40000 ALTER TABLE `possible_answers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `product`
 --
 
@@ -549,6 +576,7 @@ CREATE TABLE `question` (
   `company_id` int DEFAULT NULL,
   `question_description` varchar(255) DEFAULT NULL,
   `multiply_questions` tinyint DEFAULT NULL,
+  `question_two` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_150758ea0fe6f96dd2cd53bff21` (`company_id`),
   CONSTRAINT `FK_150758ea0fe6f96dd2cd53bff21` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -561,7 +589,7 @@ CREATE TABLE `question` (
 
 LOCK TABLES `question` WRITE;
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
-INSERT INTO `question` VALUES (1,'FINA. PESQUISA',1,'finish',1,'Ficamos muito felizes que teve uma ótima experiência conosco. Se importa em responder mais algumas perguntas? É rapidinho!','Pode ser.','Hoje não.','','2023-08-29 22:43:11.723548','2024-03-04 21:54:45.277687',2,NULL,NULL),(2,'ALERTA',0,'alert',1,'','','','Lamentamos muito que não tenha tido uma boa experiência conosco. Vamos precisar te fazer mais algumas perguntas, tudo bem?','2023-08-29 22:43:58.339090','2024-03-04 21:54:45.288189',2,NULL,NULL),(3,'SOLIC. CONTATO',0,'contact',1,'','','','','2023-08-29 22:44:08.165371','2024-03-04 21:54:45.292253',2,NULL,NULL),(4,'ALERTA',0,'alert',1,'','','','Anotamos tudo por aqui. Agora precisamos que nos informe seus dados para que, se preciso for, possamos entrar em contato e entender melhor o ocorrido, tudo bem?','2023-08-29 22:44:45.068647','2024-03-04 21:54:45.295985',2,NULL,NULL),(5,'departamento mais gostou',1,'import',1,NULL,NULL,NULL,NULL,'2023-08-29 22:51:58.008235','2024-03-04 21:54:45.301048',2,'Qual departamento você mais gostou em nossa loja?',NULL),(6,'o que no departamento',1,'import',1,NULL,NULL,NULL,NULL,'2023-08-29 22:52:44.585459','2024-03-04 21:54:45.305753',2,'No departamento escolhido, o que você destacaria com um elogio?',NULL),(7,'conte-nos',1,'input',1,NULL,NULL,NULL,NULL,'2023-08-29 22:53:18.549229','2024-03-04 21:54:45.309858',2,'Algo mais que queria compartilhar a respeito da sua boa experiência conosco?',NULL),(9,'departamento não gostou',0,'import',1,NULL,NULL,NULL,NULL,'2023-08-29 22:54:29.454306','2024-03-04 21:54:45.313136',2,'Em qual departamento você não teve uma boa experiência?',NULL),(10,'não gostou departamento',0,'import',1,NULL,NULL,NULL,NULL,'2023-08-29 22:55:12.008283','2024-03-04 21:54:45.317580',2,'O que gostaria destacar negativamente no departamento escolhido?',NULL),(11,'o que houve',0,'input',1,NULL,NULL,NULL,NULL,'2023-08-29 22:56:08.570697','2024-03-04 21:54:45.321415',2,'Nos dê a oportunidade de melhorar! Conte-nos com suas palavras, a hora é agora!',NULL),(40,'indicaria',1,'binary',1,NULL,NULL,NULL,NULL,'2023-10-14 23:33:08.079563','2024-03-04 21:54:45.325113',2,'Indicaria nossa loja como um bom lugar para se comprar?',NULL),(41,'voltaria comprar',0,'binary',1,NULL,NULL,NULL,NULL,'2023-10-14 23:33:42.090809','2024-03-04 21:54:45.328725',2,'Voltaria a comprar conosco em uma nova oportunidade?',NULL),(42,'setores não gostou',0,'import',1,NULL,NULL,NULL,NULL,'2023-12-12 02:25:31.475028','2024-03-04 21:54:45.333632',1,NULL,NULL),(43,'o que não gostou nos setores',0,'import',1,NULL,NULL,NULL,NULL,'2023-12-12 02:26:23.445143','2024-03-04 21:54:45.338015',1,NULL,NULL),(44,'voltaria comprar',0,'binary',1,NULL,NULL,NULL,NULL,'2023-12-12 02:27:03.095961','2024-03-04 21:54:45.345041',1,NULL,NULL),(45,'conte-nos',0,'input',1,NULL,NULL,NULL,NULL,'2023-12-12 02:27:59.603601','2024-03-04 21:54:45.350129',1,NULL,NULL),(46,'ALERTA',0,'alert',1,'','','','LAMENTAMOS MUITO SUA EXPERIÊNCIA NEGATIVA CONOSCO. VAMOS PRECISAR TE FAZER MAIS ALGUMAS PERGUNTAS E ENTENDER O QUE HOUVE, TUDO BEM?','2023-12-12 02:28:53.823169','2024-03-04 21:54:45.354514',1,NULL,NULL),(47,'ALERTA',0,'alert',1,'','','','ESTAMOS ANOTANDO TUDO POR AQUI. AGORA, VOU PRECISAR QUE DEIXE SEU CONTATO PARA QUE, SE PRECISO FOR, POSSAMOS ENTRAR EM CONTATO PARA COLETAR ALGUNS DETALHES. TUDO BEM?','2023-12-12 02:29:34.530266','2024-03-04 21:54:45.357768',1,NULL,NULL),(48,'SOLIC. CONTATO',0,'contact',1,'','','','','2023-12-12 02:29:44.059184','2024-03-04 21:54:45.361773',1,NULL,NULL),(49,'setor mais gostou',1,'import',1,NULL,NULL,NULL,NULL,'2023-12-12 02:30:47.971322','2024-03-04 21:54:45.366376',1,NULL,NULL),(50,'mais gostou nos setores',1,'import',1,NULL,NULL,NULL,NULL,'2023-12-12 02:31:51.918961','2024-03-04 21:54:45.370201',1,NULL,NULL),(51,'produtos frescos no horário',1,'binary',1,NULL,NULL,NULL,NULL,'2023-12-12 02:32:39.783985','2024-03-04 21:54:45.374009',1,NULL,NULL),(52,'algo mais',1,'input',1,NULL,NULL,NULL,NULL,'2023-12-12 02:38:19.615424','2024-03-04 21:54:45.377765',1,NULL,NULL),(53,'FINA. PESQUISA',1,'finish',1,'FICAMOS MUITO FELIZES QUE TEVE UMA EXPERIÊNCIA POSITIVA CONOSCO. SE IMPORTA EM RESPONDER MAIS ALGUMAS PERGUNTAS? É RAPIDINHO!','Pode ser!','Hoje não!','','2023-12-12 02:39:15.699963','2024-03-04 21:54:45.383124',1,NULL,NULL);
+INSERT INTO `question` VALUES (1,'FINA. PESQUISA',1,'finish',1,'Ficamos muito felizes que teve uma ótima experiência conosco. Se importa em responder mais algumas perguntas? É rapidinho!','Pode ser.','Hoje não.','','2023-08-29 22:43:11.723548','2024-03-09 19:11:51.655153',2,NULL,NULL,'Como você nos conheceu?'),(2,'ALERTA',0,'alert',1,'','','','Lamentamos muito que não tenha tido uma boa experiência conosco. Vamos precisar te fazer mais algumas perguntas, tudo bem?','2023-08-29 22:43:58.339090','2024-03-10 22:12:53.220259',2,NULL,NULL,'Como você nos conheceu?'),(3,'SOLIC. CONTATO',0,'contact',1,'','','','','2023-08-29 22:44:08.165371','2024-03-10 22:12:53.246173',2,NULL,NULL,'Como você nos conheceu?'),(4,'ALERTA',0,'alert',1,'','','','Anotamos tudo por aqui. Agora precisamos que nos informe seus dados para que, se preciso for, possamos entrar em contato e entender melhor o ocorrido, tudo bem?','2023-08-29 22:44:45.068647','2024-03-10 22:12:53.253537',2,NULL,NULL,'Como você nos conheceu?'),(5,'departamento mais gostou',1,'import',1,NULL,NULL,NULL,NULL,'2023-08-29 22:51:58.008235','2024-03-10 22:12:53.272937',2,'Qual departamento você mais gostou em nossa loja?',NULL,'Como você nos conheceu?'),(6,'o que no departamento',1,'import',1,NULL,NULL,NULL,NULL,'2023-08-29 22:52:44.585459','2024-03-10 22:12:53.278185',2,'No departamento escolhido, o que você destacaria com um elogio?',NULL,'Como você nos conheceu?'),(7,'conte-nos',1,'input',1,NULL,NULL,NULL,NULL,'2023-08-29 22:53:18.549229','2024-03-10 22:12:53.284140',2,'Algo mais que queria compartilhar a respeito da sua boa experiência conosco?',NULL,'Como você nos conheceu?'),(9,'departamento não gostou',0,'import',1,NULL,NULL,NULL,NULL,'2023-08-29 22:54:29.454306','2024-03-10 22:12:53.288784',2,'Em qual departamento você não teve uma boa experiência?',NULL,'Como você nos conheceu?'),(10,'não gostou departamento',0,'import',1,NULL,NULL,NULL,NULL,'2023-08-29 22:55:12.008283','2024-03-10 22:12:53.294883',2,'O que gostaria destacar negativamente no departamento escolhido?',NULL,'Como você nos conheceu?'),(11,'o que houve',0,'input',1,NULL,NULL,NULL,NULL,'2023-08-29 22:56:08.570697','2024-03-10 22:12:53.318626',2,'Nos dê a oportunidade de melhorar! Conte-nos com suas palavras, a hora é agora!',NULL,'Como você nos conheceu?'),(40,'indicaria',1,'binary',1,NULL,NULL,NULL,NULL,'2023-10-14 23:33:08.079563','2024-03-04 21:54:45.325113',2,'Indicaria nossa loja como um bom lugar para se comprar?',NULL,NULL),(41,'voltaria comprar',0,'binary',1,NULL,NULL,NULL,NULL,'2023-10-14 23:33:42.090809','2024-03-04 21:54:45.328725',2,'Voltaria a comprar conosco em uma nova oportunidade?',NULL,NULL),(42,'setores não gostou',0,'import',1,NULL,NULL,NULL,NULL,'2023-12-12 02:25:31.475028','2024-03-04 21:54:45.333632',1,NULL,NULL,NULL),(43,'o que não gostou nos setores',0,'import',1,NULL,NULL,NULL,NULL,'2023-12-12 02:26:23.445143','2024-03-04 21:54:45.338015',1,NULL,NULL,NULL),(44,'voltaria comprar',0,'binary',1,NULL,NULL,NULL,NULL,'2023-12-12 02:27:03.095961','2024-03-04 21:54:45.345041',1,NULL,NULL,NULL),(45,'conte-nos',0,'input',1,NULL,NULL,NULL,NULL,'2023-12-12 02:27:59.603601','2024-03-04 21:54:45.350129',1,NULL,NULL,NULL),(46,'ALERTA',0,'alert',1,'','','','LAMENTAMOS MUITO SUA EXPERIÊNCIA NEGATIVA CONOSCO. VAMOS PRECISAR TE FAZER MAIS ALGUMAS PERGUNTAS E ENTENDER O QUE HOUVE, TUDO BEM?','2023-12-12 02:28:53.823169','2024-03-04 21:54:45.354514',1,NULL,NULL,NULL),(47,'ALERTA',0,'alert',1,'','','','ESTAMOS ANOTANDO TUDO POR AQUI. AGORA, VOU PRECISAR QUE DEIXE SEU CONTATO PARA QUE, SE PRECISO FOR, POSSAMOS ENTRAR EM CONTATO PARA COLETAR ALGUNS DETALHES. TUDO BEM?','2023-12-12 02:29:34.530266','2024-03-04 21:54:45.357768',1,NULL,NULL,NULL),(48,'SOLIC. CONTATO',0,'contact',1,'','','','','2023-12-12 02:29:44.059184','2024-03-04 21:54:45.361773',1,NULL,NULL,NULL),(49,'setor mais gostou',1,'import',1,NULL,NULL,NULL,NULL,'2023-12-12 02:30:47.971322','2024-03-04 21:54:45.366376',1,NULL,NULL,NULL),(50,'mais gostou nos setores',1,'import',1,NULL,NULL,NULL,NULL,'2023-12-12 02:31:51.918961','2024-03-04 21:54:45.370201',1,NULL,NULL,NULL),(51,'produtos frescos no horário',1,'binary',1,NULL,NULL,NULL,NULL,'2023-12-12 02:32:39.783985','2024-03-04 21:54:45.374009',1,NULL,NULL,NULL),(52,'algo mais',1,'input',1,NULL,NULL,NULL,NULL,'2023-12-12 02:38:19.615424','2024-03-04 21:54:45.377765',1,NULL,NULL,NULL),(53,'FINA. PESQUISA',1,'finish',1,'FICAMOS MUITO FELIZES QUE TEVE UMA EXPERIÊNCIA POSITIVA CONOSCO. SE IMPORTA EM RESPONDER MAIS ALGUMAS PERGUNTAS? É RAPIDINHO!','Pode ser!','Hoje não!','','2023-12-12 02:39:15.699963','2024-03-04 21:54:45.383124',1,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `question` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -768,6 +796,66 @@ LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'automatiza_varejo'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `remove_companies_and_users` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_companies_and_users`(in customer_id int, in company_id int)
+begin
+	-- foreign key customer
+	delete from customer_tokens where customer_tokens.customer_id = customer_id;
+	delete from roles_customer where roles_customer.customer_id = customer_id;
+	delete from customer_permissions where customer_permissions.customer_id = customer_id;
+	delete from customer where customer.company_id = company_id;
+
+	-- foreign keys company
+	delete from store where store.company_id = company_id;
+	delete from department where department.company_id = company_id;
+	delete from company_product where company_product.company = company_id;
+	delete from params_product where params_product.company_id = company_id;
+	delete from question where question.company_id = company_id;
+	delete from qrcode_control where qrcode_control.company_id = company_id;
+	delete from topic where topic.company_id = company_id;
+	delete from company where company.id = company_id;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `remove_user` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_user`(in customer_id int)
+begin
+	delete from customer_paths where customer_paths.customer_id = customer_id;
+	delete from customer_permissions where customer_permissions.customer_id = customer_id;
+	delete from roles_customer where roles_customer.customer_id = customer_id;
+	delete from customer_tokens where customer_tokens.customer_id = customer_id;
+	delete from customer where customer.id = customer_id;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -778,4 +866,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-04 21:56:05
+-- Dump completed on 2024-03-10 22:38:38

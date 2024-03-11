@@ -9,6 +9,7 @@ import Question from '../entities/Question';
 import ChangeStatusTopicService from '../services/topic/ChangeStatusTopicService';
 import convertUserIdInCompanyId from "../utils/convertUserIdInCompanyId";
 import UpdateMultiplyQuestionsService from "../services/question/UpdateMultiplyQuestionsService";
+import AddNewPossibleAnswerService from "../services/question/AddNewPossibleAnswerService";
 
 class QuestionController
 {
@@ -91,6 +92,16 @@ class QuestionController
 		const result: string = await updateMultiplyQuestionsService.execute({ id_question, multiply_questions});
 
 		return response.status(200).json({ status: 'success', message: result });
+	}
+
+	static async addNewPossibleAnswer(request: Request, response: Response): Promise<Response>
+	{
+		const { question_id, answers } = request.body;
+
+		const addNewPossibleAnswerService: AddNewPossibleAnswerService = new AddNewPossibleAnswerService();
+		const result: Promise<string> = addNewPossibleAnswerService.execute({ question_id, answers });
+
+		return response.status(200).json({ status: 'success', result });
 	}
 }
 

@@ -21,7 +21,13 @@ class ListQuestionsByCompanyService
 			throw new BadRequestError('no-company');
 		}
 
-		const listQuestions: Question[] = await questionRepository.find({ where: { company: { id: idCompany } } });
+		const listQuestions: Question[] = await questionRepository.find({
+			relations: {
+				possible_answers: true
+			},
+			where: { company: { id: idCompany } }
+		});
+
 		if(listQuestions.length == 0) {
 			throw new BadRequestError('no-questions');
 		}

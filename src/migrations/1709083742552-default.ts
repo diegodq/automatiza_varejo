@@ -41,9 +41,6 @@ export class Default1709083742552 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX \`IDX_f982f93625ac4cf9f45cbba5cc\` ON \`roles_customer\``);
         await queryRunner.query(`DROP INDEX \`IDX_d6e001f3eaa0ded45e7bed27b9\` ON \`customer_permissions\``);
         await queryRunner.query(`DROP INDEX \`IDX_3efb387fd25a66f9d84f5e17df\` ON \`customer_permissions\``);
-        await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`subject\` \`subject\` varchar(255) COLLATE "utf8mb4_0900_ai_ci" NOT NULL`);
-        await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`email\` \`email\` varchar(255) COLLATE "utf8mb4_0900_ai_ci" NOT NULL`);
-        await queryRunner.query(`ALTER TABLE \`contact_us\` CHANGE \`name\` \`name\` varchar(255) COLLATE "utf8mb4_0900_ai_ci" NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`question\` DROP COLUMN \`question_description\``);
         await queryRunner.query(`ALTER TABLE \`question\` ADD \`question_description\` varchar(100) COLLATE "utf8mb4_0900_ai_ci" NULL`);
         await queryRunner.query(`DROP INDEX \`IDX_659d73e067f13c03de7709f4bd\` ON \`customer_paths\``);

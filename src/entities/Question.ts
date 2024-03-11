@@ -3,6 +3,7 @@ import Answer from "./Answer";
 import Company from "./Company";
 import ParamsQuestions from "./ParamsQuestions";
 import QuestionGroupMapping from "./QuestionGroupMapping";
+import PossibleAnswers from "./PossibleAnswers";
 
 @Entity('question')
 class Question
@@ -22,6 +23,9 @@ class Question
 
 	@OneToMany(() => QuestionGroupMapping, questionGroupMapping => questionGroupMapping.question)
 	questionGroupMapping: QuestionGroupMapping
+
+	@OneToMany(() => PossibleAnswers, possible_answers => possible_answers.question)
+	possible_answers: PossibleAnswers[];
 
 	@Column({ type: 'varchar', nullable: true, length: 100 })
 	title_question: string;
@@ -63,6 +67,7 @@ class Question
 		params_questions: ParamsQuestions,
 		answer: Answer, company: Company,
 		questionGroupMapping: QuestionGroupMapping,
+		possible_answers: PossibleAnswers[],
 		title_question: string,
 		tree_question: number,
 		question_description: string,
@@ -80,6 +85,7 @@ class Question
 		this.answer = answer;
 		this.company = company;
 		this.questionGroupMapping = questionGroupMapping;
+		this.possible_answers = possible_answers;
 		this.title_question = title_question;
 		this.tree_question = tree_question;
 		this.question_description = question_description;
@@ -112,6 +118,11 @@ class Question
 	get getQuestionGroupMapping(): QuestionGroupMapping
 	{
 		return this.questionGroupMapping;
+	}
+
+	get getPossibleAnswers(): PossibleAnswers[]
+	{
+		return this.possible_answers;
 	}
 
 	get getTitleQuestion(): string

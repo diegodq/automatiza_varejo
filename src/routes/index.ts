@@ -86,7 +86,8 @@ router.get('/dashboard/amount/research/:id_store?', isAuthenticated, DashboardCo
 router.get('/dashboard/amount/nps/:from/:to/:id_store?', isAuthenticated, DashboardController.toAmountNPS);
 
 router.post('/customer', isAuthenticatedCustomer, CustomerController.create);
-router.post('/new/permission', PermissionController.createPermission); // put in the Trello, make documentation
+router.post('/new/permission', isAuthenticatedCustomer, PermissionController.createPermission); // put in the Trello, make documentation
+router.post('/add/possible/answers', isAuthenticatedCustomer, QuestionController.addNewPossibleAnswer);
 router.post('/add/permission/customer',);
 router.post('/session', SessionController.create);
 router.post('/forgot-password', CustomerController.send);

@@ -19,8 +19,9 @@ import Roles from './entities/Roles';
 import Store from './entities/Store';
 import Topic from './entities/Topic';
 import Paths from './entities/Paths';
+import PossibleAnswers from './entities/PossibleAnswers';
 
-import { Default1709599722257 } from './migrations/1709599722257-default';
+import { Default1710119860272 } from './migrations/1710119860272-default'
 
 const port: number | undefined = process.env.DB_PORT as number | undefined;
 
@@ -49,10 +50,12 @@ const appDataSource: DataSource = new DataSource({
 		Roles,
 		Store,
 		Topic,
-		Paths
+		Paths,
+		PossibleAnswers
 	],
 	migrations: [
-		`${__dirname}/**/migrations/*.ts`
+		Default1710119860272
+		// `${__dirname}/**/migrations/*.ts`
 	]
 });
 

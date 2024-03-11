@@ -1,5 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDk3NjA1MTcsImV4cCI6MTcwOTg0MzMxNywic3ViIjoiMiJ9.QKAek31Ls17HdJgHzdjFzAKucRlcQdO3_FnmSoCPJP4
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDk4NTMxODksImV4cCI6MTcwOTkzNTk4OSwic3ViIjoiNDUifQ.cwY_VHKkJ6AN69P5uaPblDDZNHNZroysD38i7fKNOw0
 Content-Type: application/json
 Authorization: {{token}}
 ###

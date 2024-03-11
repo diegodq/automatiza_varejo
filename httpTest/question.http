@@ -1,5 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDgzNTMyNjIsImV4cCI6MTcwODQzNjA2Miwic3ViIjoiMTgifQ.obiW5crfv5dUPXcL6C2aSaSbKs2wiP60-aJYOlsm4Ck
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTAwODM0MzAsImV4cCI6MTcxMDE2NjIzMCwic3ViIjoiMiJ9.DJ82HOnL7np7ntEOLdIL9PYmxeoKfgbCbJWbgU8XFwo
 
 # create new user
 POST http://{{host}}/question
@@ -19,3 +19,25 @@ Authorization: {{token}}
 	"alert_label": "alert label test",
 	"company_id": 2
 }
+###
+
+POST http://{{host}}/add/possible/answers
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+	"question_id": 1,
+	"answers": [
+		"pombo correio",
+		"carta",
+		"rebolo postal",
+		"carta de baixo da calcinha"
+  ]
+}
+###
+
+
+GET http://{{host}}/company-questions
+Content-Type: application/json
+Authorization: {{token}}
+###
