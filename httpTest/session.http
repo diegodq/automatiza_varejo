@@ -4,8 +4,8 @@ POST http://{{host}}/session
 Content-Type: application/json
 
 {
-	"email": "comercial@automatizavarejo.com.br",
-	"password": "@Teste1234"
+  "email": "adolfo@gmail.com",
+  "password": "@senha123"
 }
 ###
 

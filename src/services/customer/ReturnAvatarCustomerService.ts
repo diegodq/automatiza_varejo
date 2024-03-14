@@ -14,11 +14,11 @@ class ReturnAvatarCustomerService
 	{
 		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
-			throw new BadRequestError('Usuário não encontrado.');
+			throw new BadRequestError('user-not-found');
 		}
 
 		if(!customer.avatar){
-			throw new BadRequestError('Avatar não adicionado.');
+			throw new BadRequestError('avatar-not-found');
 		}
 
 		return customer.avatar;

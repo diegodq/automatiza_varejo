@@ -58,12 +58,12 @@ class CreateCustomerService
 		const generateCustomerForgotTokenService: GenerateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
 		const token: string = await generateCustomerForgotTokenService.generate({ email });
 
-		if(paramsConfig.params.useQueueForSendNotifications) {
-			const user = { first_name, email, token, id };
-			await libCreateAccountMail.add({ user });
-		} else {
-			await this.sendNotificationWithoutQueue({ first_name, email, token, id });
-		}
+		// if(paramsConfig.params.useQueueForSendNotifications) {
+		// 	const user = { first_name, email, token, id };
+		// 	await libCreateAccountMail.add({ user });
+		// } else {
+		// 	await this.sendNotificationWithoutQueue({ first_name, email, token, id });
+		// }
 
 		return `Enviamos um e-mail com link de ativação para ${email}. Ative seu cadastro clicando no link enviado.`;
 	}
