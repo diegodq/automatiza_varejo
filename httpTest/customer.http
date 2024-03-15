@@ -1,5 +1,6 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTAzNDc5MjgsImV4cCI6MTcxMDQzMDcyOCwic3ViIjoiNDgifQ.3KUJN4hTCJZ62HbDu-NvrZEpnA7ivT6mSf52hJ7PnS4
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTA0NjMyOTEsImV4cCI6MTcxMDU0NjA5MSwic3ViIjoiMiJ9.OjzrAjLnk22-q2bR4UjFTn_OHCICV832KBwX85KI4uI
+
 Content-Type: application/json
 Authorization: {{token}}
 ###
@@ -152,7 +153,7 @@ Authorization: {{token}}
 	"phone": "718278373",
 	"role_id": 1
 }
-###f
+###
 
 PATCH http://{{host}}/logo-company
 Authorization: {{token}}

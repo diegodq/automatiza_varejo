@@ -6,6 +6,7 @@ import ListTopicService from "../services/topic/ListTopicService";
 import ListTopicsService from "../services/topic/ListTopicsService";
 import ChangeStatusTopicService from "../services/topic/ChangeStatusTopicService";
 import UpdateIndicateEmployee from "../services/answer/UpdateIndicateEmployee";
+import GetTopicsByDepartmentsService from "../services/question/GetTopicsByDepartmentsService";
 import Topic from '../entities/Topic';
 
 class TopicController
@@ -78,6 +79,16 @@ class TopicController
 		const updateDataEmployee: string = await updateIndicateEmployee.execute({ id_topic, indicate_employee });
 
 		return response.status(200).json({ status: 'success', message: updateDataEmployee });
+	}
+
+	static async getTopicsByDepartments(request: Request, response: Response): Promise<Response>
+	{
+		const { company, from, to, id_store } = request.body;
+
+		const getTopicsByDepartmentsService: GetTopicsByDepartmentsService = new GetTopicsByDepartmentsService();
+		const result: object = await getTopicsByDepartmentsService.execute({ company, from, to, id_store });
+
+		return response.status(200).json(result );
 	}
 }
 

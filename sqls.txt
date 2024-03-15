@@ -1,0 +1,9 @@
+positivos
+select answer.answer, answer.other_answer, answer.created_at, question.tree_question from answer 
+join department on answer.answer = department.name and answer.other_answer != '' 
+join question on question.id = answer.question_id and question.tree_question = 1 where date(answer.created_at) = '2024-03-12';
+
+negativo
+select answer.answer, answer.other_answer, answer.created_at, question.tree_question from answer 
+join department on answer.answer = department.name and answer.other_answer != '' 
+join question on question.id = answer.question_id and question.tree_question = 0 where date(answer.created_at) = '2024-03-12';

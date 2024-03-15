@@ -88,10 +88,7 @@ class ListQuestionBinaryService
 			params_questions.option_two;`);
 		}
 
-
 		await queryRunner.release();
-
-		console.log(queryResult);
 
 		if(queryResult.length == 0)
 			throw new BadRequestError('no-results');
