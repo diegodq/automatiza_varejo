@@ -83,7 +83,8 @@ class TopicController
 
 	static async getTopicsByDepartments(request: Request, response: Response): Promise<Response>
 	{
-		const { company, from, to, id_store } = request.body;
+		const company = request.userId;
+		const { from, to, id_store } = request.params;
 
 		const getTopicsByDepartmentsService: GetTopicsByDepartmentsService = new GetTopicsByDepartmentsService();
 		const result: object = await getTopicsByDepartmentsService.execute({ company, from, to, id_store });

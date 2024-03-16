@@ -57,7 +57,7 @@ router.get('/answers/:from?/:to?/:store?', isAuthenticated, AnswerController.lis
 router.get('/questions/binary/:from/:to/:id_store?', isAuthenticated, AnswerController.listQuestionsBinary);
 router.get('/topic', isAuthenticated, TopicController.list);
 router.get('/topics', isAuthenticated, TopicController.listAll);
-router.get('/topic/by/departments', isAuthenticated, TopicController.getTopicsByDepartments);
+router.get('/topic/by/departments/:from/:to/:id_store?', isAuthenticated, TopicController.getTopicsByDepartments);
 router.get('/anchor-question', isAuthenticated, ParamsProductController.listAnchorQuestion);
 router.get('/params/product', isAuthenticated, ParamsProductController.listParamsProduct);
 router.get('/params/question/:question_id', isAuthenticated, ParamsQuestionController.listParams);
