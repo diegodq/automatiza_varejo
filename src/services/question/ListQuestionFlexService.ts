@@ -43,17 +43,17 @@ class ListQuestionFlexService
 			question.tree_question AS arvore,
 			answer.answer,
 			COUNT(answer.answer) AS incidencias
-	FROM
+			FROM
 			question
-	LEFT JOIN (
+			LEFT JOIN (
 			SELECT question_id, answer
 			FROM answer
 			WHERE DATE(created_at) BETWEEN ? AND ?
-	) AS answer ON question.id = answer.question_id
-	WHERE
+			) AS answer ON question.id = answer.question_id
+			WHERE
 			question.type_question = 'flex'
 			AND question.company_id = ?
-	GROUP BY
+			GROUP BY
 			question.id,
 			question.question_description,
 			question.tree_question,
@@ -65,17 +65,17 @@ class ListQuestionFlexService
 			question.tree_question AS arvore,
 			answer.answer,
 			COUNT(answer.answer) AS incidencias
-	FROM
+			FROM
 			question
-	LEFT JOIN (
+			LEFT JOIN (
 			SELECT question_id, answer
 			FROM answer
 			WHERE DATE(created_at) BETWEEN ? AND ?
-	) AS answer ON question.id = answer.question_id
-	WHERE
+			) AS answer ON question.id = answer.question_id
+			WHERE
 			question.type_question = 'flex'
 			AND question.company_id = ?
-	GROUP BY
+			GROUP BY
 			question.id,
 			question.question_description,
 			question.tree_question,
@@ -87,9 +87,8 @@ class ListQuestionFlexService
 		if(queryResult.length == 0)
 			throw new BadRequestError('no-results');
 
-
 		const resultData = await this.transformData(queryResult);
-		return queryResult;
+		return resultData;
 	}
 
 	private async transformData(originalData: OriginalData[]): Promise<TransformedData[]> {
