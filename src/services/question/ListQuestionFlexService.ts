@@ -11,12 +11,20 @@ type RequestParams =
 	id_store: string
 }
 
-type TransformedData = {
-  pergunta: string;
-  arvore: number;
-  [key: string]: number | string;
-};
+interface OriginalData {
+	question_id: number;
+	pergunta: string;
+	arvore: number;
+	answer: string;
+	incidencias: string;
+}
 
+interface TransformedData {
+	question_id: number;
+	pergunta: string;
+	arvore: number;
+	answer: { [key: string]: number };
+}
 
 class ListQuestionFlexService
 {
@@ -80,7 +88,36 @@ class ListQuestionFlexService
 			throw new BadRequestError('no-results');
 
 
+		const resultData = await this.transformData(queryResult);
 		return queryResult;
+	}
+
+	private async transformData(originalData: OriginalData[]): Promise<TransformedData[]> {
+		const transformedArray: TransformedData[] = [];
+
+    const groupedQuestions = originalData.reduce((acc: { [key: number]: OriginalData[] }, curr) => {
+        acc[curr.question_id] = acc[curr.question_id] || [];
+        acc[curr.question_id].push(curr);
+        return acc;
+    }, {});
+
+    for (const questionId in groupedQuestions) {
+        if (Object.prototype.hasOwnProperty.call(groupedQuestions, questionId)) {
+            const groupedAnswers: { [key: string]: number } = {};
+            groupedQuestions[questionId].forEach(answer => {
+                groupedAnswers[answer.answer] = parseInt(answer.incidencias);
+            });
+
+            transformedArray.push({
+                question_id: parseInt(questionId),
+                pergunta: groupedQuestions[questionId][0].pergunta,
+                arvore: groupedQuestions[questionId][0].arvore,
+                answer: groupedAnswers
+            });
+        }
+    }
+
+    return transformedArray;
 	}
 }
 
