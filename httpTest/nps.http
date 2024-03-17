@@ -1,0 +1,8 @@
+@host = localhost:3007
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTA1NTkzMzUsImV4cCI6MTcxMDY0MjEzNSwic3ViIjoiNDgifQ.QA6Vl3ZiRlpR0eYa9vkDEmheT1UzI-iRJIzbo4opehY
+
+GET http://{{host}}/nps/company/01652694000295/questions
+Content-Type: application/json
+Authorization: {{token}}
+###
+

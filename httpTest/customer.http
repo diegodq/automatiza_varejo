@@ -159,11 +159,6 @@ Authorization: {{token}}
 }
 ###
 
-GET http://{{host}}/nps/company/29979262000121/questions
-Content-Type: application/json
-Authorization: {{token}}
-###
-
 GET http://{{host}}/research/2024-3-6/2024-3-6
 Content-Type: application/json
 Authorization: {{token}}

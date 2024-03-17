@@ -27,7 +27,8 @@ class ListQuestionAndParamsService
 
 		const questions: Question[] = await questionRepository.find({
 			relations: {
-				params_questions: true
+				params_questions: true,
+				possible_answers: true
 			},
 
 			where: {

@@ -10,6 +10,7 @@ import ListResearchService from "../services/answer/ListResearchService";
 import Answer from "../entities/Answer";
 import ListQuestionBinaryService from '../services/question/ListQuestionBinaryService';
 import Company from '../entities/Company';
+import ListQuestionFlexService from "../services/question/ListQuestionFlexService";
 
 class AnswerController
 {
@@ -100,6 +101,18 @@ class AnswerController
 		const listBinary: object = await listQuestionBinaryService.execute({company, from, to, id_store});
 
 		return response.status(200).json(listBinary);
+	}
+
+	static async listQuestionsFlex(request: Request, response: Response): Promise<Response>
+	{
+		const company: Company = request.userId;
+
+		const {from, to, id_store} = request.params;
+
+		const listQuestionFlexService: ListQuestionFlexService = new ListQuestionFlexService();
+		const listBinaryFlex: object = await listQuestionFlexService.execute({company, from, to, id_store});
+
+		return response.status(200).json(listBinaryFlex);
 	}
 
 	// static async makeReport(request: Request, response: Response)

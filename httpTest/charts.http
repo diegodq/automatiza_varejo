@@ -1,0 +1,11 @@
+@host = localhost:3007
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTA2MzY5NTgsImV4cCI6MTcxMDcxOTc1OCwic3ViIjoiMiJ9.7WsOX-zszyFfMvQ5z5T5FTNYLwxR43jCV2_OuZVi8IA
+
+GET http://{{host}}/questions/binary/2023-08-31/2024-03-12
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/questions/flex/2023-08-31/2024-03-16
+Content-Type: application/json
+Authorization: {{token}}

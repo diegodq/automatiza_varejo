@@ -54,10 +54,8 @@ router.get('/questions/:from?/:to?', isAuthenticated, QuestionController.listAll
 router.get('/answer', isAuthenticated, AnswerController.list);
 router.get('/research/:from?/:to?/:store?', isAuthenticated, AnswerController.listResearch);
 router.get('/answers/:from?/:to?/:store?', isAuthenticated, AnswerController.listAll);
-router.get('/questions/binary/:from/:to/:id_store?', isAuthenticated, AnswerController.listQuestionsBinary);
 router.get('/topic', isAuthenticated, TopicController.list);
 router.get('/topics', isAuthenticated, TopicController.listAll);
-router.get('/topic/by/departments/:from/:to/:id_store?', isAuthenticated, TopicController.getTopicsByDepartments);
 router.get('/anchor-question', isAuthenticated, ParamsProductController.listAnchorQuestion);
 router.get('/params/product', isAuthenticated, ParamsProductController.listParamsProduct);
 router.get('/params/question/:question_id', isAuthenticated, ParamsQuestionController.listParams);
@@ -85,6 +83,9 @@ router.get('/dashboard/research/:from/:to/:id_store?', isAuthenticated, Dashboar
 router.get('/dashboard/amount/month/:id_store?', isAuthenticated, DashboardController.returnVolumeOfResearchInMonths);
 router.get('/dashboard/amount/research/:id_store?', isAuthenticated, DashboardController.returnResearchSevenDays);
 router.get('/dashboard/amount/nps/:from/:to/:id_store?', isAuthenticated, DashboardController.toAmountNPS);
+router.get('/topic/by/departments/:from/:to/:id_store?', isAuthenticated, TopicController.getTopicsByDepartments);
+router.get('/questions/binary/:from/:to/:id_store?', isAuthenticated, AnswerController.listQuestionsBinary);
+router.get('/questions/flex/:from/:to/:id_store?', isAuthenticated, AnswerController.listQuestionsFlex);
 
 router.post('/customer', isAuthenticatedCustomer, CustomerController.create);
 router.post('/new/permission', isAuthenticatedCustomer, PermissionController.createPermission); // put in the Trello, make documentation
@@ -106,6 +107,7 @@ router.post('/create/question/group', isAuthenticated, QuestionGroupController.c
 router.post('/create/group/mapping', isAuthenticated, QuestionGroupMappingController.create);
 router.post('/join/role/customer', isAuthenticated, CustomerController.joinCustomerRole);
 router.post('/join/customer/permissions', isAuthenticated, CustomerController.joinCustomerPermissions);
+
 
 // test permissions
 router.delete('/customer', isAuthenticated, CustomerController.remove);
