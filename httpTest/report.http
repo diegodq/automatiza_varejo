@@ -1,0 +1,7 @@
+@host = localhost:3007
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTA3OTU1NTcsImV4cCI6MTcxMDg3ODM1Nywic3ViIjoiMiJ9.X3qdw8tBNNoXK4mxeO9cuICwH1hxLR5ae1k--eOH8Ao
+
+GET http://{{host}}/answer/report
+Content-Type: application/json
+Authorization: {{token}}
+###
