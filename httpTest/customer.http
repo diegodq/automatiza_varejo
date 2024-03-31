@@ -1,5 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTA1NTkzMzUsImV4cCI6MTcxMDY0MjEzNSwic3ViIjoiNDgifQ.QA6Vl3ZiRlpR0eYa9vkDEmheT1UzI-iRJIzbo4opehY
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTEyMzUxNTksImV4cCI6MTcxMTMxNzk1OSwic3ViIjoiMiJ9.nefGvKVXOpuD6KSqrEWfMDZwpxKnGzLHv9cm4SslDz8
 
 Content-Type: application/json
 Authorization: {{token}}
@@ -164,9 +164,26 @@ Content-Type: application/json
 Authorization: {{token}}
 ###
 
-GET http://{{host}}/questions/binary/2024-3-6/2024-3-6
+GET http://{{host}}/questions/binary/2024-03-14/2024-03-21
 Content-Type: application/json
 Authorization: {{token}}
+###
+
+# POST http://{{host}}/customer
+# Content-Type: application/json
+# Authorization: {{token}}
+
+# {
+# 	"first_name": "Vandicreison",
+# 	"surname": "Rabelo",
+# 	"position": "ADMIN",
+# 	"phone": "(61) 996778575",
+# 	"email": "vandicreison@gmail.com",
+# 	"password": "@senha123",
+# 	"accept_terms": 1,
+# 	"company": 2,
+# 	"role_id": 3
+# }
 ###
 
 POST http://{{host}}/customer
@@ -174,14 +191,15 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-	"first_name": "Anderson",
-	"surname": "Sousa",
-	"position": "ADMIN",
-	"phone": "(61) 996778575",
-	"email": "anderson@gmail.com",
-	"password": "@senha123",
-	"accept_terms": 1,
+	"first_name":"Firmino",
+	"surname":"pinto",
+	"position":"USUÁRIO",
+	"role_id": "3",
+	"email":"firmino@gmail.com",
+	"password":"123",
+	"confirm_password":"123",
+	"accept_terms":1,
 	"company": 2,
-	"role_id": 3
+	"phone":"99999999999"
 }
 ###

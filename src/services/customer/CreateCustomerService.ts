@@ -19,7 +19,7 @@ type TypeRequest =
 	email: string,
 	password: string,
 	accept_terms: string,
-	role_id: number;
+	role_id: string;
 	company_id: number
 }
 
@@ -49,9 +49,11 @@ class CreateCustomerService
 			id = lastId.id;
 		})
 
-		await this.joinRoleToCustomer(role_id, Number(id));
+		const roleIdInt = parseInt(role_id, 10);
 
-		await this.enablePathsToUser(role_id, Number(id));
+		await this.joinRoleToCustomer(roleIdInt, Number(id));
+
+		await this.enablePathsToUser(roleIdInt, Number(id));
 
 		await this.enablePermissionsToCustomer(Number(id));
 

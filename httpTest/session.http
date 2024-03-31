@@ -1,3 +1,4 @@
+
 @host = localhost:3007
 
 POST http://{{host}}/session
@@ -27,4 +28,9 @@ Content-Type: application/json
 # {
 # 	"email": "joerlison@gmail.com",
 # 	"password": "@senha123"
+# }
+
+# {
+# 	"email": "lords.gaps@gmail.com",
+# 	"password": "123"
 # }

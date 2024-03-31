@@ -2,7 +2,6 @@ import convertUserIdInCompanyId from "../../utils/convertUserIdInCompanyId";
 import appDataSource from "../../data-source";
 import Company from "../../entities/Company";
 import { BadRequestError } from "../../utils/ApiErrors";
-import { QueryRunner } from 'typeorm';
 
 type RequestParams =
 {
@@ -33,24 +32,54 @@ class ListQuestionFlexService
 	{
 		const idCompany = await convertUserIdInCompanyId(Number(company));
 
-		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
+		const queryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
 		let queryResult = null;
 		if(id_store == undefined) {
-			queryResult = await queryRunner.query(`select question.id AS question_id, question.question_description AS pergunta,
-			question.tree_question AS arvore, answer.answer, COUNT(answer.answer) AS incidencias
-			from question LEFT JOIN (SELECT question_id, answer FROM answer
-			WHERE DATE(created_at) BETWEEN ? AND ?) AS answer ON question.id = answer.question_id
-			where question.type_question = 'flex' and answer.answer <> '' AND question.company_id = ? GROUP by question.id, question.question_description,
-			question.tree_question, answer.answer;`, [from, to, idCompany]);
+			queryResult = await queryRunner.query(`SELECT
+			question.id AS question_id,
+			question.question_description AS pergunta,
+			question.tree_question AS arvore,
+			answer.answer,
+			COUNT(answer.answer) AS incidencias
+			FROM
+			question
+			LEFT JOIN (
+			SELECT question_id, answer
+			FROM answer
+			WHERE DATE(created_at) BETWEEN ? AND ?
+			) AS answer ON question.id = answer.question_id
+			WHERE
+			question.type_question = 'flex'
+			AND question.company_id = ?
+			GROUP BY
+			question.id,
+			question.question_description,
+			question.tree_question,
+			answer.answer;`, [from, to, idCompany]);
 		} else {
-			queryResult = await queryRunner.query(`select question.id AS question_id, question.question_description AS pergunta,
-			question.tree_question AS arvore, answer.answer, COUNT(answer.answer) AS incidencias
-			from question LEFT JOIN (SELECT question_id, answer FROM answer
-			WHERE DATE(created_at) BETWEEN ? and ? and answer.store_id = ?) AS answer ON question.id = answer.question_id
-			where question.type_question = 'flex' and answer.answer <> '' and question.company_id = 2
-			GROUP by question.id, question.question_description, question.tree_question, answer.answer;`, [from, to, id_store, idCompany]);
+			queryResult = await queryRunner.query(`SELECT
+			question.id AS question_id,
+			question.question_description AS pergunta,
+			question.tree_question AS arvore,
+			answer.answer,
+			COUNT(answer.answer) AS incidencias
+			FROM
+			question
+			LEFT JOIN (
+			SELECT question_id, answer
+			FROM answer
+			WHERE DATE(created_at) BETWEEN ? AND ?
+			) AS answer ON question.id = answer.question_id
+			WHERE
+			question.type_question = 'flex'
+			AND question.company_id = ?
+			GROUP BY
+			question.id,
+			question.question_description,
+			question.tree_question,
+			answer.answer;`, [from, to, idCompany]);
 		}
 
 		await queryRunner.release();
@@ -58,7 +87,7 @@ class ListQuestionFlexService
 		if(queryResult.length == 0)
 			throw new BadRequestError('no-results');
 
-		const resultData: TransformedData[] = await this.transformData(queryResult);
+		const resultData = await this.transformData(queryResult);
 		return resultData;
 	}
 
@@ -78,11 +107,11 @@ class ListQuestionFlexService
                 groupedAnswers[answer.answer] = parseInt(answer.incidencias);
             });
 
-						transformedArray.push({
-	            question_id: parseInt(questionId),
-	            pergunta: groupedQuestions[questionId][0].pergunta,
-	            arvore: groupedQuestions[questionId][0].arvore,
-	            answer: groupedAnswers
+            transformedArray.push({
+                question_id: parseInt(questionId),
+                pergunta: groupedQuestions[questionId][0].pergunta,
+                arvore: groupedQuestions[questionId][0].arvore,
+                answer: groupedAnswers
             });
         }
     }

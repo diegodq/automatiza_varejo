@@ -1,13 +1,26 @@
 import { Response, Request } from 'express';
 import CreateQuestionAndAnswersReports from '../services/reports/CreateQuestionAndAnswersReports';
+import { BadRequestError } from '../utils/ApiErrors';
+
 class ReportsController
 {
 	static async makePDF(request: Request, response: Response): Promise<Response>
 	{
-		const createQuestionAndAnswersReports: CreateQuestionAndAnswersReports = new CreateQuestionAndAnswersReports();
-		const report: string = await createQuestionAndAnswersReports.execute();
+		const data = request.body;
 
-		return response.status(200).json(report);
+		try {
+			const createQuestionAndAnswersReports: CreateQuestionAndAnswersReports = new CreateQuestionAndAnswersReports();
+			const pdfPaths: string[] = await createQuestionAndAnswersReports.execute(data);
+
+			pdfPaths.forEach(pdfPath => {
+				response.download(pdfPath);
+			});
+
+			return response.status(200).json(pdfPaths);
+		} catch(error) {
+			console.log('generate pdf error: ', error);
+			throw new BadRequestError('an error occurred to generate PDFs.');
+		}
 	}
 }
 
