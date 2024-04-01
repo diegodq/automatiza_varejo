@@ -1,16 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import PdfPrinter from 'pdfmake';
+import os from 'os';
 
 class CreateQuestionAndAnswersReports {
   public async execute(data: any): Promise<string[]>
 	{
-    const paths = [
-    	'companyLogo\\',
-    	'images-report\\'
-    ];
-
-    const fonts = {
+		const fonts = {
       Helvetica: {
         normal: 'Helvetica',
         bold: 'Helvetica-Bold',
@@ -18,6 +14,11 @@ class CreateQuestionAndAnswersReports {
         bolditalics: 'Helvetica-BoldOblique'
       }
     };
+
+		const paths = [
+			(os.platform() == 'win32') ? 'companyLogo\\' : 'companyLogo/',
+			(os.platform() == 'win32') ? 'images-report\\' : 'images-report/'
+		];
 
     const pdfPromises: Promise<string>[] = [];
 
@@ -131,10 +132,20 @@ class CreateQuestionAndAnswersReports {
         pdfDoc.on('error', reject);
       });
 
-      pdfPromises.push(pdfPromise);
+			pdfPromises.push( pdfPromise);
     }
 
-    return Promise.all(pdfPromises);
+		const generatedFiles: string[] = await Promise.all( pdfPromises);
+
+		const fileWithUrl: string[] = generatedFiles.map(file => {
+			if(process.env.APP_MODE == 'development') {
+				return `${process.env.BASE_URL + ':' + process.env.SERVER_PORT}${file}`;
+			}else {
+				return `${process.env.HTTPS_URL}${file}`;
+			}
+		});
+
+		return fileWithUrl;
   }
 }
 

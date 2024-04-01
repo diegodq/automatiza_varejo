@@ -63,7 +63,7 @@ class ListAnswerService
 		const resultQuery = await queryRunner.query(`select answer.id, answer.answer, answer.client_name, answer.client_phone, answer.is_contact,
 		answer.is_report, answer.type_report, answer.id_research, answer.research_name, answer.nps_answer,
 		answer.device_client, answer.start_research, answer.name_employee, answer.other_answer, CONVERT_TZ(answer.created_at, '+00:00', '-03:00') as created_at,
-		CONVERT_TZ(answer.updated_at, '+00:00', '-03:00') as updated_at, answer.question_id, question.company_id from question
+		CONVERT_TZ(answer.updated_at, '+00:00', '-03:00') as updated_at, answer.question_id, answer.store_id, question.company_id from question
 		join answer on question.id = answer.question_id where question.company_id = '${idCompany}' order by answer.id asc;`);
 
 		await queryRunner.release();

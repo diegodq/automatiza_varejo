@@ -1,0 +1,7 @@
+@host = localhost:3007
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTE5MDg3NDEsImV4cCI6MTcxMTk5MTU0MSwic3ViIjoiMiJ9.SWnVHas5q11SKrF4svEaRraUihUdKgVEsR-_l_POtJs
+
+GET http://{{host}}/answers
+Content-Type: application/json
+Authorization: {{token}}
+###
