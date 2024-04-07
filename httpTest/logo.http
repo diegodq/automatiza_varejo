@@ -1,0 +1,19 @@
+@host = localhost:3007
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTI1MDQwNzQsImV4cCI6MTcxMjU4Njg3NCwic3ViIjoiMiJ9.H8k2h1nddQHKIRM8Ws2bhjW6fxt7hD_30pZJyKK77nE
+
+GET http://{{host}}/logo-company
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+PATCH http://{{host}}/logo-company
+Authorization: {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="image.png"
+Content-Type: image/png
+
+< ../imagesTest/image.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+###

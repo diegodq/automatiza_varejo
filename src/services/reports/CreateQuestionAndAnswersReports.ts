@@ -138,10 +138,13 @@ class CreateQuestionAndAnswersReports {
 		const generatedFiles: string[] = await Promise.all( pdfPromises);
 
 		const fileWithUrl: string[] = generatedFiles.map(file => {
+			const urlPart: string[] = file.split('/');
+			const fileName: string = urlPart[urlPart.length - 1];
+
 			if(process.env.APP_MODE == 'development') {
-				return `${process.env.BASE_URL + ':' + process.env.SERVER_PORT}${file}`;
+				return `${process.env.BASE_URL + ':' + process.env.SERVER_PORT}/report/${fileName}`;
 			}else {
-				return `${process.env.HTTPS_URL}${file}`;
+				return `${process.env.HTTPS_URL}/report/${fileName}`;
 			}
 		});
 

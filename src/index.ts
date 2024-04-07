@@ -73,6 +73,7 @@ appDataSource.initialize().then(() => {
 	app.use('/avatar', express.static(avatarConfig.directory));
 	app.use('/logo', express.static(configLogoClient.directory));
 	app.use('/qrcode', express.static(__dirname +'/qrcode'));
+	app.use('/report', express.static(__dirname+'/files'));
 
 	app.use(express.json());
 	app.use(express.urlencoded({

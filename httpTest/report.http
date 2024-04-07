@@ -1,5 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTE5MDg3NDEsImV4cCI6MTcxMTk5MTU0MSwic3ViIjoiMiJ9.SWnVHas5q11SKrF4svEaRraUihUdKgVEsR-_l_POtJs
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTI1MDQwNzQsImV4cCI6MTcxMjU4Njg3NCwic3ViIjoiMiJ9.H8k2h1nddQHKIRM8Ws2bhjW6fxt7hD_30pZJyKK77nE
 
 POST http://{{host}}/answer/report
 Content-Type: application/json
