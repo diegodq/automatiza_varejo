@@ -1,6 +1,7 @@
 import { Response, Request } from 'express';
 import CreateQuestionAndAnswersReports from '../services/reports/CreateQuestionAndAnswersReports';
 import { BadRequestError } from '../utils/ApiErrors';
+import axios from 'axios';
 
 class ReportsController
 {
@@ -11,10 +12,6 @@ class ReportsController
 		try {
 			const createQuestionAndAnswersReports: CreateQuestionAndAnswersReports = new CreateQuestionAndAnswersReports();
 			const pdfPaths: string[] = await createQuestionAndAnswersReports.execute(data);
-
-			pdfPaths.forEach(pdfPath => {
-				response.download(pdfPath);
-			});
 
 			return response.status(200).json(pdfPaths);
 		} catch(error) {
