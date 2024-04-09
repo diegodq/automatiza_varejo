@@ -166,6 +166,6 @@ router.get('/list/store/:cnpj', StoreController.listStoreByCNPJ);
 router.get('/multistore/:cnpj', CheckMultiStoreController.checkIfExistsMultiStoreByCNPJ);
 
 // report
-router.post('/answer/report', ReportsController.makePDF);
+router.post('/answer/report', isAuthenticated, ReportsController.makePDF);
 
 export default router;

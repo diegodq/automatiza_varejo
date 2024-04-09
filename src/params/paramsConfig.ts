@@ -9,7 +9,8 @@ export default {
 		validateGetQRCodeParams: false,
 		useQueuesForReports: false,
 		useQueueForSendNotifications: false,
-		useImplicitToken: false
+		useImplicitToken: false,
+		zipReports: true
 	},
 	jwt: {
 		secret: '2100fb51e744832359d132e5b75afdc0',

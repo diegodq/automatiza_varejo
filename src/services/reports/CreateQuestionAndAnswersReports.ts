@@ -2,9 +2,14 @@ import fs from 'fs';
 import path from 'path';
 import PdfPrinter from 'pdfmake';
 import os from 'os';
+import convertUserIdInCompanyId from '../../utils/convertUserIdInCompanyId';
+import appDataSource from 'src/data-source';
+import paramsConfig from '../../params/paramsConfig';
+import AdmZip from 'adm-zip';
+import { BadRequestError } from 'src/utils/ApiErrors';
 
 class CreateQuestionAndAnswersReports {
-  public async execute(data: any): Promise<string[]>
+  public async execute(data: any, id: number): Promise<string[]>
 	{
 		const fonts = {
       Helvetica: {
@@ -124,8 +129,11 @@ class CreateQuestionAndAnswersReports {
         }
       });
 
-      const outputFilePath = path.resolve(__dirname, '..', '..', 'files', `output_${Date.now()}.pdf`);
-      const pdfPromise = new Promise<string>((resolve, reject) => {
+      const outputFilePath = path.resolve(__dirname, '..', '..', 'files',
+				(paramsConfig.params.zipReports) ? `${await this.returnCNPJCompany(id)}_${Date.now()}.pdf` : `report_${Date.now()}.pdf`
+			);
+
+      const pdfPromise = new Promise<string>((resolve: (value: string | PromiseLike<string>) => void, reject: (reason?: any) => void): void => {
         pdfDoc.pipe(fs.createWriteStream(outputFilePath));
         pdfDoc.end();
         pdfDoc.on('end', () => resolve(outputFilePath));
@@ -137,8 +145,19 @@ class CreateQuestionAndAnswersReports {
 
 		const generatedFiles: string[] = await Promise.all( pdfPromises);
 
+		if(paramsConfig.params.zipReports) {
+			const zipName: string = await this.zipFiles(generatedFiles, await this.returnCNPJCompany(id));
+			await this.removeLeftFilesGeneratedByZip(generatedFiles);
+
+			let fileWithUrl;
+			if(process.env.APP_MODE == 'development') fileWithUrl = `${process.env.BASE_URL + ':' + process.env.SERVER_PORT}/report/${zipName}`;
+			else fileWithUrl = `${process.env.HTTPS_URL}/report/${zipName}`;
+
+			return [fileWithUrl];
+		}
+
 		const fileWithUrl: string[] = generatedFiles.map(file => {
-			const urlPart: string[] = file.split('/');
+			const urlPart:string[] = (os.platform() == 'win32') ? file.split('\\') : file.split('/');
 			const fileName: string = urlPart[urlPart.length - 1];
 
 			if(process.env.APP_MODE == 'development') {
@@ -150,6 +169,58 @@ class CreateQuestionAndAnswersReports {
 
 		return fileWithUrl;
   }
+
+	private async returnCNPJCompany(idCompany: number): Promise<string>
+	{
+		const id = await convertUserIdInCompanyId(idCompany);
+
+		const queryRunner = appDataSource.createQueryRunner();
+		await queryRunner.connect();
+
+		const resultQuery = await queryRunner.query(`select cnpj from company where id = ?;`, [id]);
+
+		await queryRunner.release();
+
+		let maskCNPJ = '';
+		resultQuery.forEach((item: { cnpj: string }) => {
+			maskCNPJ = item.cnpj;
+		});
+
+		const unmaskCNPJ = maskCNPJ.replace(/\D/g, '');
+		return unmaskCNPJ;
+	}
+
+	private async zipFiles(nameFiles: string[], CNPJ: string): Promise<string>
+	{
+		const outputFilePath = path.resolve(__dirname, '..', '..', 'files', `${CNPJ}_${Date.now()}.zip`);
+
+		const zip = new AdmZip();
+
+		nameFiles.forEach(file => {
+			zip.addLocalFile(file);
+		});
+
+		zip.writeZip(outputFilePath, (error: Error | null): void => {
+			if (error)
+				throw new BadRequestError('Erro to zip files');
+		})
+
+		const resultFile: string[] = outputFilePath.split((os.platform() == 'win32') ? '\\' : '/');
+		const zipName: string = resultFile[resultFile.length - 1];
+
+		return zipName;
+	}
+
+	private async removeLeftFilesGeneratedByZip(nameFiles: string[]): Promise<void>
+	{
+		try {
+			nameFiles.forEach(file => {
+				fs.unlinkSync(file);
+			});
+		} catch(error) {
+			console.log(error);
+		}
+	}
 }
 
 export default CreateQuestionAndAnswersReports;

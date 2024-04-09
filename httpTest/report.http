@@ -1,5 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTI1MzM5OTgsImV4cCI6MTcxMjYxNjc5OCwic3ViIjoiMiJ9.C39FPU34iXJu6K1Nv7uu2hDXv7zvaioFdj7qXdZnvXM
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTI2NzA5NzMsImV4cCI6MTcxMjc1Mzc3Mywic3ViIjoiMiJ9.Qx8_petS_wFrDeB1FQTMaDoO1Nc5gYQMkC_pc_6TUCQ
 
 POST http://{{host}}/answer/report
 Content-Type: application/json
@@ -12,42 +12,6 @@ Authorization: {{token}}
     { "text": "Data da Impressão: 19/03/2024 Hora: 12:36:14", "style": "horario_report" },
     { "text": "Pesquisa - 202403212T200208", "style": "header" },
     { "image": "96b05cf06b9bb01e5f6e774e11e9d55f551c.2.png", "width": 190, "absolutePosition": { "x": 350, "y": 85 } },
-    { "text": "Avaliação Negativa", "style": "tree", "alignment": "center" },
-    { "image": "negative.png", "width": 20, "absolutePosition": { "x": 280, "y": 210 } },
-    { "text": "Colaborador Indicado: GABRIEL", "style": "employee" },
-    { "text": "1 - Em qual departamento você não teve uma boa experiência?", "style": "question" },
-    { "text": "Resposta: Depósito", "style": "response" },
-    { "text": "2 - Em qual departamento você não teve uma boa experiência?", "style": "question" },
-    { "text": "Resposta: Atendimento ao Cliente", "style": "response" },
-    { "text": "3 - Nos dê oportunidade de melhorar! Conte-nos com suas palavras, hora é agora.", "style": "question" },
-    { "text": "Resposta: Teste", "style": "response" },
-    { "text": "4 - Voltaria comprar conosco em uma nova oportunidade?", "style": "question" },
-    { "text": "Resposta:VÁ TE TOMAR NO CU", "style": "response" }
-	],
-	[
-    { "text": "AUTOMATIZA SOLUÇÕES PARA O VAREJO LTDA", "style": "company" },
-    { "text": "Data da Pesquisa: 18/03/2024 Hora: 17:59:31", "style": "periodo" },
-    { "text": "Data da Impressão: 19/03/2024 Hora: 12:36:14", "style": "horario_report" },
-    { "text": "Pesquisa - 202403212T200218", "style": "header" },
-    { "image": "377cf4b2ec10d165348f28838d6e2f3b49e0.18.png", "width": 190, "absolutePosition": { "x": 350, "y": 85 } },
-    { "text": "Avaliação Negativa", "style": "tree", "alignment": "center" },
-    { "image": "negative.png", "width": 20, "absolutePosition": { "x": 280, "y": 210 } },
-    { "text": "Colaborador Indicado: GABRIEL", "style": "employee" },
-    { "text": "1 - Em qual departamento você não teve uma boa experiência?", "style": "question" },
-    { "text": "Resposta: Depósito", "style": "response" },
-    { "text": "2 - Em qual departamento você não teve uma boa experiência?", "style": "question" },
-    { "text": "Resposta: Atendimento ao Cliente", "style": "response" },
-    { "text": "3 - Nos dê oportunidade de melhorar! Conte-nos com suas palavras, hora é agora.", "style": "question" },
-    { "text": "Resposta: Teste", "style": "response" },
-    { "text": "4 - Voltaria comprar conosco em uma nova oportunidade?", "style": "question" },
-    { "text": "Resposta:VÁ TE TOMAR NO CU", "style": "response" }
-	],
-	[
-    { "text": "AUTOMATIZA SOLUÇÕES PARA O VAREJO LTDA", "style": "company" },
-    { "text": "Data da Pesquisa: 18/03/2024 Hora: 17:59:31", "style": "periodo" },
-    { "text": "Data da Impressão: 19/03/2024 Hora: 12:36:14", "style": "horario_report" },
-    { "text": "Pesquisa - 202403212T200218", "style": "header" },
-    { "image": "377cf4b2ec10d165348f28838d6e2f3b49e0.18.png", "width": 190, "absolutePosition": { "x": 350, "y": 85 } },
     { "text": "Avaliação Negativa", "style": "tree", "alignment": "center" },
     { "image": "negative.png", "width": 20, "absolutePosition": { "x": 280, "y": 210 } },
     { "text": "Colaborador Indicado: GABRIEL", "style": "employee" },
