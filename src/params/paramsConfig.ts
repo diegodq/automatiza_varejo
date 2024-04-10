@@ -10,7 +10,7 @@ export default {
 		useQueuesForReports: false,
 		useQueueForSendNotifications: false,
 		useImplicitToken: false,
-		zipReports: true
+		zipReports: false
 	},
 	jwt: {
 		secret: '2100fb51e744832359d132e5b75afdc0',

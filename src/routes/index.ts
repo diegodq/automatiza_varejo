@@ -120,10 +120,10 @@ router.delete('/topic', isAuthenticated, TopicController.delete);
 router.delete('/remove/store', isAuthenticated, StoreController.removeStore);
 router.delete('/remove/question/group/:id', isAuthenticated, QuestionGroupController.remove);
 router.delete('/remove/group/mapping/:id', isAuthenticated, QuestionGroupMappingController.remove);
-router.delete('/remove/permission', PermissionController.removePermission); // put in the Trello, make documentation
+router.delete('/remove/permission', PermissionController.removePermission);
 
 router.put('/company', isAuthenticated, CompanyController.update);
-router.put('/update/permission', PermissionController.updatePermission); // put in the Trello, make documentation
+router.put('/update/permission', PermissionController.updatePermission);
 router.put('/customer', isAuthenticated, CustomerController.update);
 router.put('/department', isAuthenticated, DepartmentController.update);
 router.put('/question', isAuthenticated, QuestionController.edit);

@@ -2,11 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import PdfPrinter from 'pdfmake';
 import os from 'os';
-import convertUserIdInCompanyId from '../../utils/convertUserIdInCompanyId';
-import appDataSource from 'src/data-source';
-import paramsConfig from '../../params/paramsConfig';
 import AdmZip from 'adm-zip';
-import { BadRequestError } from 'src/utils/ApiErrors';
+import convertUserIdInCompanyId from '../../utils/convertUserIdInCompanyId';
+import appDataSource from '../../data-source';
+import paramsConfig from '../../params/paramsConfig';
+import { BadRequestError } from '../../utils/ApiErrors';
 
 class CreateQuestionAndAnswersReports {
   public async execute(data: any, id: number): Promise<string[]>
@@ -160,11 +160,8 @@ class CreateQuestionAndAnswersReports {
 			const urlPart:string[] = (os.platform() == 'win32') ? file.split('\\') : file.split('/');
 			const fileName: string = urlPart[urlPart.length - 1];
 
-			if(process.env.APP_MODE == 'development') {
-				return `${process.env.BASE_URL + ':' + process.env.SERVER_PORT}/report/${fileName}`;
-			}else {
-				return `${process.env.HTTPS_URL}/report/${fileName}`;
-			}
+			if(process.env.APP_MODE == 'development') return `${process.env.BASE_URL + ':' + process.env.SERVER_PORT}/report/${fileName}`;
+			else return `${process.env.HTTPS_URL}/report/${fileName}`;
 		});
 
 		return fileWithUrl;
@@ -201,8 +198,7 @@ class CreateQuestionAndAnswersReports {
 		});
 
 		zip.writeZip(outputFilePath, (error: Error | null): void => {
-			if (error)
-				throw new BadRequestError('Erro to zip files');
+			if (error) throw new BadRequestError('Erro to zip files');
 		})
 
 		const resultFile: string[] = outputFilePath.split((os.platform() == 'win32') ? '\\' : '/');
