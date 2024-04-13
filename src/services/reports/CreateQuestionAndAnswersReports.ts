@@ -20,10 +20,31 @@ class CreateQuestionAndAnswersReports {
       }
     };
 
-		const paths = [
-			(os.platform() == 'win32') ? 'companyLogo\\' : 'companyLogo/',
-			(os.platform() == 'win32') ? 'images-report\\' : 'images-report/'
-		];
+		let hasFirstImage = false;
+		for (const array of data)
+		{
+			for (const img of array)
+			{
+				if (Object.prototype.hasOwnProperty.call(img,'image')) {
+					hasFirstImage = true;
+					break;
+				}
+
+				if (hasFirstImage) break;
+			}
+		}
+
+		let paths: string[] = []
+		if (!hasFirstImage) {
+			paths = [
+				(os.platform() == 'win32') ? 'images-report\\' : 'images-report/'
+			];
+		} else {
+			paths = [
+				(os.platform() == 'win32') ? 'companyLogo\\' : 'companyLogo/',
+				(os.platform() == 'win32') ? 'images-report\\' : 'images-report/'
+			];
+		}
 
     const pdfPromises: Promise<string>[] = [];
 
@@ -34,8 +55,7 @@ class CreateQuestionAndAnswersReports {
 
       for (const img of arrayObject)
 			{
-        // eslint-disable-next-line no-prototype-builtins
-        if (img.hasOwnProperty('image')) {
+        if (Object.prototype.hasOwnProperty.call(img,'image')) {
           images.push(img.image);
           img.image = path.resolve(__dirname, '..', '..', `${paths[pathIndexAcutal]}` + img.image);
           pathIndexAcutal = (pathIndexAcutal + 1) % paths.length;
@@ -145,7 +165,7 @@ class CreateQuestionAndAnswersReports {
 
 		const generatedFiles: string[] = await Promise.all( pdfPromises);
 
-		if(paramsConfig.params.zipReports) {
+		if(paramsConfig.params.zipReports && data.length > 1) {
 			const zipName: string = await this.zipFiles(generatedFiles, await this.returnCNPJCompany(id));
 			await this.removeLeftFilesGeneratedByZip(generatedFiles);
 
