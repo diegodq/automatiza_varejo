@@ -107,7 +107,7 @@ router.post('/create/question/group', isAuthenticated, QuestionGroupController.c
 router.post('/create/group/mapping', isAuthenticated, QuestionGroupMappingController.create);
 router.post('/join/role/customer', isAuthenticated, CustomerController.joinCustomerRole);
 router.post('/join/customer/permissions', isAuthenticated, CustomerController.joinCustomerPermissions);
-
+router.post('/force/change/password', isAuthenticated, CustomerController.forceChangeUpdatePassword);
 
 // test permissions
 router.delete('/customer', isAuthenticated, CustomerController.remove);

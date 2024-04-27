@@ -1,5 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTE5MDg3NDEsImV4cCI6MTcxMTk5MTU0MSwic3ViIjoiMiJ9.SWnVHas5q11SKrF4svEaRraUihUdKgVEsR-_l_POtJs
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQyNTcwMjYsImV4cCI6MTcxNDMzOTgyNiwic3ViIjoiMiJ9.2ppl5m1OLJwNRA6AR8q99gG09irfBq65dgF6sH-QoUg
 
 GET http://{{host}}/list/customer/company
 Content-Type: application/json
@@ -185,5 +185,14 @@ Authorization: {{token}}
 	"accept_terms":1,
 	"company": 2,
 	"phone":"99999999999"
+}
+###
+
+POST http://{{host}}/force/change/password
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+	"change": 1
 }
 ###

@@ -24,6 +24,7 @@ import UpdateJoinCustomerRole from '../services/customer/UpdateJoinCustomerRole'
 import JoinCustomerPermissionsService from './JoinCustomerPermissionsService';
 import UpdateCustomerPermissionsService from './UpdateCustomerPermissionsService';
 import convertUserIdInCompanyId from '../utils/convertUserIdInCompanyId';
+import ForceChangeUpdatePasswordService from '../services/customer/ForceChangeUpdatePasswordService';
 
 class CustomerController
 {
@@ -245,6 +246,17 @@ class CustomerController
 	{
 		const updateCustomerPermissionsService: UpdateCustomerPermissionsService = new UpdateCustomerPermissionsService();
 		const result: string = await updateCustomerPermissionsService.execute({ customer_id: request.body.customer_id, permissions: request.body.permissions });
+
+		return response.status(200).json(result);
+	}
+
+	static async forceChangeUpdatePassword(request: Request, response: Response)
+	{
+		const id_user = request.userId;
+		const { change } = request.body;
+
+		const forceChangeUpdatePasswordService: ForceChangeUpdatePasswordService = new ForceChangeUpdatePasswordService();
+		const result: string = await forceChangeUpdatePasswordService.execute({ id_user, change });
 
 		return response.status(200).json(result);
 	}
