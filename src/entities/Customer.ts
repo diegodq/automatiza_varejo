@@ -80,6 +80,9 @@ class Customer
 	@Column({ type: 'varchar' })
 	password: string;
 
+	@Column({ type: 'tinyint', nullable: true, default: 0 })
+	change_password: number;
+
 	@Column({ type: 'varchar', nullable: true, length: 40 })
 	system_user: string;
 
@@ -108,7 +111,7 @@ class Customer
 		avatar: string, surname_name: string, position: string, phone: string, email: string, temp_email: string,
 		email_change_on: Date, resent_email_on: Date, activated: number, activated_on: Date, accept_newsletter: number,
 		info_payment: number, accept_terms: string, accept_terms_on: Date, system_user: string, agent_user: string, pass_change_on: Date,old_password: string,
-		password: string, city_locate: string, country_name: string, country_capital: string, created_at: Date, updated_at: Date)
+		password: string, change_password: number, city_locate: string, country_name: string, country_capital: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.company = company;
@@ -133,6 +136,7 @@ class Customer
 		this.resent_email_on = resent_email_on;
 		this.old_password = old_password;
 		this.password = password;
+		this.change_password = change_password;
 		this.system_user = system_user;
 		this.agent_user = agent_user;
 		this.pass_change_on = pass_change_on;
@@ -261,6 +265,11 @@ class Customer
 	get getPassChangeOn(): Date
 	{
 		return this.pass_change_on;
+	}
+
+	get getChangePassword(): number
+	{
+		return this.change_password;
 	}
 
 	get getCityLocate(): string
