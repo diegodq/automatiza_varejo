@@ -81,7 +81,7 @@ class CreateCustomerService
 					file: forgotPasswordTemplate,
 					variables: {
 						name: first_name,
-						link: (process.env.APP_MODE == 'development') ? `https://localhost:3002/active-customer?token=${token}&id=${id}` : `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${id}`,
+						link: (process.env.APP_MODE == 'development') ? `http://localhost:3002/active-customer?token=${token}&id=${id}` : `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${id}`,
 					}
 				}
 			});
