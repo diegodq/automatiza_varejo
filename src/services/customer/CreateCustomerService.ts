@@ -20,12 +20,13 @@ type TypeRequest =
 	password: string,
 	accept_terms: string,
 	role_id: string;
-	company_id: number
+	company_id: number,
+	change_password: number
 }
 
 class CreateCustomerService
 {
-	public async execute({ first_name, surname, position, phone, email, password, accept_terms, company_id, role_id }: TypeRequest): Promise<string | object>
+	public async execute({ first_name, surname, position, phone, email, password, accept_terms, company_id, role_id, change_password }: TypeRequest): Promise<string | object>
 	{
 		const emailCustomer: Customer | null = await customerRepository.findOneBy({ email });
 		if(emailCustomer)
@@ -36,9 +37,9 @@ class CreateCustomerService
 		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();
 
-		await queryRunner.query(`insert into customer (first_name, surname, position, phone, email, old_password, password, accept_terms, accept_terms_on, company_id)
-			values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-			`, [first_name, surname, position, phone, email, hashedPassword, hashedPassword, accept_terms, new Date(), company_id]);
+		await queryRunner.query(`insert into customer (first_name, surname, position, phone, email, old_password, password, accept_terms, accept_terms_on, company_id, change_password)
+			values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+			`, [first_name, surname, position, phone, email, hashedPassword, hashedPassword, accept_terms, new Date(), company_id, change_password]);
 
 		const lastId = await queryRunner.query(`SELECT LAST_INSERT_ID() as id;`);
 
@@ -60,38 +61,33 @@ class CreateCustomerService
 		const generateCustomerForgotTokenService: GenerateCustomerForgotTokenService = new GenerateCustomerForgotTokenService();
 		const token: string = await generateCustomerForgotTokenService.generate({ email });
 
-		// if(paramsConfig.params.useQueueForSendNotifications) {
-		// 	const user = { first_name, email, token, id };
-		// 	await libCreateAccountMail.add({ user });
-		// } else {
-		// 	await this.sendNotificationWithoutQueue({ first_name, email, token, id });
-		// }
+		if(paramsConfig.params.useQueueForSendNotifications) {
+			const user = { first_name, email, token, id };
+			await libCreateAccountMail.add({ user });
+		} else {
+			const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'verify-email.hbs');
+
+			await Mailer.sendMail({
+				from: {
+					name: 'Equipe Automatiza Varejo',
+					email: 'noreply@automatizavarejo.com.br'
+				},
+				to: {
+					name: first_name,
+					email: email
+				},
+				subject: 'BEM-VINDO À AUTOMATIZA VAREJO!',
+				templateData: {
+					file: forgotPasswordTemplate,
+					variables: {
+						name: first_name,
+						link: (process.env.APP_MODE == 'development') ? `https://localhost:3002/active-customer?token=${token}&id=${id}` : `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${id}`,
+					}
+				}
+			});
+		}
 
 		return `Enviamos um e-mail com link de ativação para ${email}. Ative seu cadastro clicando no link enviado.`;
-	}
-
-	private async sendNotificationWithoutQueue({ first_name, email, token, newCustomer }: any): Promise<void>
-	{
-		const forgotPasswordTemplate = path.resolve(__dirname, '..', '..', 'notifications', 'verify-email.hbs');
-
-		await Mailer.sendMail({
-			from: {
-				name: 'Equipe Automatiza Varejo',
-				email: 'noreply@automatizavarejo.com.br'
-			},
-			to: {
-				name: first_name,
-				email: email
-			},
-			subject: 'BEM-VINDO À AUTOMATIZA VAREJO!',
-			templateData: {
-				file: forgotPasswordTemplate,
-				variables: {
-					name: first_name,
-					link: `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${newCustomer.id}`,
-				}
-			}
-		});
 	}
 
 	private async joinRoleToCustomer(role_id: number, customer_id: number): Promise<void>
@@ -110,7 +106,7 @@ class CreateCustomerService
 			const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
-			await queryRunner.query(`insert into customer_paths (path_id, customer_id) values (11, ?);`, [customer_id]);
+			await queryRunner.query(`insert into customer_paths (path_id, customer_id) values (9, ?);`, [customer_id]);
 
 			await queryRunner.release();
 		}
@@ -119,7 +115,7 @@ class CreateCustomerService
 			const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
-			for (let path_id = 2; path_id <= 10; path_id++) {
+			for (let path_id = 1; path_id <= 8; path_id++) {
 				await queryRunner.query(`insert into customer_paths (path_id, customer_id) values (?, ?);`, [path_id, customer_id]);
 			}
 
@@ -127,7 +123,7 @@ class CreateCustomerService
 		}
 	}
 
-	private async enablePermissionsToCustomer(customer_id: number)
+	private async enablePermissionsToCustomer(customer_id: number): Promise<void>
 	{
 		const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 		await queryRunner.connect();

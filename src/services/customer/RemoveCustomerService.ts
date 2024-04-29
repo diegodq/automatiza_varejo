@@ -23,23 +23,18 @@ class RemoveCustomerService
 	{
 		const customerId = Number(root);
 
+		// root or manager remove another account
 		if(await this.checkRootAccount(customerId) && id !== undefined) {
 			const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 			if(!customer)
 				throw new BadRequestError('customer-not-found');
-
-			if(paramsConfig.params.useQueueForSendNotifications) {
-				const user = { customer };
-				await libDeleteAccountMail.add({ user });
-			} else {
-				await this.sendNotificationWithoutQueue(customer);
-			}
 
 			await this.deleteCustomer(customer);
 
 			return 'customer-removed';
 		}
 
+		// root account delete all
 		if(await this.checkRootAccount(customerId) && id === undefined) {
 			const customer: Customer | null = await customerRepository.findOneBy({ id: Number(customerId) });
 			if(!customer)
@@ -59,7 +54,23 @@ class RemoveCustomerService
 				const user = { customer };
 				await libDeleteAccountMail.add({ user });
 			} else {
-				await this.sendNotificationWithoutQueue(customer);
+				const accountRemoved: string = path.resolve(__dirname, '..', '..', 'notifications', 'account-removed.hbs');
+
+				await Mailer.sendMail({
+					from: {
+						name: 'Equipe Automatiza Varejo',
+						email: 'noreply@automatizavarejo.com.br'
+					},
+					to: {
+						name: customer.first_name,
+						email: customer.email
+					},
+					subject: 'Exclusão de conta',
+					templateData: {
+						file: accountRemoved,
+						variables: {}
+					}
+				});
 			}
 
 			await this.deleteCustomersAndCompany(customer_id, company_id);
@@ -67,6 +78,7 @@ class RemoveCustomerService
 			return 'account-removed';
 		}
 
+		// other user remove yourself
 		if(await this.checkRemoveYourSelf(customerId)) {
 			const customer: Customer | null = await customerRepository.findOneBy({ id: Number(customerId) });
 			if(!customer)
@@ -91,26 +103,6 @@ class RemoveCustomerService
 		await this.deleteCustomer(customer);
 
 		return 'customer-removed';
-	}
-
-	private async sendNotificationWithoutQueue(customer: Customer)
-	{
-		const accountRemoved: string = path.resolve(__dirname, '..', '..', 'notifications', 'account-removed.hbs');
-		await Mailer.sendMail({
-			from: {
-				name: 'Equipe Automatiza Varejo',
-				email: 'noreply@automatizavarejo.com.br'
-			},
-			to: {
-				name: customer.first_name,
-				email: customer.email
-			},
-			subject: 'Exclusão de conta',
-			templateData: {
-				file: accountRemoved,
-				variables: {}
-			}
-		});
 	}
 
 	private async findCompanyByUser(customer: number)

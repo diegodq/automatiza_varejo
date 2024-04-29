@@ -64,9 +64,9 @@ class CreateQuestionAndAnswersReports {
 
       const printer = new PdfPrinter(fonts);
 
-      const pdfDoc = printer.createPdfKitDocument({
+			const pdfDoc = printer.createPdfKitDocument({
         defaultStyle: { font: 'Helvetica' },
-        pageMargins: [60, 40, 10, 60],
+        pageMargins: [60, 60, 0, 100],
         background: [
 					{
 						image: path.resolve(__dirname, '..', '..', 'images-report', 'background.jpg'),
@@ -86,7 +86,7 @@ class CreateQuestionAndAnswersReports {
             fontSize: 16,
             alignment: 'left',
             bold: true,
-            margin: [0, 20, 30, 10],
+            margin: [0, 0, 30, 10],
             color: '#00000',
           },
           periodo: {
@@ -98,14 +98,20 @@ class CreateQuestionAndAnswersReports {
           horario_report: {
             fontSize: 12,
             alignment: 'left',
-            margin: [0, 0, 0, 0],
+            margin: [0, 0, 0, 10],
+            color: '#666',
+          },
+          store: {
+            fontSize: 12,
+            alignment: 'left',
+            margin: [0, 0, 0, 10],
             color: '#666',
           },
           header: {
             fontSize: 16,
             alignment: 'center',
             bold: true,
-            margin: [-50, 50, 0, 10],
+            margin: [-50, 30, 0, 10],
             color: '#666',
           },
           tree: {
@@ -121,10 +127,16 @@ class CreateQuestionAndAnswersReports {
             color: '#666',
             alignment: 'center'
           },
+          nps_score: {
+            fontSize: 14,
+            alignment: 'center',
+            margin: [-50, 25, 0, 15],
+            color: '#666',
+          },
           employee: {
             fontSize: 12,
             alignment: 'center',
-            margin: [-50, 20, 0, 20],
+            margin: [0, -5, 50, 20],
             color: '#666',
           },
           question: {
@@ -142,7 +154,7 @@ class CreateQuestionAndAnswersReports {
           },
           footerLeft: {
             fontSize: 12,
-            margin: [0, -30, 0, 20],
+            margin: [0, 20, 0, 20],
             alignment: 'center',
             color: '#666',
           },

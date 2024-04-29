@@ -25,7 +25,7 @@ class UpdatePasswordCustomer
 	{
 		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(id) });
 		if(!customer) {
-			throw new BadRequestError('Cliente não cadastrado.');
+			throw new BadRequestError('no-customer');
 		}
 
 		const verifyPassword: boolean = await compare(old_password, customer.password);
@@ -41,6 +41,7 @@ class UpdatePasswordCustomer
 		customer.agent_user = agent_user;
 		customer.system_user = system_user;
 		customer.country_name = country_name;
+		(customer.change_password == 1) ? customer.change_password = 0 : customer.change_password = 0;
 		customer.country_capital = country_capital;
 		customer.pass_change_on = new Date();
 

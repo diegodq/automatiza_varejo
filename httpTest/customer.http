@@ -1,5 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQyNTcwMjYsImV4cCI6MTcxNDMzOTgyNiwic3ViIjoiMiJ9.2ppl5m1OLJwNRA6AR8q99gG09irfBq65dgF6sH-QoUg
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQzNDEyOTMsImV4cCI6MTcxNDQyNDA5Mywic3ViIjoiMiJ9.NABnHEZ4ljLmPtfIdWxqzQLd3KrA0IuBaoS0_nAv9oI
 
 GET http://{{host}}/list/customer/company
 Content-Type: application/json
@@ -153,38 +153,21 @@ Content-Type: application/json
 Authorization: {{token}}
 ###
 
-# POST http://{{host}}/customer
-# Content-Type: application/json
-# Authorization: {{token}}
-
-# {
-# 	"first_name": "Vandicreison",
-# 	"surname": "Rabelo",
-# 	"position": "ADMIN",
-# 	"phone": "(61) 996778575",
-# 	"email": "vandicreison@gmail.com",
-# 	"password": "@senha123",
-# 	"accept_terms": 1,
-# 	"company": 2,
-# 	"role_id": 3
-# }
-###
-
 POST http://{{host}}/customer
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-	"first_name":"Firmino",
-	"surname":"pinto",
-	"position":"USUÁRIO",
-	"role_id": "3",
-	"email":"firmino@gmail.com",
-	"password":"123",
-	"confirm_password":"123",
-	"accept_terms":1,
+	"first_name": "Geraldison",
+	"surname": "Pinto",
+	"position": "GERENTE",
+	"phone": "(61) 996778575",
+	"email": "comercial.bsbdu@gmail.com",
+	"password": "@senha123",
+	"accept_terms": 1,
 	"company": 2,
-	"phone":"99999999999"
+	"role_id": 3,
+	"change_password": 1
 }
 ###
 
