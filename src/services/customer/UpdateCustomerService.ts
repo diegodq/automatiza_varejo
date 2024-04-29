@@ -2,6 +2,7 @@ import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Customer from '../../entities/Customer';
 import appDataSource from "../../data-source";
+import { UpdateResult } from "typeorm";
 
 type RoleCustomerRequest = {
 	role_id?: number,
@@ -22,51 +23,11 @@ class UpdateCustomerService
 {
 	public async execute({ tokenId, dataJson }: TypeRequest): Promise<string>
 	{
-		let keyFound = false;
-		for (const key in dataJson)
-		{
-			if(key === 'id') {
-				keyFound = true;
-				break;
-			}
-		}
-
-		if (!keyFound) {
-			const customer: Customer | null = await customerRepository.findOneBy({ id: Number(tokenId) });
-			if(!customer) {
-				throw new BadRequestError('customer-not-found.');
-			}
-
-			const customer_id = customer.id;
-			let role_id = 0;
-			for(const key in dataJson) {
-				if (key === 'role_id') {
-					role_id = dataJson.role_id as number;
-					break;
-				}
-			}
-
-			if (role_id !== 0)
-				await this.updateRoleCustomer({ role_id, customer_id });
-
-			await customerRepository.update(customer.id, dataJson);
-		}
-
-		let idClient = 0
-		for (const idCustomer in dataJson)
-		{
-			if (idCustomer === 'id') {
-				const id: number = dataJson[idCustomer] as number;
-				idClient = id;
-			}
-		}
-
-		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(idClient) });
-		if(!customer) {
+		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(tokenId) });
+		if(!customer)
 			throw new BadRequestError('customer-not-found.');
-		}
 
-		const newDataJson: object = await this.returnNewObject(dataJson, String(idClient));
+		const customer_id = customer.id;
 
 		let role_id = 0;
 		for(const key in dataJson) {
@@ -77,10 +38,21 @@ class UpdateCustomerService
 		}
 
 		if (role_id !== 0)
-			await this.updateRoleCustomer({ role_id, customer_id: customer.id });
+			await this.updateRoleCustomer({ role_id, customer_id });
+
+		let idClient = 0
+		for (const idCustomer in dataJson)
+		{
+			if (idCustomer === 'id') {
+				const id: number = dataJson[idCustomer] as number;
+				idClient = id;
+			}
+		}
+
+		const newDataJson: object = await this.returnNewObject(dataJson, String(idClient));
 
 		await customerRepository.update(customer.id, newDataJson);
-
+		
 		return 'customer-updated';
 	}
 

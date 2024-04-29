@@ -1,5 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQzNDEyOTMsImV4cCI6MTcxNDQyNDA5Mywic3ViIjoiMiJ9.NABnHEZ4ljLmPtfIdWxqzQLd3KrA0IuBaoS0_nAv9oI
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQ0MTg5NzQsImV4cCI6MTcxNDUwMTc3NCwic3ViIjoiMjEifQ.3D7wHeGBpOccK_ilw8r-w6hFQVlIpAuyXZTfYh3Ffl0
 
 GET http://{{host}}/list/customer/company
 Content-Type: application/json
@@ -120,20 +120,6 @@ Authorization: {{token}}
 }
 ###
 
-PUT http://{{host}}/customer
-Content-Type: application/json
-Authorization: {{token}}
-
-{
-	"id": 17,
-	"first_name": "Diego",
-	"surname": "Gatão",
-	"position": "ADMIN",
-	"phone": "718278373",
-	"role_id": 1
-}
-###
-
 GET http://{{host}}/question
 Content-Type: application/json
 Authorization: {{token}}
@@ -168,6 +154,19 @@ Authorization: {{token}}
 	"company": 2,
 	"role_id": 3,
 	"change_password": 1
+}
+###
+
+PUT http://{{host}}/customer
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+	"first_name": "Geraldison",
+	"surname": "Pinto Sousa",
+	"position": "Baixo Clero",
+	"phone": "(61) 996778575",
+	"role_id": 2
 }
 ###
 

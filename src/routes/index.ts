@@ -88,7 +88,7 @@ router.get('/questions/binary/:from/:to/:id_store?', isAuthenticated, AnswerCont
 router.get('/questions/flex/:from/:to/:id_store?', isAuthenticated, AnswerController.listQuestionsFlex);
 
 router.post('/customer', isAuthenticatedCustomer, CustomerController.create);
-router.post('/new/permission', isAuthenticatedCustomer, PermissionController.createPermission); // put in the Trello, make documentation
+router.post('/new/permission', isAuthenticatedCustomer, PermissionController.createPermission);
 router.post('/add/possible/answers', isAuthenticatedCustomer, QuestionController.addNewPossibleAnswer);
 router.post('/add/permission/customer',);
 router.post('/session', SessionController.create);
@@ -122,9 +122,9 @@ router.delete('/remove/question/group/:id', isAuthenticated, QuestionGroupContro
 router.delete('/remove/group/mapping/:id', isAuthenticated, QuestionGroupMappingController.remove);
 router.delete('/remove/permission', PermissionController.removePermission);
 
+router.put('/customer', isAuthenticated, CustomerController.update);
 router.put('/company', isAuthenticated, CompanyController.update);
 router.put('/update/permission', PermissionController.updatePermission);
-router.put('/customer', isAuthenticated, CustomerController.update);
 router.put('/department', isAuthenticated, DepartmentController.update);
 router.put('/question', isAuthenticated, QuestionController.edit);
 router.put('/topic', isAuthenticated, TopicController.update);
