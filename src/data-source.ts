@@ -21,8 +21,6 @@ import Topic from './entities/Topic';
 import Paths from './entities/Paths';
 import PossibleAnswers from './entities/PossibleAnswers';
 
-import { Default1714246502553 } from './migrations/1714246502553-default';
-
 const port: number | undefined = process.env.DB_PORT as number | undefined;
 
 const appDataSource: DataSource = new DataSource({
@@ -66,7 +64,7 @@ const appDataSource: DataSource = new DataSource({
 		//Default1710000503730 - done
 		//Default1710119860272 - done
 		//Default1714246502553 - done
-		// `${__dirname}/**/migrations/*.ts`
+		//`${__dirname}/**/migrations/*.ts`
 	]
 });
 

@@ -87,7 +87,7 @@ appDataSource.initialize().then(() => {
 	app.listen(process.env.SERVER_PORT, async () => {
 		console.log('api running on port', process.env.SERVER_PORT);
 		await addProducts(products);
-		await createFolder(['qrcode', 'reports']);
+		await createFolder(['qrcode', 'reports', 'files']);
 	});
 
 	if(process.env.APP_MODE == 'development') {
