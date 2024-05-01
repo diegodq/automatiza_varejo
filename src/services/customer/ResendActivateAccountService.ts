@@ -45,7 +45,7 @@ class ResendActivateAccountService
 				file: forgotPasswordTemplate,
 				variables: {
 					name: customer.first_name,
-					link: `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${customer.id}`
+					link: (process.env.APP_MODE == 'development') ? `http://localhost:3002/active-customer?token=${token}&id=${customer.id}` : `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${customer.id}`,
 				}
 			}
 		});

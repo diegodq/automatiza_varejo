@@ -1,5 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQ0MjEwNzAsImV4cCI6MTcxNDUwMzg3MCwic3ViIjoiMiJ9.guqbiQ6IvLDylz39gF4Y6c9aKgCujpG9pJhFu8X0f7M
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQ1MjIyNDgsImV4cCI6MTcxNDYwNTA0OCwic3ViIjoiMiJ9.cB1sor4h-83rQb88qA-fRmEr2xtG86gvHNtvW6YEUcs
 
 GET http://{{host}}/list/customer/company
 Content-Type: application/json
@@ -56,7 +56,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-	"id": 35
+	"id": 5
 }
 ###
 
@@ -157,15 +157,6 @@ Authorization: {{token}}
 }
 ###
 
-PATCH http://{{host}}/active-customer
-Content-Type: application/json
-
-{
-	"token": "8bc7d405-50db-444d-8beb-a95bcab8c016",
-	"id": 5
-}
-###
-
 PUT http://{{host}}/customer
 Content-Type: application/json
 Authorization: {{token}}
@@ -176,6 +167,15 @@ Authorization: {{token}}
 	"position": "Baixo Clero",
 	"phone": "(61) 996778575",
 	"role_id": 2
+}
+###
+
+PATCH http://{{host}}/active-customer
+Content-Type: application/json
+
+{
+	"token": "8bc7d405-50db-444d-8beb-a95bcab8c016",
+	"id": 5
 }
 ###
 
