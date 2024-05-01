@@ -1,0 +1,13 @@
+@host = localhost:3007
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQ1ODYwMjEsImV4cCI6MTcxNDY2ODgyMSwic3ViIjoiMiJ9.C1sb3IdVVyqSItqPXzwf5e1VzXbMC0y8x5_q0Tnzq6k
+
+GET http://{{host}}/dashboard/employee/2024-05-01/2024-05-01/1
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+
+GET http://{{host}}/topic/by/departments/2024-05-01/2024-05-01
+Content-Type: application/json
+Authorization: {{token}}
+###

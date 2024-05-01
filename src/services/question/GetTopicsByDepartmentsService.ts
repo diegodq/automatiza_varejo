@@ -69,7 +69,7 @@ class GetTopicsByDepartmentsService
 
 		await queryRunner.release();
 
-		if (negative.length === 0 || positive.length === 0)
+		if (negative.length === 0 && positive.length === 0)
 			throw new BadRequestError('no-data');
 
 		const result: { POSITIVA: any, NEGATIVA: any } = await this.processResponses(departments, { positive, negative });

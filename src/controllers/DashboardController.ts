@@ -153,17 +153,17 @@ class DashboardController
 			const queryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
-			const data = await queryRunner.query(`select answer.* from answer join question
+			const dataOne = await queryRunner.query(`select answer.* from answer join question
 			on question.id = answer.question_id and date(answer.created_at)
 			between ? and ? and question.tree_question = ? and question.company_id = ?;`, [from, to, type_tree, idCompany]);
 
 			await queryRunner.release();
 
-			const result = data.reduce((acc: any, obj: any) => {
+			const result = dataOne.reduce((acc: any, obj: any) => {
 				const name = obj.name_employee;
 				const researchName = obj.research_name;
 
-				if (name && !acc.processedNames.includes(researchName)) {
+				if (name) {
 						acc.processedNames.push(researchName);
 						acc.counts[name] = (acc.counts[name] || 0) + 1;
 				}
