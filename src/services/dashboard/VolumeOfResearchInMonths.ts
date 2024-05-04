@@ -9,7 +9,7 @@ type CompanyType =
 
 class VolumeOfResearchInMonths
 {
-	public async execute({ company, id_store }: CompanyType)
+	public async execute({ company, id_store }: CompanyType): Promise<number[]>
 	{
 		const idCompany = await convertUserIdInCompanyId(Number(company));
 
@@ -51,8 +51,6 @@ class VolumeOfResearchInMonths
 				resultArray.push(value.quantidade);
 			});
 
-			console.log(resultadosFinais);
-			console.log(resultArray);
 			return resultArray.reverse();
 		} else {
 			const queryRunner = appDataSource.createQueryRunner();
@@ -92,8 +90,6 @@ class VolumeOfResearchInMonths
 				resultArray.push(value.quantidade);
 			});
 
-			console.log(resultadosFinais);
-			console.log(resultArray);
 			return resultArray.reverse();
 		}
 	}

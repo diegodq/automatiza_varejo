@@ -23,7 +23,23 @@ class UpdateCustomerService
 {
 	public async execute({ tokenId, dataJson }: TypeRequest): Promise<string>
 	{
-		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(tokenId) });
+		let keyFound = false;
+		let id = null;
+
+		for (const key in dataJson)
+		{
+			if(key === 'id') {
+				keyFound = true;
+				id = dataJson.id;
+				break;
+			}
+		}
+
+		let idUser = null;
+		if(keyFound) idUser = id;
+		else idUser = tokenId;
+
+		const customer: Customer | null = await customerRepository.findOneBy({ id: Number(idUser) });
 		if(!customer)
 			throw new BadRequestError('customer-not-found.');
 
@@ -52,7 +68,7 @@ class UpdateCustomerService
 		const newDataJson: object = await this.returnNewObject(dataJson, String(idClient));
 
 		await customerRepository.update(customer.id, newDataJson);
-		
+
 		return 'customer-updated';
 	}
 

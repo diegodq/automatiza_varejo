@@ -49,12 +49,9 @@ class VolumeOfResearchSevenInDays
 				resultArray.push(value.value);
 			});
 
-			const half = Math.floor(resultArray.length / 2);
-			const halfOne = resultArray.slice(0, half);
-			const halfTwo = resultArray.slice(half);
-
-			console.log(resultadosFinais);
-			console.log(resultArray);
+			const half: number = Math.floor(resultArray.length / 2);
+			const halfOne: number[] = resultArray.slice(0, half);
+			const halfTwo: number[] = resultArray.slice(half);
 
 			return { newDate: halfOne, oldDate: halfTwo }
 		} else {
@@ -93,12 +90,9 @@ class VolumeOfResearchSevenInDays
 				resultArray.push(value.value);
 			});
 
-			const half = Math.floor(resultArray.length / 2);
-			const halfOne = resultArray.slice(0, half);
-			const halfTwo = resultArray.slice(half);
-
-			console.log(resultadosFinais);
-			console.log(resultArray);
+			const half: number = Math.floor(resultArray.length / 2);
+			const halfOne: number[] = resultArray.slice(0, half);
+			const halfTwo: number[] = resultArray.slice(half);
 
 			return { newDate: halfOne, oldDate: halfTwo }
 		}

@@ -188,7 +188,7 @@ class DashboardController
 				const name = obj.name_employee;
 				const researchName = obj.research_name;
 
-				if (name && !acc.processedNames.includes(researchName)) {
+				if (name) {
 						acc.processedNames.push(researchName);
 						acc.counts[name] = (acc.counts[name] || 0) + 1;
 				}
@@ -266,11 +266,7 @@ class DashboardController
 				return accumulator + transformAndSumNPS(currentValue.nps_answer);
 			}, 0);
 
-			// console.log('total positive researches', separatedResearches.positiveResearchs.length);
-			// console.log('total negative researches', separatedResearches.negativeResearchs.length);
-			// console.log('total sum', totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length));
-
-			const newResult = [
+			const newResult: number[] = [
 				separatedResearches.positiveResearchs.length,
 				separatedResearches.negativeResearchs.length,
 				totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length)
@@ -341,10 +337,6 @@ class DashboardController
 				return accumulator + transformAndSumNPS(currentValue.nps_answer);
 			}, 0);
 
-			console.log('total positive researches', separatedResearches.positiveResearchs.length);
-			console.log('total negative researches', separatedResearches.negativeResearchs.length);
-			console.log('total sum', totalSum / (separatedResearches.positiveResearchs.length + separatedResearches.negativeResearchs.length));
-
 			// const newResult = [
 			// 	separatedResearches.positiveResearchs.length,
 			// 	separatedResearches.negativeResearchs.length,
@@ -364,7 +356,7 @@ class DashboardController
 		const { id_store } = request.params;
 
 		const volumeOfResearchInMonths = new VolumeOfResearchInMonths()
-		const resultVolume = await volumeOfResearchInMonths.execute({ company, id_store });
+		const resultVolume: number[] = await volumeOfResearchInMonths.execute({ company, id_store });
 
 		return response.status(200).json(resultVolume);
 	}
@@ -376,7 +368,7 @@ class DashboardController
 		const { id_store } = request.params;
 
 		const volumeOfResearchSevenDays = new VolumeOfResearchSevenInDays();
-		const resultResearch = await volumeOfResearchSevenDays.execute({ company, id_store });
+		const resultResearch: { newDate: number[], oldDate: number [] } = await volumeOfResearchSevenDays.execute({ company, id_store });
 
 		return response.status(200).json(resultResearch);
 	}

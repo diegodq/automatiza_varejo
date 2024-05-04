@@ -1,5 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQ1MjIyNDgsImV4cCI6MTcxNDYwNTA0OCwic3ViIjoiMiJ9.cB1sor4h-83rQb88qA-fRmEr2xtG86gvHNtvW6YEUcs
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQ4NDQ4MzgsImV4cCI6MTcxNDkyNzYzOCwic3ViIjoiMiJ9.d0DWOO_aaLoLWE_8iuJXCKC9jIoai4lIFOUSs2Eovqk
 
 GET http://{{host}}/list/customer/company
 Content-Type: application/json
@@ -162,7 +162,8 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-	"first_name": "Geraldison",
+	"id": 6,
+	"first_name": "Vandicreison",
 	"surname": "Pinto Sousa",
 	"position": "Baixo Clero",
 	"phone": "(61) 996778575",
