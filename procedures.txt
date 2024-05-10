@@ -1,3 +1,5 @@
+use automatiza_varejo;
+
 CREATE DEFINER='root'@'localhost' PROCEDURE remove_companies_and_users(in customer_id int, in company_id int)
 begin
 	-- foreign key customer

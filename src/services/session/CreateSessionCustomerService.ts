@@ -21,11 +21,11 @@ class CreateSessionCustomerService
 			throw new UnauthorizedError('Email ou Senha incorretos.');
 		}
 
-		if (customer.change_password == 1)
-			throw new BadRequestError('change-password');
-
 		if(customer.activated == 0)
 			throw new BadRequestError('Cliente inativado.');
+
+		if (customer.change_password == 1)
+			throw new BadRequestError('change-password');
 
 		const passwordChecked: boolean = await compare(password, customer.password);
 		if (!passwordChecked)
