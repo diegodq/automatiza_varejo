@@ -1,0 +1,18 @@
+root
+@@8970@
+
+automatiza
+@@8995@
+
+3008: nps
+3007: api
+3002: app_clients
+
+https://api.automatizafacil.com.br:3007
+https://pesquisa.automatizafacil.com.br:3008
+https://app.automatizafacil.com.br:3002
+
+Servidor: Debian 11
+acesso via ssh: 93.127.212.231
+user: root
+pass: Auto2420@
