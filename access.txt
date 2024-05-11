@@ -1,3 +1,4 @@
+##### automatizafacil #######
 root
 @@8970@
 
@@ -16,3 +17,32 @@ Servidor: Debian 11
 acesso via ssh: 93.127.212.231
 user: root
 pass: Auto2420@
+
+### automatizafacil
+por fora: root
+@@8970@
+
+dentro do container
+automatiza
+@@8995@
+
+3008: nps
+3007: api
+3002: app_clients
+
+https://api.automatizafacil.com.br:3007
+https://pesquisa.automatizafacil.com.br:3008
+https://app.automatizafacil.com.br:3002
+
+Servidor: Debian 11
+acesso via ssh: 93.127.212.231
+user: root
+pass: Auto2420@
+
+#### automatiza_varejo #########
+
+user: root
+pass: @@8990auto
+
+ssh root@181.215.135.236
+pass: @Varejo9978
