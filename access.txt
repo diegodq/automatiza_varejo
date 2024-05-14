@@ -15,6 +15,7 @@ https://app.automatizafacil.com.br:3002
 
 Servidor: Debian 11
 acesso via ssh: 93.127.212.231
+ipv6: 2a02:4780:14:b5df::1
 user: root
 pass: Auto2420@
 
