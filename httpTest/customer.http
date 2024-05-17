@@ -1,5 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQ4NDQ4MzgsImV4cCI6MTcxNDkyNzYzOCwic3ViIjoiMiJ9.d0DWOO_aaLoLWE_8iuJXCKC9jIoai4lIFOUSs2Eovqk
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTU5NzE5OTQsImV4cCI6MTcxNjA1NDc5NCwic3ViIjoiMiJ9.JnbLLZP3nuFeR2TIzRW2eswzBDX89RAKFSXE5fyXCEY
 
 GET http://{{host}}/list/customer/company
 Content-Type: application/json
@@ -149,7 +149,7 @@ Authorization: {{token}}
 	"position": "GERENTE",
 	"phone": "(61) 996778575",
 	"email": "comercial.bsbdu@gmail.com",
-	"password": "@senha123",
+	"password": "@Senha123",
 	"accept_terms": 1,
 	"company": 2,
 	"role_id": 3,

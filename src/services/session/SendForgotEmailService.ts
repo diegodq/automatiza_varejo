@@ -38,8 +38,7 @@ class SendForgotEmailService
 				file: forgotPasswordTemplate,
 				variables: {
 					name: user.first_name,
-					link: (process.env.APP_MODE == 'development') ? `http://localhost:3002/active-customer?token=${token}&id=${user.getId}` : `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${user.getId}`,
-
+					link: (process.env.APP_MODE == 'development') ? `http://localhost:3002/new-password?token=${token}&id=${user.getId}` : `https://app.automatizavarejo.com.br/new-password?token=${token}&id=${user.getId}`,
 				}
 			}
 		});
