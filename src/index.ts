@@ -94,8 +94,8 @@ appDataSource.initialize().then(() => {
 		console.log('Not enable certificates in development mode');
 	} else {
 		const options = {
-			key: fs.readFileSync('/etc/letsencrypt/live/automatizafacil.com.br/privkey.pem'),
-			cert: fs.readFileSync('/etc/letsencrypt/live/automatizafacil.com.br/fullchain.pem')
+			key: fs.readFileSync('/etc/letsencrypt/live/api.automatizafacil.com.br/privkey.pem'),
+			cert: fs.readFileSync('/etc/letsencrypt/live/api.automatizafacil.com.br/fullchain.pem')
 		}
 
 		https.createServer(options, app).listen();
