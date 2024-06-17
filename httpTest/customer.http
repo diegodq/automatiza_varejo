@@ -1,10 +1,42 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTU5NzE5OTQsImV4cCI6MTcxNjA1NDc5NCwic3ViIjoiMiJ9.JnbLLZP3nuFeR2TIzRW2eswzBDX89RAKFSXE5fyXCEY
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTU5NzY3MTksImV4cCI6MTcxNjA1OTUxOSwic3ViIjoiMiJ9.HIu-Xj7WqbZDbDBHDUXhIOO9Ieb34ySSr10gI3mijSQ
 
 GET http://{{host}}/list/customer/company
 Content-Type: application/json
 Authorization: {{token}}
 ###
+
+### test permission urls
+GET http://{{host}}/has-company
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/details
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/multi-store
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/details
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/avatar
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+GET http://{{host}}/type/customer
+Content-Type: application/json
+Authorization: {{token}}
+###
+### test permission urls
 
 GET http://{{host}}/multi-store
 Content-Type: application/json

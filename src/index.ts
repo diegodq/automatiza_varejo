@@ -18,7 +18,7 @@ import paramsConfig from './params/paramsConfig';
 
 const app = express();
 
-const whiteList: string[] = ['https://api.automatizavarejo.com.br', 'https://app.automatizavarejo.com.br', 'https://automatizavarejo.com.br', 'https://pesquisa.automatizavarejo.com.br'];
+const whiteList: string[] = ['https://api.automatizafacil.com.br', 'https://app.automatizafacil.com.br', 'https://automatizafacil.com.br', 'https://pesquisa.automatizafacil.com.br'];
 
 const options = {
 	swaggerOptions: {
@@ -94,8 +94,8 @@ appDataSource.initialize().then(() => {
 		console.log('Not enable certificates in development mode');
 	} else {
 		const options = {
-			key: fs.readFileSync('/etc/letsencrypt/live/automatizavarejo.com.br/privkey.pem'),
-			cert: fs.readFileSync('/etc/letsencrypt/live/automatizavarejo.com.br/fullchain.pem')
+			key: fs.readFileSync('/etc/letsencrypt/live/automatizafacil.com.br/privkey.pem'),
+			cert: fs.readFileSync('/etc/letsencrypt/live/automatizafacil.com.br/fullchain.pem')
 		}
 
 		https.createServer(options, app).listen();

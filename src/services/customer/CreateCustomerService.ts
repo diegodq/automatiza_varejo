@@ -115,7 +115,7 @@ class CreateCustomerService
 			const queryRunner: QueryRunner = appDataSource.createQueryRunner();
 			await queryRunner.connect();
 
-			for (let path_id = 1; path_id <= 8; path_id++) {
+			for (let path_id = 1; path_id <= 9; path_id++) {
 				await queryRunner.query(`insert into customer_paths (path_id, customer_id) values (?, ?);`, [path_id, customer_id]);
 			}
 
