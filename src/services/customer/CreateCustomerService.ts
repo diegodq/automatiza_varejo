@@ -69,19 +69,19 @@ class CreateCustomerService
 
 			await Mailer.sendMail({
 				from: {
-					name: 'Equipe Automatiza Varejo',
-					email: 'noreply@automatizavarejo.com.br'
+					name: 'Equipe Automatiza Fácil',
+					email: 'noreply@automatizafacil.com.br'
 				},
 				to: {
 					name: first_name,
 					email: email
 				},
-				subject: 'BEM-VINDO À AUTOMATIZA VAREJO!',
+				subject: 'BEM-VINDO À AUTOMATIZA FÁCIL!',
 				templateData: {
 					file: forgotPasswordTemplate,
 					variables: {
 						name: first_name,
-						link: (process.env.APP_MODE == 'development') ? `http://localhost:3002/active-customer?token=${token}&id=${id}` : `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${id}`,
+						link: (process.env.APP_MODE == 'development') ? `http://localhost:3002/active-customer?token=${token}&id=${id}` : `https://app.automatizafacil.com.br/active-customer?token=${token}&id=${id}`,
 					}
 				}
 			});

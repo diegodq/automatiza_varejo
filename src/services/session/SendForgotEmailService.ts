@@ -26,8 +26,8 @@ class SendForgotEmailService
 
 		await Mailer.sendMail({
 			from: {
-				name: 'Equipe Automatiza Varejo',
-				email: 'noreply@automatizavarejo.com.br'
+				name: 'Equipe Automatiza Fácil',
+				email: 'noreply@automatizafacil.com.br'
 			},
 			to: {
 				name: user.first_name,
@@ -38,7 +38,7 @@ class SendForgotEmailService
 				file: forgotPasswordTemplate,
 				variables: {
 					name: user.first_name,
-					link: (process.env.APP_MODE == 'development') ? `http://localhost:3002/new-password?token=${token}&id=${user.getId}` : `https://app.automatizavarejo.com.br/new-password?token=${token}&id=${user.getId}`,
+					link: (process.env.APP_MODE == 'development') ? `http://localhost:3002/new-password?token=${token}&id=${user.getId}` : `https://app.automatizafacil.com.br/new-password?token=${token}&id=${user.getId}`,
 				}
 			}
 		});

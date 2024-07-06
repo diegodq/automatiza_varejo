@@ -56,8 +56,8 @@ class UpdateEmailCustomer
 
 		await Mailer.sendMail({
 			from: {
-				name: 'Equipe Automatiza Varejo',
-				email: 'noreply@automatizavarejo.com.br'
+				name: 'Equipe Automatiza Fácil',
+				email: 'noreply@automatizafacil.com.br'
 			},
 			to: {
 				name: customer.first_name,
@@ -74,7 +74,7 @@ class UpdateEmailCustomer
 					regionName: customer.country_name,
 					country: customer.country_capital,
 					dateTime: moment(customer.email_change_on).format('MMMM DD-MM-YYYY HH:mm:ss'),
-					link: `https://app.automatizavarejo.com.br/active-customer?token=${token}&id=${customer.id}`,
+					link: `https://app.automatizafacil.com.br/active-customer?token=${token}&id=${customer.id}`,
 				}
 			}
 		});

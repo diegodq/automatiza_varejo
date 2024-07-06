@@ -51,8 +51,8 @@ class UpdatePasswordCustomer
 
 		await Mailer.sendMail({
 			from: {
-				name: 'Equipe Automatiza Varejo',
-				email: 'noreply@automatizavarejo.com.br'
+				name: 'Equipe Automatiza Fácil',
+				email: 'noreply@automatizafacil.com.br'
 			},
 			to: {
 				name: customer.first_name,
