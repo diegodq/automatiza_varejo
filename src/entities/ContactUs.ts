@@ -13,7 +13,7 @@ class ContactUs
 	email: string;
 
 	@Column({ type: 'varchar', width: 200 })
-	subject: string;
+	phone: string;
 
 	@Column({ type: 'text' })
 	message: string;
@@ -24,12 +24,12 @@ class ContactUs
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	constructor(id: number, name: string, email: string, subject: string, message: string, created_at: Date, updated_at: Date)
+	constructor(id: number, name: string, email: string, phone: string, message: string, created_at: Date, updated_at: Date)
 	{
 		this.id = id;
 		this.name = name
 		this.email = email;
-		this.subject = subject;
+		this.phone = phone;
 		this.message = message;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
@@ -50,9 +50,9 @@ class ContactUs
 		return this.email;
 	}
 
-	get getSubject(): string
+	get getPhone(): string
 	{
-		return this.subject;
+		return this.phone;
 	}
 
 	get getMessage(): string

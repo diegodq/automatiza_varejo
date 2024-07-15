@@ -5,12 +5,12 @@ class ContactUsController
 {
 	static async sendNewMessage(request: Request, response: Response): Promise<Response>
 	{
-		const { name, email, subject, message } = request.body;
+		const { name, email, phone, message } = request.body;
 
 		const createNewMessageService: CreateNewMessageService = new CreateNewMessageService();
-		await createNewMessageService.execute({ name, email, subject, message });
+		const apiMessage: string = await createNewMessageService.execute({ name, email, phone, message });
 
-		return response.status(201).json({ status: true })
+		return response.status(201).json({ status: true, message: apiMessage })
 	}
 }
 

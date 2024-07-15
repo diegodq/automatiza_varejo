@@ -35,7 +35,7 @@ const uploadCompanyLogo: Multer = multer(configCompanyLogo);
 
 const router:Router = express.Router();
 
-router.get('/welcome', WelcomeController.welcome);
+router.get('/working', WelcomeController.welcome);
 router.get('/customers', isAuthenticated, CustomerController.list);
 router.get('/details', isAuthenticated, CustomerController.showDetailsCustomer);
 router.get('/customer/:id', isAuthenticated, CustomerController.show);

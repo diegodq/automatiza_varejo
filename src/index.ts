@@ -18,7 +18,7 @@ import paramsConfig from './params/paramsConfig';
 
 const app = express();
 
-const whiteList: string[] = ['https://api.automatizafacil.com.br', 'https://app.automatizafacil.com.br', 'https://automatizafacil.com.br', 'https://pesquisa.automatizafacil.com.br'];
+const whiteList: string[] = ['http://localhost:5173', 'https://api.automatizafacil.com.br', 'https://app.automatizafacil.com.br', 'https://automatizafacil.com.br', 'https://pesquisa.automatizafacil.com.br'];
 
 const options = {
 	swaggerOptions: {
