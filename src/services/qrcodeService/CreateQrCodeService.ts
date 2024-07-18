@@ -15,10 +15,10 @@ class CreateQrCodeService
 		let output = '';
 
 		if(id_store == 0) {
-			url = `https://pesquisa.automatizavarejo.com.br/?cnpj=${cnpj}`;
+			url = `https://pesquisa.automatizafacil.com.br/?cnpj=${cnpj}`;
 			output = path.join(__dirname, '../../qrcode/' + `${cnpj}.png`);
 		} else {
-			url = `https://pesquisa.automatizavarejo.com.br/?cnpj=${cnpj}/${id_store}`;
+			url = `https://pesquisa.automatizafacil.com.br/?cnpj=${cnpj}/${id_store}`;
 			output = path.join(__dirname, '../../qrcode/' + `${cnpj}.${id_store}.png`);
 		}
 		await qrcode.toFile(output, url, {

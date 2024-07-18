@@ -59,7 +59,7 @@ class ResetPasswordService
 		await Mailer.sendMail({
 			from: {
 				name: 'Equipe Automatiza Fácil',
-				email: 'noreply@automatizafacil.com.br'
+				email: 'contato@automatizafacil.com.br'
 			},
 			to: {
 				name: userExists.first_name,

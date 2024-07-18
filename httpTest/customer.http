@@ -1,5 +1,5 @@
 @host = localhost:3007
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTU5NzY3MTksImV4cCI6MTcxNjA1OTUxOSwic3ViIjoiMiJ9.HIu-Xj7WqbZDbDBHDUXhIOO9Ieb34ySSr10gI3mijSQ
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjEyNDkwOTUsImV4cCI6MTcyMTMzMTg5NSwic3ViIjoiMiJ9.wBXRM8_mr1tlSXdA8FYR3ryFzUVGN8dLZZXJjYYf8DI
 
 GET http://{{host}}/list/customer/company
 Content-Type: application/json
@@ -176,11 +176,11 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-	"first_name": "Geraldison",
-	"surname": "Pinto",
+	"first_name": "Diego",
+	"surname": "Sousa",
 	"position": "GERENTE",
 	"phone": "(61) 996778575",
-	"email": "comercial.bsbdu@gmail.com",
+	"email": "dsousab.silva@gmail.com",
 	"password": "@Senha123",
 	"accept_terms": 1,
 	"company": 2,
@@ -218,5 +218,25 @@ Authorization: {{token}}
 
 {
 	"change": 1
+}
+###
+
+POST http://{{host}}/forgot-password
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+	"email": "dsousab.silva@gmail.com"
+}
+###
+
+
+PATCH http://{{host}}/customer/reset-password
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+	"token": "a8d7531c-2e63-49fd-9c0f-1cfa0918bd56",
+	"new_password": "@Senha123"
 }
 ###

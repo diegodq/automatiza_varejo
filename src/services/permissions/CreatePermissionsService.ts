@@ -11,7 +11,7 @@ class CreatePermissionsService
 {
 	public async execute({name, description}: RequestPermission): Promise<string>
 	{
-		const permissionExists = await permissionRepository.findOne({ where: { name } });
+		const permissionExists: Permission | null = await permissionRepository.findOne({ where: { name } });
 		if(permissionExists)
 			throw new BadRequestError('this-permission-already-registered');
 

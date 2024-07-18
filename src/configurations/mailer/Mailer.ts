@@ -47,8 +47,8 @@ class EtherealMail
 
 		await transporter.sendMail({
 			from: {
-				name: from?.name || 'Equipe Automatiza Varejo',
-				address: from?.email || 'equipe@automatizavarejo.com.br'
+				name: from?.name || 'Equipe Automatiza Fácil',
+				address: from?.email || 'contato@automatizafacil.com.br'
 			},
       to: {
 				name: to.name,

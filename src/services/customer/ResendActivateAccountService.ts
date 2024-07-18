@@ -34,7 +34,7 @@ class ResendActivateAccountService
 		await Mailer.sendMail({
 			from: {
 				name: 'Equipe Automatiza Fácil',
-				email: 'noreply@automatizafacil.com.br'
+				email: 'contato@automatizafacil.com.br'
 			},
 			to: {
 				name: customer.first_name,

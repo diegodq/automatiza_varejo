@@ -27,7 +27,7 @@ class SendForgotEmailService
 		await Mailer.sendMail({
 			from: {
 				name: 'Equipe Automatiza Fácil',
-				email: 'noreply@automatizafacil.com.br'
+				email: 'contato@automatizafacil.com.br'
 			},
 			to: {
 				name: user.first_name,

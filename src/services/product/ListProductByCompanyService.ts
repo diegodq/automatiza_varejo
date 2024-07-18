@@ -14,7 +14,7 @@ class ListProductByCompanyService
 {
 	public async execute({ company }: ProductRequest): Promise<object | null>
 	{
-		const id = await convertUserIdInCompanyId(Number(company));
+		const id: number = await convertUserIdInCompanyId(Number(company));
 
 		const companyExists: Company | null = await companyRepository.findOneBy({ id: Number(id) });
 		if(!companyExists) {

@@ -1,3 +1,4 @@
+import Question from "../../entities/Question";
 import questionRepository from "../../repositories/questionRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 
@@ -11,7 +12,7 @@ class ChangeStatusQuestionService
 {
 	public async execute({ id, new_status }: TopicRequest): Promise<string>
 	{
-		const questionExist = await questionRepository.findOneBy({ id: Number(id) });
+		const questionExist: Question | null = await questionRepository.findOneBy({ id: Number(id) });
 		if(!questionExist) {
 			throw new BadRequestError('no-question');
 		}

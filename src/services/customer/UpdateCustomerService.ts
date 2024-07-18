@@ -2,7 +2,6 @@ import customerRepository from "../../repositories/customerRepository";
 import { BadRequestError } from "../../utils/ApiErrors";
 import Customer from '../../entities/Customer';
 import appDataSource from "../../data-source";
-import { UpdateResult } from "typeorm";
 
 type RoleCustomerRequest = {
 	role_id?: number,
