@@ -1,17 +1,19 @@
 ## create new user
-POST http://localhost:3007/company
+PUT http://localhost:3007/company
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDU3NzMxMTYsImV4cCI6MTcwNTg1NTkxNiwic3ViIjoiMiwgdW5kZWZpbmVkIn0.s94ADpxFRTpbBvtpH5jU-A5TDDyZSgA8NFKp05vpJUs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjM4NTE3NDYsImV4cCI6MTcyMzkzNDU0Niwic3ViIjoiMiJ9.kwG_l5XYzGkiGG99y0M1Jczfic1XjksIWXPYjaNua1I
 
 {
-	"first_name": "",
-	"surname",
-	"position",
-	"phone",
-	"email",
-	"password",
-	"accept_terms",
-	"type_customer"
+	"id": 2,
+	"corporate_name": "AUTOMATIZA FÁCIL PARA O VAREJO LTDA",
+	"fantasy_name": "AUTOMATIZA FÁCIL",
+	"cnpj": "30.598.341/0001-71",
+	"zip_code": "72.023-465",
+	"state": "DF",
+	"city": "Conjunto SMT Conjunto 13",
+	"district": "Taguatinga Sul (Taguatinga)",
+	"address": "Conjunto SMT Conjunto 13",
+	"complement": "LOTE 02A",
+	"number": 23
 }
-
 ### end
